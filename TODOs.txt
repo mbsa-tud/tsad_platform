@@ -1,0 +1,15 @@
+Implement suggested button workflow better (color switch)
+Model preview for all Models
+Add More Models
+Train all models and save in variables
+implement online detection
+Save models to workspace
+Entire detection evaluation tab
+train classifier for feature extraction and model selection
+model selection detection tool (offline and online)
+import pretrained networks
+include available datasets as in earlier version
+
+if there is time:
+implement save states. - Load previous sessions from config file.
+

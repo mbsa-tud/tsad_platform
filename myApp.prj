@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.apptool" plugin-version="1.0">
-  <configuration build-checksum="364257627" file="C:\Users\Alia\Desktop\BA Anomaly Detection\Matlab generation\ALL Data\APP\myApp.prj" location="C:\Users\Alia\Desktop\BA Anomaly Detection\Matlab generation\ALL Data\APP" name="myApp" target="target.mlapps" target-name="Package App">
+  <configuration build-checksum="364257627" file="D:\Personen\Ich\Studium\Bachelorarbeit\Inhalt\Git\tsad_platform\myApp.prj" location="D:\Personen\Ich\Studium\Bachelorarbeit\Inhalt\Git\tsad_platform" name="myApp" target="target.mlapps" target-name="Package App">
     <param.appname>myApp</param.appname>
     <param.authnamewatermark>Skander Ayoub</param.authnamewatermark>
     <param.email />
@@ -12,7 +12,7 @@
     </param.icons>
     <param.summary>Anomaly detection training and evaluation app</param.summary>
     <param.description />
-    <param.screenshot>C:\Users\Alia\AppData\Local\Temp\tp422bde12_c0c0_4732_820c_3a6322268805.png</param.screenshot>
+    <param.screenshot />
     <param.version>0.1</param.version>
     <param.products.name>
       <item>MATLAB</item>
@@ -35,14 +35,14 @@
       <item>19</item>
     </param.products.id>
     <param.products.version>
-      <item>9.9</item>
-      <item>10.2</item>
-      <item>14.1</item>
-      <item>5.5</item>
-      <item>11.2</item>
-      <item>2.2.1</item>
-      <item>8.5</item>
-      <item>12.0</item>
+      <item>9.12</item>
+      <item>10.5</item>
+      <item>14.4</item>
+      <item>6.0</item>
+      <item>11.5</item>
+      <item>2.5</item>
+      <item>9.0</item>
+      <item>12.3</item>
     </param.products.version>
     <param.platforms />
     <param.output>${PROJECT_ROOT}</param.output>
@@ -51,6 +51,7 @@
       <param.email />
       <param.company />
       <param.description />
+      <param.screenshot />
       <param.platforms />
       <param.output />
     </unset>
@@ -58,6 +59,12 @@
       <file>${PROJECT_ROOT}\myApp.mlapp</file>
     </fileset.main>
     <fileset.depfun>
+      <file>C:\Users\Alia\Desktop\BA Anomaly Detection\Matlab generation\ALL Data\rescaleData.mlx</file>
+      <file>C:\Users\Alia\Desktop\BA Anomaly Detection\Matlab generation\ALL Data\splitTrainVal.mlx</file>
+      <file>C:\Users\Alia\Desktop\BA Anomaly Detection\Matlab generation\ALL Data\trainHy_AE.mlx</file>
+      <file>C:\Users\Alia\Desktop\BA Anomaly Detection\Matlab generation\ALL Data\trainLSTM.mlx</file>
+      <file>C:\Users\Alia\Desktop\BA Anomaly Detection\Matlab generation\ALL Data\trainLSTM_AE.mlx</file>
+      <file>C:\Users\Alia\Desktop\BA Anomaly Detection\Matlab generation\ALL Data\trainRNN.mlx</file>
       <file>${PROJECT_ROOT}\myApp_resources\compute_scores.m</file>
       <file>${PROJECT_ROOT}\myApp_resources\count_above.m</file>
       <file>${PROJECT_ROOT}\myApp_resources\deltas.m</file>
@@ -76,21 +83,15 @@
       <file>${PROJECT_ROOT}\plotData.mlapp</file>
       <file>${PROJECT_ROOT}\plotResultsAndEval.mlapp</file>
       <file>${PROJECT_ROOT}\simulinkModel.mlapp</file>
-      <file>C:\Users\Alia\Desktop\BA Anomaly Detection\Matlab generation\ALL Data\rescaleData.mlx</file>
-      <file>C:\Users\Alia\Desktop\BA Anomaly Detection\Matlab generation\ALL Data\splitTrainVal.mlx</file>
-      <file>C:\Users\Alia\Desktop\BA Anomaly Detection\Matlab generation\ALL Data\trainHy_AE.mlx</file>
-      <file>C:\Users\Alia\Desktop\BA Anomaly Detection\Matlab generation\ALL Data\trainLSTM.mlx</file>
-      <file>C:\Users\Alia\Desktop\BA Anomaly Detection\Matlab generation\ALL Data\trainLSTM_AE.mlx</file>
-      <file>C:\Users\Alia\Desktop\BA Anomaly Detection\Matlab generation\ALL Data\trainRNN.mlx</file>
     </fileset.depfun>
     <fileset.resources />
     <fileset.package />
     <build-deliverables>
-      <file location="C:\Users\Alia\Desktop\BA Anomaly Detection\Matlab generation\ALL Data" name="APP" optional="false">C:\Users\Alia\Desktop\BA Anomaly Detection\Matlab generation\ALL Data\APP</file>
+      <file location="D:\Personen\Ich\Studium\Bachelorarbeit\Inhalt\Git" name="tsad_platform" optional="false">D:\Personen\Ich\Studium\Bachelorarbeit\Inhalt\Git\tsad_platform</file>
     </build-deliverables>
     <workflow />
     <matlab>
-      <root>C:\Program Files\MATLAB\R2020b</root>
+      <root>E:\Program Files\MATLAB\R2022a</root>
       <toolboxes>
         <toolbox name="neuralnetwork" />
       </toolboxes>
