@@ -1,0 +1,13 @@
+Basic Reconstruction
+LSTM Reconstruction
+Hybrid CNN-LSTM
+
+LSTM
+GRU
+Hybrid CNN-LSTM
+
+
+
+New ones:
+
+
