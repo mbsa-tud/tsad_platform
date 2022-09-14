@@ -1,0 +1,64 @@
+[
+  {
+    "anomaly_length": {
+      "max": 5,
+      "median": 5,
+      "min": 5
+    },
+    "contamination": 0.0005929791271347248,
+    "dataset_id": [
+      "KDD-TSAD",
+      "248_UCR_Anomaly_weallwalk"
+    ],
+    "dimensions": 1,
+    "is_train": false,
+    "length": 8432,
+    "means": {
+      "value": -1.1852216288442836
+    },
+    "num_anomalies": 1,
+    "periods": {
+      "value": 1
+    },
+    "stationarities": {
+      "value": "not_stationary"
+    },
+    "stddevs": {
+      "value": 0.39874072740268307
+    },
+    "trends": {
+      "value": []
+    }
+  },
+  {
+    "anomaly_length": {
+      "max": 0,
+      "median": 0,
+      "min": 0
+    },
+    "contamination": 0.0,
+    "dataset_id": [
+      "KDD-TSAD",
+      "248_UCR_Anomaly_weallwalk"
+    ],
+    "dimensions": 1,
+    "is_train": true,
+    "length": 2000,
+    "means": {
+      "value": -1.1871759969999998
+    },
+    "num_anomalies": 0,
+    "periods": {
+      "value": 1
+    },
+    "stationarities": {
+      "value": "not_stationary"
+    },
+    "stddevs": {
+      "value": 0.48150778343028056
+    },
+    "trends": {
+      "value": []
+    }
+  }
+]

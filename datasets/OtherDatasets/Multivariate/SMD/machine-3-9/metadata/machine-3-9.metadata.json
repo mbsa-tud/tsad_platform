@@ -1,0 +1,802 @@
+[
+  {
+    "anomaly_length": {
+      "max": 126,
+      "median": 73,
+      "min": 31
+    },
+    "contamination": 0.010552711315432034,
+    "dataset_id": [
+      "SMD",
+      "machine-3-9"
+    ],
+    "dimensions": 38,
+    "is_train": false,
+    "length": 28713,
+    "means": {
+      "value-0": 0.274297624908578,
+      "value-1": 0.12021995803294676,
+      "value-10": 0.12840006700797546,
+      "value-11": 0.013956788527844531,
+      "value-12": 0.021055619405844044,
+      "value-13": 0.1269491560617142,
+      "value-14": 0.09335039602270746,
+      "value-15": 0.05869831149653467,
+      "value-16": 0.0,
+      "value-17": 0.0,
+      "value-18": 0.24203008720788488,
+      "value-19": 0.18656595862501307,
+      "value-2": 0.11898124048340472,
+      "value-20": 0.234197395500296,
+      "value-21": 0.21795225953400899,
+      "value-22": 0.10416002169748893,
+      "value-23": 0.81892951429666,
+      "value-24": 0.036612923867237836,
+      "value-25": 0.8194952400306482,
+      "value-26": 0.00031344687075540695,
+      "value-27": 0.226896398983039,
+      "value-28": 0.0,
+      "value-29": 0.017233832131786996,
+      "value-3": 0.1289826936927524,
+      "value-30": 0.21081004743495976,
+      "value-31": 0.11220577508445652,
+      "value-32": 0.09006391031936754,
+      "value-33": 0.04107684195312227,
+      "value-34": 0.0035557291819036676,
+      "value-35": 0.0035596665970118067,
+      "value-36": 0.0,
+      "value-37": 0.0,
+      "value-4": 0.0,
+      "value-5": 0.8324465424372236,
+      "value-6": 0.4581600850137568,
+      "value-7": 0.0,
+      "value-8": 0.05070685062515238,
+      "value-9": 0.0039786575070525545
+    },
+    "num_anomalies": 4,
+    "periods": {
+      "value-0": 1,
+      "value-1": 1,
+      "value-10": 1,
+      "value-11": 1,
+      "value-12": 1,
+      "value-13": 1,
+      "value-14": 1,
+      "value-15": 1,
+      "value-16": 1,
+      "value-17": 1,
+      "value-18": 1,
+      "value-19": 1,
+      "value-2": 1,
+      "value-20": 1,
+      "value-21": 1,
+      "value-22": 1,
+      "value-23": 1,
+      "value-24": 1,
+      "value-25": 1,
+      "value-26": 1,
+      "value-27": 1,
+      "value-28": 1,
+      "value-29": 1,
+      "value-3": 1,
+      "value-30": 1,
+      "value-31": 1,
+      "value-32": 1,
+      "value-33": 1,
+      "value-34": 1,
+      "value-35": 1,
+      "value-36": 1,
+      "value-37": 1,
+      "value-4": 1,
+      "value-5": 1,
+      "value-6": 1,
+      "value-7": 1,
+      "value-8": 1,
+      "value-9": 1
+    },
+    "stationarities": {
+      "value-0": "stationary",
+      "value-1": "stationary",
+      "value-10": "stationary",
+      "value-11": "stationary",
+      "value-12": "stationary",
+      "value-13": "stationary",
+      "value-14": "stationary",
+      "value-15": "stationary",
+      "value-16": "not_stationary",
+      "value-17": "not_stationary",
+      "value-18": "stationary",
+      "value-19": "stationary",
+      "value-2": "stationary",
+      "value-20": "stationary",
+      "value-21": "stationary",
+      "value-22": "stationary",
+      "value-23": "stationary",
+      "value-24": "stationary",
+      "value-25": "stationary",
+      "value-26": "difference_stationary",
+      "value-27": "stationary",
+      "value-28": "not_stationary",
+      "value-29": "stationary",
+      "value-3": "stationary",
+      "value-30": "stationary",
+      "value-31": "difference_stationary",
+      "value-32": "stationary",
+      "value-33": "difference_stationary",
+      "value-34": "stationary",
+      "value-35": "stationary",
+      "value-36": "not_stationary",
+      "value-37": "not_stationary",
+      "value-4": "not_stationary",
+      "value-5": "stationary",
+      "value-6": "trend_stationary",
+      "value-7": "not_stationary",
+      "value-8": "stationary",
+      "value-9": "stationary"
+    },
+    "stddevs": {
+      "value-0": 0.15021369662953324,
+      "value-1": 0.07547878742735825,
+      "value-10": 0.18119165225980752,
+      "value-11": 0.018827355430735694,
+      "value-12": 0.04727872754219918,
+      "value-13": 0.09878145110544707,
+      "value-14": 0.09983745117456563,
+      "value-15": 0.08770863662449192,
+      "value-16": 0.0,
+      "value-17": 0.0,
+      "value-18": 0.13842526109492956,
+      "value-19": 0.10440425117489983,
+      "value-2": 0.07721217806482715,
+      "value-20": 0.1316014010972887,
+      "value-21": 0.11123156297830743,
+      "value-22": 0.05862156931713496,
+      "value-23": 0.11591668682306643,
+      "value-24": 0.012364880108530825,
+      "value-25": 0.11448499474961801,
+      "value-26": 0.017701964165649193,
+      "value-27": 0.12791750423088458,
+      "value-28": 0.0,
+      "value-29": 0.0015693855213968183,
+      "value-3": 0.08506596657835676,
+      "value-30": 0.10831292928551997,
+      "value-31": 0.0437382413244657,
+      "value-32": 0.08946650347632103,
+      "value-33": 0.043813125738242295,
+      "value-34": 0.026425777091752124,
+      "value-35": 0.0264258403790054,
+      "value-36": 0.0,
+      "value-37": 0.0,
+      "value-4": 0.0,
+      "value-5": 0.16834060079503865,
+      "value-6": 0.11364709289473202,
+      "value-7": 0.0,
+      "value-8": 0.10391191245069978,
+      "value-9": 0.019876898063885578
+    },
+    "trends": {
+      "value-0": [],
+      "value-1": [],
+      "value-10": [],
+      "value-11": [],
+      "value-12": [],
+      "value-13": [],
+      "value-14": [],
+      "value-15": [],
+      "value-16": [
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "linear"
+        },
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "quadratic"
+        },
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "kubic"
+        }
+      ],
+      "value-17": [
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "linear"
+        },
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "quadratic"
+        },
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "kubic"
+        }
+      ],
+      "value-18": [],
+      "value-19": [],
+      "value-2": [],
+      "value-20": [],
+      "value-21": [],
+      "value-22": [],
+      "value-23": [
+        {
+          "coef": [
+            1.0137255966026005e-05
+          ],
+          "confidence_r2": 0.5254603214762663,
+          "tpe": "linear"
+        }
+      ],
+      "value-24": [],
+      "value-25": [
+        {
+          "coef": [
+            9.773582963515988e-06
+          ],
+          "confidence_r2": 0.5007275553123989,
+          "tpe": "linear"
+        }
+      ],
+      "value-26": [],
+      "value-27": [],
+      "value-28": [
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "linear"
+        },
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "quadratic"
+        },
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "kubic"
+        }
+      ],
+      "value-29": [],
+      "value-3": [],
+      "value-30": [],
+      "value-31": [],
+      "value-32": [],
+      "value-33": [],
+      "value-34": [],
+      "value-35": [],
+      "value-36": [
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "linear"
+        },
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "quadratic"
+        },
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "kubic"
+        }
+      ],
+      "value-37": [
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "linear"
+        },
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "quadratic"
+        },
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "kubic"
+        }
+      ],
+      "value-4": [
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "linear"
+        },
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "quadratic"
+        },
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "kubic"
+        }
+      ],
+      "value-5": [],
+      "value-6": [
+        {
+          "coef": [
+            1.2414286946387612e-05
+          ],
+          "confidence_r2": 0.8198188848119238,
+          "tpe": "linear"
+        },
+        {
+          "coef": [
+            3.7738731263772397e-10
+          ],
+          "confidence_r2": 0.6662028022527777,
+          "tpe": "quadratic"
+        },
+        {
+          "coef": [
+            1.2493581689062378e-14
+          ],
+          "confidence_r2": 0.5441532651043817,
+          "tpe": "kubic"
+        }
+      ],
+      "value-7": [
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "linear"
+        },
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "quadratic"
+        },
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "kubic"
+        }
+      ],
+      "value-8": [],
+      "value-9": []
+    }
+  },
+  {
+    "anomaly_length": {
+      "max": 0,
+      "median": 0,
+      "min": 0
+    },
+    "contamination": 0.0,
+    "dataset_id": [
+      "SMD",
+      "machine-3-9"
+    ],
+    "dimensions": 38,
+    "is_train": true,
+    "length": 28713,
+    "means": {
+      "value-0": 0.15266048013095115,
+      "value-1": 0.06577578232856197,
+      "value-10": 0.11891703736983249,
+      "value-11": 0.00784882157907568,
+      "value-12": 0.012785149583812211,
+      "value-13": 0.10303209020304391,
+      "value-14": 0.05498330373001776,
+      "value-15": 0.05443691561313691,
+      "value-16": 0.0,
+      "value-17": 0.0,
+      "value-18": 0.1333891403197158,
+      "value-19": 0.1159137635914046,
+      "value-2": 0.061859439208720786,
+      "value-20": 0.1320185317103751,
+      "value-21": 0.13554422160693763,
+      "value-22": 0.10213168011005468,
+      "value-23": 0.6382371125274264,
+      "value-24": 0.03762809072545537,
+      "value-25": 0.6489187230522759,
+      "value-26": 0.0,
+      "value-27": 0.1269094448855919,
+      "value-28": 0.0,
+      "value-29": 0.019855310312402043,
+      "value-3": 0.06476353425277749,
+      "value-30": 0.12963630877999513,
+      "value-31": 0.08736465332776096,
+      "value-32": 0.0775376235154808,
+      "value-33": 0.04137546776721345,
+      "value-34": 0.0018989913279699093,
+      "value-35": 0.0019030378225890715,
+      "value-36": 0.0,
+      "value-37": 0.0,
+      "value-4": 0.0,
+      "value-5": 0.7364560530421761,
+      "value-6": 0.28627317988367634,
+      "value-7": 0.0,
+      "value-8": 0.034610456970710135,
+      "value-9": 0.002921540382405182
+    },
+    "num_anomalies": 0,
+    "periods": {
+      "value-0": 1,
+      "value-1": 1,
+      "value-10": 1,
+      "value-11": 1,
+      "value-12": 1,
+      "value-13": 1,
+      "value-14": 1,
+      "value-15": 1,
+      "value-16": 1,
+      "value-17": 1,
+      "value-18": 1,
+      "value-19": 1,
+      "value-2": 1,
+      "value-20": 1,
+      "value-21": 1,
+      "value-22": 1,
+      "value-23": 1,
+      "value-24": 1,
+      "value-25": 1,
+      "value-26": 1,
+      "value-27": 1,
+      "value-28": 1,
+      "value-29": 1,
+      "value-3": 1,
+      "value-30": 1,
+      "value-31": 1,
+      "value-32": 1,
+      "value-33": 1,
+      "value-34": 1,
+      "value-35": 1,
+      "value-36": 1,
+      "value-37": 1,
+      "value-4": 1,
+      "value-5": 67,
+      "value-6": 20,
+      "value-7": 1,
+      "value-8": 1,
+      "value-9": 1
+    },
+    "stationarities": {
+      "value-0": "stationary",
+      "value-1": "stationary",
+      "value-10": "stationary",
+      "value-11": "stationary",
+      "value-12": "stationary",
+      "value-13": "stationary",
+      "value-14": "stationary",
+      "value-15": "stationary",
+      "value-16": "not_stationary",
+      "value-17": "not_stationary",
+      "value-18": "stationary",
+      "value-19": "stationary",
+      "value-2": "stationary",
+      "value-20": "stationary",
+      "value-21": "stationary",
+      "value-22": "stationary",
+      "value-23": "stationary",
+      "value-24": "stationary",
+      "value-25": "stationary",
+      "value-26": "not_stationary",
+      "value-27": "stationary",
+      "value-28": "not_stationary",
+      "value-29": "stationary",
+      "value-3": "stationary",
+      "value-30": "stationary",
+      "value-31": "stationary",
+      "value-32": "difference_stationary",
+      "value-33": "stationary",
+      "value-34": "stationary",
+      "value-35": "stationary",
+      "value-36": "not_stationary",
+      "value-37": "not_stationary",
+      "value-4": "not_stationary",
+      "value-5": "stationary",
+      "value-6": "trend_stationary",
+      "value-7": "not_stationary",
+      "value-8": "stationary",
+      "value-9": "stationary"
+    },
+    "stddevs": {
+      "value-0": 0.06610859316722417,
+      "value-1": 0.029101385163392106,
+      "value-10": 0.18397041270106207,
+      "value-11": 0.011465309999535416,
+      "value-12": 0.03818389187011342,
+      "value-13": 0.0956133577124565,
+      "value-14": 0.09952001436160537,
+      "value-15": 0.08867810865379577,
+      "value-16": 0.0,
+      "value-17": 0.0,
+      "value-18": 0.059523220354073966,
+      "value-19": 0.05158997767698964,
+      "value-2": 0.02889945365187947,
+      "value-20": 0.058667758762492674,
+      "value-21": 0.05783981837847033,
+      "value-22": 0.0567174295775738,
+      "value-23": 0.08870143187547769,
+      "value-24": 0.013823046148059804,
+      "value-25": 0.09022963696844259,
+      "value-26": 0.0,
+      "value-27": 0.05632098512873298,
+      "value-28": 0.0,
+      "value-29": 0.01015897691348444,
+      "value-3": 0.03180721530517218,
+      "value-30": 0.055271773865768786,
+      "value-31": 0.04566004552865506,
+      "value-32": 0.08321457326116563,
+      "value-33": 0.017000015430538966,
+      "value-34": 0.00021724304092050358,
+      "value-35": 0.00021739434610382871,
+      "value-36": 0.0,
+      "value-37": 0.0,
+      "value-4": 0.0,
+      "value-5": 0.20739246559701632,
+      "value-6": 0.21732976179875024,
+      "value-7": 0.0,
+      "value-8": 0.09589270951706391,
+      "value-9": 0.014205658750001852
+    },
+    "trends": {
+      "value-0": [],
+      "value-1": [],
+      "value-10": [],
+      "value-11": [],
+      "value-12": [],
+      "value-13": [],
+      "value-14": [],
+      "value-15": [],
+      "value-16": [
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "linear"
+        },
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "quadratic"
+        },
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "kubic"
+        }
+      ],
+      "value-17": [
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "linear"
+        },
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "quadratic"
+        },
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "kubic"
+        }
+      ],
+      "value-18": [],
+      "value-19": [],
+      "value-2": [],
+      "value-20": [],
+      "value-21": [],
+      "value-22": [],
+      "value-23": [],
+      "value-24": [],
+      "value-25": [],
+      "value-26": [
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "linear"
+        },
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "quadratic"
+        },
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "kubic"
+        }
+      ],
+      "value-27": [],
+      "value-28": [
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "linear"
+        },
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "quadratic"
+        },
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "kubic"
+        }
+      ],
+      "value-29": [],
+      "value-3": [],
+      "value-30": [],
+      "value-31": [],
+      "value-32": [],
+      "value-33": [],
+      "value-34": [],
+      "value-35": [],
+      "value-36": [
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "linear"
+        },
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "quadratic"
+        },
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "kubic"
+        }
+      ],
+      "value-37": [
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "linear"
+        },
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "quadratic"
+        },
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "kubic"
+        }
+      ],
+      "value-4": [
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "linear"
+        },
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "quadratic"
+        },
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "kubic"
+        }
+      ],
+      "value-5": [],
+      "value-6": [],
+      "value-7": [
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "linear"
+        },
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "quadratic"
+        },
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "kubic"
+        }
+      ],
+      "value-8": [],
+      "value-9": []
+    }
+  }
+]

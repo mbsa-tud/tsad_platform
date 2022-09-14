@@ -1,0 +1,109 @@
+{
+  "DNN_Models": [
+    {
+      "options": {
+        "type": "DNN",
+        "model": "FC AE",
+        "modelType": "Reconstructive",
+        "hyperparameters": {
+          "model": {
+            "neurons": {
+              "value": 53,
+              "type": "integer"
+            }
+          },
+          "data": {
+            "windowSize": {
+              "value": 100,
+              "type": "integer"
+            },
+            "stepSize": {
+              "value": 1,
+              "type": "integer"
+            }
+          },
+          "training": {
+            "epochs": {
+              "value": 50,
+              "type": "integer"
+            },
+            "minibatchSize": {
+              "value": 70,
+              "type": "integer"
+            },
+            "ratioTrainVal": {
+              "value": 1,
+              "type": "real"
+            }
+          }
+        },
+        "dataType": 1,
+        "id": "FC_AE_1",
+        "label": "FC AE  (1)"
+      }
+    },
+    {
+      "options": {
+        "type": "DNN",
+        "model": "GRU",
+        "modelType": "Predictive",
+        "hyperparameters": {
+          "model": {
+            "hiddenUnits": {
+              "value": 55,
+              "type": "integer"
+            }
+          },
+          "data": {
+            "windowSize": {
+              "value": 100,
+              "type": "integer"
+            },
+            "stepSize": {
+              "value": 1,
+              "type": "integer"
+            }
+          },
+          "training": {
+            "epochs": {
+              "value": 50,
+              "type": "integer"
+            },
+            "minibatchSize": {
+              "value": 64,
+              "type": "integer"
+            },
+            "ratioTrainVal": {
+              "value": 1,
+              "type": "real"
+            }
+          }
+        },
+        "dataType": 2,
+        "id": "GRU_1",
+        "label": "GRU  (1)"
+      }
+    }
+  ],
+  "CML_Models": {
+    "options": {
+      "type": "CML",
+      "model": "iForest",
+      "requiresTrainingData": true,
+      "hyperparameters": {
+        "model": {
+          "numLearners": {
+            "value": 52,
+            "type": "integer"
+          },
+          "numObservationsPerLearner": {
+            "value": 200,
+            "type": "integer"
+          }
+        }
+      },
+      "id": "iForest_1",
+      "label": "iForest  (1)"
+    }
+  }
+}

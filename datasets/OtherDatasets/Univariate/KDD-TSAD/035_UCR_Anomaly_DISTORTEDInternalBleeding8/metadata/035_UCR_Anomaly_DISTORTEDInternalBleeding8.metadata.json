@@ -1,0 +1,64 @@
+[
+  {
+    "anomaly_length": {
+      "max": 109,
+      "median": 109,
+      "min": 109
+    },
+    "contamination": 0.014531395813891481,
+    "dataset_id": [
+      "KDD-TSAD",
+      "035_UCR_Anomaly_DISTORTEDInternalBleeding8"
+    ],
+    "dimensions": 1,
+    "is_train": false,
+    "length": 7501,
+    "means": {
+      "value": 73.08877164178111
+    },
+    "num_anomalies": 1,
+    "periods": {
+      "value": 143
+    },
+    "stationarities": {
+      "value": "difference_stationary"
+    },
+    "stddevs": {
+      "value": 14.610060291291942
+    },
+    "trends": {
+      "value": []
+    }
+  },
+  {
+    "anomaly_length": {
+      "max": 0,
+      "median": 0,
+      "min": 0
+    },
+    "contamination": 0.0,
+    "dataset_id": [
+      "KDD-TSAD",
+      "035_UCR_Anomaly_DISTORTEDInternalBleeding8"
+    ],
+    "dimensions": 1,
+    "is_train": true,
+    "length": 2500,
+    "means": {
+      "value": 73.2895174992
+    },
+    "num_anomalies": 0,
+    "periods": {
+      "value": 166
+    },
+    "stationarities": {
+      "value": "difference_stationary"
+    },
+    "stddevs": {
+      "value": 14.557950376459825
+    },
+    "trends": {
+      "value": []
+    }
+  }
+]

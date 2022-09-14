@@ -1,0 +1,33 @@
+[
+  {
+    "anomaly_length": {
+      "max": 95,
+      "median": 95,
+      "min": 95
+    },
+    "contamination": 0.10095642933049948,
+    "dataset_id": [
+      "NAB",
+      "rogue_agent_key_hold"
+    ],
+    "dimensions": 1,
+    "is_train": false,
+    "length": 1882,
+    "means": {
+      "value": 0.039577705065355996
+    },
+    "num_anomalies": 2,
+    "periods": {
+      "value": 1
+    },
+    "stationarities": {
+      "value": "stationary"
+    },
+    "stddevs": {
+      "value": 0.05654532878031403
+    },
+    "trends": {
+      "value": []
+    }
+  }
+]

@@ -1,0 +1,33 @@
+[
+  {
+    "anomaly_length": {
+      "max": 0,
+      "median": 0,
+      "min": 0
+    },
+    "contamination": 0.0,
+    "dataset_id": [
+      "NAB",
+      "art_daily_perfect_square_wave"
+    ],
+    "dimensions": 1,
+    "is_train": false,
+    "length": 4032,
+    "means": {
+      "value": 42.5
+    },
+    "num_anomalies": 0,
+    "periods": {
+      "value": 1
+    },
+    "stationarities": {
+      "value": "difference_stationary"
+    },
+    "stddevs": {
+      "value": 29.050977871775256
+    },
+    "trends": {
+      "value": []
+    }
+  }
+]

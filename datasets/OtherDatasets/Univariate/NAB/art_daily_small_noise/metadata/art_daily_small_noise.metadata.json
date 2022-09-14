@@ -1,0 +1,33 @@
+[
+  {
+    "anomaly_length": {
+      "max": 0,
+      "median": 0,
+      "min": 0
+    },
+    "contamination": 0.0,
+    "dataset_id": [
+      "NAB",
+      "art_daily_small_noise"
+    ],
+    "dimensions": 1,
+    "is_train": false,
+    "length": 4032,
+    "means": {
+      "value": 42.43835333580657
+    },
+    "num_anomalies": 0,
+    "periods": {
+      "value": 13
+    },
+    "stationarities": {
+      "value": "difference_stationary"
+    },
+    "stddevs": {
+      "value": 28.07712228126252
+    },
+    "trends": {
+      "value": []
+    }
+  }
+]

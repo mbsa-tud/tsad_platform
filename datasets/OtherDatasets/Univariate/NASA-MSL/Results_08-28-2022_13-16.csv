@@ -1,0 +1,14 @@
+Metric,FC AE,MLP,OC-SVM
+Composite F1 score,0.5134,0.6601,0.1216
+Precision weighted,0.3454,0.4926,0.0647
+Precision unweighted,0.1429,0.0769,0.2
+Precision event-wise,0.4879,0.6368,0.1142
+Recall weighted,0.5537,0.5537,0.5372
+Recall unweighted,1,1,1
+Recall event-wise,1,1,1
+F1 score weighted,0.4254,0.5214,0.1156
+F1 score unweighted,0.25,0.1429,0.3333
+F1 score event-wise,0.6558,0.7781,0.2049
+F0.5 score weighted,0.3735,0.5038,0.0786
+F0.5 score unweighted,0.1724,0.0943,0.2381
+F0.5 score event-wise,0.5436,0.6867,0.1387

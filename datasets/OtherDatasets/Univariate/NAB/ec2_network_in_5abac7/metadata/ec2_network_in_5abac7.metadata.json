@@ -1,0 +1,33 @@
+[
+  {
+    "anomaly_length": {
+      "max": 237,
+      "median": 237,
+      "min": 237
+    },
+    "contamination": 0.10021141649048626,
+    "dataset_id": [
+      "NAB",
+      "ec2_network_in_5abac7"
+    ],
+    "dimensions": 1,
+    "is_train": false,
+    "length": 4730,
+    "means": {
+      "value": 118714.64276955604
+    },
+    "num_anomalies": 2,
+    "periods": {
+      "value": 10
+    },
+    "stationarities": {
+      "value": "difference_stationary"
+    },
+    "stddevs": {
+      "value": 775718.730957244
+    },
+    "trends": {
+      "value": []
+    }
+  }
+]

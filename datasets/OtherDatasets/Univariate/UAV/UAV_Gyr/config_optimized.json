@@ -1,0 +1,93 @@
+{
+    "DNN_Models": [
+        {
+            "options": {
+                "type": "DNN",
+                "model": "FC AE",
+                "modelType": "Reconstructive",
+                "dataType": 1,
+                "label": "FC AE",
+                "id": "FC_AE",
+                "hyperparameters": {
+                    "model": {
+                        "neurons": {
+                            "value": 32
+                        }
+                    },
+                    "data": {
+                        "windowSize": {
+                            "value": 100
+                        },
+                        "stepSize": {
+                            "value": 8
+                        }
+                    },
+                    "training": {
+                        "epochs": {
+                            "value": 50
+                        },
+                        "minibatchSize": {
+                            "value": 64
+                        },
+                         "ratioTrainVal": {
+                            "value": 1
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "options": {
+                "type": "DNN",
+                "model": "MLP",
+                "modelType": "Predictive",
+                "dataType": 1,
+                "label": "MLP",
+                "id": "MLP",
+                "hyperparameters": {
+                    "model": {
+                        "neurons": {
+                            "value": 32,
+                            "type": "integer"
+                        }
+                    },
+                    "data": {
+                        "windowSize": {
+                            "value": 100,
+                            "type": "integer"
+                        },
+                        "stepSize": {
+                            "value": 8,
+                            "type": "integer"
+                        }
+                    },
+                    "training": {
+                        "epochs": {
+                            "value": 50,
+                            "type": "integer"
+                        },
+                        "minibatchSize": {
+                            "value": 64,
+                            "type": "integer"
+                        },
+                         "ratioTrainVal": {
+                            "value": 1,
+                            "type": "real"
+                        }
+                    }
+                }
+            }
+        }
+    ],
+    "CML_Models": [
+        {
+            "options": {
+                "type": "CML",
+                "model": "OC-SVM",
+                "label": "OC-SVM",
+                "id": "OC_SVM",
+                "requiresTrainingData": true
+            }
+        }
+    ]
+}

@@ -1,0 +1,71 @@
+function score = opt_fun(models, trainingData, trainingLabels, testValData, testValLabels, testingData, testingLabels, thresholds, cmpScore, optVars, exportLogData)
+numOfModels = length(models);
+if numOfModels > 1
+    % If multiple models, select the correct options for the currently
+    % selected model for the iteration of the optimization
+    name = string(optVars.model);
+    for i = 1:numOfModels
+        if strcmp(name, models(i).options.model)
+            options = models(i).options;
+            break;
+        end
+    end
+else
+    options = models.options;
+end
+
+options = adaptModelOptions(options, optVars);
+
+switch options.type
+    case 'DNN'
+        scoresCell = fitAndEvaluateModel_DNN(options, trainingData, trainingLabels, testValData, testValLabels, testingData, testingLabels, thresholds);
+    case 'CML'     
+        scoresCell = fitAndEvaluateModel_CML(options, trainingData, trainingLabels, testValData, testValLabels, testingData, testingLabels, thresholds);
+    case 'S'    
+        scoresCell = fitAndEvaluateModel_S(options, trainingData, trainingLabels, testValData, testValLabels, testingData, testingLabels, thresholds);
+end
+
+numOfMetrics = size(scoresCell{1, 1}, 1);
+numOfScoreMatrices = size(scoresCell, 1);
+
+avgScores = zeros(numOfMetrics, 1);
+for i = 1:numOfMetrics
+    scores = zeros(numOfScoreMatrices, 1);
+    for dataIdx = 1:numOfScoreMatrices
+        scores(dataIdx, 1) = scoresCell{dataIdx, 1}(i, 1);
+        if isnan(scores(dataIdx, 1))
+            scores(dataIdx, 1) = 0;
+        end
+    end
+    avgScores(i, 1) = mean(scores);
+end
+
+switch cmpScore
+    case 'weighted f1score'
+        avgScore = avgScores(8, 1);
+    case 'unweighted f1score'
+        avgScore = avgScores(9, 1);
+    case 'eventwise f1score'
+        avgScore = avgScores(10, 1);
+    case 'composite f1score'
+        avgScore = avgScores(1, 1);
+end
+
+score = 1 - avgScore;
+
+% Export results and current options
+if exportLogData
+    logPath = fullfile(pwd, 'Optimization_Logdata');
+    if ~exist(logPath, 'dir')
+        mkdir(logPath);
+    end
+    logPath = fullfile(logPath, sprintf('Logs_%s_%s', replace(cmpScore, ' ', '_'), datestr(now,'mm-dd-yyyy_HH-MM-SS')));
+    if ~exist(logPath, 'dir')
+        mkdir(logPath);
+    end
+    expPath = fullfile(logPath, sprintf('Log__%s.csv', datestr(now,'mm-dd-yyyy_HH-MM-SS')));
+
+    optVars = [optVars, avgScores';
+    writetable(optVars, expPath);
+end
+end

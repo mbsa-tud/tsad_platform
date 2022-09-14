@@ -1,0 +1,64 @@
+[
+  {
+    "anomaly_length": {
+      "max": 1,
+      "median": 1,
+      "min": 1
+    },
+    "contamination": 0.00012218963831867058,
+    "dataset_id": [
+      "KDD-TSAD",
+      "113_UCR_Anomaly_CIMIS44AirTemperature1"
+    ],
+    "dimensions": 1,
+    "is_train": false,
+    "length": 8184,
+    "means": {
+      "value": 15.24762918951613
+    },
+    "num_anomalies": 1,
+    "periods": {
+      "value": 24
+    },
+    "stationarities": {
+      "value": "stationary"
+    },
+    "stddevs": {
+      "value": 5.588088059345609
+    },
+    "trends": {
+      "value": []
+    }
+  },
+  {
+    "anomaly_length": {
+      "max": 0,
+      "median": 0,
+      "min": 0
+    },
+    "contamination": 0.0,
+    "dataset_id": [
+      "KDD-TSAD",
+      "113_UCR_Anomaly_CIMIS44AirTemperature1"
+    ],
+    "dimensions": 1,
+    "is_train": true,
+    "length": 4000,
+    "means": {
+      "value": 14.404399999999999
+    },
+    "num_anomalies": 0,
+    "periods": {
+      "value": 24
+    },
+    "stationarities": {
+      "value": "difference_stationary"
+    },
+    "stddevs": {
+      "value": 5.4792067004737675
+    },
+    "trends": {
+      "value": []
+    }
+  }
+]

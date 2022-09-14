@@ -1,0 +1,108 @@
+[
+  {
+    "anomaly_length": {
+      "max": 2740,
+      "median": 2740,
+      "min": 2740
+    },
+    "contamination": 0.3460469815610003,
+    "dataset_id": [
+      "NASA-SMAP",
+      "D-12"
+    ],
+    "dimensions": 1,
+    "is_train": false,
+    "length": 7918,
+    "means": {
+      "value": -0.6841956192708754
+    },
+    "num_anomalies": 1,
+    "periods": {
+      "value": 11
+    },
+    "stationarities": {
+      "value": "trend_stationary"
+    },
+    "stddevs": {
+      "value": 0.5558236524431285
+    },
+    "trends": {
+      "value": [
+        {
+          "coef": [
+            0.00018675722991287646
+          ],
+          "confidence_r2": 0.5899095052875284,
+          "tpe": "linear"
+        },
+        {
+          "coef": [
+            2.6366521722573446e-08
+          ],
+          "confidence_r2": 0.7861276987601857,
+          "tpe": "quadratic"
+        },
+        {
+          "coef": [
+            3.732820861516049e-12
+          ],
+          "confidence_r2": 0.8928981215448512,
+          "tpe": "kubic"
+        }
+      ]
+    }
+  },
+  {
+    "anomaly_length": {
+      "max": 0,
+      "median": 0,
+      "min": 0
+    },
+    "contamination": 0.0,
+    "dataset_id": [
+      "NASA-SMAP",
+      "D-12"
+    ],
+    "dimensions": 1,
+    "is_train": true,
+    "length": 312,
+    "means": {
+      "value": -1.0
+    },
+    "num_anomalies": 0,
+    "periods": {
+      "value": 1
+    },
+    "stationarities": {
+      "value": "not_stationary"
+    },
+    "stddevs": {
+      "value": 0.0
+    },
+    "trends": {
+      "value": [
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "linear"
+        },
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "quadratic"
+        },
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "kubic"
+        }
+      ]
+    }
+  }
+]
