@@ -14,7 +14,7 @@ for dataIdx = 1:size(testingData, 1)
     
     [anomalyScores, ~, labels] = detectWithDNN(options, Mdl, XTest, YTest, labels);
     
-    labels_pred = calcStaticThresholdPrediction(anomalyScores, selectedThreshold);
+    labels_pred = calcStaticThresholdPrediction(anomalyScores, selectedThreshold, 0, false);
     [scoresPointwise, scoresEventwise, scoresPointAdjusted, compositeFscore] = calcScores(labels_pred, labels);
 
     fullScores = [compositeFscore; ...

@@ -43,13 +43,26 @@ switch options.model
     case 'TCN AE'
         layers = [
             sequenceInputLayer(numFeatures, Name='Input', MinLength=options.hyperparameters.data.windowSize.value)
-            convolution1dLayer(5, options.hyperparameters.model.filter.value, Stride=1, Padding='causal', WeightsInitializer='he')
-            averagePooling1dLayer(2, Stride=2);
-            convolution1dLayer(5, options.hyperparameters.model.filter.value, Stride=1, Padding='causal', WeightsInitializer='he')
-            averagePooling1dLayer(2, Stride=2);
+
+            convolution1dLayer(5, options.hyperparameters.model.filter.value, Stride=1, Padding='causal', WeightsInitializer='he', DilationFactor=1)
+            leakyReluLayer()
+            dropoutLayer(0.25)
+            convolution1dLayer(5, options.hyperparameters.model.filter.value, Stride=1, Padding='causal', WeightsInitializer='he', DilationFactor=2)
+            leakyReluLayer()
+            dropoutLayer(0.25)
+
+            convolution1dLayer(1, 8, Padding='same')
+            averagePooling1dLayer(4, Stride=4)
             
-            transposedConv1dLayer(2, options.hyperparameters.model.filter.value, Stride=2)
-            transposedConv1dLayer(2, 1, Stride=2)
+            transposedConv1dLayer(4, 8, Stride=4)
+            convolution1dLayer(5, options.hyperparameters.model.filter.value, Stride=1, Padding='causal', WeightsInitializer='he', DilationFactor=1)
+            leakyReluLayer()
+            dropoutLayer(0.25)
+            convolution1dLayer(5, options.hyperparameters.model.filter.value, Stride=1, Padding='causal', WeightsInitializer='he', DilationFactor=2)
+            leakyReluLayer()
+            dropoutLayer(0.25)
+
+            convolution1dLayer(1, numFeatures, Padding='same')
 
             regressionLayer(Name='Output')
             ];
@@ -121,7 +134,8 @@ switch options.model
             sequenceFoldingLayer(Name='Fold')
 
             convolution2dLayer(5, options.hyperparameters.model.filter.value, Stride=1, Padding='same', WeightsInitializer='he')
-            leakyReluLayer(Name='ReLU 1')
+            batchNormalizationLayer()
+            leakyReluLayer()
             convolution2dLayer(5, options.hyperparameters.model.filter.value, Stride=1, Padding='same', WeightsInitializer='he')
             batchNormalizationLayer()
             leakyReluLayer()
@@ -144,13 +158,13 @@ switch options.model
             sequenceInputLayer([numFeatures 1 1], Name='Input')
             sequenceFoldingLayer(Name='Fold')
 
-            convolution2dLayer(5, floor(options.hyperparameters.model.filter.value / 4), Stride=1, Padding='same', DilationFactor=1, WeightsInitializer='he')
+            convolution2dLayer(5, floor(options.hyperparameters.model.filter.value / 4), Stride=1, Padding='causal', DilationFactor=1, WeightsInitializer='he')
             leakyReluLayer()
             maxPooling2dLayer(1, Name='Maxpool1')
-            convolution2dLayer(5, floor(options.hyperparameters.model.filter.value / 2), Stride=1, Padding='same', DilationFactor=2, WeightsInitializer='he')
+            convolution2dLayer(5, floor(options.hyperparameters.model.filter.value / 2), Stride=1, Padding='causal', DilationFactor=2, WeightsInitializer='he')
             leakyReluLayer()
             maxPooling2dLayer(1, Name='Maxpool2')
-            convolution2dLayer(5, options.hyperparameters.model.filter.value, Stride=1, Padding='same', DilationFactor=4, WeightsInitializer='he')
+            convolution2dLayer(5, options.hyperparameters.model.filter.value, Stride=1, Padding='causal', DilationFactor=4, WeightsInitializer='he')
             leakyReluLayer()
             maxPooling2dLayer(1, Name='Maxpool3')
 

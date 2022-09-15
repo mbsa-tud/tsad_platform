@@ -1,9 +1,15 @@
-function labels_pred = calcStaticThresholdPrediction(anomalyScores, staticThreshold)
+function labels_pred = calcStaticThresholdPrediction(anomalyScores, staticThreshold, pd, parametric)
 labels_pred_tmp = logical([]);
 numChannels = size(anomalyScores, 2);
 
+
 for j = 1:numChannels
-    labels_pred_tmp(:, j) = anomalyScores(:, j) > staticThreshold;
+    if parametric
+        anomalyScores(:, j) = pdf(pd, anomalyScores(:, j));
+        labels_pred_tmp(:, j) = anomalyScores(:, j) < staticThreshold;
+    else
+        labels_pred_tmp(:, j) = anomalyScores(:, j) > staticThreshold;
+    end
 end
 labels_pred = any(labels_pred_tmp, 2);
 

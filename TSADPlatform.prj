@@ -1,6 +1,6 @@
 <deployment-project plugin="plugin.apptool" plugin-version="1.0">
-  <configuration build-checksum="364257627" file="D:\Personen\Ich\Studium\Bachelorarbeit\Inhalt\Git\tsad_platform\myApp.prj" location="D:\Personen\Ich\Studium\Bachelorarbeit\Inhalt\Git\tsad_platform" name="myApp" target="target.mlapps" target-name="Package App">
-    <param.appname>myApp</param.appname>
+  <configuration build-checksum="364257627" file="C:\Ich\Studium\Bachelorarbeit\Inhalt\Git\tsad_platform\TSADPlatform.prj" location="C:\Ich\Studium\Bachelorarbeit\Inhalt\Git\tsad_platform" name="TSADPlatform" target="target.mlapps" target-name="Package App">
+    <param.appname>TSADPlatform</param.appname>
     <param.authnamewatermark>Skander Ayoub</param.authnamewatermark>
     <param.email />
     <param.company />
@@ -59,12 +59,6 @@
       <file>${PROJECT_ROOT}\myApp.mlapp</file>
     </fileset.main>
     <fileset.depfun>
-      <file>C:\Users\Alia\Desktop\BA Anomaly Detection\Matlab generation\ALL Data\rescaleData.mlx</file>
-      <file>C:\Users\Alia\Desktop\BA Anomaly Detection\Matlab generation\ALL Data\splitTrainVal.mlx</file>
-      <file>C:\Users\Alia\Desktop\BA Anomaly Detection\Matlab generation\ALL Data\trainHy_AE.mlx</file>
-      <file>C:\Users\Alia\Desktop\BA Anomaly Detection\Matlab generation\ALL Data\trainLSTM.mlx</file>
-      <file>C:\Users\Alia\Desktop\BA Anomaly Detection\Matlab generation\ALL Data\trainLSTM_AE.mlx</file>
-      <file>C:\Users\Alia\Desktop\BA Anomaly Detection\Matlab generation\ALL Data\trainRNN.mlx</file>
       <file>${PROJECT_ROOT}\myApp_resources\compute_scores.m</file>
       <file>${PROJECT_ROOT}\myApp_resources\count_above.m</file>
       <file>${PROJECT_ROOT}\myApp_resources\deltas.m</file>
@@ -83,15 +77,21 @@
       <file>${PROJECT_ROOT}\plotData.mlapp</file>
       <file>${PROJECT_ROOT}\plotResultsAndEval.mlapp</file>
       <file>${PROJECT_ROOT}\simulinkModel.mlapp</file>
+      <file>C:\Users\Alia\Desktop\BA Anomaly Detection\Matlab generation\ALL Data\rescaleData.mlx</file>
+      <file>C:\Users\Alia\Desktop\BA Anomaly Detection\Matlab generation\ALL Data\splitTrainVal.mlx</file>
+      <file>C:\Users\Alia\Desktop\BA Anomaly Detection\Matlab generation\ALL Data\trainHy_AE.mlx</file>
+      <file>C:\Users\Alia\Desktop\BA Anomaly Detection\Matlab generation\ALL Data\trainLSTM.mlx</file>
+      <file>C:\Users\Alia\Desktop\BA Anomaly Detection\Matlab generation\ALL Data\trainLSTM_AE.mlx</file>
+      <file>C:\Users\Alia\Desktop\BA Anomaly Detection\Matlab generation\ALL Data\trainRNN.mlx</file>
     </fileset.depfun>
     <fileset.resources />
     <fileset.package />
     <build-deliverables>
-      <file location="D:\Personen\Ich\Studium\Bachelorarbeit\Inhalt\Git" name="tsad_platform" optional="false">D:\Personen\Ich\Studium\Bachelorarbeit\Inhalt\Git\tsad_platform</file>
+      <file location="C:\Ich\Studium\Bachelorarbeit\Inhalt\Git" name="tsad_platform" optional="false">C:\Ich\Studium\Bachelorarbeit\Inhalt\Git\tsad_platform</file>
     </build-deliverables>
     <workflow />
     <matlab>
-      <root>E:\Program Files\MATLAB\R2022a</root>
+      <root>C:\Program Files\MATLAB\R2022a</root>
       <toolboxes>
         <toolbox name="neuralnetwork" />
       </toolboxes>

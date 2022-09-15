@@ -1,4 +1,5 @@
-function staticThreshold = getStaticThreshold_DNN(options, Mdl, XTrain, YTrain, XVal, YVal, testValData, testValLabels, thresholds)
+function [staticThreshold, pd] = getStaticThreshold_DNN(options, Mdl, XTrain, YTrain, XVal, YVal, testValData, testValLabels, thresholds)
+pd = [];
 switch options.model
     case 'Your model'
     otherwise
@@ -88,6 +89,7 @@ switch options.model
     
                     [anomalyScoresVal, ~, ~] = detectWithDNN(options, Mdl, XVal, YVal, zeros(size(YVal{1, 1}, 1), 1));
                     probDist = fitdist(anomalyScoresVal, "Normal");
+                    pd = probDist;
 
                     if ismember("bestFscorePointwiseParametric", thresholds) || ismember("all", thresholds)
                         thr = computeBestFscoreThreshold(anomalyScores, labelsTestVal, 1, probDist, 'point-wise');

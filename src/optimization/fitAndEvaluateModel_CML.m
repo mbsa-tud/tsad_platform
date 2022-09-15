@@ -14,7 +14,7 @@ for dataIdx = 1:size(testingData, 1)
     [XTest, labels] = prepareDataTest_CML(options, testingData(dataIdx, 1), testingLabels(dataIdx, 1));
     [anomalyScores, ~, labels] = detectWithCML(options, Mdl, XTest, labels);
     
-    labels_pred = calcStaticThresholdPrediction(anomalyScores, selectedThreshold);
+    labels_pred = calcStaticThresholdPrediction(anomalyScores, selectedThreshold, 0, false);
     [scoresPointwise, scoresEventwise, scoresPointAdjusted, compositeFscore] = calcScores(labels_pred, labels);
 
    fullScores = [compositeFscore; ...
