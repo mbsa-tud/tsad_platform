@@ -1,7 +1,11 @@
 function [anomalyScores, XTest, labels] = detectWithCML(options, Mdl, XTest, labels)
 % Fraction of outliers
-numOfAnoms = sum(labels == 1);
-contaminationFraction = numOfAnoms / size(labels, 1);
+if ~isempty(labels)
+    numOfAnoms = sum(labels == 1);
+    contaminationFraction = numOfAnoms / size(labels, 1);
+else
+    contaminationFraction = 0;
+end
 
 switch options.model
     case 'OC-SVM'
@@ -48,4 +52,6 @@ switch options.model
     case 'LDOF'
         anomalyScores = LDOF(XTest, options.hyperparameters.model.knn.value);
 end
+
+anomalyScores = double(anomalyScores);
 end

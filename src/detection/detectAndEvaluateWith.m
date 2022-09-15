@@ -45,8 +45,16 @@ switch model.options.type
 
         thrFields = fieldnames(staticThreshold);
         selectedThreshold = staticThreshold.(thrFields{1});
+
+        if endsWith(thrFields{1}, 'Parametric')
+            pd = model.pd;
+            parametric = true;
+        else
+            pd = 0;
+            parametric = false;
+        end
         
-        anomsStatic = calcStaticThresholdPrediction(anomalyScores, selectedThreshold, 0, false);
+        anomsStatic = calcStaticThresholdPrediction(anomalyScores, selectedThreshold, pd, parametric);
         [scoresPointwiseStatic, scoresEventwiseStatic, ...
             scoresPointAdjustedStatic, compositeFScoreStatic] = calcScores(anomsStatic, labels);
         
@@ -72,7 +80,15 @@ switch model.options.type
         thrFields = fieldnames(staticThreshold);
         selectedThreshold = staticThreshold.(thrFields{1});
 
-        anomsStatic = calcStaticThresholdPrediction(anomalyScores, selectedThreshold, 0, false);
+        if endsWith(thrFields{1}, 'Parametric')
+            pd = model.pd;
+            parametric = true;
+        else
+            pd = 0;
+            parametric = false;
+        end
+
+        anomsStatic = calcStaticThresholdPrediction(anomalyScores, selectedThreshold, pd, parametric);
         [scoresPointwiseStatic, scoresEventwiseStatic, ...
             scoresPointAdjustedStatic, compositeFScoreStatic] = calcScores(anomsStatic, labels);
         

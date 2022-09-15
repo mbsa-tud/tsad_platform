@@ -1,4 +1,5 @@
-function staticThreshold = getStaticThreshold_CML(options, Mdl, XTrain, testValData, testValLabels, thresholds)
+function [staticThreshold, pd] = getStaticThreshold_CML(options, Mdl, XTrain, XVal, testValData, testValLabels, thresholds)
+pd = [];
 switch options.model
     case 'Merlin'
         staticThreshold.default = 0.5;
@@ -73,6 +74,48 @@ switch options.model
                         staticThreshold.topK = 0;
                     end
                 end
+
+                if options.hyperparameters.training.ratioTrainVal.value ~= 1    
+                    [anomalyScoresVal, ~, ~] = detectWithCML(options, Mdl, XVal, []);
+                    probDist = fitdist(anomalyScoresVal, "Normal");
+                    pd = probDist;
+
+                    if ismember("bestFscorePointwiseParametric", thresholds) || ismember("all", thresholds)
+                        thr = computeBestFscoreThreshold(anomalyScores, labelsTestVal, 1, probDist, 'point-wise');
+                        if ~isnan(thr)
+                            staticThreshold.bestFscorePointwiseParametric = thr;
+                        else
+                            staticThreshold.bestFscorePointwiseParametric = 0;
+                        end
+                    end
+    
+                    if ismember("bestFscoreEventwiseParametric", thresholds) || ismember("all", thresholds)
+                        thr = computeBestFscoreThreshold(anomalyScores, labelsTestVal, 1, probDist, 'event-wise');
+                        if ~isnan(thr)
+                            staticThreshold.bestFscoreEventwiseParametric = thr;
+                        else
+                            staticThreshold.bestFscoreEventwiseParametric = 0;
+                        end
+                    end
+                    
+                    if ismember("bestFscorePointAdjustedParametric", thresholds) || ismember("all", thresholds)
+                        thr = computeBestFscoreThreshold(anomalyScores, labelsTestVal, 1, probDist, 'point-adjusted');
+                        if ~isnan(thr)
+                            staticThreshold.bestFscorePointAdjustedParametric = thr;
+                        else
+                            staticThreshold.bestFscorePointAdjustedParametric = 0;
+                        end
+                    end
+                    
+                    if ismember("bestFscoreCompositeParametric", thresholds) || ismember("all", thresholds)
+                        thr = computeBestFscoreThreshold(anomalyScores, labelsTestVal, 1, probDist, 'composite');
+                        if ~isnan(thr)
+                            staticThreshold.bestFscoreCompositeParametric = thr;
+                        else
+                            staticThreshold.bestFscoreCompositeParametric = 0;
+                        end
+                    end
+                end 
             end
         end
         if ismember("meanStd", thresholds) || ismember("all", thresholds)

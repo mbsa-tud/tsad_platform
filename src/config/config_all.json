@@ -488,6 +488,12 @@
                             "value": 200,
                             "type": "integer"
                         }
+                    },
+                    "training": {
+                         "ratioTrainVal": {
+                            "value": 1,
+                            "type": "real"
+                        }
                     }
                 }
             }
@@ -497,7 +503,15 @@
                 "type": "CML",
                 "model": "OC-SVM",
                 "label": "OC-SVM  (1)",
-                "id": "OC_SVM_1"
+                "id": "OC_SVM_1",
+                "hyperparameters": {
+                    "training": {
+                         "ratioTrainVal": {
+                            "value": 1,
+                            "type": "real"
+                        }
+                    }
+                }
             }
         },
         {
@@ -505,7 +519,15 @@
                 "type": "CML",
                 "model": "ABOD",
                 "label": "ABOD  (1)",
-                "id": "ABOD_1"
+                "id": "ABOD_1",
+                "hyperparameters": {
+                    "training": {
+                         "ratioTrainVal": {
+                            "value": 1,
+                            "type": "real"
+                        }
+                    }
+                }
             }
         },
         {
@@ -513,7 +535,15 @@
                 "type": "CML",
                 "model": "LOF",
                 "label": "LOF  (1)",
-                "id": "LOF_1"
+                "id": "LOF_1",
+                "hyperparameters": {
+                    "training": {
+                         "ratioTrainVal": {
+                            "value": 1,
+                            "type": "real"
+                        }
+                    }
+                }
             }
         },
         {
@@ -527,6 +557,12 @@
                         "knn": {
                             "value": 10,
                             "type": "integer"
+                        }
+                    },
+                    "training": {
+                         "ratioTrainVal": {
+                            "value": 1,
+                            "type": "real"
                         }
                     }
                 }
@@ -548,6 +584,12 @@
                             "value": 100,
                             "type": "integer"
                         }
+                    },
+                    "training": {
+                         "ratioTrainVal": {
+                            "value": 1,
+                            "type": "real"
+                        }
                     }
                 }
             }
@@ -566,6 +608,12 @@
                             "value": 0.5,
                             "type": "real"
                         }
+                    },
+                    "training": {
+                         "ratioTrainVal": {
+                            "value": 1,
+                            "type": "real"
+                        }
                     }
                 }
             }
@@ -580,6 +628,12 @@
                     "model": {
                         "ratioOversample": {
                             "value": 0.1,
+                            "type": "real"
+                        }
+                    },
+                    "training": {
+                         "ratioTrainVal": {
+                            "value": 1,
                             "type": "real"
                         }
                     }

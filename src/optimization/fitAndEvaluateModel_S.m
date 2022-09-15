@@ -1,11 +1,11 @@
 function scoresCell = fitAndEvaluateModel_S(options, trainingData, trainingLabels, testValData, testValLabels, testingData, testingLabels, thresholds)
 scoresCell = cell(size(testingData, 1), 1);
 
-XTrain = prepareDataTrain_S(options, trainingData);
+[XTrain, XVal] = prepareDataTrain_S(options, trainingData);
 
 Mdl = trainS(options, XTrain);
 
-staticThreshold = getStaticThreshold_S(options, Mdl, XTrain, testValData, testValLabels, thresholds);
+[staticThreshold, ~] = getStaticThreshold_S(options, Mdl, XTrain, XVal, testValData, testValLabels, thresholds);
 
 fields = fieldnames(staticThreshold);
 selectedThreshold = staticThreshold.(fields{1});

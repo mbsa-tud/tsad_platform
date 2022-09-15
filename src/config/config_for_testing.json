@@ -17,7 +17,7 @@
                     },
                     "data": {
                         "windowSize": {
-                            "value": 40,
+                            "value": 100,
                             "type": "integer"
                         },
                         "stepSize": {
@@ -27,7 +27,7 @@
                     },
                     "training": {
                         "epochs": {
-                            "value": 35,
+                            "value": 50,
                             "type": "integer"
                         },
                         "minibatchSize": {
@@ -59,7 +59,7 @@
                     },
                     "data": {
                         "windowSize": {
-                            "value": 40,
+                            "value": 100,
                             "type": "integer"
                         },
                         "stepSize": {
@@ -69,7 +69,7 @@
                     },
                     "training": {
                         "epochs": {
-                            "value": 35,
+                            "value": 50,
                             "type": "integer"
                         },
                         "minibatchSize": {
@@ -105,7 +105,7 @@
                     },
                     "data": {
                         "windowSize": {
-                            "value": 40,
+                            "value": 100,
                             "type": "integer"
                         },
                         "stepSize": {
@@ -115,7 +115,7 @@
                     },
                     "training": {
                         "epochs": {
-                            "value": 35,
+                            "value": 50,
                             "type": "integer"
                         },
                         "minibatchSize": {
@@ -147,7 +147,7 @@
                     },
                     "data": {
                         "windowSize": {
-                            "value": 40,
+                            "value": 100,
                             "type": "integer"
                         },
                         "stepSize": {
@@ -157,7 +157,7 @@
                     },
                     "training": {
                         "epochs": {
-                            "value": 35,
+                            "value": 50,
                             "type": "integer"
                         },
                         "minibatchSize": {
@@ -189,7 +189,7 @@
                     },
                     "data": {
                         "windowSize": {
-                            "value": 40,
+                            "value": 100,
                             "type": "integer"
                         },
                         "stepSize": {
@@ -199,7 +199,7 @@
                     },
                     "training": {
                         "epochs": {
-                            "value": 35,
+                            "value": 50,
                             "type": "integer"
                         },
                         "minibatchSize": {
@@ -235,7 +235,7 @@
                     },
                     "data": {
                         "windowSize": {
-                            "value": 40,
+                            "value": 100,
                             "type": "integer"
                         },
                         "stepSize": {
@@ -245,7 +245,7 @@
                     },
                     "training": {
                         "epochs": {
-                            "value": 35,
+                            "value": 50,
                             "type": "integer"
                         },
                         "minibatchSize": {
@@ -277,7 +277,7 @@
                     },
                     "data": {
                         "windowSize": {
-                            "value": 40,
+                            "value": 100,
                             "type": "integer"
                         },
                         "stepSize": {
@@ -287,7 +287,7 @@
                     },
                     "training": {
                         "epochs": {
-                            "value": 35,
+                            "value": 50,
                             "type": "integer"
                         },
                         "minibatchSize": {
@@ -319,7 +319,7 @@
                     },
                     "data": {
                         "windowSize": {
-                            "value": 40,
+                            "value": 100,
                             "type": "integer"
                         },
                         "stepSize": {
@@ -329,7 +329,7 @@
                     },
                     "training": {
                         "epochs": {
-                            "value": 35,
+                            "value": 50,
                             "type": "integer"
                         },
                         "minibatchSize": {
@@ -361,7 +361,7 @@
                     },
                     "data": {
                         "windowSize": {
-                            "value": 40,
+                            "value": 100,
                             "type": "integer"
                         },
                         "stepSize": {
@@ -371,7 +371,7 @@
                     },
                     "training": {
                         "epochs": {
-                            "value": 35,
+                            "value": 50,
                             "type": "integer"
                         },
                         "minibatchSize": {
@@ -403,7 +403,7 @@
                     },
                     "data": {
                         "windowSize": {
-                            "value": 40,
+                            "value": 100,
                             "type": "integer"
                         },
                         "stepSize": {
@@ -413,7 +413,7 @@
                     },
                     "training": {
                         "epochs": {
-                            "value": 35,
+                            "value": 50,
                             "type": "integer"
                         },
                         "minibatchSize": {
@@ -445,7 +445,7 @@
                     },
                     "data": {
                         "windowSize": {
-                            "value": 40,
+                            "value": 100,
                             "type": "integer"
                         },
                         "stepSize": {
@@ -455,7 +455,7 @@
                     },
                     "training": {
                         "epochs": {
-                            "value": 35,
+                            "value": 50,
                             "type": "integer"
                         },
                         "minibatchSize": {
@@ -488,6 +488,12 @@
                             "value": 200,
                             "type": "integer"
                         }
+                    },
+                    "training": {
+                         "ratioTrainVal": {
+                            "value": 1,
+                            "type": "real"
+                        }
                     }
                 }
             }
@@ -497,7 +503,15 @@
                 "type": "CML",
                 "model": "OC-SVM",
                 "label": "OC-SVM  (1)",
-                "id": "OC_SVM_1"
+                "id": "OC_SVM_1",
+                "hyperparameters": {
+                    "training": {
+                         "ratioTrainVal": {
+                            "value": 1,
+                            "type": "real"
+                        }
+                    }
+                }
             }
         },
         {
@@ -505,7 +519,15 @@
                 "type": "CML",
                 "model": "LOF",
                 "label": "LOF  (1)",
-                "id": "LOF_1"
+                "id": "LOF_1",
+                "hyperparameters": {
+                    "training": {
+                         "ratioTrainVal": {
+                            "value": 1,
+                            "type": "real"
+                        }
+                    }
+                }
             }
         },
         {
@@ -519,6 +541,38 @@
                         "knn": {
                             "value": 10,
                             "type": "integer"
+                        }
+                    },
+                    "training": {
+                         "ratioTrainVal": {
+                            "value": 1,
+                            "type": "real"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "options": {
+                "type": "CML",
+                "model": "Merlin",
+                "label": "Merlin  (1)",
+                "id": "Merlin_1",
+                "hyperparameters": {
+                    "model": {
+                        "minL": {
+                            "value": 70,
+                            "type": "integer"
+                        },
+                        "maxL": {
+                            "value": 100,
+                            "type": "integer"
+                        }
+                    },
+                    "training": {
+                         "ratioTrainVal": {
+                            "value": 1,
+                            "type": "real"
                         }
                     }
                 }

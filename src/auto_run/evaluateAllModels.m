@@ -236,12 +236,28 @@ if ~isempty(models_CML)
                     % Static thresholds
                     if isfield(staticThreshold, thresholds(k))
                         selectedThreshold = staticThreshold.(thresholds(k));
+
+                        if endsWith(thresholds(k), 'Parametric')
+                            pd = trainedModel.pd;
+                            parametric = true;
+                        else
+                            pd = 0;
+                            parametric = false;
+                        end
                     else
                         thrFields = fieldnames(staticThreshold);
                         selectedThreshold = staticThreshold.(thrFields{1});
-                    end
+
+                        if endsWith(thrFields{1}, 'Parametric')
+                            pd = trainedModel.pd;
+                            parametric = true;
+                        else
+                            pd = 0;
+                            parametric = false;
+                        end
+                    end 
             
-                    anomsStatic = calcStaticThresholdPrediction(anomalyScores, selectedThreshold, 0, false);
+                    anomsStatic = calcStaticThresholdPrediction(anomalyScores, selectedThreshold, pd, parametric);
                     [scoresPointwiseStatic, scoresEventwiseStatic, ...
                         scoresPointAdjustedStatic, compositeFScoreStatic] = calcScores(anomsStatic, labels);
                     
@@ -316,12 +332,28 @@ if ~isempty(models_S)
                     % Static thresholds
                     if isfield(staticThreshold, thresholds(k))
                         selectedThreshold = staticThreshold.(thresholds(k));
+
+                        if endsWith(thresholds(k), 'Parametric')
+                            pd = trainedModel.pd;
+                            parametric = true;
+                        else
+                            pd = 0;
+                            parametric = false;
+                        end
                     else
                         thrFields = fieldnames(staticThreshold);
                         selectedThreshold = staticThreshold.(thrFields{1});
-                    end
+
+                        if endsWith(thrFields{1}, 'Parametric')
+                            pd = trainedModel.pd;
+                            parametric = true;
+                        else
+                            pd = 0;
+                            parametric = false;
+                        end
+                    end 
             
-                    anomsStatic = calcStaticThresholdPrediction(anomalyScores, selectedThreshold, 0, false);
+                    anomsStatic = calcStaticThresholdPrediction(anomalyScores, selectedThreshold, pd, parametric);
                     [scoresPointwiseStatic, scoresEventwiseStatic, ...
                         scoresPointAdjustedStatic, compositeFScoreStatic] = calcScores(anomsStatic, labels);
                     

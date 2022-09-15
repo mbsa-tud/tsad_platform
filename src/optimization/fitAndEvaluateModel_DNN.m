@@ -2,7 +2,7 @@ function scoresCell = fitAndEvaluateModel_DNN(options, trainingData, trainingLab
 [XTrain, YTrain, XVal, YVal] = prepareDataTrain_DNN(options, trainingData, trainingLabels);
 
 [Mdl, ~] = trainDNN(options, XTrain, YTrain, XVal, YVal, 'none');            
-staticThreshold = getStaticThreshold_DNN(options, Mdl, XTrain, YTrain, XVal, YVal, testValData, testValLabels, thresholds);
+[staticThreshold, ~] = getStaticThreshold_DNN(options, Mdl, XTrain, YTrain, XVal, YVal, testValData, testValLabels, thresholds);
 
 fields = fieldnames(staticThreshold);
 selectedThreshold = staticThreshold.(fields{1});
