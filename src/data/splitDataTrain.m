@@ -82,12 +82,11 @@ for ch_idx = 1:numChannels
         numOfWindows = size(XTrain_c, 1);
     
         l = round(ratioTrainVal * numOfWindows);
-        idx = randperm(numOfWindows);
         
-        XVal_c = XTrain_c((idx((l + 1):end)), :);
-        YVal_c = YTrain_c((idx((l + 1):end)), :);
-        XTrain_c = XTrain_c(idx(1:l), :);
-        YTrain_c = YTrain_c(idx(1:l), :);
+        XVal_c = XTrain_c((l + 1):end, :);
+        YVal_c = YTrain_c((l + 1):end, :);
+        XTrain_c = XTrain_c(1:l, :);
+        YTrain_c = YTrain_c(1:l, :);
     else
         XVal_c = 0;
         YVal_c = 0;

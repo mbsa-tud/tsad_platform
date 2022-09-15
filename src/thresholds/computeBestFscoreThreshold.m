@@ -157,7 +157,7 @@ end
 
 MaxFScore = max(Fscore);
 thrIdx = find(Fscore == MaxFScore);
-
+clear thrMax
 if size(thrIdx, 2) >1
     p = thrIdx(1);
 else
