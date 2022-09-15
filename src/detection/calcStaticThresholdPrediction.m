@@ -1,17 +1,14 @@
 function labels_pred = calcStaticThresholdPrediction(anomalyScores, staticThreshold, pd, parametric)
+% TODO: the parameters pd and parametric are currently unused. This is
+% because the modified version of the parametric static threshold doesn't
+% require them. If the threshold gets adapted somehow, they will be needed
+% in this function again.
+
 labels_pred_tmp = logical([]);
 numChannels = size(anomalyScores, 2);
 
 
 for j = 1:numChannels
-    % TODO: the following commented out section should work but somehow
-    % fails.
-%     if parametric
-%         anomalyScores(:, j) = pdf(pd, anomalyScores(:, j));
-%         labels_pred_tmp(:, j) = anomalyScores(:, j) < staticThreshold;
-%     else
-%         labels_pred_tmp(:, j) = anomalyScores(:, j) > staticThreshold;
-%     end
     labels_pred_tmp(:, j) = anomalyScores(:, j) > staticThreshold;
 end
 labels_pred = any(labels_pred_tmp, 2);
