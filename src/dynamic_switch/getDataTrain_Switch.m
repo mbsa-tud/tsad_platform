@@ -10,15 +10,15 @@ fclose(fid);
 preprocParams = jsondecode(str);
 
 
-testingFiles = dir(fullfile(trainSwitchPath, '*.csv'));
+labelFiles = dir(fullfile(trainSwitchPath, '*.txt'));
 
-numOfTestingFiles = numel(testingFiles);
+numOfTestingFiles = numel(labelFiles);
 
 XTrain = [];
 for i = 1:numOfTestingFiles
-    dataFile = fullfile(trainSwitchPath, testingFiles(i).name);
-    name_split = split(testingFiles(i).name, '.');
-    labelFile = fullfile(trainSwitchPath, sprintf('%s_best_model.txt', name_split{1}));
+    labelFile = fullfile(trainSwitchPath, labelFiles(i).name);
+    name_split = split(labelFiles(i).name, '_best_model.txt');
+    dataFile = fullfile(trainSwitchPath, sprintf('%s.csv', name_split{1}));    
 
     data = readtable(dataFile);
     

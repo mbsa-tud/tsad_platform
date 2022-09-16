@@ -170,7 +170,7 @@ thr = threshMax(p);
 %     try
 %         thr = anomalyScores_old(find(anomalyScores == thr, 1));
 %     catch
-%         thr = 0.1;
+%         thr = NaN;
 %     end
 % end
 end

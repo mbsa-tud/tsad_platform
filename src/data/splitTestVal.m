@@ -7,7 +7,7 @@ function [testingData, testingLabels, testValData, testValLabels, testFileNames]
 %         testingLabels: labels
 %         raio: double (0, 1] - ratio test/(test + val)
 %         testFileNames: strings - filenames of testing files
-                          
+
 %
 % Output: testingData
 %         tesingLabels

@@ -1,4 +1,4 @@
-function [scoresWeighted, scoresUnweighted, scoresPointAdjusted, compositeFScore] = calcScores(labels_pred, labels)
+function [scoresWeighted, scoresUnweighted, scoresPointAdjusted, compositeScores] = calcScores(labels_pred, labels)
 % Weighted scores
 try
     confmat = confusionmat(logical(labels), logical(labels_pred));
@@ -78,10 +78,14 @@ end
 % Composite F-score
 pre_c = pre_w;
 rec_c = tp_c / (tp_c + fn_c);
-compositeFScore = 2 * pre_c * rec_c / (pre_c + rec_c);
+compositeF1Score = 2 * pre_c * rec_c / (pre_c + rec_c);
+
+compositeF05Score = (1 + 0.5^2) * (pre_c * rec_c) / ((0.5^2 * pre_c) + rec_c);
+
+compositeScores = [compositeF1Score; compositeF05Score];
 
 scoresWeighted = round(scoresWeighted, 4);
 scoresUnweighted = round(scoresUnweighted, 4);
 scoresPointAdjusted = round(scoresPointAdjusted, 4);
-compositeFScore = round(compositeFScore, 4);
+compositeScores = round(compositeScores, 4);
 end
