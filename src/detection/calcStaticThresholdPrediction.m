@@ -9,7 +9,12 @@ numChannels = size(anomalyScores, 2);
 
 
 for j = 1:numChannels
-    labels_pred_tmp(:, j) = anomalyScores(:, j) > staticThreshold;
+    if parametric
+        anomalyScores = pdf(pd, anomalyScores);
+        labels_pred_tmp(:, j) = anomalyScores(:, j) < staticThreshold;
+    else
+        labels_pred_tmp(:, j) = anomalyScores(:, j) > staticThreshold;
+    end
 end
 labels_pred = any(labels_pred_tmp, 2);
 

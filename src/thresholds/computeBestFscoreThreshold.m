@@ -166,11 +166,11 @@ end
 
 thr = threshMax(p);
 
-if useParametric == 1
-    try
-        thr = anomalyScores_old(find(anomalyScores == thr, 1));
-    catch
-        thr = 0.1;
-    end
-end
+% if useParametric == 1
+%     try
+%         thr = anomalyScores_old(find(anomalyScores == thr, 1));
+%     catch
+%         thr = 0.1;
+%     end
+% end
 end
