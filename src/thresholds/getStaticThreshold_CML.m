@@ -20,7 +20,7 @@ switch options.model
 
             contaminationFraction = numAnoms / numTimeSteps;                       
             
-            if contaminationFraction > 0
+            if true
                 anomalyScores = [];
                 labelsTestVal = [];
 
