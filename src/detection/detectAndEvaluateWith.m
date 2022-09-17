@@ -13,15 +13,15 @@ switch model.options.type
         thrFields = fieldnames(staticThreshold);
         selectedThreshold = staticThreshold.(thrFields{1});
 
-        if endsWith(thrFields{1}, 'Parametric')
+        if endsWith(thrFields{1}, 'Gauss')
             pd = model.pd;
-            parametric = true;
+            useGaussianScores = true;
         else
             pd = 0;
-            parametric = false;
+            useGaussianScores = false;
         end
     
-        anomsStatic = calcStaticThresholdPrediction(anomalyScores, selectedThreshold, pd, parametric);
+        anomsStatic = calcStaticThresholdPrediction(anomalyScores, selectedThreshold, pd, useGaussianScores);
         [scoresPointwiseStatic, scoresEventwiseStatic, ...
             scoresPointAdjustedStatic, scoresCompositeStatic] = calcScores(anomsStatic, labels);
     
@@ -46,15 +46,15 @@ switch model.options.type
         thrFields = fieldnames(staticThreshold);
         selectedThreshold = staticThreshold.(thrFields{1});
 
-        if endsWith(thrFields{1}, 'Parametric')
+        if endsWith(thrFields{1}, 'Gauss')
             pd = model.pd;
-            parametric = true;
+            useGaussianScores = true;
         else
             pd = 0;
-            parametric = false;
+            useGaussianScores = false;
         end
         
-        anomsStatic = calcStaticThresholdPrediction(anomalyScores, selectedThreshold, pd, parametric);
+        anomsStatic = calcStaticThresholdPrediction(anomalyScores, selectedThreshold, pd, useGaussianScores);
         [scoresPointwiseStatic, scoresEventwiseStatic, ...
             scoresPointAdjustedStatic, scoresCompositeStatic] = calcScores(anomsStatic, labels);
         
@@ -80,15 +80,15 @@ switch model.options.type
         thrFields = fieldnames(staticThreshold);
         selectedThreshold = staticThreshold.(thrFields{1});
 
-        if endsWith(thrFields{1}, 'Parametric')
+        if endsWith(thrFields{1}, 'Gauss')
             pd = model.pd;
-            parametric = true;
+            useGaussianScores = true;
         else
             pd = 0;
-            parametric = false;
+            useGaussianScores = false;
         end
 
-        anomsStatic = calcStaticThresholdPrediction(anomalyScores, selectedThreshold, pd, parametric);
+        anomsStatic = calcStaticThresholdPrediction(anomalyScores, selectedThreshold, pd, useGaussianScores);
         [scoresPointwiseStatic, scoresEventwiseStatic, ...
             scoresPointAdjustedStatic, scoresCompositeStatic] = calcScores(anomsStatic, labels);
         

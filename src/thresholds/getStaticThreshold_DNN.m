@@ -73,9 +73,6 @@ switch options.model
                 end
                 
                 if ismember("topK", thresholds) || ismember("all", thresholds) && ~isMultivariate
-                    % TODO: this doesn't work for univariate models with
-                    % multivariate datasets. (seperate network for each
-                    % channel)
                     thr = quantile(anomalyScores, 1 - contaminationFraction);
                     if ~isnan(thr)
                         staticThreshold.topK = thr;
@@ -84,46 +81,68 @@ switch options.model
                     end
                 end
 
+                if any(ismember(thresholds, ["bestFscorePointwiseGauss", "bestFscoreEventwiseGauss", ...
+                        "bestFscorePointAdjustedGauss", "bestFscoreCompositeGauss", "topKGauss"])) ...
+                        && ~any(ismember(thresholds, ["bestFscorePointwise", "bestFscoreEventwise", ...
+                        "bestFscorePointAdjusted", "bestFscoreComposite", "topK", "meanStd"])) ...
+                        && options.hyperparameters.training.ratioTrainVal.value == 1
+                    error("To compute Gauss static thresholds, validation data is needed!");
+                end
+                if any(ismember(thresholds, ["bestFscorePointwiseGauss", "bestFscoreEventwiseGauss", ...
+                        "bestFscorePointAdjustedGauss", "bestFscoreCompositeGauss", "topKGauss"])) ...
+                        && options.hyperparameters.training.ratioTrainVal.value == 1
+                    disp("Warning! You selected thresholds for gaussian anomaly scoring but didn't use any validation data.");
+                end
+
                 if options.hyperparameters.training.ratioTrainVal.value ~= 1
                     YVal = convertYForTesting(YVal, options.modelType);
     
                     [anomalyScoresVal, ~, ~] = detectWithDNN(options, Mdl, XVal, YVal, zeros(size(YVal{1, 1}, 1), 1));
-                    probDist = fitdist(anomalyScoresVal, "Normal");
-                    pd = probDist;
+                    pd = fitdist(anomalyScoresVal, "Normal");
 
-                    if ismember("bestFscorePointwiseParametric", thresholds) || ismember("all", thresholds)
-                        thr = computeBestFscoreThreshold(anomalyScores, labelsTestVal, 1, probDist, 'point-wise');
+                    if ismember("bestFscorePointwiseGauss", thresholds) || ismember("all", thresholds)
+                        thr = computeBestFscoreThreshold(anomalyScores, labelsTestVal, 1, pd, 'point-wise');
                         if ~isnan(thr)
-                            staticThreshold.bestFscorePointwiseParametric = thr;
+                            staticThreshold.bestFscorePointwiseGauss = thr;
                         else
-                            staticThreshold.bestFscorePointwiseParametric = 0;
+                            staticThreshold.bestFscorePointwiseGauss = 0;
                         end
                     end
     
-                    if ismember("bestFscoreEventwiseParametric", thresholds) || ismember("all", thresholds)
-                        thr = computeBestFscoreThreshold(anomalyScores, labelsTestVal, 1, probDist, 'event-wise');
+                    if ismember("bestFscoreEventwiseGauss", thresholds) || ismember("all", thresholds)
+                        thr = computeBestFscoreThreshold(anomalyScores, labelsTestVal, 1, pd, 'event-wise');
                         if ~isnan(thr)
-                            staticThreshold.bestFscoreEventwiseParametric = thr;
+                            staticThreshold.bestFscoreEventwiseGauss = thr;
                         else
-                            staticThreshold.bestFscoreEventwiseParametric = 0;
+                            staticThreshold.bestFscoreEventwiseGauss = 0;
                         end
                     end
                     
-                    if ismember("bestFscorePointAdjustedParametric", thresholds) || ismember("all", thresholds)
-                        thr = computeBestFscoreThreshold(anomalyScores, labelsTestVal, 1, probDist, 'point-adjusted');
+                    if ismember("bestFscorePointAdjustedGauss", thresholds) || ismember("all", thresholds)
+                        thr = computeBestFscoreThreshold(anomalyScores, labelsTestVal, 1, pd, 'point-adjusted');
                         if ~isnan(thr)
-                            staticThreshold.bestFscorePointAdjustedParametric = thr;
+                            staticThreshold.bestFscorePointAdjustedGauss = thr;
                         else
-                            staticThreshold.bestFscorePointAdjustedParametric = 0;
+                            staticThreshold.bestFscorePointAdjustedGauss = 0;
                         end
                     end
                     
-                    if ismember("bestFscoreCompositeParametric", thresholds) || ismember("all", thresholds)
-                        thr = computeBestFscoreThreshold(anomalyScores, labelsTestVal, 1, probDist, 'composite');
+                    if ismember("bestFscoreCompositeGauss", thresholds) || ismember("all", thresholds)
+                        thr = computeBestFscoreThreshold(anomalyScores, labelsTestVal, 1, pd, 'composite');
                         if ~isnan(thr)
-                            staticThreshold.bestFscoreCompositeParametric = thr;
+                            staticThreshold.bestFscoreCompositeGauss = thr;
                         else
-                            staticThreshold.bestFscoreCompositeParametric = 0;
+                            staticThreshold.bestFscoreCompositeGauss = 0;
+                        end
+                    end
+
+                    if ismember("topKGauss", thresholds) || ismember("all", thresholds) && ~isMultivariate
+                        anomalyScores = pdf(pd, anomalyScores);
+                        thr = quantile(anomalyScores, contaminationFraction);
+                        if ~isnan(thr)
+                            staticThreshold.topKGauss = thr;
+                        else
+                            staticThreshold.topKGauss = 0;
                         end
                     end
                 end                            
@@ -140,8 +159,6 @@ switch options.model
                 [anomalyScoresVal, ~, ~] = detectWithDNN(options, Mdl, XVal, YVal, zeros(size(YVal{1, 1}, 1), 1));
                 staticThreshold.meanStd = mean(mean(anomalyScoresVal, 1)) + 4 * mean(std(anomalyScoresVal, 0, 1));
             end
-        else
-            staticThreshold.default = 0.5;
         end
 end
 end

@@ -17,13 +17,15 @@ for i = 1:size(trueAnomsSegs,1)
                 found = true;
                 tp = tp+1;
             end
-%                     tp = tp+1;
-            k = 1;
-            while k <= size(anomsCopy,1)
-                if isequal(anomsCopy{k},anomSegs{j})
-                    anomsCopy(k) = [];
+            
+            if ~isempty(anomsCopy)
+                k = 1;
+                while k <= size(anomsCopy,1)
+                    if isequal(anomsCopy{k, 1},anomSegs{j, 1})
+                        anomsCopy(k) = [];
+                    end
+                    k = k+1;
                 end
-                k = k+1;
             end
         end
     end
@@ -32,8 +34,8 @@ for i = 1:size(trueAnomsSegs,1)
     end
 end
 
-
 fp = max(size(anomsCopy,1)-1,0);
+
 % anoms = find(observed == 1);
 % anomSegs = cell(0,1);
 % trueAnoms = find(expected == 1);
