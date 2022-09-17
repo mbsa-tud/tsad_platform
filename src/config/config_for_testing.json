@@ -17,7 +17,7 @@
                     },
                     "data": {
                         "windowSize": {
-                            "value": 100,
+                            "value": 40,
                             "type": "integer"
                         },
                         "stepSize": {
@@ -27,7 +27,7 @@
                     },
                     "training": {
                         "epochs": {
-                            "value": 50,
+                            "value": 35,
                             "type": "integer"
                         },
                         "minibatchSize": {
@@ -35,7 +35,7 @@
                             "type": "integer"
                         },
                          "ratioTrainVal": {
-                            "value": 1,
+                            "value": 0.8,
                             "type": "real"
                         }
                     }
@@ -59,7 +59,7 @@
                     },
                     "data": {
                         "windowSize": {
-                            "value": 100,
+                            "value": 40,
                             "type": "integer"
                         },
                         "stepSize": {
@@ -69,7 +69,7 @@
                     },
                     "training": {
                         "epochs": {
-                            "value": 50,
+                            "value": 35,
                             "type": "integer"
                         },
                         "minibatchSize": {
@@ -77,7 +77,7 @@
                             "type": "integer"
                         },
                          "ratioTrainVal": {
-                            "value": 1,
+                            "value": 0.8,
                             "type": "real"
                         }
                     }
@@ -105,7 +105,7 @@
                     },
                     "data": {
                         "windowSize": {
-                            "value": 100,
+                            "value": 40,
                             "type": "integer"
                         },
                         "stepSize": {
@@ -115,7 +115,7 @@
                     },
                     "training": {
                         "epochs": {
-                            "value": 50,
+                            "value": 35,
                             "type": "integer"
                         },
                         "minibatchSize": {
@@ -123,7 +123,7 @@
                             "type": "integer"
                         },
                          "ratioTrainVal": {
-                            "value": 1,
+                            "value": 0.8,
                             "type": "real"
                         }
                     }
@@ -147,7 +147,7 @@
                     },
                     "data": {
                         "windowSize": {
-                            "value": 100,
+                            "value": 40,
                             "type": "integer"
                         },
                         "stepSize": {
@@ -157,7 +157,7 @@
                     },
                     "training": {
                         "epochs": {
-                            "value": 50,
+                            "value": 35,
                             "type": "integer"
                         },
                         "minibatchSize": {
@@ -165,7 +165,7 @@
                             "type": "integer"
                         },
                          "ratioTrainVal": {
-                            "value": 1,
+                            "value": 0.8,
                             "type": "real"
                         }
                     }
@@ -189,7 +189,7 @@
                     },
                     "data": {
                         "windowSize": {
-                            "value": 100,
+                            "value": 40,
                             "type": "integer"
                         },
                         "stepSize": {
@@ -199,7 +199,7 @@
                     },
                     "training": {
                         "epochs": {
-                            "value": 50,
+                            "value": 35,
                             "type": "integer"
                         },
                         "minibatchSize": {
@@ -207,7 +207,7 @@
                             "type": "integer"
                         },
                          "ratioTrainVal": {
-                            "value": 1,
+                            "value": 0.8,
                             "type": "real"
                         }
                     }
@@ -235,7 +235,7 @@
                     },
                     "data": {
                         "windowSize": {
-                            "value": 100,
+                            "value": 40,
                             "type": "integer"
                         },
                         "stepSize": {
@@ -245,7 +245,7 @@
                     },
                     "training": {
                         "epochs": {
-                            "value": 50,
+                            "value": 35,
                             "type": "integer"
                         },
                         "minibatchSize": {
@@ -253,7 +253,7 @@
                             "type": "integer"
                         },
                          "ratioTrainVal": {
-                            "value": 1,
+                            "value": 0.8,
                             "type": "real"
                         }
                     }
@@ -277,7 +277,7 @@
                     },
                     "data": {
                         "windowSize": {
-                            "value": 100,
+                            "value": 40,
                             "type": "integer"
                         },
                         "stepSize": {
@@ -287,7 +287,7 @@
                     },
                     "training": {
                         "epochs": {
-                            "value": 50,
+                            "value": 35,
                             "type": "integer"
                         },
                         "minibatchSize": {
@@ -295,7 +295,7 @@
                             "type": "integer"
                         },
                          "ratioTrainVal": {
-                            "value": 1,
+                            "value": 0.8,
                             "type": "real"
                         }
                     }
@@ -319,7 +319,7 @@
                     },
                     "data": {
                         "windowSize": {
-                            "value": 100,
+                            "value": 40,
                             "type": "integer"
                         },
                         "stepSize": {
@@ -329,7 +329,7 @@
                     },
                     "training": {
                         "epochs": {
-                            "value": 50,
+                            "value": 35,
                             "type": "integer"
                         },
                         "minibatchSize": {
@@ -337,91 +337,7 @@
                             "type": "integer"
                         },
                          "ratioTrainVal": {
-                            "value": 1,
-                            "type": "real"
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "options": {
-                "type": "DNN",
-                "model": "ResNet",
-                "modelType": "Predictive",
-                "dataType": 3,
-                "label": "ResNet  (1)",
-                "id": "ResNet_1",
-                "hyperparameters": {
-                    "model": {
-                        "filter": {
-                            "value": 32,
-                            "type": "integer"
-                        }
-                    },
-                    "data": {
-                        "windowSize": {
-                            "value": 100,
-                            "type": "integer"
-                        },
-                        "stepSize": {
-                            "value": 1,
-                            "type": "integer"
-                        }
-                    },
-                    "training": {
-                        "epochs": {
-                            "value": 50,
-                            "type": "integer"
-                        },
-                        "minibatchSize": {
-                            "value": 64,
-                            "type": "integer"
-                        },
-                         "ratioTrainVal": {
-                            "value": 1,
-                            "type": "real"
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "options": {
-                "type": "DNN",
-                "model": "WaveNet",
-                "modelType": "Predictive",
-                "dataType": 3,
-                "label": "WaveNet  (1)",
-                "id": "WaveNet_1",
-                "hyperparameters": {
-                    "model": {
-                        "filter": {
-                            "value": 32,
-                            "type": "integer"
-                        }
-                    },
-                    "data": {
-                        "windowSize": {
-                            "value": 100,
-                            "type": "integer"
-                        },
-                        "stepSize": {
-                            "value": 1,
-                            "type": "integer"
-                        }
-                    },
-                    "training": {
-                        "epochs": {
-                            "value": 50,
-                            "type": "integer"
-                        },
-                        "minibatchSize": {
-                            "value": 64,
-                            "type": "integer"
-                        },
-                         "ratioTrainVal": {
-                            "value": 1,
+                            "value": 0.8,
                             "type": "real"
                         }
                     }
@@ -445,7 +361,7 @@
                     },
                     "data": {
                         "windowSize": {
-                            "value": 100,
+                            "value": 40,
                             "type": "integer"
                         },
                         "stepSize": {
@@ -455,7 +371,7 @@
                     },
                     "training": {
                         "epochs": {
-                            "value": 50,
+                            "value": 35,
                             "type": "integer"
                         },
                         "minibatchSize": {
@@ -463,7 +379,7 @@
                             "type": "integer"
                         },
                          "ratioTrainVal": {
-                            "value": 1,
+                            "value": 0.8,
                             "type": "real"
                         }
                     }
@@ -491,7 +407,7 @@
                     },
                     "training": {
                          "ratioTrainVal": {
-                            "value": 1,
+                            "value": 0.8,
                             "type": "real"
                         }
                     }
@@ -507,7 +423,7 @@
                 "hyperparameters": {
                     "training": {
                          "ratioTrainVal": {
-                            "value": 1,
+                            "value": 0.8,
                             "type": "real"
                         }
                     }
@@ -523,7 +439,7 @@
                 "hyperparameters": {
                     "training": {
                          "ratioTrainVal": {
-                            "value": 1,
+                            "value": 0.8,
                             "type": "real"
                         }
                     }
@@ -545,33 +461,7 @@
                     },
                     "training": {
                          "ratioTrainVal": {
-                            "value": 1,
-                            "type": "real"
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "options": {
-                "type": "CML",
-                "model": "Merlin",
-                "label": "Merlin  (1)",
-                "id": "Merlin_1",
-                "hyperparameters": {
-                    "model": {
-                        "minL": {
-                            "value": 70,
-                            "type": "integer"
-                        },
-                        "maxL": {
-                            "value": 100,
-                            "type": "integer"
-                        }
-                    },
-                    "training": {
-                         "ratioTrainVal": {
-                            "value": 1,
+                            "value": 0.8,
                             "type": "real"
                         }
                     }

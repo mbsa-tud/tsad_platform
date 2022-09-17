@@ -122,6 +122,8 @@ switch options.model
 
             sequenceUnfoldingLayer(Name='Unfold')
             flattenLayer()
+            fullyConnectedLayer(32)
+            leakyReluLayer()
             fullyConnectedLayer(numResponses)
             leakyReluLayer()
             regressionLayer(Name='Output')
@@ -134,8 +136,7 @@ switch options.model
             sequenceFoldingLayer(Name='Fold')
 
             convolution2dLayer(5, options.hyperparameters.model.filter.value, Stride=1, Padding='same', WeightsInitializer='he')
-            batchNormalizationLayer()
-            leakyReluLayer()
+            leakyReluLayer(Name='ReLU 1')
             convolution2dLayer(5, options.hyperparameters.model.filter.value, Stride=1, Padding='same', WeightsInitializer='he')
             batchNormalizationLayer()
             leakyReluLayer()
@@ -152,29 +153,6 @@ switch options.model
             ];
         layers = layerGraph(layers);
         layers = connectLayers(layers, 'ReLU 1', 'Add/in2');
-        layers = connectLayers(layers, 'Fold/miniBatchSize', 'Unfold/miniBatchSize');
-    case 'WaveNet'
-        layers = [
-            sequenceInputLayer([numFeatures 1 1], Name='Input')
-            sequenceFoldingLayer(Name='Fold')
-
-            convolution2dLayer(5, floor(options.hyperparameters.model.filter.value / 4), Stride=1, Padding='causal', DilationFactor=1, WeightsInitializer='he')
-            leakyReluLayer()
-            maxPooling2dLayer(1, Name='Maxpool1')
-            convolution2dLayer(5, floor(options.hyperparameters.model.filter.value / 2), Stride=1, Padding='causal', DilationFactor=2, WeightsInitializer='he')
-            leakyReluLayer()
-            maxPooling2dLayer(1, Name='Maxpool2')
-            convolution2dLayer(5, options.hyperparameters.model.filter.value, Stride=1, Padding='causal', DilationFactor=4, WeightsInitializer='he')
-            leakyReluLayer()
-            maxPooling2dLayer(1, Name='Maxpool3')
-
-            sequenceUnfoldingLayer(Name='Unfold')
-            flattenLayer()
-            fullyConnectedLayer(numResponses)
-            leakyReluLayer()
-            regressionLayer(Name='Output')
-            ];
-        layers = layerGraph(layers);
         layers = connectLayers(layers, 'Fold/miniBatchSize', 'Unfold/miniBatchSize');
     case 'MLP'
         layers = [

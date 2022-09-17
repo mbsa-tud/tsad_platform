@@ -389,48 +389,6 @@
         {
             "options": {
                 "type": "DNN",
-                "model": "WaveNet",
-                "modelType": "Predictive",
-                "dataType": 3,
-                "label": "WaveNet  (1)",
-                "id": "WaveNet_1",
-                "hyperparameters": {
-                    "model": {
-                        "filter": {
-                            "value": 32,
-                            "type": "integer"
-                        }
-                    },
-                    "data": {
-                        "windowSize": {
-                            "value": 100,
-                            "type": "integer"
-                        },
-                        "stepSize": {
-                            "value": 1,
-                            "type": "integer"
-                        }
-                    },
-                    "training": {
-                        "epochs": {
-                            "value": 50,
-                            "type": "integer"
-                        },
-                        "minibatchSize": {
-                            "value": 64,
-                            "type": "integer"
-                        },
-                         "ratioTrainVal": {
-                            "value": 1,
-                            "type": "real"
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "options": {
-                "type": "DNN",
                 "model": "MLP",
                 "modelType": "Predictive",
                 "dataType": 1,
