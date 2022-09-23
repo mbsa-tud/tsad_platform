@@ -8,6 +8,7 @@
                 "dataType": 1,
                 "label": "FC AE  (1)",
                 "id": "FC_AE_1",
+                "trainOnAnomalousData": false,
                 "hyperparameters": {
                     "model": {
                         "neurons": {
@@ -45,11 +46,12 @@
         {
             "options": {
                 "type": "DNN",
-                "model": "LSTM AE",
+                "model": "LSTM (r)",
                 "modelType": "Reconstructive",
                 "dataType": 2,
-                "label": "LSTM AE  (1)",
-                "id": "LSTM_AE_1",
+                "label": "LSTM (r)  (1)",
+                "id": "LSTM_r_1",
+                "trainOnAnomalousData": false,
                 "hyperparameters": {
                     "model": {
                         "hiddenUnits": {
@@ -87,11 +89,12 @@
         {
             "options": {
                 "type": "DNN",
-                "model": "Hybrid CNN-LSTM AE",
+                "model": "Hybrid CNN-LSTM (r)",
                 "modelType": "Reconstructive",
                 "dataType": 2,
-                "label": "Hybrid CNN-LSTM AE  (1)",
-                "id": "Hybrid_CNN_LSTM_AE_1",
+                "label": "Hybrid CNN-LSTM (r)  (1)",
+                "id": "Hybrid_CNN_LSTM_r_1",
+                "trainOnAnomalousData": false,
                 "hyperparameters": {
                     "model": {
                         "hiddenUnits": {
@@ -138,6 +141,7 @@
                 "dataType": 2,
                 "label": "TCN AE  (1)",
                 "id": "TCN_AE_1",
+                "trainOnAnomalousData": false,
                 "hyperparameters": {
                     "model": {
                         "filter": {
@@ -180,6 +184,7 @@
                 "dataType": 2,
                 "label": "LSTM  (1)",
                 "id": "LSTM_1",
+                "trainOnAnomalousData": false,
                 "hyperparameters": {
                     "model": {
                         "hiddenUnits": {
@@ -222,6 +227,7 @@
                 "dataType": 2,
                 "label": "Hybrid CNN-LSTM  (1)",
                 "id": "Hybrid_CNN_LSTM_1",
+                "trainOnAnomalousData": false,
                 "hyperparameters": {
                     "model": {
                         "hiddenUnits": {
@@ -268,6 +274,7 @@
                 "dataType": 2,
                 "label": "GRU  (1)",
                 "id": "GRU_1",
+                "trainOnAnomalousData": false,
                 "hyperparameters": {
                     "model": {
                         "hiddenUnits": {
@@ -310,6 +317,7 @@
                 "dataType": 3,
                 "label": "CNN (DeepAnT)  (1)",
                 "id": "CNN_DeepAnT_1",
+                "trainOnAnomalousData": false,
                 "hyperparameters": {
                     "model": {
                         "filter": {
@@ -352,6 +360,7 @@
                 "dataType": 3,
                 "label": "ResNet  (1)",
                 "id": "ResNet_1",
+                "trainOnAnomalousData": false,
                 "hyperparameters": {
                     "model": {
                         "filter": {
@@ -394,6 +403,7 @@
                 "dataType": 1,
                 "label": "MLP  (1)",
                 "id": "MLP_1",
+                "trainOnAnomalousData": false,
                 "hyperparameters": {
                     "model": {
                         "neurons": {
@@ -436,6 +446,7 @@
                 "model": "iForest",
                 "label": "iForest  (1)",
                 "id": "iForest_1",
+                "trainOnAnomalousData": true,
                 "hyperparameters": {
                     "model": {
                         "numLearners": {
@@ -462,6 +473,7 @@
                 "model": "OC-SVM",
                 "label": "OC-SVM  (1)",
                 "id": "OC_SVM_1",
+                "trainOnAnomalousData": false,
                 "hyperparameters": {
                     "training": {
                          "ratioTrainVal": {
@@ -478,6 +490,7 @@
                 "model": "ABOD",
                 "label": "ABOD  (1)",
                 "id": "ABOD_1",
+                "trainOnAnomalousData": false,
                 "hyperparameters": {
                     "training": {
                          "ratioTrainVal": {
@@ -494,6 +507,7 @@
                 "model": "LOF",
                 "label": "LOF  (1)",
                 "id": "LOF_1",
+                "trainOnAnomalousData": false,
                 "hyperparameters": {
                     "training": {
                          "ratioTrainVal": {
@@ -510,6 +524,7 @@
                 "model": "LDOF",
                 "label": "LDOF  (1)",
                 "id": "LDOF_1",
+                "trainOnAnomalousData": false,
                 "hyperparameters": {
                     "model": {
                         "knn": {
@@ -532,6 +547,7 @@
                 "model": "Merlin",
                 "label": "Merlin  (1)",
                 "id": "Merlin_1",
+                "trainOnAnomalousData": false,
                 "hyperparameters": {
                     "model": {
                         "minL": {
@@ -560,6 +576,7 @@
                 "model": "Grubbs test",
                 "label": "Grubbs test  (1)",
                 "id": "Grubbs_test_1",
+                "trainOnAnomalousData": false,
                 "hyperparameters": {
                     "model": {
                         "alpha": {
@@ -582,6 +599,7 @@
                 "model": "OD_wpca",
                 "label": "OD_wpca  (1)",
                 "id": "OD_wpca_1",
+                "trainOnAnomalousData": false,
                 "hyperparameters": {
                     "model": {
                         "ratioOversample": {

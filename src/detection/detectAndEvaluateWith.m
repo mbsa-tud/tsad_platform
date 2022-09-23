@@ -37,9 +37,9 @@ switch model.options.type
     case 'CML'
         Mdl = model.Mdl;
         
-        [XTest, labels] = prepareDataTest_CML(options, testingData, testingLabels);
+        [XTest, YTest, labels] = prepareDataTest_CML(options, testingData, testingLabels);
         
-        [anomalyScores, ~, labels] = detectWithCML(options, Mdl, XTest, labels);
+        [anomalyScores, YTest, labels] = detectWithCML(options, Mdl, XTest, YTest, labels);
         
         staticThreshold = model.staticThreshold;
 
@@ -59,7 +59,7 @@ switch model.options.type
             scoresPointAdjustedStatic, scoresCompositeStatic] = calcScores(anomsStatic, labels);
         
         padding = 3;
-        windowSize = floor(size(XTest, 1) / 2);           
+        windowSize = floor(size(YTest, 1) / 2);           
         z_range = 1:2;
         min_percent = 1;
         
@@ -71,9 +71,9 @@ switch model.options.type
     case 'S'
         Mdl = model.Mdl;
         
-        [XTest, labels] = prepareDataTest_S(options, testingData, testingLabels);
+        [XTest, YTest, labels] = prepareDataTest_S(options, testingData, testingLabels);
         
-        [anomalyScores, ~, labels] = detectWithS(options, Mdl, XTest, labels);
+        [anomalyScores, YTest, labels] = detectWithS(options, Mdl, XTest, YTest, labels);
         
         staticThreshold = model.staticThreshold;
 
@@ -93,7 +93,7 @@ switch model.options.type
             scoresPointAdjustedStatic, scoresCompositeStatic] = calcScores(anomsStatic, labels);
         
         padding = 3;
-        windowSize = floor(size(XTest, 1) / 2);           
+        windowSize = floor(size(YTest, 1) / 2);           
         z_range = 1:2;
         min_percent = 1;
         

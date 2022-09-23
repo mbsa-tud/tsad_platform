@@ -9,7 +9,7 @@
             "type": "integer"
         }
     },
-    "LSTM_AE": {
+    "LSTM_r": {
         "hiddenUnits": {
             "value": [8, 128],
             "type": "integer"
@@ -19,7 +19,7 @@
             "type": "integer"
         }
     },
-    "Hybrid_CNN_LSTM_AE": {
+    "Hybrid_CNN_LSTM_r": {
         "hiddenUnits": {
             "value": [8, 128],
             "type": "integer"
@@ -108,28 +108,8 @@
         }
     },
     "iForest": {
-        "numLearners": {
-            "value": [1, 100],
-            "type": "integer"
-        },
-        "numObservationsPerLearner": {
-            "value": [1, 200],
-            "type": "integer"
-        }
-    },
-    "iForest_Outliers": {
-        "numLearners": {
-            "value": [1, 100],
-            "type": "integer"
-        },
-        "numObservationsPerLearner": {
-            "value": [1, 200],
-            "type": "integer"
-        }
     },
     "OC_SVM": {
-    },
-    "OC_SVM_Outliers": {
     },
     "ABOD": {
     },
@@ -141,13 +121,7 @@
             "type": "integer"
         }
     },
-    "OD_wpca": {
-        "ratioOversample": {
-            "value": [0, 1],
-            "type": "real"
-        }
-    },
-    "Merlin": {
+        "Merlin": {
         "minL": {
             "value": [10, 200],
             "type": "integer"
@@ -155,6 +129,12 @@
         "maxL": {
             "value": [20, 400],
             "type": "integer"
+        }
+    },
+    "OD_wpca": {
+        "ratioOversample": {
+            "value": [0, 1],
+            "type": "real"
         }
     },
     "Grubbs_test": {

@@ -1,8 +1,12 @@
 function trainedModels_S = trainModels_S(models, trainingData, testValData, testValLabels, thresholds)
 for i = 1:length(models)
     options = models(i).options;
-    
-    [XTrain, XVal] = prepareDataTrain_S(options, trainingData);
+
+    if ~options.trainOnAnomalousData
+        [XTrain, XVal] = prepareDataTrain_S(options, trainingData);
+    else
+        [XTrain, XVal] = prepareDataTrain_S(options, testValData);
+    end
 
     Mdl = trainS(options, XTrain);
 

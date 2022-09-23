@@ -19,7 +19,7 @@ switch options.model
                 'ValidationFrequency', floor(numWindows / (3 * options.hyperparameters.training.minibatchSize.value)), ...
                 'OutputFcn', @(info) send(dataqueue, struct('experimentNumber', idx, 'info', info)));
         end
-    case 'LSTM AE'
+    case 'LSTM (r)'
         learningRate = 0.001;
         if options.hyperparameters.training.ratioTrainVal.value == 1
             trainOptions = trainingOptions('adam', ...
@@ -38,7 +38,7 @@ switch options.model
                 'ValidationFrequency', floor(numWindows / (3 * options.hyperparameters.training.minibatchSize.value)), ...
                 'OutputFcn', @(info) send(dataqueue, struct('experimentNumber', idx, 'info', info)));
         end
-    case 'Hybrid CNN-LSTM AE'
+    case 'Hybrid CNN-LSTM (r)'
         learningRate = 0.001;
         if options.hyperparameters.training.ratioTrainVal.value == 1
             trainOptions = trainingOptions('adam', ...

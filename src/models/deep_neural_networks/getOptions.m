@@ -27,7 +27,7 @@ switch options.model
                 'Shuffle', "every-epoch",...
                 "ValidationFrequency", floor(numWindows / (3 * options.hyperparameters.training.minibatchSize.value)));
         end
-    case 'LSTM AE'
+    case 'LSTM (r)'
         learningRate = 0.001;
         if options.hyperparameters.training.ratioTrainVal.value == 1
             learningRate = 0.001;
@@ -49,7 +49,7 @@ switch options.model
                 'Shuffle', "every-epoch",...
                 "ValidationFrequency", floor(numWindows / (3 * options.hyperparameters.training.minibatchSize.value)));
         end
-    case 'Hybrid CNN-LSTM AE'            
+    case 'Hybrid CNN-LSTM (r)'            
         learningRate = 0.001;                    
         if options.hyperparameters.training.ratioTrainVal.value == 1
             trainOptions = trainingOptions('adam', ...

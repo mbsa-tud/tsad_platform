@@ -14,8 +14,12 @@ end
 labels_pred = any(labels_pred_tmp, 2);
 
 % This commented section was just for testing plots, DON'T UNCOMMENT!
-% labels_pred(:) = 1;
-% labels_pred(310) = 0;
+% labels_pred(:) = 0;
+% labels_pred(1250) = 1;
+% labels_pred(1750) = 1;
+% labels_pred(2000) = 1;
+% labels_pred(2200) = 1;
+% labels_pred(2300) = 1;
 % f = figure;
 % f.Position = [100 100 1000 200];
 % 

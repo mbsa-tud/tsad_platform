@@ -1,9 +1,13 @@
 function trainedModels_CML = trainModels_CML(models, trainingData, testValData, testValLabels, thresholds)
 for i = 1:length(models)    
     options = models(i).options;
-    
-    [XTrain, XVal] = prepareDataTrain_CML(options, trainingData);
 
+    if ~options.trainOnAnomalousData
+        [XTrain, XVal] = prepareDataTrain_CML(options, trainingData);
+    else
+        [XTrain, XVal] = prepareDataTrain_CML(options, testValData);
+    end
+    
     Mdl = trainCML(options, XTrain);
 
     [staticThreshold, pd] = getStaticThreshold_CML(options, Mdl, XTrain, XVal, testValData, testValLabels, thresholds);

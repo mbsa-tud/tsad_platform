@@ -1,4 +1,4 @@
-function [anomalyScores, XTest, labels] = detectWithCML(options, Mdl, XTest, labels)
+function [anomalyScores, YTest, labels] = detectWithCML(options, Mdl, XTest, YTest, labels)
 % Fraction of outliers
 if ~isempty(labels)
     numOfAnoms = sum(labels == 1);
@@ -8,20 +8,17 @@ else
 end
 
 switch options.model
+    case 'iForest'
+        [~, anomalyScores] = isanomaly(Mdl, XTest);
     case 'OC-SVM'
         [~, anomalyScores] = predict(Mdl, XTest);
         anomalyScores = gnegate(anomalyScores);
         minScore = min(anomalyScores);
         anomalyScores = (anomalyScores - minScore) / (max(anomalyScores) - minScore);
-    case 'iForest'
-        rng('default');
-        [~, ~, anomalyScores] = iforest(XTest, ContaminationFraction=contaminationFraction, ...
-            NumLearner=options.hyperparameters.model.numLearners.value, ...
-            NumObservationsPerLearner=options.hyperparameters.model.numObservationsPerLearner.value);
     case 'ABOD'
         [~, anomalyScores] = ABOD(XTest);
     case 'LOF'
-        [~, anomalyScores] = LOF(XTest, 100);
+        [~, anomalyScores] = LOF(XTest, 100);        
     case 'Merlin'
         numAnoms = 0;
         i = 1;
@@ -49,9 +46,14 @@ switch options.model
         else
             anomalyScores = zeros(size(XTest, 1), 1);
         end
+        anomalyScores = double(anomalyScores);
+        return;
     case 'LDOF'
         anomalyScores = LDOF(XTest, options.hyperparameters.model.knn.value);
 end
 
-anomalyScores = double(anomalyScores);
+anomalyScores = repmat(anomalyScores, 1, options.hyperparameters.data.windowSize.value);
+anomalyScores = reshapeReconstructivePrediction(anomalyScores, options.hyperparameters.data.windowSize.value);
+labels = labels(1:(end - options.hyperparameters.data.windowSize.value), 1);
+YTest = YTest(1:(end - options.hyperparameters.data.windowSize.value), 1);
 end

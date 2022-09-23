@@ -226,9 +226,9 @@ if ~isempty(models_CML)
         for dataIdx = 1:length(filesTestingData)            
             Mdl = trainedModel.Mdl;
 
-            [XTest, labels] = prepareDataTest_CML(options, preprocessedTestingData(dataIdx, 1), labelsTestingData(dataIdx, 1));
+            [XTest, YTest, labels] = prepareDataTest_CML(options, preprocessedTestingData(dataIdx, 1), labelsTestingData(dataIdx, 1));
 
-            [anomalyScores, ~, labels] = detectWithCML(options, Mdl, XTest, labels);
+            [anomalyScores, YTest, labels] = detectWithCML(options, Mdl, XTest, YTest, labels);
 
             staticThreshold = trainedModel.staticThreshold;
             
@@ -280,7 +280,7 @@ if ~isempty(models_CML)
                 else
                     % Dynamic threshold
                     padding = 3;
-                    windowSize = floor(size(XTest, 1) / 2);           
+                    windowSize = floor(size(YTest, 1) / 2);           
                     z_range = 1:2;
                     min_percent = 1;
             
@@ -324,9 +324,9 @@ if ~isempty(models_S)
         for dataIdx = 1:length(filesTestingData)            
             Mdl = trainedModel.Mdl;
 
-            [XTest, labels] = prepareDataTest_S(options, preprocessedTestingData(dataIdx, 1), labelsTestingData(dataIdx, 1));
+            [XTest, YTest, labels] = prepareDataTest_S(options, preprocessedTestingData(dataIdx, 1), labelsTestingData(dataIdx, 1));
 
-            [anomalyScores, ~, labels] = detectWithS(options, Mdl, XTest, labels);
+            [anomalyScores, YTest, labels] = detectWithS(options, Mdl, XTest, YTest, labels);
 
             staticThreshold = trainedModel.staticThreshold;
             
@@ -378,7 +378,7 @@ if ~isempty(models_S)
                 else
                     % Dynamic threshold
                     padding = 3;
-                    windowSize = floor(size(XTest, 1) / 2);           
+                    windowSize = floor(size(YTest, 1) / 2);           
                     z_range = 1:2;
                     min_percent = 1;
             

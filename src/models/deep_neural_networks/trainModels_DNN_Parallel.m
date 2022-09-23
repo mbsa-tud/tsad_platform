@@ -9,7 +9,11 @@ YValCell = cell(1, numNetworks);
 for i = 1:numNetworks
     options = models(i).options;
 
-    [XTrain, YTrain, XVal, YVal] = prepareDataTrain_DNN(options, trainingData, trainingLabels);
+    if ~options.trainOnAnomalousData
+        [XTrain, YTrain, XVal, YVal] = prepareDataTrain_DNN(options, trainingData, trainingLabels);
+    else
+        [XTrain, YTrain, XVal, YVal] = prepareDataTrain_DNN(options, testValData, testValLabels);
+    end
 
     XTrainCell{i} = XTrain{1};
     YTrainCell{i} = YTrain{1};

@@ -17,7 +17,7 @@ switch options.model
             leakyReluLayer()
             regressionLayer(Name='Output')];
         layers = layerGraph(layers);
-    case 'LSTM AE'
+    case 'LSTM (r)'
         layers = [
             sequenceInputLayer(numFeatures, MinLength=options.hyperparameters.data.windowSize.value)
             lstmLayer(options.hyperparameters.model.hiddenUnits.value)
@@ -26,7 +26,7 @@ switch options.model
             fullyConnectedLayer(numResponses)
             regressionLayer];
         layers = layerGraph(layers);
-    case 'Hybrid CNN-LSTM AE'
+    case 'Hybrid CNN-LSTM (r)'
         layers = [...
             sequenceInputLayer(numFeatures, MinLength=options.hyperparameters.data.windowSize.value)
             convolution1dLayer(5, options.hyperparameters.model.filter.value, Padding='same', WeightsInitializer='he', DilationFactor=1)
@@ -125,7 +125,6 @@ switch options.model
             fullyConnectedLayer(32)
             leakyReluLayer()
             fullyConnectedLayer(numResponses)
-            leakyReluLayer()
             regressionLayer(Name='Output')
             ];
         layers = layerGraph(layers);
@@ -137,6 +136,7 @@ switch options.model
 
             convolution2dLayer(5, options.hyperparameters.model.filter.value, Stride=1, Padding='same', WeightsInitializer='he')
             leakyReluLayer(Name='ReLU 1')
+
             convolution2dLayer(5, options.hyperparameters.model.filter.value, Stride=1, Padding='same', WeightsInitializer='he')
             batchNormalizationLayer()
             leakyReluLayer()
@@ -147,8 +147,9 @@ switch options.model
 
             sequenceUnfoldingLayer(Name='Unfold')
             flattenLayer()
-            fullyConnectedLayer(numResponses)
+            fullyConnectedLayer(32)
             leakyReluLayer()
+            fullyConnectedLayer(numResponses)
             regressionLayer(Name='Output')
             ];
         layers = layerGraph(layers);
@@ -164,7 +165,6 @@ switch options.model
             fullyConnectedLayer(floor(options.hyperparameters.model.neurons.value / 4))
             leakyReluLayer()
             fullyConnectedLayer(numResponses)
-            leakyReluLayer()
             regressionLayer(Name='Output')
             ];
         layers = layerGraph(layers);

@@ -1,4 +1,4 @@
-function [XTest, labels] = prepareDataTest_S(options, testingData, testingLabels)
+function [XTest, YTest, labels] = prepareDataTest_S(options, testingData, testingLabels)
 % PREPAREDATATEST_S % prepare S data for testing
 %
 % Description: prepare data for testing Statistical models
@@ -13,7 +13,10 @@ function [XTest, labels] = prepareDataTest_S(options, testingData, testingLabels
 switch options.model
     case 'Your model'
     otherwise
-        XTest = cell2mat(testingData);
-        labels = cell2mat(testingLabels);
+        [XTest, ~, labels] = splitDataTest(testingData, testingLabels, ...
+            options.hyperparameters.data.windowSize.value, ...
+            'Predictive', 1);
+        XTest = cell2mat(XTest);
+        YTest = XTest(:, end);
 end
 end

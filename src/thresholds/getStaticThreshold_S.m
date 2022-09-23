@@ -5,13 +5,14 @@ switch options.model
     otherwise
         if ~isempty(testValData)
             XTestValCell = cell(size(testValData, 1), 1);
+            YTestValCell = cell(size(testValData, 1), 1);
             labelsTestValCell = cell(size(testValData, 1), 1);
             
             numAnoms = 0;
             numTimeSteps = 0;
 
             for i = 1:size(testValData, 1)
-                [XTestValCell{i, 1}, labelsTestValCell{i, 1}] = prepareDataTest_S(options, testValData(i, 1), testValLabels(i, 1));
+                [XTestValCell{i, 1}, YTestValCell{i, 1}, labelsTestValCell{i, 1}] = prepareDataTest_S(options, testValData(i, 1), testValLabels(i, 1));
                 
                 numAnoms = numAnoms + sum(labelsTestValCell{end} == 1);
                 numTimeSteps = numTimeSteps + size(labelsTestValCell{end}, 1);
@@ -24,12 +25,10 @@ switch options.model
                 labelsTestVal = [];
 
                 for i = 1:size(XTestValCell, 1)
-                    [anomalyScores_tmp, ~, labelsTestVal_tmp] = detectWithS(options, Mdl, XTestValCell{i, 1}, labelsTestValCell{i, 1});
+                    [anomalyScores_tmp, ~, labelsTestVal_tmp] = detectWithS(options, Mdl, XTestValCell{i, 1}, YTestValCell{i, 1}, labelsTestValCell{i, 1});
                     anomalyScores = [anomalyScores; anomalyScores_tmp];
                     labelsTestVal = [labelsTestVal; labelsTestVal_tmp];
                 end
-
-                
                 
                 if ismember("bestFscorePointwise", thresholds) || ismember("all", thresholds)
                     thr = computeBestFscoreThreshold(anomalyScores, labelsTestVal, 0, 0, 'point-wise');
@@ -75,7 +74,7 @@ switch options.model
                         staticThreshold.topK = 0;
                     end
                 end
-                
+
                 if any(ismember(thresholds, ["bestFscorePointwiseGauss", "bestFscoreEventwiseGauss", ...
                         "bestFscorePointAdjustedGauss", "bestFscoreCompositeGauss", "topKGauss"])) ...
                         && ~any(ismember(thresholds, ["bestFscorePointwise", "bestFscoreEventwise", ...
@@ -138,11 +137,11 @@ switch options.model
                             staticThreshold.topKGauss = 0;
                         end
                     end
-                end     
+                end 
             end
         end
         if ismember("meanStd", thresholds) || ismember("all", thresholds)
-            [anomalyScores, ~, ~] = detectWithS(options, Mdl, XTrain, zeros(size(XTrain, 1), 1));
+            [anomalyScores, ~, ~] = detectWithS(options, Mdl, XTrain, zeros(size(XTrain, 1), 1), zeros(size(XTrain, 1), 1));
             staticThreshold.meanStd = mean(anomalyScores) + 4 * std(anomalyScores);
         end
 end
