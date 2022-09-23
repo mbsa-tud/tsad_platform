@@ -1,8 +1,8 @@
-function thr = computeBestFscoreThreshold(anomalyScores, labels, useGaussianScores, pd, type)
+function thr = computeBestFscoreThreshold(anomalyScores, labels, useParametric, pd, type)
 beta = 1;
 numChannels = size(anomalyScores, 2);
 
-if useGaussianScores == 1
+if useParametric == 1
     anomalyScores_old = anomalyScores;
     anomalyScores = pdf(pd, anomalyScores);
 end 
@@ -22,7 +22,7 @@ else
     end
 end
 
-if useGaussianScores == 0
+if useParametric == 0
     for i = 1:numOfTimesteps
         labels_tmp = logical([]);
         for j = 1:numChannels
@@ -130,11 +130,11 @@ end
 
 thr = threshMax(p);
 
-% if useGauss == 1
-%     try
-%         thr = anomalyScores_old(find(anomalyScores == thr, 1));
-%     catch
-%         thr = NaN;
-%     end
-% end
+if useParametric == 1
+    try
+        thr = anomalyScores_old(find(anomalyScores == thr, 1));
+    catch
+        thr = NaN;
+    end
+end
 end

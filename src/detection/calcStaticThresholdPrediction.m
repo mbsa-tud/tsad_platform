@@ -4,12 +4,7 @@ numChannels = size(anomalyScores, 2);
 
 
 for j = 1:numChannels
-    if useGaussianScores
-        anomalyScores = pdf(pd, anomalyScores);
-        labels_pred_tmp(:, j) = anomalyScores(:, j) < staticThreshold;
-    else
-        labels_pred_tmp(:, j) = anomalyScores(:, j) > staticThreshold;
-    end
+    labels_pred_tmp(:, j) = anomalyScores(:, j) > staticThreshold;
 end
 labels_pred = any(labels_pred_tmp, 2);
 

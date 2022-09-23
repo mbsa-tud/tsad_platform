@@ -76,66 +76,56 @@ switch options.model
                     end
                 end
 
-                if any(ismember(thresholds, ["bestFscorePointwiseGauss", "bestFscoreEventwiseGauss", ...
-                        "bestFscorePointAdjustedGauss", "bestFscoreCompositeGauss", "topKGauss"])) ...
+                if any(ismember(thresholds, ["bestFscorePointwiseParametric", "bestFscoreEventwiseParametric", ...
+                        "bestFscorePointAdjustedParametric", "bestFscoreCompositeParametric", "topKParametric"])) ...
                         && ~any(ismember(thresholds, ["bestFscorePointwise", "bestFscoreEventwise", ...
                         "bestFscorePointAdjusted", "bestFscoreComposite", "topK", "meanStd"])) ...
                         && options.hyperparameters.training.ratioTrainVal.value == 1
-                    error("To compute Gauss static thresholds, validation data is needed!");
+                    error("To compute Parametric static thresholds, validation data is needed!");
                 end
-                if any(ismember(thresholds, ["bestFscorePointwiseGauss", "bestFscoreEventwiseGauss", ...
-                        "bestFscorePointAdjustedGauss", "bestFscoreCompositeGauss", "topKGauss"])) ...
+                if any(ismember(thresholds, ["bestFscorePointwiseParametric", "bestFscoreEventwiseParametric", ...
+                        "bestFscorePointAdjustedParametric", "bestFscoreCompositeParametric", "topKParametric"])) ...
                         && options.hyperparameters.training.ratioTrainVal.value == 1
-                    disp("Warning! You selected thresholds for gaussian anomaly scoring but didn't use any validation data.");
+                    disp("Warning! You selected a parametric static threshold but didn't use any validation data.");
                 end
 
                 if options.hyperparameters.training.ratioTrainVal.value ~= 1    
                     [anomalyScoresVal, ~, ~] = detectWithCML(options, Mdl, XVal, []);
                     pd = fitdist(anomalyScoresVal, "Normal");
 
-                    if ismember("bestFscorePointwiseGauss", thresholds) || ismember("all", thresholds)
+                    if ismember("bestFscorePointwiseParametric", thresholds) || ismember("all", thresholds)
                         thr = computeBestFscoreThreshold(anomalyScores, labelsTestVal, 1, pd, 'point-wise');
                         if ~isnan(thr)
-                            staticThreshold.bestFscorePointwiseGauss = thr;
+                            staticThreshold.bestFscorePointwiseParametric = thr;
                         else
-                            staticThreshold.bestFscorePointwiseGauss = 0;
+                            staticThreshold.bestFscorePointwiseParametric = 0;
                         end
                     end
     
-                    if ismember("bestFscoreEventwiseGauss", thresholds) || ismember("all", thresholds)
+                    if ismember("bestFscoreEventwiseParametric", thresholds) || ismember("all", thresholds)
                         thr = computeBestFscoreThreshold(anomalyScores, labelsTestVal, 1, pd, 'event-wise');
                         if ~isnan(thr)
-                            staticThreshold.bestFscoreEventwiseGauss = thr;
+                            staticThreshold.bestFscoreEventwiseParametric = thr;
                         else
-                            staticThreshold.bestFscoreEventwiseGauss = 0;
+                            staticThreshold.bestFscoreEventwiseParametric = 0;
                         end
                     end
                     
-                    if ismember("bestFscorePointAdjustedGauss", thresholds) || ismember("all", thresholds)
+                    if ismember("bestFscorePointAdjustedParametric", thresholds) || ismember("all", thresholds)
                         thr = computeBestFscoreThreshold(anomalyScores, labelsTestVal, 1, pd, 'point-adjusted');
                         if ~isnan(thr)
-                            staticThreshold.bestFscorePointAdjustedGauss = thr;
+                            staticThreshold.bestFscorePointAdjustedParametric = thr;
                         else
-                            staticThreshold.bestFscorePointAdjustedGauss = 0;
+                            staticThreshold.bestFscorePointAdjustedParametric = 0;
                         end
                     end
                     
-                    if ismember("bestFscoreCompositeGauss", thresholds) || ismember("all", thresholds)
+                    if ismember("bestFscoreCompositeParametric", thresholds) || ismember("all", thresholds)
                         thr = computeBestFscoreThreshold(anomalyScores, labelsTestVal, 1, pd, 'composite');
                         if ~isnan(thr)
-                            staticThreshold.bestFscoreCompositeGauss = thr;
+                            staticThreshold.bestFscoreCompositeParametric = thr;
                         else
-                            staticThreshold.bestFscoreCompositeGauss = 0;
-                        end
-                    end
-
-                    if ismember("topKGauss", thresholds) || ismember("all", thresholds) && ~isMultivariate
-                        anomalyScores = pdf(pd, anomalyScores);
-                        thr = quantile(anomalyScores, contaminationFraction);
-                        if ~isnan(thr)
-                            staticThreshold.topKGauss = thr;
-                        else
-                            staticThreshold.topKGauss = 0;
+                            staticThreshold.bestFscoreCompositeParametric = 0;
                         end
                     end
                 end 

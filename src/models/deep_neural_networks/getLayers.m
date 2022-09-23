@@ -51,10 +51,10 @@ switch options.model
             leakyReluLayer()
             dropoutLayer(0.25)
 
-            convolution1dLayer(1, 8, Padding='same')
+            convolution1dLayer(1, numFeatures, Padding='same')
             averagePooling1dLayer(4, Stride=4)
             
-            transposedConv1dLayer(4, 8, Stride=4)
+            transposedConv1dLayer(4, numFeatures, Stride=4)
             convolution1dLayer(5, options.hyperparameters.model.filter.value, Stride=1, Padding='causal', WeightsInitializer='he', DilationFactor=1)
             leakyReluLayer()
             dropoutLayer(0.25)
