@@ -1,7 +1,11 @@
 function scoresCell = fitAndEvaluateModel_S(options, trainingData, trainingLabels, testValData, testValLabels, testingData, testingLabels, thresholds)
 scoresCell = cell(size(testingData, 1), 1);
 
-[XTrain, XVal] = prepareDataTrain_S(options, trainingData);
+if ~options.trainOnAnomalousData
+    [XTrain, XVal] = prepareDataTrain_S(options, trainingData);
+else
+    [XTrain, XVal] = prepareDataTrain_S(options, testValData);
+end
 
 Mdl = trainS(options, XTrain);
 
@@ -11,8 +15,8 @@ fields = fieldnames(staticThreshold);
 selectedThreshold = staticThreshold.(fields{1});
 
 for dataIdx = 1:size(testingData, 1)
-    [XTest, labels] = prepareDataTest_S(options, testingData(dataIdx, 1), testingLabels(dataIdx, 1));
-    [anomalyScores, ~, labels] = detectWithS(options, Mdl, XTest, labels);
+    [XTest, YTest, labels] = prepareDataTest_S(options, testingData(dataIdx, 1), testingLabels(dataIdx, 1));
+    [anomalyScores, ~, labels] = detectWithS(options, Mdl, XTest, YTest, labels);
     
     labels_pred = calcStaticThresholdPrediction(anomalyScores, selectedThreshold, 0, false);
     [scoresPointwise, scoresEventwise, scoresPointAdjusted, scoresComposite] = calcScores(labels_pred, labels);

@@ -49,7 +49,7 @@ switch options.model
         anomalyScores = double(anomalyScores);
         return;
     case 'LDOF'
-        anomalyScores = LDOF(XTest, options.hyperparameters.model.knn.value);
+        anomalyScores = LDOF(XTest, 20);
 end
 
 anomalyScores = repmat(anomalyScores, 1, options.hyperparameters.data.windowSize.value);

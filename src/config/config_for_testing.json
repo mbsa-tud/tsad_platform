@@ -1,0 +1,552 @@
+{
+    "DNN_Models": [
+        {
+            "options": {
+                "type": "DNN",
+                "model": "FC AE",
+                "modelType": "Reconstructive",
+                "dataType": 1,
+                "label": "FC AE  (1)",
+                "id": "FC_AE_1",
+                "trainOnAnomalousData": false,
+                "hyperparameters": {
+                    "model": {
+                        "neurons": {
+                            "value": 32,
+                            "type": "integer"
+                        }
+                    },
+                    "data": {
+                        "windowSize": {
+                            "value": 60,
+                            "type": "integer"
+                        },
+                        "stepSize": {
+                            "value": 1,
+                            "type": "integer"
+                        }
+                    },
+                    "training": {
+                        "epochs": {
+                            "value": 50,
+                            "type": "integer"
+                        },
+                        "minibatchSize": {
+                            "value": 64,
+                            "type": "integer"
+                        },
+                         "ratioTrainVal": {
+                            "value": 1,
+                            "type": "real"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "options": {
+                "type": "DNN",
+                "model": "LSTM (r)",
+                "modelType": "Reconstructive",
+                "dataType": 2,
+                "label": "LSTM (r)  (1)",
+                "id": "LSTM_r_1",
+                "trainOnAnomalousData": false,
+                "hyperparameters": {
+                    "model": {
+                        "hiddenUnits": {
+                            "value": 64,
+                            "type": "integer"
+                        }
+                    },
+                    "data": {
+                        "windowSize": {
+                            "value": 60,
+                            "type": "integer"
+                        },
+                        "stepSize": {
+                            "value": 1,
+                            "type": "integer"
+                        }
+                    },
+                    "training": {
+                        "epochs": {
+                            "value": 50,
+                            "type": "integer"
+                        },
+                        "minibatchSize": {
+                            "value": 64,
+                            "type": "integer"
+                        },
+                         "ratioTrainVal": {
+                            "value": 1,
+                            "type": "real"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "options": {
+                "type": "DNN",
+                "model": "Hybrid CNN-LSTM (r)",
+                "modelType": "Reconstructive",
+                "dataType": 2,
+                "label": "Hybrid CNN-LSTM (r)  (1)",
+                "id": "Hybrid_CNN_LSTM_r_1",
+                "trainOnAnomalousData": false,
+                "hyperparameters": {
+                    "model": {
+                        "hiddenUnits": {
+                            "value": 64,
+                            "type": "integer"
+                        },
+                        "filter": {
+                            "value": 32,
+                            "type": "integer"
+                        }
+                    },
+                    "data": {
+                        "windowSize": {
+                            "value": 60,
+                            "type": "integer"
+                        },
+                        "stepSize": {
+                            "value": 1,
+                            "type": "integer"
+                        }
+                    },
+                    "training": {
+                        "epochs": {
+                            "value": 50,
+                            "type": "integer"
+                        },
+                        "minibatchSize": {
+                            "value": 64,
+                            "type": "integer"
+                        },
+                         "ratioTrainVal": {
+                            "value": 1,
+                            "type": "real"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "options": {
+                "type": "DNN",
+                "model": "TCN AE",
+                "modelType": "Reconstructive",
+                "dataType": 2,
+                "label": "TCN AE  (1)",
+                "id": "TCN_AE_1",
+                "trainOnAnomalousData": false,
+                "hyperparameters": {
+                    "model": {
+                        "filter": {
+                            "value": 32,
+                            "type": "integer"
+                        }
+                    },
+                    "data": {
+                        "windowSize": {
+                            "value": 60,
+                            "type": "integer"
+                        },
+                        "stepSize": {
+                            "value": 1,
+                            "type": "integer"
+                        }
+                    },
+                    "training": {
+                        "epochs": {
+                            "value": 50,
+                            "type": "integer"
+                        },
+                        "minibatchSize": {
+                            "value": 64,
+                            "type": "integer"
+                        },
+                         "ratioTrainVal": {
+                            "value": 1,
+                            "type": "real"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "options": {
+                "type": "DNN",
+                "model": "LSTM",
+                "modelType": "Predictive",
+                "dataType": 2,
+                "label": "LSTM  (1)",
+                "id": "LSTM_1",
+                "trainOnAnomalousData": false,
+                "hyperparameters": {
+                    "model": {
+                        "hiddenUnits": {
+                            "value": 64,
+                            "type": "integer"
+                        }
+                    },
+                    "data": {
+                        "windowSize": {
+                            "value": 60,
+                            "type": "integer"
+                        },
+                        "stepSize": {
+                            "value": 1,
+                            "type": "integer"
+                        }
+                    },
+                    "training": {
+                        "epochs": {
+                            "value": 50,
+                            "type": "integer"
+                        },
+                        "minibatchSize": {
+                            "value": 64,
+                            "type": "integer"
+                        },
+                         "ratioTrainVal": {
+                            "value": 1,
+                            "type": "real"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "options": {
+                "type": "DNN",
+                "model": "Hybrid CNN-LSTM",
+                "modelType": "Predictive",
+                "dataType": 2,
+                "label": "Hybrid CNN-LSTM  (1)",
+                "id": "Hybrid_CNN_LSTM_1",
+                "trainOnAnomalousData": false,
+                "hyperparameters": {
+                    "model": {
+                        "hiddenUnits": {
+                            "value": 64,
+                            "type": "integer"
+                        },
+                        "filter": {
+                            "value": 32,
+                            "type": "integer"
+                        }
+                    },
+                    "data": {
+                        "windowSize": {
+                            "value": 60,
+                            "type": "integer"
+                        },
+                        "stepSize": {
+                            "value": 1,
+                            "type": "integer"
+                        }
+                    },
+                    "training": {
+                        "epochs": {
+                            "value": 50,
+                            "type": "integer"
+                        },
+                        "minibatchSize": {
+                            "value": 64,
+                            "type": "integer"
+                        },
+                         "ratioTrainVal": {
+                            "value": 1,
+                            "type": "real"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "options": {
+                "type": "DNN",
+                "model": "GRU",
+                "modelType": "Predictive",
+                "dataType": 2,
+                "label": "GRU  (1)",
+                "id": "GRU_1",
+                "trainOnAnomalousData": false,
+                "hyperparameters": {
+                    "model": {
+                        "hiddenUnits": {
+                            "value": 64,
+                            "type": "integer"
+                        }
+                    },
+                    "data": {
+                        "windowSize": {
+                            "value": 60,
+                            "type": "integer"
+                        },
+                        "stepSize": {
+                            "value": 1,
+                            "type": "integer"
+                        }
+                    },
+                    "training": {
+                        "epochs": {
+                            "value": 50,
+                            "type": "integer"
+                        },
+                        "minibatchSize": {
+                            "value": 64,
+                            "type": "integer"
+                        },
+                         "ratioTrainVal": {
+                            "value": 1,
+                            "type": "real"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "options": {
+                "type": "DNN",
+                "model": "CNN (DeepAnT)",
+                "modelType": "Predictive",
+                "dataType": 3,
+                "label": "CNN (DeepAnT)  (1)",
+                "id": "CNN_DeepAnT_1",
+                "trainOnAnomalousData": false,
+                "hyperparameters": {
+                    "model": {
+                        "filter": {
+                            "value": 32,
+                            "type": "integer"
+                        }
+                    },
+                    "data": {
+                        "windowSize": {
+                            "value": 60,
+                            "type": "integer"
+                        },
+                        "stepSize": {
+                            "value": 1,
+                            "type": "integer"
+                        }
+                    },
+                    "training": {
+                        "epochs": {
+                            "value": 50,
+                            "type": "integer"
+                        },
+                        "minibatchSize": {
+                            "value": 64,
+                            "type": "integer"
+                        },
+                         "ratioTrainVal": {
+                            "value": 1,
+                            "type": "real"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "options": {
+                "type": "DNN",
+                "model": "ResNet",
+                "modelType": "Predictive",
+                "dataType": 3,
+                "label": "ResNet  (1)",
+                "id": "ResNet_1",
+                "trainOnAnomalousData": false,
+                "hyperparameters": {
+                    "model": {
+                        "filter": {
+                            "value": 32,
+                            "type": "integer"
+                        }
+                    },
+                    "data": {
+                        "windowSize": {
+                            "value": 60,
+                            "type": "integer"
+                        },
+                        "stepSize": {
+                            "value": 1,
+                            "type": "integer"
+                        }
+                    },
+                    "training": {
+                        "epochs": {
+                            "value": 50,
+                            "type": "integer"
+                        },
+                        "minibatchSize": {
+                            "value": 64,
+                            "type": "integer"
+                        },
+                         "ratioTrainVal": {
+                            "value": 1,
+                            "type": "real"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "options": {
+                "type": "DNN",
+                "model": "MLP",
+                "modelType": "Predictive",
+                "dataType": 1,
+                "label": "MLP  (1)",
+                "id": "MLP_1",
+                "trainOnAnomalousData": false,
+                "hyperparameters": {
+                    "model": {
+                        "neurons": {
+                            "value": 32,
+                            "type": "integer"
+                        }
+                    },
+                    "data": {
+                        "windowSize": {
+                            "value": 60,
+                            "type": "integer"
+                        },
+                        "stepSize": {
+                            "value": 1,
+                            "type": "integer"
+                        }
+                    },
+                    "training": {
+                        "epochs": {
+                            "value": 50,
+                            "type": "integer"
+                        },
+                        "minibatchSize": {
+                            "value": 64,
+                            "type": "integer"
+                        },
+                         "ratioTrainVal": {
+                            "value": 1,
+                            "type": "real"
+                        }
+                    }
+                }
+            }
+        }
+    ],
+    "CML_Models": [
+        {
+            "options": {
+                "type": "CML",
+                "model": "iForest",
+                "label": "iForest  (1)",
+                "id": "iForest_1",
+                "trainOnAnomalousData": true,
+                "hyperparameters": {
+                    "training": {
+                         "ratioTrainVal": {
+                            "value": 1,
+                            "type": "real"
+                        }
+                    },
+                    "data": {
+                        "windowSize": {
+                            "value": 60,
+                            "type": "integer"
+                        },
+                        "stepSize": {
+                            "value": 1,
+                            "type": "integer"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "options": {
+                "type": "CML",
+                "model": "OC-SVM",
+                "label": "OC-SVM  (1)",
+                "id": "OC_SVM_1",
+                "trainOnAnomalousData": false,
+                "hyperparameters": {
+                    "training": {
+                         "ratioTrainVal": {
+                            "value": 1,
+                            "type": "real"
+                        }
+                    },
+                    "data": {
+                        "windowSize": {
+                            "value": 60,
+                            "type": "integer"
+                        },
+                        "stepSize": {
+                            "value": 1,
+                            "type": "integer"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "options": {
+                "type": "CML",
+                "model": "LOF",
+                "label": "LOF  (1)",
+                "id": "LOF_1",
+                "trainOnAnomalousData": false,
+                "hyperparameters": {
+                    "training": {
+                         "ratioTrainVal": {
+                            "value": 1,
+                            "type": "real"
+                        }
+                    },
+                    "data": {
+                        "windowSize": {
+                            "value": 60,
+                            "type": "integer"
+                        },
+                        "stepSize": {
+                            "value": 1,
+                            "type": "integer"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "options": {
+                "type": "CML",
+                "model": "LDOF",
+                "label": "LDOF  (1)",
+                "id": "LDOF_1",
+                "trainOnAnomalousData": false,
+                "hyperparameters": {
+                    "training": {
+                         "ratioTrainVal": {
+                            "value": 1,
+                            "type": "real"
+                        }
+                    },
+                    "data": {
+                        "windowSize": {
+                            "value": 60,
+                            "type": "integer"
+                        },
+                        "stepSize": {
+                            "value": 1,
+                            "type": "integer"
+                        }
+                    }
+                }
+            }
+        }
+    ]
+}

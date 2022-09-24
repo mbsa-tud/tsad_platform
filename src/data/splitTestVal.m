@@ -17,7 +17,7 @@ function [testingData, testingLabels, testValData, testValLabels, testFileNames]
 
 
 if size(testingData, 1) > 1 
-    ratioSplit = 0.1;
+    ratioSplit = 0.2;
 
     idx = randperm(size(testingData, 1));
     splitPoint = ceil(ratioSplit * size(testingData, 1));
