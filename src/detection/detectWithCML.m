@@ -18,7 +18,7 @@ switch options.model
     case 'ABOD'
         [~, anomalyScores] = ABOD(XTest);
     case 'LOF'
-        [~, anomalyScores] = LOF(XTest, 100);        
+        [~, anomalyScores] = LOF(XTest, options.hyperparameters.model.k.value);        
     case 'Merlin'
         numAnoms = 0;
         i = 1;
@@ -49,7 +49,7 @@ switch options.model
         anomalyScores = double(anomalyScores);
         return;
     case 'LDOF'
-        anomalyScores = LDOF(XTest, 20);
+        anomalyScores = LDOF(XTest, options.hyperparameters.model.k.value);
 end
 
 anomalyScores = repmat(anomalyScores, 1, options.hyperparameters.data.windowSize.value);
