@@ -2,7 +2,7 @@ function [staticThreshold, pd] = getStaticThreshold_CML(options, Mdl, XTrain, XV
 pd = [];
 switch options.model
     case 'Merlin'
-        staticThreshold.default = 0.5;
+        staticThreshold.dummy = 0.5;
     otherwise
         if ~isempty(testValData)
             XTestValCell = cell(size(testValData, 1), 1);
