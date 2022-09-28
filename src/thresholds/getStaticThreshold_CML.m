@@ -1,4 +1,4 @@
-function [staticThreshold, pd] = getStaticThreshold_CML(options, Mdl, XTrain, XVal, testValData, testValLabels, thresholds)
+function [staticThreshold, pd] = getStaticThreshold_CML(options, Mdl, XTrain, testValData, testValLabels, thresholds)
 pd = [];
 switch options.model
     case 'Merlin'
@@ -75,65 +75,25 @@ switch options.model
                         staticThreshold.topK = 0;
                     end
                 end
-
-                if any(ismember(thresholds, ["bestFscorePointwiseParametric", "bestFscoreEventwiseParametric", ...
-                        "bestFscorePointAdjustedParametric", "bestFscoreCompositeParametric", "topKParametric"])) ...
-                        && ~any(ismember(thresholds, ["bestFscorePointwise", "bestFscoreEventwise", ...
-                        "bestFscorePointAdjusted", "bestFscoreComposite", "topK", "meanStd"])) ...
-                        && options.hyperparameters.training.ratioTrainVal.value == 1
-                    error("To compute Parametric static thresholds, validation data is needed!");
-                end
-                if any(ismember(thresholds, ["bestFscorePointwiseParametric", "bestFscoreEventwiseParametric", ...
-                        "bestFscorePointAdjustedParametric", "bestFscoreCompositeParametric", "topKParametric"])) ...
-                        && options.hyperparameters.training.ratioTrainVal.value == 1
-                    disp("Warning! You selected a parametric static threshold but didn't use any validation data.");
-                end
-
-                if options.hyperparameters.training.ratioTrainVal.value ~= 1    
-                    [anomalyScoresVal, ~, ~] = detectWithCML(options, Mdl, XVal, []);
-                    pd = fitdist(anomalyScoresVal, "Normal");
-
-                    if ismember("bestFscorePointwiseParametric", thresholds) || ismember("all", thresholds)
-                        thr = computeBestFscoreThreshold(anomalyScores, labelsTestVal, 1, pd, 'point-wise');
-                        if ~isnan(thr)
-                            staticThreshold.bestFscorePointwiseParametric = thr;
-                        else
-                            staticThreshold.bestFscorePointwiseParametric = 0;
-                        end
-                    end
-    
-                    if ismember("bestFscoreEventwiseParametric", thresholds) || ismember("all", thresholds)
-                        thr = computeBestFscoreThreshold(anomalyScores, labelsTestVal, 1, pd, 'event-wise');
-                        if ~isnan(thr)
-                            staticThreshold.bestFscoreEventwiseParametric = thr;
-                        else
-                            staticThreshold.bestFscoreEventwiseParametric = 0;
-                        end
-                    end
-                    
-                    if ismember("bestFscorePointAdjustedParametric", thresholds) || ismember("all", thresholds)
-                        thr = computeBestFscoreThreshold(anomalyScores, labelsTestVal, 1, pd, 'point-adjusted');
-                        if ~isnan(thr)
-                            staticThreshold.bestFscorePointAdjustedParametric = thr;
-                        else
-                            staticThreshold.bestFscorePointAdjustedParametric = 0;
-                        end
-                    end
-                    
-                    if ismember("bestFscoreCompositeParametric", thresholds) || ismember("all", thresholds)
-                        thr = computeBestFscoreThreshold(anomalyScores, labelsTestVal, 1, pd, 'composite');
-                        if ~isnan(thr)
-                            staticThreshold.bestFscoreCompositeParametric = thr;
-                        else
-                            staticThreshold.bestFscoreCompositeParametric = 0;
-                        end
-                    end
-                end 
+            else
+                error("Anomalous validation set doesn't contain anomalies");
             end
         end
-        if ismember("meanStd", thresholds) || ismember("all", thresholds)
-            [anomalyScores, ~, ~] = detectWithCML(options, Mdl, XTrain, zeros(size(XTrain, 1), 1), zeros(size(XTrain, 1), 1));
-            staticThreshold.meanStd = mean(anomalyScores) + 4 * std(anomalyScores);
+
+        if any(ismember(thresholds, ["bestFscorePointwiseParametric", "bestFscoreEventwiseParametric", ...
+                "bestFscorePointAdjustedParametric", "bestFscoreCompositeParametric", "topKParametric"])) ...
+                && ~any(ismember(thresholds, ["bestFscorePointwise", "bestFscoreEventwise", ...
+                "bestFscorePointAdjusted", "bestFscoreComposite", "topK"])) ...
+                && options.hyperparameters.training.ratioTrainVal.value == 1
+            error("Parametric static thresholds are not available for CML models!");
+        end
+        if any(ismember(thresholds, ["bestFscorePointwiseParametric", "bestFscoreEventwiseParametric", ...
+                "bestFscorePointAdjustedParametric", "bestFscoreCompositeParametric", "topKParametric"])) ...
+                && options.hyperparameters.training.ratioTrainVal.value == 1
+            disp("Warning! You selected a parametric static threshold which is not available for CML models.");
+        end
+        if length(thresholds) == 1 && ismember("meanStd", thresholds)
+            disp("Warning! Threshold using the mean and standard deviation of the anomaly scores for training/validation data is only available for DL models.");
         end
 end
 end

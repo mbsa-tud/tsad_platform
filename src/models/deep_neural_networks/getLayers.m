@@ -110,13 +110,13 @@ switch options.model
             sequenceInputLayer([numFeatures 1 1], Name='Input')
             sequenceFoldingLayer(Name='Fold')
 
-            convolution2dLayer(5, floor(options.hyperparameters.model.filter.value / 4), Stride=1, Padding='same', WeightsInitializer='he')
+            convolution2dLayer(5, options.hyperparameters.model.filter.value, Stride=1, Padding='same', WeightsInitializer='he')
             leakyReluLayer()
             maxPooling2dLayer(1, Name='Maxpool1')
-            convolution2dLayer(5, floor(options.hyperparameters.model.filter.value / 2), Stride=1, Padding='same', WeightsInitializer='he')
+            convolution2dLayer(5, options.hyperparameters.model.filter.value * 2, Stride=1, Padding='same', WeightsInitializer='he')
             leakyReluLayer()
             maxPooling2dLayer(1, Name='Maxpool2')
-            convolution2dLayer(5, options.hyperparameters.model.filter.value, Stride=1, Padding='same', WeightsInitializer='he')
+            convolution2dLayer(5, options.hyperparameters.model.filter.value * 4, Stride=1, Padding='same', WeightsInitializer='he')
             leakyReluLayer()
             maxPooling2dLayer(1, Name='Maxpool3')
 

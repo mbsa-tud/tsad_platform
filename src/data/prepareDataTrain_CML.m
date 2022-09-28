@@ -1,4 +1,4 @@
-function [XTrain, XVal] = prepareDataTrain_CML(options, trainingData)
+function XTrain = prepareDataTrain_CML(options, trainingData)
 % PREPAREDATATRAIN_CML % prepare CML data for training
 %
 % Description: prepare data for training Machine Learning models
@@ -11,11 +11,10 @@ function [XTrain, XVal] = prepareDataTrain_CML(options, trainingData)
 switch options.model
     case 'Your model'
     otherwise
-        [XTrain, ~, XVal, ~] = splitDataTrain(trainingData, ...
+        [XTrain, ~, ~, ~] = splitDataTrain(trainingData, ...
             options.hyperparameters.data.windowSize.value,  ...
             options.hyperparameters.data.stepSize.value, ...
-            options.hyperparameters.training.ratioTrainVal.value, 'Reconstructive', 1);
+            1, 'Reconstructive', 1);
         XTrain = cell2mat(XTrain);
-        XVal = cell2mat(XVal);
 end
 end

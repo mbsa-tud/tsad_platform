@@ -118,6 +118,9 @@ for tmpIdx = 1:length(tmpScores)
     tmpScores{tmpIdx, 1} = cell(length(filesTestingData), 1);
 end
 
+% f = figure(Position=[0 0 900 600]);
+% n = 1;
+
 % Detection with DNN models
 if ~isempty(models_DNN)
     fprintf('Detecting with DNN models\n')
@@ -131,7 +134,7 @@ if ~isempty(models_DNN)
             [XTest, YTest, labels] = prepareDataTest_DNN(options, preprocessedTestingData(dataIdx, 1), labelsTestingData(dataIdx, 1));
                 
             [anomalyScores, YTest, labels] = detectWithDNN(options, Mdl, XTest, YTest, labels);
-    
+
             staticThreshold =  trainedModel.staticThreshold;
             
             % For all thresholds in the thresholds variable
@@ -162,6 +165,81 @@ if ~isempty(models_DNN)
                     end                    
             
                     anomsStatic = calcStaticThresholdPrediction(anomalyScores, selectedThreshold, pd, useParametric);
+                    
+%                     if n == 1
+%                         subplot(3,1,n);
+%                         if iscell(YTest)
+%                             YTest = cell2mat(YTest);
+%                         end
+%                         plot(YTest, LineWidth=1);
+%                         ylabel("Value");
+%                         xlabel("Timestamp");
+%                         %set(gca, ytick=[]);
+%                         %set(gca, "XTick", [], "XTickLabel", []);
+%                         xlim([0 9000]);
+%                         trueIndices = getIndexes(labels);
+%                         YLims = [min(YTest) max(YTest)];
+%                         for i = 1:size(trueIndices, 2)
+%                             trueLims(1,i) = YLims(1);
+%                             trueLims(2, i) = YLims(1);
+%                             trueLims(3, i) = YLims(2);
+%                             trueLims(4, i) = YLims(2);
+%                         end
+%                         
+%                         
+%                         if ~isempty(trueIndices) && ~isempty(trueLims)
+%                             patch(trueIndices, trueLims, 'green', 'EdgeColor', 'none', 'FaceAlpha', 0.3)
+%                         end
+%                         n = n+1;
+%                         legend("Data", "Anomaly");
+%                     end
+%                     subplot(3,1,n);
+%                     if strcmp(trainedModel.options.modelType, 'Predictive')
+%                         anomalyScores = anomalyScores(2:(end-trainedModel.options.hyperparameters.data.windowSize.value),:);
+%                         anomsStatic = anomsStatic(2:(end-trainedModel.options.hyperparameters.data.windowSize.value),:);
+%                         labels = labels(2:(end-trainedModel.options.hyperparameters.data.windowSize.value),:);
+%                     end
+%                     n = n+1;
+%                     plot(anomalyScores, LineWidth=1);
+% 
+%                     indices = getIndexes(anomsStatic);
+%                     trueIndices = getIndexes(labels);
+%         
+%                     yline(selectedThreshold, 'r', LineWidth=1);
+%                     set(gca, "XTick", [], "XTickLabel", []);
+%                     set(gca, ytick=[]);
+%                     if n == 2
+%                         ylabel("FC AE", Rotation=0, HorizontalAlignment="right")
+%                     else
+%                         ylabel("FC AE (optimized)", Rotation=0, HorizontalAlignment="right")
+%                     end
+%                     limit = [];
+%                     xlim([0 7500]);
+%                     YLims = [min(anomalyScores) max(anomalyScores)];
+%                     for i = 1:size(indices, 2)
+%                         limit(1,i) = YLims(1);
+%                         limit(2, i) = YLims(1);
+%                         limit(3, i) = YLims(2);
+%                         limit(4, i) = YLims(2);
+%                     end
+%                     for i = 1:size(trueIndices, 2)
+%                         trueLims(1,i) = YLims(1);
+%                         trueLims(2, i) = YLims(1);
+%                         trueLims(3, i) = YLims(2);
+%                         trueLims(4, i) = YLims(2);
+%                     end
+%                     
+%                     
+%                     if ~isempty(indices) && ~isempty(limit)
+%                         patch(indices, limit, 'red', 'EdgeColor', 'none', 'FaceAlpha', 0.4)
+%                     end
+%                     if ~isempty(trueIndices) && ~isempty(trueLims)
+%                         patch(trueIndices, trueLims, 'green', 'EdgeColor', 'none', 'FaceAlpha', 0.3)
+%                     end
+% 
+%                     legend("Anomaly scores", "Threshold", "Detected anomalies", "True anomaly")
+
+
                     [scoresPointwiseStatic, scoresEventwiseStatic, ...
                         scoresPointAdjustedStatic, scoresCompositeStatic] = calcScores(anomsStatic, labels);
                     
@@ -181,8 +259,12 @@ if ~isempty(models_DNN)
                                     scoresPointAdjustedStatic(2)];
                 else
                     % Dynamic threshold
+                    if iscell(YTest)
+                        windowSize = floor(size(YTest{1, 1}, 1) / 2);
+                    else
+                        windowSize = floor(length(YTest) / 2);
+                    end
                     padding = 3;
-                    windowSize = floor(size(YTest{1, 1}, 1) / 2);           
                     z_range = 1:2;
                     min_percent = 1;
             
@@ -258,8 +340,71 @@ if ~isempty(models_CML)
                             useParametric = false;
                         end
                     end 
+
+                    if iscell(YTest)
+                        YTest = cell2mat(YTest);
+                    end
+
+%                     plot(YTest, LineWidth=1);
+%                     ylabel("Value");
+%                     xlabel("Timestamp");
+%                     %set(gca, ytick=[]);
+%                     %set(gca, "XTick", [], "XTickLabel", []);
+%                     xlim([0 9000]);
+%                     trueIndices = getIndexes(labels);
+%                     YLims = [min(YTest) max(YTest)];
+%                     for i = 1:size(trueIndices, 2)
+%                         trueLims(1,i) = YLims(1);
+%                         trueLims(2, i) = YLims(1);
+%                         trueLims(3, i) = YLims(2);
+%                         trueLims(4, i) = YLims(2);
+%                     end
+%                     
+%                     
+%                     if ~isempty(trueIndices) && ~isempty(trueLims)
+%                         patch(trueIndices, trueLims, 'green', 'EdgeColor', 'none', 'FaceAlpha', 0.3)
+%                     end
+%                     legend("Data", "Anomaly");
+%                     n = n+1;
+%                     return;
             
                     anomsStatic = calcStaticThresholdPrediction(anomalyScores, selectedThreshold, pd, useParametric);
+
+%                     subplot(15,1,n);
+%                     n = n+1;
+%                     plot(anomalyScores, LineWidth=1);
+% 
+%                     indices = getIndexes(anomsStatic);
+%                     trueIndices = getIndexes(labels);
+%         
+%                     yline(selectedThreshold, 'r', LineWidth=1);
+%                     set(gca, "XTick", [], "XTickLabel", []);
+%                     set(gca, ytick=[]);
+%                     ylabel(trainedModel.options.model, Rotation=0, HorizontalAlignment="right")
+%                     xlim([0 7500]);
+%                     limit = [];
+%                     YLims = [min(anomalyScores) max(anomalyScores)];
+%                     for i = 1:size(indices, 2)
+%                         limit(1,i) = YLims(1);
+%                         limit(2, i) = YLims(1);
+%                         limit(3, i) = YLims(2);
+%                         limit(4, i) = YLims(2);
+%                     end
+%                     for i = 1:size(trueIndices, 2)
+%                         trueLims(1,i) = YLims(1);
+%                         trueLims(2, i) = YLims(1);
+%                         trueLims(3, i) = YLims(2);
+%                         trueLims(4, i) = YLims(2);
+%                     end
+%                     
+%                     
+%                     if ~isempty(indices) && ~isempty(limit)
+%                         patch(indices, limit, 'red', 'EdgeColor', 'none', 'FaceAlpha', 0.4)
+%                     end
+%                     if ~isempty(trueIndices) && ~isempty(trueLims)
+%                         patch(trueIndices, trueLims, 'green', 'EdgeColor', 'none', 'FaceAlpha', 0.3)
+%                     end
+
                     [scoresPointwiseStatic, scoresEventwiseStatic, ...
                         scoresPointAdjustedStatic, scoresCompositeStatic] = calcScores(anomsStatic, labels);
                     
@@ -279,8 +424,12 @@ if ~isempty(models_CML)
                                     scoresPointAdjustedStatic(2)];
                 else
                     % Dynamic threshold
+                    if iscell(YTest)
+                        windowSize = floor(size(YTest{1, 1}, 1) / 2);
+                    else
+                        windowSize = floor(length(YTest) / 2);
+                    end
                     padding = 3;
-                    windowSize = floor(size(YTest, 1) / 2);           
                     z_range = 1:2;
                     min_percent = 1;
             
@@ -377,8 +526,12 @@ if ~isempty(models_S)
                                     scoresPointAdjustedStatic(2)];
                 else
                     % Dynamic threshold
+                    if iscell(YTest)
+                        windowSize = floor(size(YTest{1, 1}, 1) / 2);
+                    else
+                        windowSize = floor(length(YTest) / 2);
+                    end
                     padding = 3;
-                    windowSize = floor(size(YTest, 1) / 2);           
                     z_range = 1:2;
                     min_percent = 1;
             

@@ -1,4 +1,4 @@
-function [XTrain, XVal] = prepareDataTrain_S(options, trainingData)
+function XTrain = prepareDataTrain_S(options, trainingData)
 % PREPAREDATATRAIN_S % prepare S data for training
 %
 % Description: prepare data for training Statistical models
@@ -11,11 +11,10 @@ function [XTrain, XVal] = prepareDataTrain_S(options, trainingData)
 switch options.model
     case 'Your model'
     otherwise
-        [XTrain, ~, XVal, ~] = splitDataTrain(trainingData, ...
+        [XTrain, ~, ~, ~] = splitDataTrain(trainingData, ...
             options.hyperparameters.data.windowSize.value,  ...
             options.hyperparameters.data.stepSize.value, ...
-            options.hyperparameters.training.ratioTrainVal.value, 'Reconstructive', 1);
+            1, 'Reconstructive', 1);
         XTrain = cell2mat(XTrain);
-        XVal = cell2mat(XVal);
 end
 end

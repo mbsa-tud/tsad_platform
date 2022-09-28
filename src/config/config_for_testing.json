@@ -18,7 +18,7 @@
                     },
                     "data": {
                         "windowSize": {
-                            "value": 60,
+                            "value": 100,
                             "type": "integer"
                         },
                         "stepSize": {
@@ -61,7 +61,7 @@
                     },
                     "data": {
                         "windowSize": {
-                            "value": 60,
+                            "value": 100,
                             "type": "integer"
                         },
                         "stepSize": {
@@ -108,7 +108,7 @@
                     },
                     "data": {
                         "windowSize": {
-                            "value": 60,
+                            "value": 100,
                             "type": "integer"
                         },
                         "stepSize": {
@@ -151,7 +151,7 @@
                     },
                     "data": {
                         "windowSize": {
-                            "value": 60,
+                            "value": 100,
                             "type": "integer"
                         },
                         "stepSize": {
@@ -194,7 +194,7 @@
                     },
                     "data": {
                         "windowSize": {
-                            "value": 60,
+                            "value": 100,
                             "type": "integer"
                         },
                         "stepSize": {
@@ -241,7 +241,7 @@
                     },
                     "data": {
                         "windowSize": {
-                            "value": 60,
+                            "value": 100,
                             "type": "integer"
                         },
                         "stepSize": {
@@ -284,7 +284,7 @@
                     },
                     "data": {
                         "windowSize": {
-                            "value": 60,
+                            "value": 100,
                             "type": "integer"
                         },
                         "stepSize": {
@@ -327,7 +327,7 @@
                     },
                     "data": {
                         "windowSize": {
-                            "value": 60,
+                            "value": 100,
                             "type": "integer"
                         },
                         "stepSize": {
@@ -370,7 +370,7 @@
                     },
                     "data": {
                         "windowSize": {
-                            "value": 60,
+                            "value": 100,
                             "type": "integer"
                         },
                         "stepSize": {
@@ -413,7 +413,7 @@
                     },
                     "data": {
                         "windowSize": {
-                            "value": 60,
+                            "value": 100,
                             "type": "integer"
                         },
                         "stepSize": {
@@ -456,7 +456,7 @@
                     },
                     "data": {
                         "windowSize": {
-                            "value": 60,
+                            "value": 100,
                             "type": "integer"
                         },
                         "stepSize": {
@@ -483,7 +483,7 @@
                     },
                     "data": {
                         "windowSize": {
-                            "value": 60,
+                            "value": 100,
                             "type": "integer"
                         },
                         "stepSize": {
@@ -502,6 +502,12 @@
                 "id": "LOF_1",
                 "trainOnAnomalousData": false,
                 "hyperparameters": {
+                    "model": {
+                        "k": {
+                            "value": 100,
+                            "type": "integer"
+                        }
+                    },
                     "training": {
                          "ratioTrainVal": {
                             "value": 1,
@@ -510,7 +516,7 @@
                     },
                     "data": {
                         "windowSize": {
-                            "value": 60,
+                            "value": 100,
                             "type": "integer"
                         },
                         "stepSize": {
@@ -529,6 +535,12 @@
                 "id": "LDOF_1",
                 "trainOnAnomalousData": false,
                 "hyperparameters": {
+                    "model": {
+                        "k": {
+                            "value": 100,
+                            "type": "integer"
+                        }
+                    },
                     "training": {
                          "ratioTrainVal": {
                             "value": 1,
@@ -537,7 +549,7 @@
                     },
                     "data": {
                         "windowSize": {
-                            "value": 60,
+                            "value": 100,
                             "type": "integer"
                         },
                         "stepSize": {

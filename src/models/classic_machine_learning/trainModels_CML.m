@@ -3,14 +3,14 @@ for i = 1:length(models)
     options = models(i).options;
 
     if ~options.trainOnAnomalousData
-        [XTrain, XVal] = prepareDataTrain_CML(options, trainingData);
+        XTrain = prepareDataTrain_CML(options, trainingData);
     else
-        [XTrain, XVal] = prepareDataTrain_CML(options, testValData);
+        XTrain = prepareDataTrain_CML(options, testValData);
     end
     
     Mdl = trainCML(options, XTrain);
 
-    [staticThreshold, pd] = getStaticThreshold_CML(options, Mdl, XTrain, XVal, testValData, testValLabels, thresholds);
+    [staticThreshold, pd] = getStaticThreshold_CML(options, Mdl, XTrain, testValData, testValLabels, thresholds);
 
     trainedModel.staticThreshold = staticThreshold;        
     trainedModel.options = options;

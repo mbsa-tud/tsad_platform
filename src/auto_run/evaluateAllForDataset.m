@@ -65,7 +65,7 @@ scoreNames.Properties.VariableNames = "Metric";
 %                                                                     Min_Scores.csv,
 %                                                                     Avg_Scores.csv,
 %                                                                     Std_Scores.csv
-datasetOutputFolder = fullfile(pwd, 'Dataset_Sweep_Results');
+datasetOutputFolder = fullfile(pwd, 'Auto_Run_Results');
 if ~exist(datasetOutputFolder, 'dir')
     mkdir(datasetOutputFolder);
 end

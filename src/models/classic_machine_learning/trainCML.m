@@ -5,7 +5,7 @@ switch options.model
         rng('default');
         Mdl = fitcsvm(XTrain, ones(size(XTrain, 1), 1));
     case 'iForest'
-        [Mdl, ~, ~] = iforest(XTrain);
+        [Mdl, ~, ~] = iforest(XTrain, NumLearners=options.hyperparameters.model.numLearners.value);
     otherwise
         Mdl = [];
 end
