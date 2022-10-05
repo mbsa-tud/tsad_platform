@@ -1,6 +1,9 @@
 function updatePlots(handles, data)
+%UPDATEPLOTS
+%
 % Updates the plots in handles, created by PREPAREPLOTS, with
 % training progress information.
+
 info = data.info;
 if info.State == "iteration"
     addpoints(handles.RMSELines(data.experimentNumber), info.Iteration, info.TrainingRMSE);

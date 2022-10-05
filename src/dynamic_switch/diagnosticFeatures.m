@@ -1,8 +1,8 @@
 function features = diagnosticFeatures(inputData)
-%DIAGNOSTICFEATURES computes features of time series data
-%
-% Input: inputData - time series data
-% Output: features - the computed features of the input data
+%DIAGNOSTICFEATURES
+% 
+% computes features of time series data
+
 try
     % Compute signal features
     ClearanceFactor = max(abs(inputData))/(mean(sqrt(abs(inputData)))^2);

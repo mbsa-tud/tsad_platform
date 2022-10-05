@@ -1,16 +1,7 @@
 function [XTrain, YTrain, XVal, YVal] = prepareDataTrain_DNN(options, trainingData, trainingLabels)
-% PREPAREDATATRAIN_DNN % prepare DNN data for training
+%PREPAREDATATRAIN_DNN
 %
-% Description: prepare data for training Deep Learning models
-%
-% Input:  options: struct of model options
-%         trainingData: data
-%         trainingLabels: labels
-%
-% Output: XTrain: prepared XTrain for training
-%         YTrain: prepared YTrain for training
-%         XVal: prepared XVal for training
-%         YVal: prepared YVal for training
+% Prepares the training data for DL models
 
 switch options.model
     case 'Your model'

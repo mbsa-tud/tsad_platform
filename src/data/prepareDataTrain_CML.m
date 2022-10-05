@@ -1,12 +1,7 @@
 function XTrain = prepareDataTrain_CML(options, trainingData)
-% PREPAREDATATRAIN_CML % prepare CML data for training
+%PREPAREDATATRAIN_CML
 %
-% Description: prepare data for training Machine Learning models
-%
-% Input:  options: struct of model options
-%         trainingData: data
-%
-% Output: XTrain: prepared data for training
+% Prepares the training data for classic ML models
 
 switch options.model
     case 'Your model'

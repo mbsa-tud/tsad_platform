@@ -1,4 +1,8 @@
 function avgScores = calcAverageScores(fullScores)
+%CALCAVERAGESCORES
+%
+% Averages the scores across all tested files
+
 numOfMetrics = size(fullScores{1, 1}, 1);
 numOfTestingFiles = size(fullScores, 1);
 

@@ -1,4 +1,8 @@
 function trainedModels = trainModels_DNN_Parallel(models, trainingData, trainingLabels, testValData, testValLabels, thresholds, closeOnFinished)
+%TRAINMODELS_DNN_PARALLEL
+%
+% Trains all DL models in parallel and calculates the thresholds
+
 numNetworks = length(models);
 
 XTrainCell = cell(1, numNetworks);

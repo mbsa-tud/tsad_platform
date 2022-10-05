@@ -1,4 +1,9 @@
 function [anomalyScores, YTest, labels] = detectWithDNN(options, Mdl, XTest, YTest, labels)
+%DETECTWITHDNN
+%
+% Runs the detection for DL models and returns anomaly Scores
+
+
 switch options.model
     case 'Your model'
     otherwise
@@ -22,18 +27,6 @@ switch options.model
                     pred = cell2mat(pred);
                 end
             end   
-
-%             %% Plot prediction and ground truth
-%             f = figure;
-%             hold on
-%             plot(YTest{i});
-%             plot(pred);
-%             xlabel('Timestamp', FontSize=14)
-%             ylabel('Value', FontSize=14)
-%             legend('Ground Truth', "Reconstruction", FontSize=14)
-%             xlim([0, 1000])
-%             hold off
-%             %%
             
             anomalyScores(:, i) = abs(pred - YTest{i});
             if length(Mdl) > 1
@@ -50,16 +43,5 @@ switch options.model
         if strcmp(options.modelType, 'Reconstructive')
             labels = labels(1:(end - options.hyperparameters.data.windowSize.value), 1);
         end
-        
-        %% Plot labels
-%         f = figure;
-%         f.Position = [100 100 1000 200];
-%         plot(labels);
-%         %xlabel('Timestamp', FontSize=14);
-%         ylim([-0.1 1.1]);
-%         xlim([0 3300]);
-%         set(gca, xtick=[]);
-%         set(gca, ytick=[0 1]);
-        %%
 end
 end

@@ -1,4 +1,8 @@
 function trainOptions = getOptions(options, XVal, YVal, numWindows, plots)
+%GETOPTIONS
+%
+% Returns the training options for training of DL models
+
 if gpuDeviceCount > 0
     device = 'gpu';
 else

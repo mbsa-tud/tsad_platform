@@ -1,22 +1,7 @@
 function [preprocessedTrainingData, preprocessedTestingData, maximum, minimum, mu, sigma] = preprocessData(rawTrainingData, rawTestingData, method, usePrevious, params)
-% PREPROCESSDATA % preprocess data
+% PREPROCESSDATA
 %
-% Description: preprocess data
-%
-% Input:  rawTrainingData: - raw training data
-%         rawTestingData: - raw testing data
-%         method: string - possible values: raw data, standardize, rescale
-%         usePrevious: boolean - if true: use params argument for
-%                                preprocessing
-%         params: struct - parameters to use for preprocessing if use Previous is
-%                          true
-%
-% Output: preprocessedTrainingData:
-%         preprocessedTestingData:
-%         minimum: double - maximum used for rescaling
-%         maximum: double - minimum used for rescaling
-%         mu: double - mean used for standardizing
-%         sigma: double - std used for standardizing
+% Preprocessed the data
 
 preprocessedTrainingData  = [];
 preprocessedTestingData = [];

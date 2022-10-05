@@ -1,4 +1,8 @@
 function [anomalyScores, YTest, labels] = detectWithCML(options, Mdl, XTest, YTest, labels)
+%DETECTWITHCML
+%
+% Runs the detection for classic ML models and returns anomaly Scores
+
 % Fraction of outliers
 if ~isempty(labels)
     numOfAnoms = sum(labels == 1);

@@ -1,4 +1,8 @@
 function [fp, fn, tp] = overlap_seg(expected, observed)
+%OVERLAP_SEG
+%
+% Calculates the event-wise fp fn and tp
+
 trueAnoms = find(expected == 1);
 anoms = find(observed == 1);
 

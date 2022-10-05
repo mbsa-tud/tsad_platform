@@ -1,4 +1,9 @@
 function [XTrain, labelName] = getDataTrain_Switch(datasetPath)
+%GETDATATRAIN_SWITCH
+%
+% Prepares the training data for the dynamic switch ba extracting the time
+% series features
+
 labelName = 'best_model';
 
 trainSwitchPath = fullfile(datasetPath, 'train_switch');
@@ -30,7 +35,8 @@ for i = 1:numOfTestingFiles
     fid = fopen(labelFile);
     label = string(textscan(fid, '%s', 1, 'delimiter', '\n', 'headerlines', 0));
     fclose(fid);
-
+    
+    % Convert time series to feature vector
     XTrain_tmp = diagnosticFeatures(trainData{1, 1});
     XTrain_tmp.(labelName) = label;
     XTrain = [XTrain; XTrain_tmp];

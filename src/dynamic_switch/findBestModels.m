@@ -1,4 +1,8 @@
 function findBestModels(datasetPath, models, preprocMethod, ratioTestVal, thresholds, cmpMetric)
+%FINDBESTMODELS
+%
+% Auto-labels the dynamic switch train dataset
+
 % Get all model names
 models_DNN = models.models_DNN;
 models_CML = models.models_CML;

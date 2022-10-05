@@ -1,4 +1,9 @@
 function scores = detectAndEvaluateWith(model, testingData, testingLabels)
+%DETECTANDEVALUATEWITH
+%
+% Runs the detection and returns the scores for the model
+
+
 options = model.options;
 switch model.options.type
     case 'DNN'

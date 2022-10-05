@@ -1,5 +1,8 @@
 function results = optimizeModel(optVars, models, trainingData, trainingLabels, testValData, testValLabels, testingData, testingLabels, thresholds, cmpScore, iterations, exportLogData)
-rng default
+%OPTIMIZEMODEL
+%
+% Main optimization function which calls the bayesopt() function
+
 optVariables = [];
 optVarNames = fieldnames(optVars);
 for i = 1:length(optVarNames)
@@ -22,5 +25,5 @@ fun = @(x)opt_fun(models, ...
 results = bayesopt(fun, optVariables, Verbose=0,...
     AcquisitionFunctionName='expected-improvement-plus', ...
     MaxObjectiveEvaluations=iterations, ...
-    IsObjectiveDeterministic=true);
+    IsObjectiveDeterministic=false);
 end

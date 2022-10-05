@@ -1,4 +1,9 @@
 function [staticThreshold, pd] = getStaticThreshold_CML(options, Mdl, XTrain, testValData, testValLabels, thresholds)
+%GETSTATICTHRESHOLD_CML
+%
+% This function calculates the static threshold for classic ML models and
+% returnes them in the staticThreshold struct
+
 pd = [];
 switch options.model
     case 'Merlin'

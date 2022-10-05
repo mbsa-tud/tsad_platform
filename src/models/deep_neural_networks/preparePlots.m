@@ -1,5 +1,8 @@
 function [f, handles] = preparePlots(netLabels)
+%PREPAREPLOTS
+%
 % Creates a figure to display training progress information.
+
 numNets = length(netLabels);
 colors = lines(numNets);
 f = figure('Units', 'normalized', 'Position', [0.1 0.1 0.5 0.5]);

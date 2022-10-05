@@ -1,15 +1,7 @@
 function [XTest, YTest, labels] = prepareDataTest_DNN(options, testingData, testingLabels)
-% PREPAREDATATEST_DNN % prepare DNN data for testing
+%PREPAREDATATEST_DNN
 %
-% Description: prepare data for testing Deep Learning models
-%
-% Input:  options: struct of model options
-%         testingData: data
-%         testingLabels: labels
-%
-% Output: XTest: prepared data for testing
-%         YTest: YTest for testing
-%         labels: labels for testing
+% Prepares the testing data for DL models
 
 switch options.model
     case 'Your model'

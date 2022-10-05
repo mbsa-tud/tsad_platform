@@ -1,6 +1,7 @@
 function net = fitSwitchClassifier(XTrain, labelName)
-% XTrain = XTrain(1:100, :);
-% XVal = XTrain(101:end, :);
+%FITSWITCHCLASSIFIER
+%
+% Trains the dynamic switch DNN classifier
 
 classNames = categories(XTrain{:, labelName});
 numFeatures = size(XTrain, 2) - 1;

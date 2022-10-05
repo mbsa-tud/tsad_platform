@@ -1,20 +1,7 @@
 function [testingData, testingLabels, testValData, testValLabels, testFileNames] = splitTestVal(testingData, testingLabels, ratio, testFileNames)
-% SPLITTESTVAL % split testing data into testing set and validation set
-%
-% Description: split testing data into testing set and validation set
-%
-% Input:  testingData: data
-%         testingLabels: labels
-%         raio: double (0, 1] - ratio test/(test + val)
-%         testFileNames: strings - filenames of testing files
-
-%
-% Output: testingData
-%         tesingLabels
-%         testValData
-%         testValLabels
-%         testFileNames: strings - new filenames of testing files
-
+% SPLITTESTVAL 
+% 
+% Split testing data into testing set and validation set
 
 if size(testingData, 1) > 1 
     ratioSplit = 0.2;

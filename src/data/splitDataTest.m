@@ -1,21 +1,8 @@
 function [XTest, YTest, labelsTest] = splitDataTest(data, labels, windowSize, modelType, dataType)
-% SPLITDATATEST % split data for testing
+%SPLITDATATEST
 %
-% Description: apply slinding window on dataset for each channel and file
-%              separately
-%
-% Input:  data: data
-%         labels: labels
-%         windowSize: double [1, inf] - size of the sliding window
-%         modelType: string - one of (Predictive, Reconstructive)
-%         dataType: double - this adjusts what shape the ouptut data should
-%                            have together with the modelType
-%                            see TSADPlatform_Documentation for more
-%                            information                            
-%
-% Output: XTest
-%         YTest
-%         labelsTest
+% Splits the data for testing using the sliding window
+
 
 numChannels = size(data{1, 1}, 2);
 

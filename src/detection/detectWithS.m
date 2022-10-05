@@ -1,4 +1,8 @@
 function [anomalyScores, YTest, labels] = detectWithS(options, Mdl, XTest, YTest, labels)
+%DETECTWITHS
+%
+% Runs the detection for statistical models and returns anomaly Scores
+
 % Fraction of outliers
 if ~isempty(labels)
     numOfAnoms = sum(labels == 1);

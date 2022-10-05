@@ -1,14 +1,7 @@
 function [XTest, YTest, labels] = prepareDataTest_CML(options, testingData, testingLabels)
-% PREPAREDATATEST_CML % prepare CML data for testing
+%PREPAREDATATEST_CML
 %
-% Description: prepare data for testing Machine Learning models
-%
-% Input:  options: struct of model options
-%         testingData: data
-%         testingLabels: labels
-%
-% Output: XTest: prepared data for testing
-%         labels: labels for testing
+% Prepares the testing data for classic ML models
 
 switch options.model
     case 'Your model'        

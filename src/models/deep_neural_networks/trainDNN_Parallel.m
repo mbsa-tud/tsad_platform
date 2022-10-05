@@ -1,4 +1,8 @@
 function [Mdls, MdlInfos] = trainDNN_Parallel(models, XTrainCell, YTrainCell, XValCell, YValCell, closeOnFinished)
+%TRAINDNN_PARALLEL
+%
+% Train DL models in parallel
+
 numNetworks = length(models);
 
 if ~isempty(gcp('nocreate'))

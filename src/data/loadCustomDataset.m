@@ -1,30 +1,8 @@
 function [trainingData, timestampsTraining, labelsTraining, filesTraining, ...
                 testingData, timestampsTesting, labelsTesting, filesTesting] = loadCustomDataset(datasetPath, testFolderName)
-% LOADCUSTOMDATASET % load dataset from a folder
+%LOADCUSTOMDATASET
 %
-% Description: load dataset from folder containing train and test
-%              subfolders with .csv files with columns: timestamp, value1, 
-%              value2, ..., timestamp
-%
-% Input:  path: string - path to dataset
-%         testFolderName: string - name of the folder containing test data
-%
-% Output: trainingData:       - Nx1 cell array containing matrix of data
-%                               N: number of training files
-%         timestampsTraining: - Nx1 cell array containing matrix of
-%                               timestamps
-%                               N: number of training files
-%         labelsTraining:     - Nx1 cell array containing matrix of labels
-%                               N: number of training files
-%         filesTraining:      - strings of training filenames
-%         testingData:        - Nx1 cell array containing matrix of data
-%                               N: number of testing files
-%         timestampsTesting:  - Nx1 cell array containing matrix of
-%                               timestamps
-%                               N: number of testing files
-%         labelsTesting:      - Nx1 cell array containing matrix of labels
-%                               N: number of testing files
-%         filesTesting:       - strings of testing filenames
+% Loads the custom dataset from CSV files.
 
 trainingData = [];
 testingData = [];

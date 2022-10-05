@@ -1,4 +1,8 @@
 function options = adaptModelOptions(options, optVars)
+%ADAPTMODELOPTIONS
+%
+% Reconfigures the options for the bayesian optimization
+
 varNames = optVars.Properties.VariableNames;
 for i = 1:length(varNames)
     if isfield(options.hyperparameters.model, varNames{i})

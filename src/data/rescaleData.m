@@ -1,12 +1,8 @@
 function rescaledData = rescaleData(data, maximum, minimum)
-% RESCALEDATA % rescale data
+%RESCALEDATA
 %
-% Description: rescale data
-%
-% Input:  maximum: double - used for rescaling
-%         minimum: double - used for rescaling
-%
-% Output: rescaledData: rescaled data
+% Rescales the data using the parameters maximum and minimum
+
 
 numChannels = size(data{1, 1}, 2);
 

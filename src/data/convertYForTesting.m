@@ -1,13 +1,8 @@
 function Y = convertYForTesting(Y, type)
-% CONVERTYFORTESTING % convert Y to enable calculation of anomaly Scores
-%
-% Description: This is only needed for calculating thresholds with the
-%              Validation or Training dataset
-%
-% Input:  Y: Data to be converted
-%         type: string - Possible values: Reconstructive, Predictive
-%
-% Output: Y: converted Y
+%CONVERTYFORTESTING
+% Convert Y to enable calculation of anomaly Scores, this is needed for the
+% validation data for DL models
+
 
 if strcmp(type, 'Reconstructive')
     for i = 1:length(Y)

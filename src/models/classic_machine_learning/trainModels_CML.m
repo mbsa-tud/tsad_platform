@@ -1,4 +1,8 @@
 function trainedModels_CML = trainModels_CML(models, trainingData, testValData, testValLabels, thresholds)
+%TRAINMODELS_CML
+%
+% Trains the classic ML models and calculates the static thresholds
+
 for i = 1:length(models)    
     options = models(i).options;
 

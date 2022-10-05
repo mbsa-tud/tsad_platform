@@ -1,4 +1,8 @@
 function layers = getLayers(options, numFeatures, numResponses)
+%GETLAYERS
+%
+% Returns the layers for the DL model specified in the options parameter
+
 switch options.model
     case 'FC AE'
         neurons = options.hyperparameters.model.neurons.value;

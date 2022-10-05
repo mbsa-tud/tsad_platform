@@ -1,24 +1,8 @@
 function [XTrain, YTrain, XVal, YVal] = splitDataTrain(data, windowSize, stepSize, ratioTrainVal, modelType, dataType)
-% SPLITDATATRAIN % split data for training
+%SPLITDATATRAIN
 %
-% Description: apply slinding window on dataset for each channel and file
-%              separately
-%
-% Input:  data: data
-%         labels: labels
-%         windowSize: double [1, inf] - size of the sliding window
-%         stepSize: double [1, inf] - size of step separating the windows
-%         ratioTrainVal: double (0, 1] - ratio train/(train + val)
-%         modelType: string - one of (Predictive, Reconstructive)
-%         dataType: double - this adjusts what shape the ouptut data should
-%                            have together with the modelType
-%                            see TSADPlatform_Documentation for more
-%                            information                            
-%
-% Output: XTrain
-%         YTrain
-%         XVal
-%         YVal
+% Splits the data for training using the sliding window
+
 
 numChannels = size(data{1, 1}, 2);
 

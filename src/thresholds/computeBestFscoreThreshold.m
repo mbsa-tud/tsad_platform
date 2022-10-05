@@ -1,4 +1,8 @@
 function thr = computeBestFscoreThreshold(anomalyScores, labels, useParametric, pd, type)
+%COMPUTEBESTFSCORETHRESHOLD
+%
+% This function computes the best F score thresholds
+
 beta = 1;
 numChannels = size(anomalyScores, 2);
 

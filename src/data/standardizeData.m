@@ -1,12 +1,8 @@
 function standardizedData = standardizeData(data, mu, sigma)
-% STANDARDIZEDATA % standardize data
+%STANDARDIZEDATA
 %
-% Description: standardize data
-%
-% Input:  maximum: double - used for standardizing
-%         minimum: double - used for standardizing
-%
-% Output: standardizedData: standardized data
+% Standardizes the data to have a mean of 0 and std of 1
+
 
 numChannels = size(data{1, 1}, 2);
 

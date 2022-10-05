@@ -1,4 +1,8 @@
 function finalTable = evaluateDynamicSwitch(classifier, datasetPath)
+% EVALUATEDYNAMICSWITCH
+%
+% Tests the dynamic switch and compares it to all individual models on the
+% danamic switch test dataset
 
 fid = fopen(fullfile(datasetPath, 'preprocParams.json'));
 raw = fread(fid, inf);

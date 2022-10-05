@@ -1,4 +1,9 @@
 function pred = reshapeReconstructivePrediction(data, windowSize)
+%RESHAPERECONSTRUCTIVEPREDICTION
+%
+% Calculates the median anomaly score for all overlapping subsequences for
+% the reconstructive DL models and ML algorithms
+
 c = [];
 if iscell(data)
     for i = 1:size(data, 1)

@@ -1,14 +1,7 @@
 function [XTest, YTest, labels] = prepareDataTest_S(options, testingData, testingLabels)
-% PREPAREDATATEST_S % prepare S data for testing
+%PREPAREDATATEST_S
 %
-% Description: prepare data for testing Statistical models
-%
-% Input:  options: struct of model options
-%         testingData: data
-%         testingLabels: labels
-%
-% Output: XTest: prepared data for testing
-%         labels: labels for testing
+% Prepares the testing data for statistical models
 
 switch options.model
     case 'Your model'

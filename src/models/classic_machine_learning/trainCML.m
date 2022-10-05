@@ -1,5 +1,8 @@
 function Mdl = trainCML(options, XTrain)
-% Train model
+%TRAINCML
+%
+% Trains the classic ML model specified in the options parameter
+
 switch options.model
     case 'OC-SVM'
         rng('default');

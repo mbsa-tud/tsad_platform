@@ -1,4 +1,8 @@
 function optVars = getOptimizationVariables(model, configOptFileName)
+%GETOPTIMIZATIONVARIABLES
+%
+% Loads the configuration for the auto-optimization
+
 % Convert model name to valid matlab struct fieldname
 model = replace(model, '(', '');
 model = replace(model, ')', '');

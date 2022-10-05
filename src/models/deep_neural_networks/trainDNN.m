@@ -1,4 +1,8 @@
 function [Mdls, MdlInfos] = trainDNN(options, XTrain, YTrain, XVal, YVal, plots)
+%TRAINDNN
+%
+% Train DL models
+
 switch options.model
     case 'Your model'
     otherwise

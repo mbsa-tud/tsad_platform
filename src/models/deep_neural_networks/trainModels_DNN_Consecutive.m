@@ -1,4 +1,8 @@
 function trainedModels = trainModels_DNN_Consecutive(models, trainingData, trainingLabels, testValData, testValLabels, thresholds)
+%TRAINMODELS_DNN_CONSECUTIVE
+%
+% Trains all DL models consecutively and calculates the thresholds
+
 for i = 1:length(models)
     options = models(i).options;
     

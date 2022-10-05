@@ -1,15 +1,19 @@
 function scoresCell = fitAndEvaluateModel_CML(options, trainingData, trainingLabels, testValData, testValLabels, testingData, testingLabels, thresholds)
+%FITANDEVALUATEMODEL_CML
+%
+% Trains and tests the selected model configured in the options parameter
+
 scoresCell = cell(size(testingData, 1), 1);
 
 if ~options.trainOnAnomalousData
-    [XTrain, XVal] = prepareDataTrain_CML(options, trainingData);
+    XTrain = prepareDataTrain_CML(options, trainingData);
 else
-    [XTrain, XVal] = prepareDataTrain_CML(options, testValData);
+    XTrain = prepareDataTrain_CML(options, testValData);
 end
 
 Mdl = trainCML(options, XTrain);
 
-[staticThreshold, ~] = getStaticThreshold_CML(options, Mdl, XTrain, XVal, testValData, testValLabels, thresholds);
+[staticThreshold, ~] = getStaticThreshold_CML(options, Mdl, XTrain, testValData, testValLabels, thresholds);
 
 fields = fieldnames(staticThreshold);
 selectedThreshold = staticThreshold.(fields{1});

@@ -1,4 +1,8 @@
 function trainedModels_S = trainModels_S(models, trainingData, testValData, testValLabels, thresholds)
+%TRAINMODELS_S
+%
+% Trains all statistical models and calculates the thresholds
+
 for i = 1:length(models)
     options = models(i).options;
 

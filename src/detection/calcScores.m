@@ -1,4 +1,8 @@
 function [scoresWeighted, scoresUnweighted, scoresPointAdjusted, scoresComposite] = calcScores(labels_pred, labels)
+%CALCSCORES
+%
+% Calculates the different metrics
+
 % Pointwise (weighted) scores
 try
     confmat = confusionmat(logical(labels), logical(labels_pred));

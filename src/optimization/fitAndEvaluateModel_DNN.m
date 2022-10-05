@@ -1,4 +1,8 @@
 function scoresCell = fitAndEvaluateModel_DNN(options, trainingData, trainingLabels, testValData, testValLabels, testingData, testingLabels, thresholds)
+%FITANDEVALUATEMODEL_DNN
+%
+% Trains and tests the selected model configured in the options parameter
+
 [XTrain, YTrain, XVal, YVal] = prepareDataTrain_DNN(options, trainingData, trainingLabels);
 
 [Mdl, ~] = trainDNN(options, XTrain, YTrain, XVal, YVal, 'none');            

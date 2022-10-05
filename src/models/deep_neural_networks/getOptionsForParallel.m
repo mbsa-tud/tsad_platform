@@ -1,4 +1,8 @@
 function trainOptions = getOptionsForParallel(options, XVal, YVal, numWindows, dataqueue, idx)
+%GETOPTIONSFORPARALLEL
+%
+% Returns the training options for parallel training of DL models
+
 switch options.model
     case 'FC AE'
         learningRate = 0.001;

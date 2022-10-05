@@ -1,41 +1,7 @@
 function finalTable =  evaluateAllForDataset(datasetPath, models, useFraction, preprocMethod, ratioTestVal, thresholds)
-% EVALUATEALLFORDATASET evaluate all models for an entire dataset (with
-%                       possible subsets/multiple entities
-% Description: Run training and detection on all subsets of the selected dataset.
-%              Results will be save in the Dataset_Sweep_Results folder which will be
-%              created by this script.
+%EVALUATEALLFORDATASET
 %
-% Input: datasetPath:    string - path to the dataset.
-%                                 The dataset should have subfolders each 
-%                                 containing a train and a test folder with
-%                                 the time series data in .csv format with 
-%                                 the columns:
-%                                 timestamp, value1, value2, ..., is_anomaly
-%        configFileName: string - filename for models config (.json)
-%        useFraction:    double (0, 1] - for multiple-entity datasets:
-%                                        portion of dataset to use.
-%                                        will be ignored for single-entity
-%                                        datasets
-%        preprocMethod:  string - method for preprocessing
-%                                 Possible values: raw data, 
-%                                                  standardize, 
-%                                                  rescale
-%        ratioTestVal:   double (0, 1] - ratio of validation set to full
-%                                        test set
-%        thresholds:     strings - thresholds to use for evaluation.
-%                                  should be subset of:
-%                                  ["bestFscoreWeighted", ...
-%                                  "bestFscoreUnweighted", ...
-%                                  "bestFscoreEventwise", ...
-%                                  "bestFscoreComposite", ...
-%                                  "bestFscoreWeightedGauss", ...
-%                                  "bestFscoreUnweightedGauss", ...
-%                                  "bestFscoreEventwiseGauss", ...
-%                                  "bestFscoreCompositeGauss", ...
-%                                  "topK", ...
-%                                  "meanStd"]
-%
-% Output: finalTable:   table - mean scores for all models
+% Encapsulates the training and testing for all models for a dataset
 
 fprintf('\n ----------------------------- \n');
 fprintf('###  Evaluating all models  ###');

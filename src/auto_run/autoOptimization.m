@@ -1,31 +1,7 @@
 function [bestOptions, finalTable, trainedModels] = autoOptimization(datasetPath, models, configOptFileName, preprocMethod, ratioTestVal, cmpScore, threshold, iterations)
-% AUTOOPTIMIZATION automaitcally optimize hyperparameters for multiple models
+%AUTOOPTIMIZATION
 %
-% Description: Optimization of hyperparameters of all models from config
-%              file using bayesian optimization
-%
-% Input: datasetPath:       string - path to the dataset
-%        models:    struct - models to optimize
-%        configOptFileName: string - filename for optimization config (.json)
-%        preprocMethod:     string - method for preprocessing
-%                                    Possible values: raw data, 
-%                                                     standardize, 
-%                                                     rescale
-%        ratioTestVal:      double (0, 1] - ratio of validation set to full
-%                                           test set
-%        cmpScore:          string - score to optimize models for
-%                                    Possible values: weighted f1score,
-%                                                     unweighted f1score,
-%                                                     eventwise f1score,
-%                                                     composite f1score,
-%        threshold:         string - threshold to use
-%        iterations:        double [1, inf] - number of iterations for
-%                                             bayesian optimization for
-%                                             each model
-%
-% Output: bestOptions:      struct - config containing best options for
-%                                    each model
-%         finalTable:       table - all scores for all optimized models
+% Runs the auto-optimization for all selected models
 
 % Load data
 [rawTrainingData, ~, labelsTrainingData, ~, ...

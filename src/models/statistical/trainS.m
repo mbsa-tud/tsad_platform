@@ -1,5 +1,8 @@
 function Mdl = trainS(options, XTrain)
-% Train model
+%TRAINS
+%
+% Train the statistical models here
+
 switch options.model
     case 'Your Model'
     otherwise

@@ -1,4 +1,9 @@
 function prepareDatasetForDynamicSwitch(datasetPath)
+%PREPAREDATASETFORDYNAMICSWITCH
+%
+% Splits the dataset for training and testing the dynamic switch into a
+% train_switch and test_switch folder
+
 fprintf('Splitting dataset for dynamic switch.\nCreating new folders: train_switch, test_switch');
 
 dataTestPath = fullfile(datasetPath, 'test');

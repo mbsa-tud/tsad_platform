@@ -1,38 +1,8 @@
 function [tmpScores, filesTestingData, trainedModels] = evaluateAllModels(datasetPath, testFolderName, models_DNN, models_CML, models_S, ...
                                         preprocMethod, ratioTestVal, thresholds, saveModels, savePreprocParams)
-% EVALUATEALLMODELS % evaluat all models for a dataset
-% Description: Run training and detection all files of the selected dataset
-%
-% Input: datasetPath:    string - path to the dataset. should contain a 
-%                                 train and a test folder with the time
-%                                 series data in .csv format with 
-%                                 the columns:
-%                                 timestamp, value1, value2, ..., is_anomaly
-%        preprocMethod:  string - method for preprocessing
-%                                 Possible values: raw data, 
-%                                                  standardize, 
-%                                                  rescale
-%        ratioTestVal:   double (0, 1] - ratio of validation set to full
-%                                        test set
-%        thresholds:     strings - thresholds to use for evaluation.
-%                                  should be subset of:
-%                                  ["bestFscorePointwise", ...
-%                                  "bestFscoreEventwise", ...
-%                                  "bestFscorePointAdjusted", ...
-%                                  "bestFscoreComposite", ...
-%                                  "bestFscorePointwiseParametric", ...
-%                                  "bestFscoreEventwiseParametric", ...
-%                                  "bestFscorePointAdjustedParametric", ...
-%                                  "bestFscoreCompositeParametric", ...
-%                                  "topK", ...
-%                                  "meanStd"]
-%       saveModels:     boolean - if true, save trained models to
-%                                 datasetPath
-%       savePreprocParams: boolean - if true, save preprocessing parameters
-%                                    to datasetPath
-%
-% Output: tmpScores:   table - scores for all models
-%         filesTestingData: strings - all filenames of testing dataset
+% EVALUATEALLMODELS
+% 
+% Trains and tests all models on a dataset
 
 fprintf('Loading data\n')
 % Loading data

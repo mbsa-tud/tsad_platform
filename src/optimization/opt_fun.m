@@ -1,4 +1,8 @@
 function score = opt_fun(models, trainingData, trainingLabels, testValData, testValLabels, testingData, testingLabels, thresholds, cmpScore, optVars, exportLogData)
+%OPT_FUN
+%
+% Objective function for the bayesian optimization
+
 numOfModels = length(models);
 if numOfModels > 1
     % If multiple models, select the correct options for the currently
