@@ -116,13 +116,13 @@ switch options.model
 
             convolution2dLayer(5, options.hyperparameters.model.filter.value, Stride=1, Padding='same', WeightsInitializer='he')
             leakyReluLayer()
-            maxPooling2dLayer(3, Name='Maxpool1')
+            maxPooling2dLayer(3, Padding='same', Name='Maxpool1')
             convolution2dLayer(5, options.hyperparameters.model.filter.value * 2, Stride=1, Padding='same', WeightsInitializer='he')
             leakyReluLayer()
-            maxPooling2dLayer(3, Name='Maxpool2')
+            maxPooling2dLayer(3, Padding='same', Name='Maxpool2')
             convolution2dLayer(5, options.hyperparameters.model.filter.value * 4, Stride=1, Padding='same', WeightsInitializer='he')
             leakyReluLayer()
-            maxPooling2dLayer(3, Name='Maxpool3')
+            maxPooling2dLayer(3, Padding='same', Name='Maxpool3')
 
             sequenceUnfoldingLayer(Name='Unfold')
             flattenLayer()

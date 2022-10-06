@@ -45,7 +45,7 @@ for i = 1:numOfTestingFiles
     % Model selection with trained classifier
     XTest_switch = diagnosticFeatures(preprocessedTestingData{1, 1});
     pred = string(classify(classifier, XTest_switch));
-    disp(pred);
+    fprintf("%s - %s\n", pred, testingFiles(i).name);
     selectedModel = models.(pred);
     
     fullScores_Switch{i, 1} = detectAndEvaluateWith(selectedModel, preprocessedTestingData, labelsTestingData);
