@@ -79,7 +79,7 @@
     },
     "CNN_DeepAnT": {
         "filter": {
-            "value": [8, 128],
+            "value": [8, 64],
             "type": "integer"
         },
         "windowSize": {
@@ -89,7 +89,7 @@
     },
     "ResNet": {
         "filter": {
-            "value": [8, 128],
+            "value": [8, 256],
             "type": "integer"
         },
         "windowSize": {
@@ -108,20 +108,28 @@
         }
     },
     "iForest": {
+        "numLearners": {
+            "value": [10, 200],
+            "type": "integer"
+        }
     },
     "OC_SVM": {
     },
     "ABOD": {
     },
     "LOF": {
-    },
-    "LDOF": {
-        "knn": {
-            "value": [1, 100],
+        "k": {
+            "value": [10, 200],
             "type": "integer"
         }
     },
-        "Merlin": {
+    "LDOF": {
+        "k": {
+            "value": [10, 200],
+            "type": "integer"
+        }
+    },
+    "Merlin": {
         "minL": {
             "value": [10, 200],
             "type": "integer"

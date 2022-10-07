@@ -39,7 +39,7 @@ if splitByFile
     
         data = readtable(oldFile);
         
-        if i < splitPoint
+        if i <= splitPoint
             writetable(data, trainFile);
         else
             writetable(data, testFile);

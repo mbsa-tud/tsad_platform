@@ -321,7 +321,7 @@
                 "hyperparameters": {
                     "model": {
                         "filter": {
-                            "value": 32,
+                            "value": 8,
                             "type": "integer"
                         }
                     },
@@ -448,20 +448,20 @@
                 "id": "iForest_1",
                 "trainOnAnomalousData": true,
                 "hyperparameters": {
+                    "data": {
+                        "windowSize": {
+                            "value": 100,
+                            "type": "integer"
+                        },
+                        "stepSize": {
+                            "value": 1,
+                            "type": "integer"
+                        }
+                    },
                     "model": {
                         "numLearners": {
                             "value": 100,
                             "type": "integer"
-                        },
-                        "numObservationsPerLearner": {
-                            "value": 200,
-                            "type": "integer"
-                        }
-                    },
-                    "training": {
-                         "ratioTrainVal": {
-                            "value": 1,
-                            "type": "real"
                         }
                     }
                 }
@@ -475,10 +475,14 @@
                 "id": "OC_SVM_1",
                 "trainOnAnomalousData": false,
                 "hyperparameters": {
-                    "training": {
-                         "ratioTrainVal": {
+                    "data": {
+                        "windowSize": {
+                            "value": 100,
+                            "type": "integer"
+                        },
+                        "stepSize": {
                             "value": 1,
-                            "type": "real"
+                            "type": "integer"
                         }
                     }
                 }
@@ -492,10 +496,14 @@
                 "id": "ABOD_1",
                 "trainOnAnomalousData": false,
                 "hyperparameters": {
-                    "training": {
-                         "ratioTrainVal": {
+                    "data": {
+                        "windowSize": {
+                            "value": 100,
+                            "type": "integer"
+                        },
+                        "stepSize": {
                             "value": 1,
-                            "type": "real"
+                            "type": "integer"
                         }
                     }
                 }
@@ -509,10 +517,20 @@
                 "id": "LOF_1",
                 "trainOnAnomalousData": false,
                 "hyperparameters": {
-                    "training": {
-                         "ratioTrainVal": {
+                    "data": {
+                        "windowSize": {
+                            "value": 100,
+                            "type": "integer"
+                        },
+                        "stepSize": {
                             "value": 1,
-                            "type": "real"
+                            "type": "integer"
+                        }
+                    },
+                    "model": {
+                        "k": {
+                            "value": 10,
+                            "type": "integer"
                         }
                     }
                 }
@@ -526,16 +544,20 @@
                 "id": "LDOF_1",
                 "trainOnAnomalousData": false,
                 "hyperparameters": {
-                    "model": {
-                        "knn": {
-                            "value": 10,
+                    "data": {
+                        "windowSize": {
+                            "value": 100,
+                            "type": "integer"
+                        },
+                        "stepSize": {
+                            "value": 1,
                             "type": "integer"
                         }
                     },
-                    "training": {
-                         "ratioTrainVal": {
-                            "value": 1,
-                            "type": "real"
+                    "model": {
+                        "k": {
+                            "value": 10,
+                            "type": "integer"
                         }
                     }
                 }
@@ -549,6 +571,16 @@
                 "id": "Merlin_1",
                 "trainOnAnomalousData": false,
                 "hyperparameters": {
+                    "data": {
+                        "windowSize": {
+                            "value": 100,
+                            "type": "integer"
+                        },
+                        "stepSize": {
+                            "value": 1,
+                            "type": "integer"
+                        }
+                    },
                     "model": {
                         "minL": {
                             "value": 70,
@@ -557,12 +589,6 @@
                         "maxL": {
                             "value": 100,
                             "type": "integer"
-                        }
-                    },
-                    "training": {
-                         "ratioTrainVal": {
-                            "value": 1,
-                            "type": "real"
                         }
                     }
                 }
@@ -578,15 +604,19 @@
                 "id": "Grubbs_test_1",
                 "trainOnAnomalousData": false,
                 "hyperparameters": {
+                    "data": {
+                        "windowSize": {
+                            "value": 100,
+                            "type": "integer"
+                        },
+                        "stepSize": {
+                            "value": 1,
+                            "type": "integer"
+                        }
+                    },
                     "model": {
                         "alpha": {
                             "value": 0.5,
-                            "type": "real"
-                        }
-                    },
-                    "training": {
-                         "ratioTrainVal": {
-                            "value": 1,
                             "type": "real"
                         }
                     }
@@ -601,15 +631,19 @@
                 "id": "OD_wpca_1",
                 "trainOnAnomalousData": false,
                 "hyperparameters": {
+                    "data": {
+                        "windowSize": {
+                            "value": 100,
+                            "type": "integer"
+                        },
+                        "stepSize": {
+                            "value": 1,
+                            "type": "integer"
+                        }
+                    },
                     "model": {
                         "ratioOversample": {
                             "value": 0.1,
-                            "type": "real"
-                        }
-                    },
-                    "training": {
-                         "ratioTrainVal": {
-                            "value": 1,
                             "type": "real"
                         }
                     }
