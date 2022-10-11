@@ -13,19 +13,22 @@ end
 
 Mdl = trainCML(options, XTrain);
 
-[staticThreshold, ~] = getStaticThreshold_CML(options, Mdl, XTrain, testValData, testValLabels, thresholds);
-
-fields = fieldnames(staticThreshold);
-selectedThreshold = staticThreshold.(fields{1});
+if ~options.calcThresholdLast
+    staticThreshold = getStaticThreshold_CML(options, Mdl, XTrain, testValData, testValLabels, thresholds);
+    fields = fieldnames(staticThreshold);
+    selectedThreshold = staticThreshold.(fields{1});
+else
+    selectedThreshold = thresholds(1);
+end
 
 for dataIdx = 1:size(testingData, 1)
     [XTest, YTest, labels] = prepareDataTest_CML(options, testingData(dataIdx, 1), testingLabels(dataIdx, 1));
     [anomalyScores, ~, labels] = detectWithCML(options, Mdl, XTest, YTest, labels);
     
-    labels_pred = calcStaticThresholdPrediction(anomalyScores, selectedThreshold, 0, false);
+    [labels_pred, ~] = calcStaticThresholdPrediction(anomalyScores, labels, selectedThreshold, options.calcThresholdLast, options.model);
     [scoresPointwise, scoresEventwise, scoresPointAdjusted, scoresComposite] = calcScores(labels_pred, labels);
 
-   fullScores = [scoresComposite(1); ...
+    fullScores = [scoresComposite(1); ...
                     scoresPointwise(3); ...
                     scoresEventwise(3); ...
                     scoresPointAdjusted(3); ...

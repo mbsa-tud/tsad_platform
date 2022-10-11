@@ -29,13 +29,18 @@ end
 
 for i = 1:numel(models)
     options = models(i).options;
-    [staticThreshold, pd] = getStaticThreshold_DNN(options, Mdls{i}, XTrainCell(i), YTrainCell(i), XValCell(i), YValCell(i), testValData, testValLabels, thresholds);
+
+    if ~options.calcThresholdLast
+        staticThreshold = getStaticThreshold_DNN(options, Mdls{i}, XTrainCell(i), YTrainCell(i), XValCell(i), YValCell(i), testValData, testValLabels, thresholds);
+    else
+        staticThreshold = [];
+    end
+
 
     trainedNetwork.Mdl = Mdls{i};
     trainedNetwork.MdlInfo = MdlInfos{i};
     trainedNetwork.options = options;
     trainedNetwork.staticThreshold = staticThreshold;
-    trainedNetwork.pd = pd;
 
     trainedModels.(options.id) = trainedNetwork;
 end

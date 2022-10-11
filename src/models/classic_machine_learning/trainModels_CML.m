@@ -13,13 +13,16 @@ for i = 1:length(models)
     end
     
     Mdl = trainCML(options, XTrain);
-
-    [staticThreshold, pd] = getStaticThreshold_CML(options, Mdl, XTrain, testValData, testValLabels, thresholds);
-
-    trainedModel.staticThreshold = staticThreshold;        
+    
+    if ~options.calcThresholdLast
+        staticThreshold = getStaticThreshold_CML(options, Mdl, XTrain, testValData, testValLabels, thresholds);
+    else
+        staticThreshold = [];
+    end
+           
     trainedModel.options = options;
     trainedModel.Mdl = Mdl;
-    trainedModel.pd = pd;
+    trainedModel.staticThreshold = staticThreshold;
 
     trainedModels_CML.(models(i).options.id) = trainedModel;
 end

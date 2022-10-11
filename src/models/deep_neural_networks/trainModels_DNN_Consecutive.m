@@ -13,13 +13,17 @@ for i = 1:length(models)
     end
 
     [Mdl, MdlInfo] = trainDNN(options, XTrain, YTrain, XVal, YVal, 'training-progress');
-    [staticThreshold, pd] = getStaticThreshold_DNN(options, Mdl, XTrain, YTrain, XVal, YVal, testValData, testValLabels, thresholds);
+
+    if ~options.calcThresholdLast
+        staticThreshold = getStaticThreshold_DNN(options, Mdl, XTrain, YTrain, XVal, YVal, testValData, testValLabels, thresholds);
+    else
+        staticThreshold = [];
+    end
     
     trainedNetwork.Mdl = Mdl;
     trainedNetwork.MdlInfo = MdlInfo;
     trainedNetwork.options = options;
     trainedNetwork.staticThreshold = staticThreshold;
-    trainedNetwork.pd = pd;
 
     trainedModels.(options.id) = trainedNetwork;
 end

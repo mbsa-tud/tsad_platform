@@ -1,4 +1,4 @@
-function scores = detectAndEvaluateWith(model, testingData, testingLabels)
+function scores = detectAndEvaluateWith(model, testingData, testingLabels, thresholds)
 %DETECTANDEVALUATEWITH
 %
 % Runs the detection and returns the scores for the model
@@ -12,21 +12,17 @@ switch model.options.type
         [XTest, YTest, labels] = prepareDataTest_DNN(options, testingData, testingLabels);
             
         [anomalyScores, YTest, labels] = detectWithDNN(options, Mdl, XTest, YTest, labels);
-    
-        staticThreshold = model.staticThreshold;
         
-        thrFields = fieldnames(staticThreshold);
-        selectedThreshold = staticThreshold.(thrFields{1});
-
-        if endsWith(thrFields{1}, 'Parametric')
-            pd = model.pd;
-            useParametric = true;
+        if ~options.calcThresholdLast
+            staticThreshold = model.staticThreshold;
+        
+            thrFields = fieldnames(staticThreshold);
+            selectedThreshold = staticThreshold.(thrFields{1});
         else
-            pd = 0;
-            useParametric = false;
+            selectedThreshold = thresholds(1);
         end
     
-        anomsStatic = calcStaticThresholdPrediction(anomalyScores, selectedThreshold, pd, useParametric);
+        anomsStatic = calcStaticThresholdPrediction(anomalyScores, labels, selectedThreshold, options.calcThresholdLast, options.model);
         [scoresPointwiseStatic, scoresEventwiseStatic, ...
             scoresPointAdjustedStatic, scoresCompositeStatic] = calcScores(anomsStatic, labels);
     
@@ -46,20 +42,16 @@ switch model.options.type
         
         [anomalyScores, YTest, labels] = detectWithCML(options, Mdl, XTest, YTest, labels);
         
-        staticThreshold = model.staticThreshold;
-
-        thrFields = fieldnames(staticThreshold);
-        selectedThreshold = staticThreshold.(thrFields{1});
-
-        if endsWith(thrFields{1}, 'Parametric')
-            pd = model.pd;
-            useParametric = true;
-        else
-            pd = 0;
-            useParametric = false;
-        end
+        if ~options.calcThresholdLast
+            staticThreshold = model.staticThreshold;
         
-        anomsStatic = calcStaticThresholdPrediction(anomalyScores, selectedThreshold, pd, useParametric);
+            thrFields = fieldnames(staticThreshold);
+            selectedThreshold = staticThreshold.(thrFields{1});
+        else
+            selectedThreshold = thresholds(1);
+        end
+    
+        anomsStatic = calcStaticThresholdPrediction(anomalyScores, labels, selectedThreshold, options.calcThresholdLast, options.model);
         [scoresPointwiseStatic, scoresEventwiseStatic, ...
             scoresPointAdjustedStatic, scoresCompositeStatic] = calcScores(anomsStatic, labels);
         
@@ -80,20 +72,16 @@ switch model.options.type
         
         [anomalyScores, YTest, labels] = detectWithS(options, Mdl, XTest, YTest, labels);
         
-        staticThreshold = model.staticThreshold;
-
-        thrFields = fieldnames(staticThreshold);
-        selectedThreshold = staticThreshold.(thrFields{1});
-
-        if endsWith(thrFields{1}, 'Parametric')
-            pd = model.pd;
-            useParametric = true;
+        if ~options.calcThresholdLast
+            staticThreshold = model.staticThreshold;
+        
+            thrFields = fieldnames(staticThreshold);
+            selectedThreshold = staticThreshold.(thrFields{1});
         else
-            pd = 0;
-            useParametric = false;
+            selectedThreshold = thresholds(1);
         end
-
-        anomsStatic = calcStaticThresholdPrediction(anomalyScores, selectedThreshold, pd, useParametric);
+    
+        anomsStatic = calcStaticThresholdPrediction(anomalyScores, labels, selectedThreshold, options.calcThresholdLast, options.model);
         [scoresPointwiseStatic, scoresEventwiseStatic, ...
             scoresPointAdjustedStatic, scoresCompositeStatic] = calcScores(anomsStatic, labels);
         

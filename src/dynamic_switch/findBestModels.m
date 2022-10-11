@@ -1,4 +1,4 @@
-function findBestModels(datasetPath, models, preprocMethod, ratioTestVal, thresholds, cmpMetric)
+function findBestModels(datasetPath, models, preprocMethod, ratioTestVal, cmpMetric)
 %FINDBESTMODELS
 %
 % Auto-labels the dynamic switch train dataset
@@ -19,12 +19,22 @@ for i = 1:length(models_S)
     allModelNames = [allModelNames string(models_S(i).options.id)];
 end
 
-% TODO: compute best models just on test set
+switch cmpMetric
+    case 'Composite F1 Score'
+        threshold = "bestFscoreComposite";
+    case 'Point-wise F1 Score'
+        threshold = "bestFscorePointwise";
+    case 'Event-wise F1 Score'
+        threshold = "bestFscoreEventwise";
+    case 'Point-adjusted F1 Score'
+        threshold = "bestFscorePointAdjusted";
+end
+
 [tmpScores, testFileNames] = evaluateAllModels(datasetPath, 'train_switch', models_DNN, models_CML, models_S, ...
-        preprocMethod, ratioTestVal, thresholds, true, true);
+        preprocMethod, ratioTestVal, threshold, true, true);
 
 switch cmpMetric
-    case 'Compsite F1 Score'
+    case 'Composite F1 Score'
         score_idx = 1;
     case 'Point-wise F1 Score'
         score_idx = 2;

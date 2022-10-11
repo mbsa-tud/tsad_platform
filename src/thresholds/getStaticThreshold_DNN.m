@@ -1,10 +1,9 @@
-function [staticThreshold, pd] = getStaticThreshold_DNN(options, Mdl, XTrain, YTrain, XVal, YVal, testValData, testValLabels, thresholds)
+function staticThreshold = getStaticThreshold_DNN(options, Mdl, XTrain, YTrain, XVal, YVal, testValData, testValLabels, thresholds)
 %GETSTATICTHRESHOLD_DNN
 %
 % This function calculates the static threshold for DL models and
 % returnes them in the staticThreshold struct
 
-pd = [];
 switch options.model
     case 'Your model'
     otherwise

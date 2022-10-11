@@ -1,8 +1,11 @@
-function labels_pred = calcStaticThresholdPrediction(anomalyScores, staticThreshold, pd, useGaussianScores)
+function [labels_pred, staticThreshold] = calcStaticThresholdPrediction(anomalyScores, labels, staticThreshold, calcThresholdLast, model)
 %CALCSTATICTHRESHOLDPREDICTION
 %
 % Converts anomaly scores to binary detection using the static threshold
 
+if calcThresholdLast
+    staticThreshold = calcStaticThreshold(anomalyScores, labels, staticThreshold, model);
+end
 
 labels_pred_tmp = logical([]);
 numChannels = size(anomalyScores, 2);

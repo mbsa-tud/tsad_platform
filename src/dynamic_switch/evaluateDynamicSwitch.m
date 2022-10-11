@@ -1,4 +1,4 @@
-function finalTable = evaluateDynamicSwitch(classifier, datasetPath)
+function finalTable = evaluateDynamicSwitch(classifier, datasetPath, threshold)
 % EVALUATEDYNAMICSWITCH
 %
 % Tests the dynamic switch and compares it to all individual models on the
@@ -48,9 +48,9 @@ for i = 1:numOfTestingFiles
     fprintf("%s - %s\n", pred, testingFiles(i).name);
     selectedModel = models.(pred);
     
-    fullScores_Switch{i, 1} = detectAndEvaluateWith(selectedModel, preprocessedTestingData, labelsTestingData);
+    fullScores_Switch{i, 1} = detectAndEvaluateWith(selectedModel, preprocessedTestingData, labelsTestingData, threshold);
     for j = 1:numOfModels
-        fullScores{j, 1}{i, 1} = detectAndEvaluateWith(models.(fields{j}), preprocessedTestingData, labelsTestingData);
+        fullScores{j, 1}{i, 1} = detectAndEvaluateWith(models.(fields{j}), preprocessedTestingData, labelsTestingData, threshold);
     end
 end
 

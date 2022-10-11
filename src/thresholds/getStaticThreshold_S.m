@@ -1,10 +1,9 @@
-function [staticThreshold, pd] = getStaticThreshold_S(options, Mdl, XTrain, testValData, testValLabels, thresholds)
+function staticThreshold = getStaticThreshold_S(options, Mdl, XTrain, testValData, testValLabels, thresholds)
 %GETSTATICTHRESHOLD_S
 %
 % This function calculates the static thresholds for statistical models and
 % returnes them in the staticThreshold struct
 
-pd = [];
 switch options.model
     case 'Your model'
     otherwise

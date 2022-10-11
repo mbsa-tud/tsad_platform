@@ -5,11 +5,15 @@ function scoresCell = fitAndEvaluateModel_DNN(options, trainingData, trainingLab
 
 [XTrain, YTrain, XVal, YVal] = prepareDataTrain_DNN(options, trainingData, trainingLabels);
 
-[Mdl, ~] = trainDNN(options, XTrain, YTrain, XVal, YVal, 'none');            
-[staticThreshold, ~] = getStaticThreshold_DNN(options, Mdl, XTrain, YTrain, XVal, YVal, testValData, testValLabels, thresholds);
+[Mdl, ~] = trainDNN(options, XTrain, YTrain, XVal, YVal, 'none');
 
-fields = fieldnames(staticThreshold);
-selectedThreshold = staticThreshold.(fields{1});
+if ~options.calcThresholdLast
+    staticThreshold = getStaticThreshold_DNN(options, Mdl, XTrain, YTrain, XVal, YVal, testValData, testValLabels, thresholds);
+    fields = fieldnames(staticThreshold);
+    selectedThreshold = staticThreshold.(fields{1});
+else
+    selectedThreshold = thresholds(1);
+end
 
 scoresCell = cell(size(testingData, 1), 1);
 
@@ -18,7 +22,7 @@ for dataIdx = 1:size(testingData, 1)
     
     [anomalyScores, ~, labels] = detectWithDNN(options, Mdl, XTest, YTest, labels);
     
-    labels_pred = calcStaticThresholdPrediction(anomalyScores, selectedThreshold, 0, false);
+    [labels_pred, ~] = calcStaticThresholdPrediction(anomalyScores, labels, selectedThreshold, options.calcThresholdLast, options.model);
     [scoresPointwise, scoresEventwise, scoresPointAdjusted, scoresComposite] = calcScores(labels_pred, labels);
 
     fullScores = [scoresComposite(1); ...

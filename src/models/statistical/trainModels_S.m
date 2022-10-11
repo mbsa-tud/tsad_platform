@@ -14,12 +14,15 @@ for i = 1:length(models)
 
     Mdl = trainS(options, XTrain);
 
-    [staticThreshold, pd] = getStaticThreshold_S(options, Mdl, XTrain, testValData, testValLabels, thresholds);
+    if ~options.calcThresholdLast
+        staticThreshold = getStaticThreshold_S(options, Mdl, XTrain, testValData, testValLabels, thresholds);
+    else
+        staticThreshold = [];
+    end
 
     trainedModel.staticThreshold = staticThreshold;
     trainedModel.options = options;
     trainedModel.Mdl = Mdl;    
-    trainedModel.pd = pd;
     
     trainedModels_S.(models(i).options.id) = trainedModel;
 end
