@@ -50,7 +50,7 @@ if ~isempty(models_DNN)
     end
     fields = fieldnames(trainedModels_DNN);
     for f_idx = 1:length(fields)
-        allModels.(fields{f_idx}) = trainedModels_DNN.(fields{f_idx});
+        trainedModels.(fields{f_idx}) = trainedModels_DNN.(fields{f_idx});
     end
 end
 
@@ -61,7 +61,7 @@ if ~isempty(models_CML)
                                         testValData, testValLabels, thresholds);
     fields = fieldnames(trainedModels_CML);
     for f_idx = 1:length(fields)
-        allModels.(fields{f_idx}) = trainedModels_CML.(fields{f_idx});
+        trainedModels.(fields{f_idx}) = trainedModels_CML.(fields{f_idx});
     end
 end
 
@@ -72,15 +72,15 @@ if ~isempty(models_S)
                                         testValData, testValLabels, thresholds);
     fields = fieldnames(trainedModels_S);
     for f_idx = 1:length(fields)
-        allModels.(fields{f_idx}) = trainedModels_S.(fields{f_idx});
+        trainedModels.(fields{f_idx}) = trainedModels_S.(fields{f_idx});
     end
 end
 
 % Save models to models.mat file
 if saveModels
     fileName = fullfile(datasetPath, 'models.mat');
-    assignin('base', 'allModels', allModels);
-    save(fileName, 'allModels');
+    assignin('base', 'allModels', trainedModels);
+    save(fileName, 'trainedModels');
 end
 
 tmpScores = cell(length(thresholds), 1);
@@ -90,18 +90,31 @@ end
 
 
 % Detection with DNN models
-if ~isempty(models_DNN)
-    fprintf('Detecting with DNN models\n')
-    for j = 1:length(models_DNN)
-        trainedModel = trainedModels_DNN.(models_DNN(j).options.id);
+if ~isempty(trainedModels)
+    fprintf('Detecting with models\n')
+    fields = fieldNames(trainedModels);
+
+    for j = 1:length(fields)
+        trainedModel = trainedModels.(fields{j});
         options = trainedModel.options;
         Mdl = trainedModel.Mdl;
     
         % For all files in the test folder
-        for dataIdx = 1:length(filesTestingData)            
-            [XTest, YTest, labels] = prepareDataTest_DNN(options, preprocessedTestingData(dataIdx, 1), labelsTestingData(dataIdx, 1));
-                
-            [anomalyScores, YTest, labels] = detectWithDNN(options, Mdl, XTest, YTest, labels);
+        for dataIdx = 1:length(filesTestingData)
+            switch options.type
+                case 'DNN'
+                    [XTest, YTest, labels] = prepareDataTest_DNN(options, preprocessedTestingData(dataIdx, 1), labelsTestingData(dataIdx, 1));
+                        
+                    [anomalyScores, YTest, labels] = detectWithDNN(options, Mdl, XTest, YTest, labels);
+                case 'CML'
+                    [XTest, YTest, labels] = prepareDataTest_CML(options, preprocessedTestingData(dataIdx, 1), labelsTestingData(dataIdx, 1));
+
+                    [anomalyScores, YTest, labels] = detectWithCML(options, Mdl, XTest, YTest, labels);
+                case 'S'
+                    [XTest, YTest, labels] = prepareDataTest_S(options, preprocessedTestingData(dataIdx, 1), labelsTestingData(dataIdx, 1));
+
+                    [anomalyScores, YTest, labels] = detectWithS(options, Mdl, XTest, YTest, labels);
+            end
 
             staticThreshold =  trainedModel.staticThreshold;
             
@@ -181,218 +194,6 @@ if ~isempty(models_DNN)
                 tmpScores{k, 1} = tmp;
             end
         end
-    end
-end
-
-% Detection with CML models
-if ~isempty(models_CML)
-    fprintf('Detecting with CML models\n')
-    for j = 1:length(models_CML)
-        trainedModel = trainedModels_CML.(models_CML(j).options.id);
-        options = trainedModel.options;
-    
-        % For all files in the test folder
-        for dataIdx = 1:length(filesTestingData)            
-            Mdl = trainedModel.Mdl;
-
-            [XTest, YTest, labels] = prepareDataTest_CML(options, preprocessedTestingData(dataIdx, 1), labelsTestingData(dataIdx, 1));
-
-            [anomalyScores, YTest, labels] = detectWithCML(options, Mdl, XTest, YTest, labels);
-
-            staticThreshold = trainedModel.staticThreshold;
-            
-            % For all thresholds in the thresholds variable
-            for k = 1:length(thresholds)
-                if ~strcmp(thresholds(k), 'dynamic')
-                    % Static thresholds
-
-                    if ~options.calcThresholdLast
-                        if isfield(staticThreshold, thresholds(k))
-                            selectedThreshold = staticThreshold.(thresholds(k));
-                        else
-                            thrFields = fieldnames(staticThreshold);
-                            selectedThreshold = staticThreshold.(thrFields{1});
-                        end
-                    else
-                        selectedThreshold = thresholds(k);
-                    end
-
-                    if iscell(YTest)
-                        YTest = cell2mat(YTest);
-                    end
-       
-                    anomsStatic = calcStaticThresholdPrediction(anomalyScores, labels, selectedThreshold, options.calcThresholdLast, options.model);
-
-                    [scoresPointwiseStatic, scoresEventwiseStatic, ...
-                        scoresPointAdjustedStatic, scoresCompositeStatic] = calcScores(anomsStatic, labels);
-                    
-                    fullScores = [scoresCompositeStatic(1); ...
-                                    scoresPointwiseStatic(3); ...
-                                    scoresEventwiseStatic(3); ...
-                                    scoresPointAdjustedStatic(3); ...
-                                    scoresCompositeStatic(2); ...
-                                    scoresPointwiseStatic(4); ...
-                                    scoresEventwiseStatic(4); ...
-                                    scoresPointAdjustedStatic(4); ...
-                                    scoresPointwiseStatic(1); ...
-                                    scoresEventwiseStatic(1); ...
-                                    scoresPointAdjustedStatic(1); ...
-                                    scoresPointwiseStatic(2); ...
-                                    scoresEventwiseStatic(2); ...
-                                    scoresPointAdjustedStatic(2)];
-                else
-                    % Dynamic threshold
-                    if iscell(YTest)
-                        windowSize = floor(size(YTest{1, 1}, 1) / 2);
-                    else
-                        windowSize = floor(length(YTest) / 2);
-                    end
-                    padding = 3;
-                    z_range = 1:2;
-                    min_percent = 1;
-            
-                    [anomsDynamic, ~] = calcDynamicThresholdPrediction(anomalyScores, labels, padding, ...
-                        windowSize, min_percent, z_range);
-                    [scoresPointwiseDynamic, scoresEventwiseDynamic, ...
-                        scoresPointAdjustedDynamic, scoresCompositeDynamic] = calcScores(anomsDynamic, labels);
-
-                    fullScores = [scoresCompositeDynamic(1); ...
-                                    scoresPointwiseDynamic(3); ...
-                                    scoresEventwiseDynamic(3); ...
-                                    scoresPointAdjustedDynamic(3); ...
-                                    scoresCompositeDynamic(2); ...
-                                    scoresPointwiseDynamic(4); ...
-                                    scoresEventwiseDynamic(4); ...
-                                    scoresPointAdjustedDynamic(4); ...
-                                    scoresPointwiseDynamic(1); ...
-                                    scoresEventwiseDynamic(1); ...
-                                    scoresPointAdjustedDynamic(1); ...
-                                    scoresPointwiseDynamic(2); ...
-                                    scoresEventwiseDynamic(2); ...
-                                    scoresPointAdjustedDynamic(2)];
-                end
-    
-                tmp = tmpScores{k, 1};
-                tmp{dataIdx, 1} = [tmp{dataIdx, 1}, fullScores];
-                tmpScores{k, 1} = tmp;
-            end
-        end
-    end
-end
-
-% Detection with S models
-if ~isempty(models_S)
-    fprintf('Detecting with S models\n')
-    for j = 1:length(models_S)
-        trainedModel = trainedModels_S.(models_S(j).options.id);
-        options = trainedModel.options;
-    
-        % For all files in the test folder
-        for dataIdx = 1:length(filesTestingData)            
-            Mdl = trainedModel.Mdl;
-
-            [XTest, YTest, labels] = prepareDataTest_S(options, preprocessedTestingData(dataIdx, 1), labelsTestingData(dataIdx, 1));
-
-            [anomalyScores, YTest, labels] = detectWithS(options, Mdl, XTest, YTest, labels);
-
-            staticThreshold = trainedModel.staticThreshold;
-            
-            % For all thresholds in the thresholds variable
-            for k = 1:length(thresholds)
-                if ~strcmp(thresholds(k), 'dynamic')
-                    % Static thresholds
-                    
-                    if ~options.calcThresholdLast
-                        if isfield(staticThreshold, thresholds(k))
-                            selectedThreshold = staticThreshold.(thresholds(k));
-                        else
-                            thrFields = fieldnames(staticThreshold);
-                            selectedThreshold = staticThreshold.(thrFields{1});
-                        end
-                    else
-                        selectedThreshold = thresholds(k);
-                    end
-
-                    if iscell(YTest)
-                        YTest = cell2mat(YTest);
-                    end
-       
-                    anomsStatic = calcStaticThresholdPrediction(anomalyScores, labels, selectedThreshold, options.calcThresholdLast, options.model);
-                    
-                    [scoresPointwiseStatic, scoresEventwiseStatic, ...
-                        scoresPointAdjustedStatic, scoresCompositeStatic] = calcScores(anomsStatic, labels);
-                    
-                    fullScores = [scoresCompositeStatic(1); ...
-                                    scoresPointwiseStatic(3); ...
-                                    scoresEventwiseStatic(3); ...
-                                    scoresPointAdjustedStatic(3); ...
-                                    scoresCompositeStatic(2); ...
-                                    scoresPointwiseStatic(4); ...
-                                    scoresEventwiseStatic(4); ...
-                                    scoresPointAdjustedStatic(4); ...
-                                    scoresPointwiseStatic(1); ...
-                                    scoresEventwiseStatic(1); ...
-                                    scoresPointAdjustedStatic(1); ...
-                                    scoresPointwiseStatic(2); ...
-                                    scoresEventwiseStatic(2); ...
-                                    scoresPointAdjustedStatic(2)];
-                else
-                    % Dynamic threshold
-                    if iscell(YTest)
-                        windowSize = floor(size(YTest{1, 1}, 1) / 2);
-                    else
-                        windowSize = floor(length(YTest) / 2);
-                    end
-                    padding = 3;
-                    z_range = 1:2;
-                    min_percent = 1;
-            
-                    [anomsDynamic, ~] = calcDynamicThresholdPrediction(anomalyScores, labels, padding, ...
-                        windowSize, min_percent, z_range);
-                    [scoresPointwiseDynamic, scoresEventwiseDynamic, ...
-                        scoresPointAdjustedDynamic, scoresCompositeDynamic] = calcScores(anomsDynamic, labels);
-
-                    fullScores = [scoresCompositeDynamic(1); ...
-                                    scoresPointwiseDynamic(3); ...
-                                    scoresEventwiseDynamic(3); ...
-                                    scoresPointAdjustedDynamic(3); ...
-                                    scoresCompositeDynamic(2); ...
-                                    scoresPointwiseDynamic(4); ...
-                                    scoresEventwiseDynamic(4); ...
-                                    scoresPointAdjustedDynamic(4); ...
-                                    scoresPointwiseDynamic(1); ...
-                                    scoresEventwiseDynamic(1); ...
-                                    scoresPointAdjustedDynamic(1); ...
-                                    scoresPointwiseDynamic(2); ...
-                                    scoresEventwiseDynamic(2); ...
-                                    scoresPointAdjustedDynamic(2)];
-                end
-    
-                tmp = tmpScores{k, 1};
-                tmp{dataIdx, 1} = [tmp{dataIdx, 1}, fullScores];
-                tmpScores{k, 1} = tmp;
-            end
-        end
-    end
-end
-
-% Sort trained models into struct to return
-if ~isempty(models_DNN)
-    fields = fieldnames(trainedModels_DNN);
-    for i = 1:numel(fields)
-        trainedModels.(fields{i}) = trainedModels_DNN.(fields{i});
-    end
-end
-if ~isempty(models_CML)
-    fields = fieldnames(trainedModels_CML);
-    for i = 1:numel(fields)
-        trainedModels.(fields{i}) = trainedModels_CML.(fields{i});
-    end
-end
-if ~isempty(models_S)
-    fields = fieldnames(trainedModels_S);
-    for i = 1:numel(fields)
-        trainedModels.(fields{i}) = trainedModels_S.(fields{i});
     end
 end
 end
