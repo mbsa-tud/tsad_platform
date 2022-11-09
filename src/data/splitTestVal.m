@@ -4,7 +4,7 @@ function [testingData, testingLabels, testValData, testValLabels, testFileNames]
 % Split testing data into testing set and validation set
 
 if size(testingData, 1) > 1 
-    ratioSplit = 0.2;
+    ratioSplit = 0.1;
 
     idx = randperm(size(testingData, 1));
     splitPoint = ceil(ratioSplit * size(testingData, 1));
