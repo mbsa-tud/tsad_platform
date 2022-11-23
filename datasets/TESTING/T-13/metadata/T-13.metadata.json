@@ -1,0 +1,108 @@
+[
+  {
+    "anomaly_length": {
+      "max": 151,
+      "median": 126,
+      "min": 101
+    },
+    "contamination": 0.1037037037037037,
+    "dataset_id": [
+      "NASA-MSL",
+      "T-13"
+    ],
+    "dimensions": 1,
+    "is_train": false,
+    "length": 2430,
+    "means": {
+      "value": 0.06727009775993778
+    },
+    "num_anomalies": 2,
+    "periods": {
+      "value": 1
+    },
+    "stationarities": {
+      "value": "trend_stationary"
+    },
+    "stddevs": {
+      "value": 0.6447743191017009
+    },
+    "trends": {
+      "value": [
+        {
+          "coef": [
+            0.000904216797522896
+          ],
+          "confidence_r2": 0.9681433452904286,
+          "tpe": "linear"
+        },
+        {
+          "coef": [
+            3.3985111855128774e-07
+          ],
+          "confidence_r2": 0.8607519573732824,
+          "tpe": "quadratic"
+        },
+        {
+          "coef": [
+            1.3623843067058485e-10
+          ],
+          "confidence_r2": 0.738020496313321,
+          "tpe": "kubic"
+        }
+      ]
+    }
+  },
+  {
+    "anomaly_length": {
+      "max": 0,
+      "median": 0,
+      "min": 0
+    },
+    "contamination": 0.0,
+    "dataset_id": [
+      "NASA-MSL",
+      "T-13"
+    ],
+    "dimensions": 1,
+    "is_train": true,
+    "length": 1145,
+    "means": {
+      "value": 0.05297958578305448
+    },
+    "num_anomalies": 0,
+    "periods": {
+      "value": 1
+    },
+    "stationarities": {
+      "value": "trend_stationary"
+    },
+    "stddevs": {
+      "value": 0.5288359492681157
+    },
+    "trends": {
+      "value": [
+        {
+          "coef": [
+            0.001540085496381418
+          ],
+          "confidence_r2": 0.9273775540524334,
+          "tpe": "linear"
+        },
+        {
+          "coef": [
+            1.1914959371974996e-06
+          ],
+          "confidence_r2": 0.7749616494635576,
+          "tpe": "quadratic"
+        },
+        {
+          "coef": [
+            9.958304085504098e-10
+          ],
+          "confidence_r2": 0.640891592667939,
+          "tpe": "kubic"
+        }
+      ]
+    }
+  }
+]

@@ -1,4 +1,4 @@
-function trainedModels = trainModels_DNN_Parallel(models, trainingData, trainingLabels, testValData, testValLabels, thresholds, closeOnFinished)
+function trainedModels = trainModels_DNN_Parallel(models, dataTrain, labelsTrain, dataValTest, labelsValTest, ratioValTest, thresholds, closeOnFinished)
 %TRAINMODELS_DNN_PARALLEL
 %
 % Trains all DL models in parallel and calculates the thresholds
@@ -13,10 +13,17 @@ YValCell = cell(1, numNetworks);
 for i = 1:numNetworks
     options = models(i).options;
 
-    if ~options.trainOnAnomalousData
-        [XTrain, YTrain, XVal, YVal] = prepareDataTrain_DNN(options, trainingData, trainingLabels);
-    else
-        [XTrain, YTrain, XVal, YVal] = prepareDataTrain_DNN(options, testValData, testValLabels);
+    switch options.learningType
+        case 'unsupervised'
+        case 'semisupervised'
+            if ratioValTest == 1
+                models(i).options.calcThresholdLast = true;
+            else
+                models(i).options.calcThresholdLast = false;
+            end
+
+            [XTrain, YTrain, XVal, YVal] = prepareDataTrain_DNN(options, dataTrain, labelsTrain);
+        case 'supervised'
     end
 
     XTrainCell{i} = XTrain{1};
@@ -30,10 +37,15 @@ end
 for i = 1:numel(models)
     options = models(i).options;
 
-    if ~options.calcThresholdLast
-        staticThreshold = getStaticThreshold_DNN(options, Mdls{i}, XTrainCell(i), YTrainCell(i), XValCell(i), YValCell(i), testValData, testValLabels, thresholds);
-    else
-        staticThreshold = [];
+    switch options.learningType
+        case 'unsupervised'
+        case 'semisupervised'
+            if ~options.calcThresholdLast
+                staticThreshold = getStaticThreshold_DNN(options, Mdls{i}, XTrainCell(i), YTrainCell(i), XValCell(i), YValCell(i), dataValTest, labelsValTest, thresholds);
+            else
+                staticThreshold = [];
+            end
+        case 'supervised'
     end
 
 

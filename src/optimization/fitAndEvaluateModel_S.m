@@ -1,32 +1,32 @@
-function scoresCell = fitAndEvaluateModel_S(options, trainingData, trainingLabels, testValData, testValLabels, testingData, testingLabels, thresholds)
+function scoresCell = fitAndEvaluateModel_S(options, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, ratioValTest, thresholds)
 %FITANDEVALUATEMODEL_S
 %
 % Trains and tests the selected model configured in the options parameter
 
-scoresCell = cell(size(testingData, 1), 1);
+scoresCell = cell(size(dataTest, 1), 1);
 
-if ~options.trainOnAnomalousData
-    XTrain = prepareDataTrain_S(options, trainingData);
-else
-    XTrain = prepareDataTrain_S(options, testValData);
-end
+model.options = options;
 
-Mdl = trainS(options, XTrain);
+trainedModel = trainModels_CML(model, dataTrain, ...
+                                        dataValTest, labelsValTest, ratioValTest, thresholds);
 
-if ~options.calcThresholdLast
-    staticThreshold = getStaticThreshold_S(options, Mdl, XTrain, testValData, testValLabels, thresholds);
+options = trainedModel.(options.id).options;
+Mdl = trainedModel.(options.id).Mdl;
+staticThreshold = trainedModel.(options.id).staticThreshold;
+
+if ~options.calcThresholdLast    
     fields = fieldnames(staticThreshold);
     selectedThreshold = staticThreshold.(fields{1});
 else
     selectedThreshold = thresholds(1);
 end
 
-for dataIdx = 1:size(testingData, 1)
-    [XTest, YTest, labels] = prepareDataTest_S(options, testingData(dataIdx, 1), testingLabels(dataIdx, 1));
-    [anomalyScores, ~, labels] = detectWithS(options, Mdl, XTest, YTest, labels);
+for dataIdx = 1:size(dataTest, 1)
+    [XTest, YTest, labelsTrain] = prepareDataTest_S(options, dataTest(dataIdx, 1), labelsTest(dataIdx, 1));
+    [anomalyScores, ~, labelsTrain] = detectWithS(options, Mdl, XTest, YTest, labelsTrain);
     
-    [labels_pred, ~] = calcStaticThresholdPrediction(anomalyScores, labels, selectedThreshold, options.calcThresholdLast, options.model);
-    [scoresPointwise, scoresEventwise, scoresPointAdjusted, scoresComposite] = calcScores(labels_pred, labels);
+    [labels_pred, ~] = calcStaticThresholdPrediction(anomalyScores, labelsTrain, selectedThreshold, options.calcThresholdLast, options.model);
+    [scoresPointwise, scoresEventwise, scoresPointAdjusted, scoresComposite] = calcScores(labels_pred, labelsTrain);
 
    fullScores = [scoresComposite(1); ...
                     scoresPointwise(3); ...

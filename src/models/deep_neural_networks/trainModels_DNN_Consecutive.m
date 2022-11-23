@@ -1,23 +1,29 @@
-function trainedModels = trainModels_DNN_Consecutive(models, trainingData, trainingLabels, testValData, testValLabels, thresholds)
+function trainedModels = trainModels_DNN_Consecutive(models, dataTrain, labelsTrain, dataValTest, labelsValTest, ratioValTest, thresholds, trainingPlots)
 %TRAINMODELS_DNN_CONSECUTIVE
 %
 % Trains all DL models consecutively and calculates the thresholds
 
 for i = 1:length(models)
     options = models(i).options;
+
+    switch options.learningType
+        case 'unsupervised'
+        case 'semisupervised'
+            if ratioValTest == 1
+                options.calcThresholdLast = true;
+            else
+                options.calcThresholdLast = false;
+            end
     
-    if ~options.trainOnAnomalousData
-        [XTrain, YTrain, XVal, YVal] = prepareDataTrain_DNN(options, trainingData, trainingLabels);
-    else
-        [XTrain, YTrain, XVal, YVal] = prepareDataTrain_DNN(options, testValData, testValLabels);
-    end
-
-    [Mdl, MdlInfo] = trainDNN(options, XTrain, YTrain, XVal, YVal, 'training-progress');
-
-    if ~options.calcThresholdLast
-        staticThreshold = getStaticThreshold_DNN(options, Mdl, XTrain, YTrain, XVal, YVal, testValData, testValLabels, thresholds);
-    else
-        staticThreshold = [];
+            [XTrain, YTrain, XVal, YVal] = prepareDataTrain_DNN(options, dataTrain, labelsTrain);
+            [Mdl, MdlInfo] = trainDNN(options, XTrain, YTrain, XVal, YVal, trainingPlots);
+    
+            if ~options.calcThresholdLast
+                staticThreshold = getStaticThreshold_DNN(options, Mdl, XTrain, YTrain, XVal, YVal, dataValTest, labelsValTest, thresholds);
+            else
+                staticThreshold = [];
+            end
+        case 'supervised'
     end
     
     trainedNetwork.Mdl = Mdl;

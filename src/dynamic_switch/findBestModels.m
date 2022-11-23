@@ -1,4 +1,4 @@
-function findBestModels(datasetPath, models, preprocMethod, ratioTestVal, cmpMetric)
+function findBestModels(datasetPath, models, preprocMethod, ratioValTest, cmpMetric)
 %FINDBESTMODELS
 %
 % Auto-labels the dynamic switch train dataset
@@ -31,7 +31,7 @@ switch cmpMetric
 end
 
 [tmpScores, testFileNames] = evaluateAllModels(datasetPath, 'train_switch', models_DNN, models_CML, models_S, ...
-        preprocMethod, ratioTestVal, threshold, true, true);
+        preprocMethod, ratioValTest, threshold, true, true);
 
 switch cmpMetric
     case 'Composite F1 Score'

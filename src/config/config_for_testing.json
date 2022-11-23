@@ -8,8 +8,7 @@
                 "dataType": 1,
                 "label": "FC AE  (1)",
                 "id": "FC_AE_1",
-                "trainOnAnomalousData": false,
-                "calcThresholdLast": true,
+                "learningType": "semisupervised",
                 "hyperparameters": {
                     "model": {
                         "neurons": {
@@ -52,8 +51,7 @@
                 "dataType": 2,
                 "label": "LSTM (r)  (1)",
                 "id": "LSTM_r_1",
-                "trainOnAnomalousData": false,
-                "calcThresholdLast": true,
+                "learningType": "semisupervised",
                 "hyperparameters": {
                     "model": {
                         "hiddenUnits": {
@@ -96,8 +94,7 @@
                 "dataType": 2,
                 "label": "Hybrid CNN-LSTM (r)  (1)",
                 "id": "Hybrid_CNN_LSTM_r_1",
-                "trainOnAnomalousData": false,
-                "calcThresholdLast": true,
+                "learningType": "semisupervised",
                 "hyperparameters": {
                     "model": {
                         "hiddenUnits": {
@@ -144,8 +141,7 @@
                 "dataType": 2,
                 "label": "TCN AE  (1)",
                 "id": "TCN_AE_1",
-                "trainOnAnomalousData": false,
-                "calcThresholdLast": true,
+                "learningType": "semisupervised",
                 "hyperparameters": {
                     "model": {
                         "filter": {
@@ -188,8 +184,7 @@
                 "dataType": 2,
                 "label": "LSTM  (1)",
                 "id": "LSTM_1",
-                "trainOnAnomalousData": false,
-                "calcThresholdLast": true,
+                "learningType": "semisupervised",
                 "hyperparameters": {
                     "model": {
                         "hiddenUnits": {
@@ -232,8 +227,7 @@
                 "dataType": 2,
                 "label": "Hybrid CNN-LSTM  (1)",
                 "id": "Hybrid_CNN_LSTM_1",
-                "trainOnAnomalousData": false,
-                "calcThresholdLast": true,
+                "learningType": "semisupervised",
                 "hyperparameters": {
                     "model": {
                         "hiddenUnits": {
@@ -280,8 +274,7 @@
                 "dataType": 2,
                 "label": "GRU  (1)",
                 "id": "GRU_1",
-                "trainOnAnomalousData": false,
-                "calcThresholdLast": true,
+                "learningType": "semisupervised",
                 "hyperparameters": {
                     "model": {
                         "hiddenUnits": {
@@ -324,8 +317,7 @@
                 "dataType": 3,
                 "label": "CNN (DeepAnT)  (1)",
                 "id": "CNN_DeepAnT_1",
-                "trainOnAnomalousData": false,
-                "calcThresholdLast": true,
+                "learningType": "semisupervised",
                 "hyperparameters": {
                     "model": {
                         "filter": {
@@ -368,8 +360,7 @@
                 "dataType": 3,
                 "label": "ResNet  (1)",
                 "id": "ResNet_1",
-                "trainOnAnomalousData": false,
-                "calcThresholdLast": true,
+                "learningType": "semisupervised",
                 "hyperparameters": {
                     "model": {
                         "filter": {
@@ -412,8 +403,7 @@
                 "dataType": 1,
                 "label": "MLP  (1)",
                 "id": "MLP_1",
-                "trainOnAnomalousData": false,
-                "calcThresholdLast": true,
+                "learningType": "semisupervised",
                 "hyperparameters": {
                     "model": {
                         "neurons": {
@@ -456,8 +446,7 @@
                 "model": "iForest",
                 "label": "iForest  (1)",
                 "id": "iForest_1",
-                "trainOnAnomalousData": true,
-                "calcThresholdLast": true,
+                "learningType": "semisupervised",
                 "hyperparameters": {
                     "data": {
                         "windowSize": {
@@ -484,8 +473,28 @@
                 "model": "OC-SVM",
                 "label": "OC-SVM  (1)",
                 "id": "OC_SVM_1",
-                "trainOnAnomalousData": false,
-                "calcThresholdLast": true,
+                "learningType": "semisupervised",
+                "hyperparameters": {
+                    "data": {
+                        "windowSize": {
+                            "value": 100,
+                            "type": "integer"
+                        },
+                        "stepSize": {
+                            "value": 1,
+                            "type": "integer"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "options": {
+                "type": "CML",
+                "model": "ABOD",
+                "label": "ABOD  (1)",
+                "id": "ABOD_1",
+                "learningType": "unsupervised",
                 "hyperparameters": {
                     "data": {
                         "windowSize": {
@@ -506,8 +515,7 @@
                 "model": "LOF",
                 "label": "LOF  (1)",
                 "id": "LOF_1",
-                "trainOnAnomalousData": false,
-                "calcThresholdLast": true,
+                "learningType": "unsupervised",
                 "hyperparameters": {
                     "data": {
                         "windowSize": {
@@ -534,8 +542,7 @@
                 "model": "LDOF",
                 "label": "LDOF  (1)",
                 "id": "LDOF_1",
-                "trainOnAnomalousData": false,
-                "calcThresholdLast": true,
+                "learningType": "unsupervised",
                 "hyperparameters": {
                     "data": {
                         "windowSize": {
@@ -556,5 +563,92 @@
                 }
             }
         },
+        {
+            "options": {
+                "type": "CML",
+                "model": "Merlin",
+                "label": "Merlin  (1)",
+                "id": "Merlin_1",
+                "learningType": "unsupervised",
+                "hyperparameters": {
+                    "data": {
+                        "windowSize": {
+                            "value": 100,
+                            "type": "integer"
+                        },
+                        "stepSize": {
+                            "value": 1,
+                            "type": "integer"
+                        }
+                    },
+                    "model": {
+                        "minL": {
+                            "value": 70,
+                            "type": "integer"
+                        },
+                        "maxL": {
+                            "value": 100,
+                            "type": "integer"
+                        }
+                    }
+                }
+            }
+        }
+    ],
+    "S_Models": [
+        {
+            "options": {
+                "type": "S",
+                "model": "Grubbs test",
+                "label": "Grubbs test  (1)",
+                "id": "Grubbs_test_1",
+                "learningType": "unsupervised",
+                "hyperparameters": {
+                    "data": {
+                        "windowSize": {
+                            "value": 100,
+                            "type": "integer"
+                        },
+                        "stepSize": {
+                            "value": 1,
+                            "type": "integer"
+                        }
+                    },
+                    "model": {
+                        "alpha": {
+                            "value": 0.5,
+                            "type": "real"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "options": {
+                "type": "S",
+                "model": "OD_wpca",
+                "label": "OD_wpca  (1)",
+                "id": "OD_wpca_1",
+                "learningType": "unsupervised",
+                "hyperparameters": {
+                    "data": {
+                        "windowSize": {
+                            "value": 100,
+                            "type": "integer"
+                        },
+                        "stepSize": {
+                            "value": 1,
+                            "type": "integer"
+                        }
+                    },
+                    "model": {
+                        "ratioOversample": {
+                            "value": 0.1,
+                            "type": "real"
+                        }
+                    }
+                }
+            }
+        }
     ]
 }

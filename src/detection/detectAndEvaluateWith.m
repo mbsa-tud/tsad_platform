@@ -1,4 +1,4 @@
-function scores = detectAndEvaluateWith(model, testingData, testingLabels, thresholds)
+function scores = detectAndEvaluateWith(model, dataTest, labelsTest, thresholds)
 %DETECTANDEVALUATEWITH
 %
 % Runs the detection and returns the scores for the model
@@ -9,7 +9,7 @@ switch model.options.type
     case 'DNN'
         Mdl = model.Mdl;
 
-        [XTest, YTest, labels] = prepareDataTest_DNN(options, testingData, testingLabels);
+        [XTest, YTest, labels] = prepareDataTest_DNN(options, dataTest, labelsTest);
             
         [anomalyScores, YTest, labels] = detectWithDNN(options, Mdl, XTest, YTest, labels);
         
@@ -38,7 +38,7 @@ switch model.options.type
     case 'CML'
         Mdl = model.Mdl;
         
-        [XTest, YTest, labels] = prepareDataTest_CML(options, testingData, testingLabels);
+        [XTest, YTest, labels] = prepareDataTest_CML(options, dataTest, labelsTest);
         
         [anomalyScores, YTest, labels] = detectWithCML(options, Mdl, XTest, YTest, labels);
         
@@ -68,7 +68,7 @@ switch model.options.type
     case 'S'
         Mdl = model.Mdl;
         
-        [XTest, YTest, labels] = prepareDataTest_S(options, testingData, testingLabels);
+        [XTest, YTest, labels] = prepareDataTest_S(options, dataTest, labelsTest);
         
         [anomalyScores, YTest, labels] = detectWithS(options, Mdl, XTest, YTest, labels);
         

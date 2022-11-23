@@ -1,4 +1,4 @@
-function staticThreshold = getStaticThreshold_CML(options, Mdl, XTrain, testValData, testValLabels, thresholds)
+function staticThreshold = getStaticThreshold_CML(options, Mdl, XTrain, dataValTest, labelsValTest, thresholds)
 %GETSTATICTHRESHOLD_CML
 %
 % This function calculates the static threshold for classic ML models and
@@ -8,16 +8,16 @@ switch options.model
     case 'Merlin'
         staticThreshold.dummy = 0.5;
     otherwise
-        if ~isempty(testValData)
-            XTestValCell = cell(size(testValData, 1), 1);
-            YTestValCell = cell(size(testValData, 1), 1);
-            labelsTestValCell = cell(size(testValData, 1), 1);
+        if ~isempty(dataValTest)
+            XTestValCell = cell(size(dataValTest, 1), 1);
+            YTestValCell = cell(size(dataValTest, 1), 1);
+            labelsTestValCell = cell(size(dataValTest, 1), 1);
             
             numAnoms = 0;
             numTimeSteps = 0;
 
-            for i = 1:size(testValData, 1)
-                [XTestValCell{i, 1}, YTestValCell{i, 1}, labelsTestValCell{i, 1}] = prepareDataTest_CML(options, testValData(i, 1), testValLabels(i, 1));
+            for i = 1:size(dataValTest, 1)
+                [XTestValCell{i, 1}, YTestValCell{i, 1}, labelsTestValCell{i, 1}] = prepareDataTest_CML(options, dataValTest(i, 1), labelsValTest(i, 1));
                 
                 numAnoms = numAnoms + sum(labelsTestValCell{end} == 1);
                 numTimeSteps = numTimeSteps + size(labelsTestValCell{end}, 1);
@@ -27,16 +27,16 @@ switch options.model
             
             if contaminationFraction > 0
                 anomalyScores = [];
-                labelsTestVal = [];
+                labelsValTest = [];
 
                 for i = 1:size(XTestValCell, 1)
                     [anomalyScores_tmp, ~, labelsTestVal_tmp] = detectWithCML(options, Mdl, XTestValCell{i, 1}, YTestValCell{i, 1}, labelsTestValCell{i, 1});
                     anomalyScores = [anomalyScores; anomalyScores_tmp];
-                    labelsTestVal = [labelsTestVal; labelsTestVal_tmp];
+                    labelsValTest = [labelsValTest; labelsTestVal_tmp];
                 end
                 
                 if ismember("bestFscorePointwise", thresholds) || ismember("all", thresholds)
-                    thr = computeBestFscoreThreshold(anomalyScores, labelsTestVal, 0, 0, 'point-wise');
+                    thr = computeBestFscoreThreshold(anomalyScores, labelsValTest, 0, 0, 'point-wise');
                     if ~isnan(thr)
                         staticThreshold.bestFscorePointwise = thr;
                     else
@@ -45,7 +45,7 @@ switch options.model
                 end
 
                 if ismember("bestFscoreEventwise", thresholds) || ismember("all", thresholds)
-                    thr = computeBestFscoreThreshold(anomalyScores, labelsTestVal, 0, 0, 'event-wise');
+                    thr = computeBestFscoreThreshold(anomalyScores, labelsValTest, 0, 0, 'event-wise');
                     if ~isnan(thr)
                         staticThreshold.bestFscoreEventwise = thr;
                     else
@@ -54,7 +54,7 @@ switch options.model
                 end
 
                 if ismember("bestFscorePointAdjusted", thresholds) || ismember("all", thresholds)
-                    thr = computeBestFscoreThreshold(anomalyScores, labelsTestVal, 0, 0, 'point-adjusted');
+                    thr = computeBestFscoreThreshold(anomalyScores, labelsValTest, 0, 0, 'point-adjusted');
                     if ~isnan(thr)
                         staticThreshold.bestFscorePointAdjusted = thr;
                     else
@@ -63,7 +63,7 @@ switch options.model
                 end
 
                 if ismember("bestFscoreComposite", thresholds) || ismember("all", thresholds)
-                    thr = computeBestFscoreThreshold(anomalyScores, labelsTestVal, 0, 0, 'composite');
+                    thr = computeBestFscoreThreshold(anomalyScores, labelsValTest, 0, 0, 'composite');
                     if ~isnan(thr)
                         staticThreshold.bestFscoreComposite = thr;
                     else

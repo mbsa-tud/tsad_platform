@@ -1,4 +1,4 @@
-function staticThreshold = getStaticThreshold_S(options, Mdl, XTrain, testValData, testValLabels, thresholds)
+function staticThreshold = getStaticThreshold_S(options, Mdl, XTrain, dataValTest, labelsValTest, thresholds)
 %GETSTATICTHRESHOLD_S
 %
 % This function calculates the static thresholds for statistical models and
@@ -7,35 +7,35 @@ function staticThreshold = getStaticThreshold_S(options, Mdl, XTrain, testValDat
 switch options.model
     case 'Your model'
     otherwise
-        if ~isempty(testValData)
-            XTestValCell = cell(size(testValData, 1), 1);
-            YTestValCell = cell(size(testValData, 1), 1);
-            labelsTestValCell = cell(size(testValData, 1), 1);
+        if ~isempty(dataValTest)
+            XValTestCell = cell(size(dataValTest, 1), 1);
+            YValTestCell = cell(size(dataValTest, 1), 1);
+            labelsValTestCell = cell(size(dataValTest, 1), 1);
             
             numAnoms = 0;
             numTimeSteps = 0;
 
-            for i = 1:size(testValData, 1)
-                [XTestValCell{i, 1}, YTestValCell{i, 1}, labelsTestValCell{i, 1}] = prepareDataTest_S(options, testValData(i, 1), testValLabels(i, 1));
+            for i = 1:size(dataValTest, 1)
+                [XValTestCell{i, 1}, YValTestCell{i, 1}, labelsValTestCell{i, 1}] = prepareDataTest_S(options, dataValTest(i, 1), labelsValTest(i, 1));
                 
-                numAnoms = numAnoms + sum(labelsTestValCell{end} == 1);
-                numTimeSteps = numTimeSteps + size(labelsTestValCell{end}, 1);
+                numAnoms = numAnoms + sum(labelsValTestCell{end} == 1);
+                numTimeSteps = numTimeSteps + size(labelsValTestCell{end}, 1);
             end
 
             contaminationFraction = numAnoms / numTimeSteps;                       
             
             if contaminationFraction > 0
                 anomalyScores = [];
-                labelsTestVal = [];
+                labelsValTest = [];
 
-                for i = 1:size(XTestValCell, 1)
-                    [anomalyScores_tmp, ~, labelsTestVal_tmp] = detectWithS(options, Mdl, XTestValCell{i, 1}, YTestValCell{i, 1}, labelsTestValCell{i, 1});
+                for i = 1:size(XValTestCell, 1)
+                    [anomalyScores_tmp, ~, labelsTestVal_tmp] = detectWithS(options, Mdl, XValTestCell{i, 1}, YValTestCell{i, 1}, labelsValTestCell{i, 1});
                     anomalyScores = [anomalyScores; anomalyScores_tmp];
-                    labelsTestVal = [labelsTestVal; labelsTestVal_tmp];
+                    labelsValTest = [labelsValTest; labelsTestVal_tmp];
                 end
                 
                 if ismember("bestFscorePointwise", thresholds) || ismember("all", thresholds)
-                    thr = computeBestFscoreThreshold(anomalyScores, labelsTestVal, 0, 0, 'point-wise');
+                    thr = computeBestFscoreThreshold(anomalyScores, labelsValTest, 0, 0, 'point-wise');
                     if ~isnan(thr)
                         staticThreshold.bestFscorePointwise = thr;
                     else
@@ -44,7 +44,7 @@ switch options.model
                 end
 
                 if ismember("bestFscoreEventwise", thresholds) || ismember("all", thresholds)
-                    thr = computeBestFscoreThreshold(anomalyScores, labelsTestVal, 0, 0, 'event-wise');
+                    thr = computeBestFscoreThreshold(anomalyScores, labelsValTest, 0, 0, 'event-wise');
                     if ~isnan(thr)
                         staticThreshold.bestFscoreEventwise = thr;
                     else
@@ -53,7 +53,7 @@ switch options.model
                 end
 
                 if ismember("bestFscorePointAdjusted", thresholds) || ismember("all", thresholds)
-                    thr = computeBestFscoreThreshold(anomalyScores, labelsTestVal, 0, 0, 'point-adjusted');
+                    thr = computeBestFscoreThreshold(anomalyScores, labelsValTest, 0, 0, 'point-adjusted');
                     if ~isnan(thr)
                         staticThreshold.bestFscorePointAdjusted = thr;
                     else
@@ -62,7 +62,7 @@ switch options.model
                 end
 
                 if ismember("bestFscoreComposite", thresholds) || ismember("all", thresholds)
-                    thr = computeBestFscoreThreshold(anomalyScores, labelsTestVal, 0, 0, 'composite');
+                    thr = computeBestFscoreThreshold(anomalyScores, labelsValTest, 0, 0, 'composite');
                     if ~isnan(thr)
                         staticThreshold.bestFscoreComposite = thr;
                     else

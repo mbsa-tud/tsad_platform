@@ -1,15 +1,15 @@
-function [tmpScores, filesTestingData, trainedModels] = evaluateAllModels(datasetPath, testFolderName, models_DNN, models_CML, models_S, ...
-                                        preprocMethod, ratioTestVal, thresholds, saveModels, savePreprocParams)
+function [tmpScores, filesTest, trainedModels] = evaluateAllModels(datasetPath, testFolderName, models_DNN, models_CML, models_S, ...
+                                        preprocMethod, ratioValTest, thresholds, saveModels, savePreprocParams)
 % EVALUATEALLMODELS
 % 
 % Trains and tests all models on a dataset
 
 fprintf('Loading data\n')
 % Loading data
-[rawTrainingData, ~, labelsTrainingData, ~, ...
-    rawTestingData, ~, labelsTestingData, filesTestingData] = loadCustomDataset(datasetPath, testFolderName);
+[rawDataTrain, ~, labelsTrain, ~, ...
+    rawDataTest, ~, labelsTest, filesTest] = loadCustomDataset(datasetPath, testFolderName);
 
-if size(rawTestingData{1, 1}, 2) > 1
+if size(rawDataTest{1, 1}, 2) > 1
     isMultivariate = true;
 else
     isMultivariate = false;
@@ -17,8 +17,8 @@ end
 
 fprintf('Preprocessing data with method: %s\n', preprocMethod);
 % Preprocessing
-[preprocessedTrainingData, ...
-    preprocessedTestingData, maximum, minimum, mu, sigma] = preprocessData(rawTrainingData, rawTestingData, preprocMethod, false, []);         
+[dataTrain, ...
+    dataTest, maximum, minimum, mu, sigma] = preprocessData(rawDataTrain, rawDataTest, preprocMethod, false, []);         
 
 if savePreprocParams
     preprocParams.maximum = maximum;
@@ -33,20 +33,23 @@ if savePreprocParams
 end
 
 % Splitting test/val set
-[preprocessedTestingData, labelsTestingData, ...
-    testValData, testValLabels, filesTestingData] = splitTestVal(preprocessedTestingData, labelsTestingData, ratioTestVal, filesTestingData);
+[dataTest, labelsTest, ...
+    dataValTest, labelsValTest, filesTest] = splitTestVal(dataTest, labelsTest, ratioValTest, filesTest);
 
 % Training DNN models
 if ~isempty(models_DNN)
     fprintf('Training DNN models\n')
     if isMultivariate
-        trainedModels_DNN = trainModels_DNN_Consecutive(models_DNN, preprocessedTrainingData, ...
-                                                        labelsTrainingData, testValData, ...
-                                                        testValLabels, thresholds);
+        trainedModels_DNN = trainModels_DNN_Consecutive(models_DNN, dataTrain, ...
+                                                        labelsTrain, dataValTest, ...
+                                                        labelsValTest, ratioValTest, thresholds, 'training-progress');
     else
-        trainedModels_DNN = trainModels_DNN_Parallel(models_DNN, preprocessedTrainingData, ...
-                                                        labelsTrainingData, testValData, ...
-                                                        testValLabels, thresholds, true);
+%         trainedModels_DNN = trainModels_DNN_Parallel(models_DNN, dataTrain, ...
+%                                                         labelsTrain, dataValTest, ...
+%                                                         labelsValTest, ratioValTest, thresholds, true);
+        trainedModels_DNN = trainModels_DNN_Consecutive(models_DNN, dataTrain, ...
+                                                        labelsTrain, dataValTest, ...
+                                                        labelsValTest, ratioValTest, thresholds, 'training-progress');
     end
     fields = fieldnames(trainedModels_DNN);
     for f_idx = 1:length(fields)
@@ -57,8 +60,8 @@ end
 if ~isempty(models_CML)
     % Training CML models
     fprintf('Training CML models\n')
-    trainedModels_CML = trainModels_CML(models_CML, preprocessedTrainingData, ...
-                                        testValData, testValLabels, thresholds);
+    trainedModels_CML = trainModels_CML(models_CML, dataTrain, ...
+                                        dataValTest, labelsValTest, ratioValTest, thresholds);
     fields = fieldnames(trainedModels_CML);
     for f_idx = 1:length(fields)
         trainedModels.(fields{f_idx}) = trainedModels_CML.(fields{f_idx});
@@ -68,8 +71,8 @@ end
 if ~isempty(models_S)
     % Training S models
     fprintf('Training Statistical models\n')
-    trainedModels_S = trainModels_S(models_S, preprocessedTrainingData, ...
-                                        testValData, testValLabels, thresholds);
+    trainedModels_S = trainModels_S(models_S, dataTrain, ...
+                                        dataValTest, labelsValTest, ratioValTest, thresholds);
     fields = fieldnames(trainedModels_S);
     for f_idx = 1:length(fields)
         trainedModels.(fields{f_idx}) = trainedModels_S.(fields{f_idx});
@@ -85,14 +88,14 @@ end
 
 tmpScores = cell(length(thresholds), 1);
 for tmpIdx = 1:length(tmpScores)
-    tmpScores{tmpIdx, 1} = cell(length(filesTestingData), 1);
+    tmpScores{tmpIdx, 1} = cell(length(filesTest), 1);
 end
 
 
 % Detection with DNN models
 if ~isempty(trainedModels)
     fprintf('Detecting with models\n')
-    fields = fieldNames(trainedModels);
+    fields = fieldnames(trainedModels);
 
     for j = 1:length(fields)
         trainedModel = trainedModels.(fields{j});
@@ -100,18 +103,18 @@ if ~isempty(trainedModels)
         Mdl = trainedModel.Mdl;
     
         % For all files in the test folder
-        for dataIdx = 1:length(filesTestingData)
+        for dataIdx = 1:length(filesTest)
             switch options.type
                 case 'DNN'
-                    [XTest, YTest, labels] = prepareDataTest_DNN(options, preprocessedTestingData(dataIdx, 1), labelsTestingData(dataIdx, 1));
+                    [XTest, YTest, labels] = prepareDataTest_DNN(options, dataTest(dataIdx, 1), labelsTest(dataIdx, 1));
                         
                     [anomalyScores, YTest, labels] = detectWithDNN(options, Mdl, XTest, YTest, labels);
                 case 'CML'
-                    [XTest, YTest, labels] = prepareDataTest_CML(options, preprocessedTestingData(dataIdx, 1), labelsTestingData(dataIdx, 1));
+                    [XTest, YTest, labels] = prepareDataTest_CML(options, dataTest(dataIdx, 1), labelsTest(dataIdx, 1));
 
                     [anomalyScores, YTest, labels] = detectWithCML(options, Mdl, XTest, YTest, labels);
                 case 'S'
-                    [XTest, YTest, labels] = prepareDataTest_S(options, preprocessedTestingData(dataIdx, 1), labelsTestingData(dataIdx, 1));
+                    [XTest, YTest, labels] = prepareDataTest_S(options, dataTest(dataIdx, 1), labelsTest(dataIdx, 1));
 
                     [anomalyScores, YTest, labels] = detectWithS(options, Mdl, XTest, YTest, labels);
             end

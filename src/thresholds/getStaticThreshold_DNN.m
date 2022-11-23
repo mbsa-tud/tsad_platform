@@ -139,7 +139,9 @@ switch options.model
                             staticThreshold.bestFscoreCompositeParametric = 0;
                         end
                     end
-                end                            
+                end
+            else
+                error("Anomalous validation set doesn't contain anomalies");
             end
         end
         

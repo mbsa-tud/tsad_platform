@@ -1,0 +1,15 @@
+Metric,FC AE  (1),GRU  (1),iForest  (1),OC-SVM  (1),LOF  (1),OD_wpca  (1)
+Composite F1 Score,0.1667,0.48,0.1186,0.0518,0.693,0.2302
+Point-wise F1 Score,0.1034,0.2236,0.0959,0.0336,0.3427,0.0764
+Event-wise F1 Score,0.3333,0.25,0.5,0.6667,0.8,0.5
+Point-adjusted F1 Score,0.4675,0.8344,0.3066,0.3799,0.8991,0.6656
+Composite F0.5 Score,0.119,0.3659,0.0814,0.0337,0.5852,0.1739
+Point-wise F0.5 Score,0.1014,0.2711,0.0764,0.0295,0.435,0.1081
+Event-wise F0.5 Score,0.2381,0.1724,0.5,0.8333,0.7143,0.5
+Point-adjusted F0.5 Score,0.413,0.759,0.2371,0.3115,0.8478,0.6791
+Point-wise Precision,0.1,0.3158,0.0673,0.0273,0.5302,0.1495
+Event-wise Precision,0.2,0.1429,0.5,1,0.6667,0.5
+Point-adjusted Precision,0.3832,0.7159,0.206,0.2781,0.8168,0.6884
+Point-wise Recall,0.1071,0.1731,0.1667,0.0437,0.2532,0.0513
+Event-wise Recall,0.5,1,0.5,0.5,1,0.5
+Point-adjusted Recall,0.5992,1,0.5992,0.5992,1,0.6442

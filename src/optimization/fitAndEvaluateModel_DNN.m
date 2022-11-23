@@ -1,24 +1,29 @@
-function scoresCell = fitAndEvaluateModel_DNN(options, trainingData, trainingLabels, testValData, testValLabels, testingData, testingLabels, thresholds)
+function scoresCell = fitAndEvaluateModel_DNN(options, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, ratioValTest, thresholds)
 %FITANDEVALUATEMODEL_DNN
 %
 % Trains and tests the selected model configured in the options parameter
 
-[XTrain, YTrain, XVal, YVal] = prepareDataTrain_DNN(options, trainingData, trainingLabels);
+scoresCell = cell(size(dataTest, 1), 1);
 
-[Mdl, ~] = trainDNN(options, XTrain, YTrain, XVal, YVal, 'none');
+model.options = options;
+
+trainedModel = trainModels_DNN_Consecutive(model, dataTrain, ...
+                                                labelsTrain, dataValTest, ...
+                                                labelsValTest, ratioValTest, thresholds, 'none');
+
+options = trainedModel.(options.id).options;
+Mdl = trainedModel.(options.id).Mdl;
+staticThreshold = trainedModel.(options.id).staticThreshold;
 
 if ~options.calcThresholdLast
-    staticThreshold = getStaticThreshold_DNN(options, Mdl, XTrain, YTrain, XVal, YVal, testValData, testValLabels, thresholds);
     fields = fieldnames(staticThreshold);
     selectedThreshold = staticThreshold.(fields{1});
 else
     selectedThreshold = thresholds(1);
 end
 
-scoresCell = cell(size(testingData, 1), 1);
-
-for dataIdx = 1:size(testingData, 1)
-    [XTest, YTest, labels] = prepareDataTest_DNN(options, testingData(dataIdx, 1), testingLabels(dataIdx, 1));
+for dataIdx = 1:size(dataTest, 1)
+    [XTest, YTest, labels] = prepareDataTest_DNN(options, dataTest(dataIdx, 1), labelsTest(dataIdx, 1));
     
     [anomalyScores, ~, labels] = detectWithDNN(options, Mdl, XTest, YTest, labels);
     
