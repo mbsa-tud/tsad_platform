@@ -1,8 +1,7 @@
-function [XTrain, YTrain, XVal, YVal] = splitDataTrain(data, windowSize, stepSize, ratioTrainVal, modelType, dataType)
+function [XTrain, YTrain, XVal, YVal] = splitDataTrain(data, windowSize, stepSize, ratioValTrain, modelType, dataType, isMultivariate)
 %SPLITDATATRAIN
 %
 % Splits the data for training using the sliding window
-
 
 numChannels = size(data{1, 1}, 2);
 
@@ -62,10 +61,10 @@ for ch_idx = 1:numChannels
         end
     end
 
-    if ratioTrainVal ~= 1
+    if ratioValTrain ~= 1
         numOfWindows = size(XTrain_c, 1);
     
-        l = round(ratioTrainVal * numOfWindows);
+        l = round(ratioValTrain * numOfWindows);
         
         XVal_c = XTrain_c((l + 1):end, :);
         YVal_c = YTrain_c((l + 1):end, :);
@@ -80,5 +79,18 @@ for ch_idx = 1:numChannels
     YTrain{1, ch_idx} = YTrain_c;
     XVal{1, ch_idx} = XVal_c;
     YVal{1, ch_idx} = YVal_c;
+end
+
+if isMultivariate
+    XTrain_tmp = cell(numOfWindows, 1);
+    for i = 1:numOfWindows
+        for j = 1:numChannels
+            XTrain_tmp{i, 1} = [XTrain_tmp{i, 1}; XTrain{1, j}{i, 1}];
+        end
+    end
+    XTrain = cell(1, 1);
+    XTrain{1, 1} = XTrain_tmp;
+    
+    YTrain = XTrain;
 end
 end

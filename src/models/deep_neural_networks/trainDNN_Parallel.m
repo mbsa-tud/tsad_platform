@@ -26,21 +26,8 @@ for i = 1:numNetworks
     XVal = XValCell{i};
     YVal = YValCell{i};
     
-    if options.dataType == 1
-        numResponses = size(YTrain, 2);
-    else
-        if strcmp(options.modelType, 'Reconstructive')
-            numResponses = size(YTrain{1, 1}, 1);
-        else
-            numResponses = 1;
-        end
-    end
+    [numFeatures, numResponses] = getNumFeaturesAndResponses(XTrain, YTrain, options.isMultivariate, options.modelType, options.dataType);
 
-    if options.dataType == 1
-        numFeatures = size(XTrain, 2);
-    else
-        numFeatures = size(XTrain{1, 1}, 1);
-    end
     layersCell{i} = getLayers(options, numFeatures, numResponses);
     trainOptionsCell{i} = getOptionsForParallel(options, XVal, YVal, size(XTrain, 1), dataqueue, i);
 end

@@ -9,11 +9,11 @@ fprintf('Loading data\n')
 [rawDataTrain, ~, labelsTrain, ~, ...
     rawDataTest, ~, labelsTest, filesTest] = loadCustomDataset(datasetPath, testFolderName);
 
-if size(rawDataTest{1, 1}, 2) > 1
-    isMultivariate = true;
-else
-    isMultivariate = false;
-end
+% if size(rawDataTest{1, 1}, 2) > 1
+%     isMultivariate = true;
+% else
+%     isMultivariate = false;
+% end
 
 fprintf('Preprocessing data with method: %s\n', preprocMethod);
 % Preprocessing
@@ -39,18 +39,13 @@ end
 % Training DNN models
 if ~isempty(models_DNN)
     fprintf('Training DNN models\n')
-    if isMultivariate
-        trainedModels_DNN = trainModels_DNN_Consecutive(models_DNN, dataTrain, ...
-                                                        labelsTrain, dataValTest, ...
-                                                        labelsValTest, ratioValTest, thresholds, 'training-progress');
-    else
+    trainedModels_DNN = trainModels_DNN_Consecutive(models_DNN, dataTrain, ...
+                                                    labelsTrain, dataValTest, ...
+                                                    labelsValTest, ratioValTest, thresholds, 'training-progress');
 %         trainedModels_DNN = trainModels_DNN_Parallel(models_DNN, dataTrain, ...
 %                                                         labelsTrain, dataValTest, ...
 %                                                         labelsValTest, ratioValTest, thresholds, true);
-        trainedModels_DNN = trainModels_DNN_Consecutive(models_DNN, dataTrain, ...
-                                                        labelsTrain, dataValTest, ...
-                                                        labelsValTest, ratioValTest, thresholds, 'training-progress');
-    end
+
     fields = fieldnames(trainedModels_DNN);
     for f_idx = 1:length(fields)
         trainedModels.(fields{f_idx}) = trainedModels_DNN.(fields{f_idx});

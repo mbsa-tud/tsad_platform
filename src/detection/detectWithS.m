@@ -22,5 +22,5 @@ end
 anomalyScores = repmat(anomalyScores, 1, options.hyperparameters.data.windowSize.value);
 anomalyScores = reshapeReconstructivePrediction(anomalyScores, options.hyperparameters.data.windowSize.value);
 labels = labels(1:(end - options.hyperparameters.data.windowSize.value), 1);
-YTest = YTest(1:(end - options.hyperparameters.data.windowSize.value), 1);
+YTest = YTest(1:(end - options.hyperparameters.data.windowSize.value), :);
 end

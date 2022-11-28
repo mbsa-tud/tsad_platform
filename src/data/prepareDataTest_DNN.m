@@ -7,6 +7,7 @@ switch options.model
     case 'Your model'
     otherwise
         [XTest, YTest, labels] = splitDataTest(testingData, testingLabels, ...
-            options.hyperparameters.data.windowSize.value, options.modelType, options.dataType);
+            options.hyperparameters.data.windowSize.value, options.modelType, ...
+            options.dataType, options.isMultivariate);
 end
 end

@@ -1,21 +1,24 @@
-function [XTest, YTest, labelsTest] = splitDataTest(data, labels, windowSize, modelType, dataType)
+function [XTest, YTest, labelsTest] = splitDataTest(data, labels, windowSize, modelType, dataType, isMultivariate)
 %SPLITDATATEST
 %
 % Splits the data for testing using the sliding window
 
+if isMultivariate
+    dataType = 2;
+end
 
 numChannels = size(data{1, 1}, 2);
+numOfWindows = round((size(data{1, 1}, 1) - windowSize));
 
 XTest = cell(1, numChannels);
 YTest = cell(1, numChannels);
 labelsTest = [];
+
 % Get XTest and YTest for each channel of the test data
 for ch_idx = 1:numChannels
     XTest_c = [];
     YTest_c = [];
-    for i = 1:size(data, 1)
-        numOfWindows = round((size(data{i, 1}, 1) - windowSize));
-        
+    for i = 1:size(data, 1)      
         % XTest
         dataTmp = data{i, 1};
         XTestLag = lagmatrix(dataTmp(:, ch_idx), 1:windowSize);
@@ -87,5 +90,20 @@ for i = 1:size(data, 1)
     end
 
     labelsTest = [labelsTest; labelsTestTmp];
+end
+
+if isMultivariate
+    XTest_tmp = cell(numOfWindows, 1);
+    for i = 1:numOfWindows
+        for j = 1:numChannels
+            XTest_tmp{i, 1} = [XTest_tmp{i, 1}; XTest{1, j}{i, 1}];
+        end
+    end
+    XTest = cell(1, 1);
+    XTest{1, 1} = XTest_tmp;
+    
+    YTest_tmp = cell2mat(YTest);
+    YTest = cell(1, 1);
+    YTest{1, 1} = YTest_tmp;
 end
 end
