@@ -1,0 +1,29 @@
+Metric,LSTM_r_1
+Composite F1 Score (Static),0.3908
+Point-wise F1 Score (Static),0.1878
+Event-wise F1 Score (Static),0.0952
+Point-adjusted F1 Score (Static),0.8073
+Composite F0.5 Score (Static),0.2862
+Point-wise F0.5 Score (Static),0.2174
+Event-wise F0.5 Score (Static),0.0617
+Point-adjusted F0.5 Score (Static),0.7236
+Point-wise Precision (Static),0.2429
+Event-wise Precision (Static),0.05
+Point-adjusted Precision (Static),0.6768
+Point-wise Recall (Static),0.1532
+Event-wise Recall (Static),1
+Point-adjusted Recall (Static),1
+Composite F1 Score (Dynamic),0.2449
+Point-wise F1 Score (Dynamic),0.15
+Event-wise F1 Score (Dynamic),0.1538
+Point-adjusted F1 Score (Dynamic),0.6667
+Composite F0.5 Score (Dynamic),0.1685
+Point-wise F0.5 Score (Dynamic),0.1435
+Event-wise F0.5 Score (Dynamic),0.102
+Point-adjusted F0.5 Score (Dynamic),0.5556
+Point-wise Precision (Dynamic),0.1395
+Event-wise Precision (Dynamic),0.0833
+Point-adjusted Precision (Dynamic),0.5
+Point-wise Recall (Dynamic),0.1622
+Event-wise Recall (Dynamic),1
+Point-adjusted Recall (Dynamic),1

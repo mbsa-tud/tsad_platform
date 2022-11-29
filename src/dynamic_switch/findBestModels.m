@@ -30,8 +30,19 @@ switch cmpMetric
         threshold = "bestFscorePointAdjusted";
 end
 
-[tmpScores, testFileNames] = evaluateAllModels(datasetPath, 'train_switch', models_DNN, models_CML, models_S, ...
-        preprocMethod, ratioValTest, threshold, true, true);
+[tmpScores, testFileNames, trainedModels, preprocParams] = evaluateAllModels(datasetPath, 'train_switch', models_DNN, models_CML, models_S, ...
+        preprocMethod, ratioValTest, threshold);
+
+% Save models to models.mat file
+fileName = fullfile(datasetPath, 'models.mat');
+assignin('base', 'trainedModels', trainedModels);
+save(fileName, 'trainedModels');
+
+% Save preproc. parameters
+fileID = fopen(fullfile(datasetPath, 'preprocParams.json'), 'w');
+fprintf(fileID, jsonencode(preprocParams, PrettyPrint=true));
+fclose(fileID);
+
 
 switch cmpMetric
     case 'Composite F1 Score'

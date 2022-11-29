@@ -34,11 +34,11 @@ for i = 1:numel(fields)
     % Preprocessing
     trainData = cell(1, 1);
     trainData{1, 1} = data{:, 2};
-    [trainData, ~, ~, ~, ~, ~] = preprocessData(trainData, {}, preprocParams.preprocMethod, true, preprocParams);    
+    [trainData, ~] = preprocessData(trainData, {}, preprocParams.method, true, preprocParams);    
     
     % Convert time series to feature vector
     XTrain_tmp = diagnosticFeatures(trainData{1, 1});
-    XTrain_tmp.(labelName) = labels.(fields{i});
+    XTrain_tmp.(labelName) = convertCharsToStrings(labels.(fields{i}));
     XTrain = [XTrain; XTrain_tmp];
 end
 

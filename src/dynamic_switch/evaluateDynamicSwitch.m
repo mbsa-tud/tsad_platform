@@ -11,7 +11,7 @@ fclose(fid);
 preprocParams = jsondecode(str);
 
 models = load(fullfile(datasetPath, 'models.mat'));
-models = models.allModels;
+models = models.trainedModels;
 fields = fieldnames(models);
 numOfModels = numel(fields);
 allModelNames = strings(numOfModels, 1);
@@ -40,7 +40,7 @@ for i = 1:numOfTestingFiles
     labelsTestingData{1, 1} = data{:, 3};
     
     % Preprocessing
-    [~, preprocessedTestingData, ~, ~, ~, ~] = preprocessData({}, rawTestingData, preprocParams.preprocMethod, true, preprocParams);         
+    [~, preprocessedTestingData, ~] = preprocessData({}, rawTestingData, preprocParams.method, true, preprocParams);         
     
     % Model selection with trained classifier
     XTest_switch = diagnosticFeatures(preprocessedTestingData{1, 1});

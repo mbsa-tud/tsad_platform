@@ -25,7 +25,7 @@ switch options.model
             else
                 % Train the same model for each channel seperately
                 % but parrallel
-                trainParallel = true;
+                trainParallel = false;
                 
                 if trainParallel
                     models = [];

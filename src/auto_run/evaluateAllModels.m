@@ -1,5 +1,5 @@
-function [tmpScores, filesTest, trainedModels] = evaluateAllModels(datasetPath, testFolderName, models_DNN, models_CML, models_S, ...
-                                        preprocMethod, ratioValTest, thresholds, saveModels, savePreprocParams)
+function [tmpScores, filesTest, trainedModels, preprocParameters] = evaluateAllModels(datasetPath, testFolderName, models_DNN, models_CML, models_S, ...
+                                        preprocMethod, ratioValTest, thresholds)
 % EVALUATEALLMODELS
 % 
 % Trains and tests all models on a dataset
@@ -18,19 +18,7 @@ fprintf('Loading data\n')
 fprintf('Preprocessing data with method: %s\n', preprocMethod);
 % Preprocessing
 [dataTrain, ...
-    dataTest, maximum, minimum, mu, sigma] = preprocessData(rawDataTrain, rawDataTest, preprocMethod, false, []);         
-
-if savePreprocParams
-    preprocParams.maximum = maximum;
-    preprocParams.minimum = minimum;
-    preprocParams.mu = mu;
-    preprocParams.sigma = sigma;
-    preprocParams.preprocMethod = preprocMethod;
-
-    fileID = fopen(fullfile(datasetPath, 'preprocParams.json'), 'w');
-    fprintf(fileID, jsonencode(preprocParams, PrettyPrint=true));
-    fclose(fileID);
-end
+    dataTest, preprocParameters] = preprocessData(rawDataTrain, rawDataTest, preprocMethod, false, []);         
 
 % Splitting test/val set
 [dataTest, labelsTest, ...
@@ -72,13 +60,6 @@ if ~isempty(models_S)
     for f_idx = 1:length(fields)
         trainedModels.(fields{f_idx}) = trainedModels_S.(fields{f_idx});
     end
-end
-
-% Save models to models.mat file
-if saveModels
-    fileName = fullfile(datasetPath, 'models.mat');
-    assignin('base', 'allModels', trainedModels);
-    save(fileName, 'trainedModels');
 end
 
 tmpScores = cell(length(thresholds), 1);

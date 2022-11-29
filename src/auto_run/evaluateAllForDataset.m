@@ -105,8 +105,8 @@ for i = 1:length(indices)
     end
     
     % Run evaluation
-    [tmpScores, testFileNames, ~] = evaluateAllModels(dataPath, 'test', models_DNN, models_CML, models_S, ...
-        preprocMethod, ratioValTest, thresholds, false, false);
+    [tmpScores, testFileNames, ~, ~] = evaluateAllModels(dataPath, 'test', models_DNN, models_CML, models_S, ...
+        preprocMethod, ratioValTest, thresholds);
 
     allTestFiles = [allTestFiles testFileNames];
 

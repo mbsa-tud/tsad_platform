@@ -1,21 +1,23 @@
-function [preprocessedTrainingData, preprocessedTestingData, maximum, minimum, mu, sigma] = preprocessData(rawTrainingData, rawTestingData, method, usePrevious, params)
+function [preprocessedTrainingData, preprocessedTestingData, preprocParams] = preprocessData(rawTrainingData, rawTestingData, method, usePrevious, paramsPrevious)
 % PREPROCESSDATA
 %
 % Preprocessed the data
 
 preprocessedTrainingData  = [];
 preprocessedTestingData = [];
-minimum = [];
-maximum = [];
-mu = [];
-sigma = [];
+
+preprocParams.method = method;
+preprocParams.minimum = [];
+preprocParams.maximum = [];
+preprocParams.mu = [];
+preprocParams.sigma = [];
 
 switch method
     case 'Rescale [0, 1]'
         if ~isempty(rawTrainingData)
             if usePrevious
-                maximum = params.maximum;
-                minimum = params.minimum;
+                preprocParams.maximum = paramsPrevious.maximum;
+                preprocParams.minimum = paramsPrevious.minimum;
             else
                 numFiles = size(rawTrainingData, 1);
                 numChannels = size(rawTrainingData{1, 1}, 2);
@@ -26,18 +28,18 @@ switch method
                     maxima(i, :) =  max(rawTrainingData{i, 1}, [], 1);
                     minima(i, :) =  min(rawTrainingData{i, 1}, [], 1);
                 end
-                maximum = max(maxima, [], 1);
-                minimum = min(minima, [], 1);
+                preprocParams.maximum = max(maxima, [], 1);
+                preprocParams.minimum = min(minima, [], 1);
             end
 
-            preprocessedTrainingData = rescaleData(rawTrainingData, maximum, minimum);
+            preprocessedTrainingData = rescaleData(rawTrainingData, preprocParams.maximum, preprocParams.minimum);
         end
         if ~isempty(rawTestingData)
             if usePrevious
-                maximum = params.maximum;
-                minimum = params.minimum;
+                preprocParams.maximum = paramsPrevious.maximum;
+                preprocParams.minimum = paramsPrevious.minimum;
             else
-                if isempty(maximum)
+                if isempty(preprocParams.maximum)
                     numFiles = size(rawTestingData, 1);
                     numChannels = size(rawTestingData{1, 1}, 2);
     
@@ -47,42 +49,42 @@ switch method
                         maxima(i, :) =  max(rawTestingData{i, 1}, [], 1);
                         minima(i, :) =  min(rawTestingData{i, 1}, [], 1);
                     end
-                    maximum = max(maxima, [], 1);
-                    minimum = min(minima, [], 1);
+                    preprocParams.maximum = max(maxima, [], 1);
+                    preprocParams.minimum = min(minima, [], 1);
                 end
             end
-            preprocessedTestingData = rescaleData(rawTestingData, maximum, minimum);
+            preprocessedTestingData = rescaleData(rawTestingData, preprocParams.maximum, preprocParams.minimum);
         end
     case 'Standardize'
         if ~isempty(rawTrainingData)
             if usePrevious
-                mu = params.mu;
-                sigma = params.sigma;
+                preprocParams.mu = paramsPrevious.mu;
+                preprocParams.sigma = paramsPrevious.sigma;
             else                
                 fullData = [];
                 for i = 1:size(rawTrainingData, 1)
                     fullData = [fullData; rawTrainingData{i, 1}];
                 end
-                [~, mu, sigma] = zscore(fullData, 0, 1);
+                [~, preprocParams.mu, preprocParams.sigma] = zscore(fullData, 0, 1);
             end
 
-            preprocessedTrainingData = standardizeData(rawTrainingData, mu, sigma);
+            preprocessedTrainingData = standardizeData(rawTrainingData, preprocParams.mu, preprocParams.sigma);
         end
         if ~isempty(rawTestingData)
             if usePrevious
-                mu = params.mu;
-                sigma = params.sigma;
+                preprocParams.mu = paramsPrevious.mu;
+                preprocParams.sigma = paramsPrevious.sigma;
             else
-                if isempty(mu)    
+                if isempty(preprocParams.mu)    
                     fullData = [];
                     for i = 1:size(app.rawTestingData, 1)
                         fullData = [fullData; rawTestingData{i, 1}];
                     end
-                    [~, mu, sigma] = zscore(fullData, 0, 1);
+                    [~, preprocParams.mu, preprocParams.sigma] = zscore(fullData, 0, 1);
                 end
             end
             
-            preprocessedTestingData = standardizeData(rawTestingData, mu, sigma);
+            preprocessedTestingData = standardizeData(rawTestingData, preprocParams.mu, preprocParams.sigma);
         end
     case 'Raw Data'
         preprocessedTrainingData = rawTrainingData;

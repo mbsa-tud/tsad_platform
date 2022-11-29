@@ -11,7 +11,7 @@ if size(dataTest, 1) > 1
         labelsValTest = [];
     else
         idx = 1:size(dataTest, 1);
-        splitPoint = min([1, floor(ratio * size(dataTest, 1)), size(dataTest, 1) - 1]);
+        splitPoint = min([floor(ratio * size(dataTest, 1)), size(dataTest, 1) - 1]);
         if splitPoint == 0
             splitPoint = 1;
         end
