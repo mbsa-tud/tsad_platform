@@ -7,7 +7,7 @@ scoresCell = cell(size(dataTest, 1), 1);
 
 model.options = options;
 
-trainedModel = trainModels_CML(model, dataTrain, ...
+trainedModel = trainModels_S(model, dataTrain, ...
                                         dataValTest, labelsValTest, ratioValTest, thresholds);
 
 options = trainedModel.(options.id).options;

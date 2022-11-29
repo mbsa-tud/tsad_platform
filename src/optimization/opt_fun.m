@@ -1,22 +1,7 @@
-function score = opt_fun(models, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, ratioValTest, thresholds, cmpScore, optVars, exportLogData)
+function score = opt_fun(options, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, ratioValTest, thresholds, cmpScore, optVars, exportLogData)
 %OPT_FUN
 %
 % Objective function for the bayesian optimization
-
-numOfModels = length(models);
-if numOfModels > 1
-    % If multiple models, select the correct options for the currently
-    % selected model for the iteration of the optimization
-    name = string(optVars.model);
-    for i = 1:numOfModels
-        if strcmp(name, models(i).options.model)
-            options = models(i).options;
-            break;
-        end
-    end
-else
-    options = models.options;
-end
 
 options = adaptModelOptions(options, optVars);
 

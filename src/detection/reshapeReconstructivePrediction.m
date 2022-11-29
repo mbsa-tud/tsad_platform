@@ -15,7 +15,7 @@ else
 end
 
 if ~isMultivariate
-    data = prediciton;
+    data = prediction;
 
     c = [];
     if iscell(data)

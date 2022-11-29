@@ -1,2 +1,0 @@
-neurons,Composite F1 Score,Point-wise F1 Score,Event-wise F1 Score,Point-adjusted F1 Score,Composite F0.5 Score,Point-wise F0.5 Score,Event-wise F0.5 Score,Point-adjusted F0.5 Score,Point-wise Precision,Event-wise Precision,Point-adjusted Precision,Point-wise Recall,Event-wise Recall,Point-adjusted Recall
-13,0.502,0.4299,0.1667,0.6271,0.3865,0.3675,0.1111,0.5125,0.3351,0.0909,0.4568,0.5994,1,1

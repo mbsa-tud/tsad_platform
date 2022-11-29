@@ -45,19 +45,16 @@ switch cmpMetric
 end
 
 fprintf('Comparing model scores\n');
+
 scores_all = tmpScores{1, 1};
 for i = 1:length(scores_all)
     [~, idx] = max(scores_all{i, 1}(score_idx, :));
-%     for k = 1:size(scores_all{i, 1}, 2)
-%         fprintf('%f\n', scores_all{i, 1}(1, k));
-%     end
     
-    % fprintf("%s - best model: %s with score: %f\n", testFileNames(i), allModelNames(idx), maximum);
-    
-    fileName = sprintf('%s_best_model.txt', testFileNames(i));
-    expPath = fullfile(datasetPath, 'train_switch', fileName);
-    fid = fopen(expPath, 'w');
-    fprintf(fid, '%s\n', allModelNames(idx));
-    fclose(fid);
+    bestModels.(testFileNames(i)) = allModelNames(idx); 
 end
+
+expPath = fullfile(datasetPath, 'train_switch', 'best_models.json');
+fid = fopen(expPath, 'w');
+fprintf(fid, jsonencode(bestModels, PrettyPrint=true));
+fclose(fid);
 end

@@ -1,2 +1,0 @@
-hiddenUnits,windowSize,Composite F1 Score,Point-wise F1 Score,Event-wise F1 Score,Point-adjusted F1 Score,Composite F0.5 Score,Point-wise F0.5 Score,Event-wise F0.5 Score,Point-adjusted F0.5 Score,Point-wise Precision,Event-wise Precision,Point-adjusted Precision,Point-wise Recall,Event-wise Recall,Point-adjusted Recall
-96,365,0.5429,0.4767,0.0204,0.6422,0.426,0.4082,0.0129,0.5287,0.3725,0.0103,0.4729,0.6617,1,1

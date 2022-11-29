@@ -8,14 +8,15 @@ bestOptions_CML = [];
 bestOptions_S = [];
 
 for i = 1:length(models)
+    options = models(i).options;
     % Load hyperparameters to be optimized
     optVars = getOptimizationVariables(models(i).options.model, configOptFileName);
     
     % If no hyperparameters are available for the model, save default
     % options
     if isempty(optVars)
-        bestOptions_tmp.options = models(i).options;
-        switch models(i).options.type
+        bestOptions_tmp.options = options;
+        switch options.type
             case 'DNN'
                 bestOptions_DNN = [bestOptions_DNN; bestOptions_tmp];
             case 'CML'
@@ -27,15 +28,15 @@ for i = 1:length(models)
     end
     
     % Optimization
-    results = optimizeModel(optVars, models(i), dataTrain, ...
+    results = optimizeModel(optVars, options, dataTrain, ...
                             labelsTrain, dataValTest, labelsValTest, ...
                             dataTest, labelsTest, ...
                             ratioValTest, threshold, cmpScore, iterations, true);
 
     optimumVars = results.XAtMinObjective;
     
-    bestOptions_tmp.options = adaptModelOptions(models(i).options, optimumVars);
-    switch models(i).options.type
+    bestOptions_tmp.options = adaptModelOptions(options, optimumVars);
+    switch options.type
         case 'DNN'
             bestOptions_DNN = [bestOptions_DNN; bestOptions_tmp];
         case 'CML'

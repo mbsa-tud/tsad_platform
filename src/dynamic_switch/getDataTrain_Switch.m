@@ -15,15 +15,19 @@ fclose(fid);
 preprocParams = jsondecode(str);
 
 
-labelFiles = dir(fullfile(trainSwitchPath, '*.txt'));
+labelFile = fullfile(trainSwitchPath, 'best_models.json');
+fid = fopen(labelFile);
+raw = fread(fid, inf);
+str = char(raw');
+fclose(fid);
+labels = jsondecode(str);
 
-numOfTestingFiles = numel(labelFiles);
+fields = fieldnames(labels);
 
 XTrain = [];
-for i = 1:numOfTestingFiles
-    labelFile = fullfile(trainSwitchPath, labelFiles(i).name);
-    name_split = split(labelFiles(i).name, '_best_model.txt');
-    dataFile = fullfile(trainSwitchPath, sprintf('%s.csv', name_split{1}));    
+
+for i = 1:numel(fields)    
+    dataFile = fullfile(trainSwitchPath, sprintf('%s.csv', fields{i}));    
 
     data = readtable(dataFile);
     
@@ -31,14 +35,10 @@ for i = 1:numOfTestingFiles
     trainData = cell(1, 1);
     trainData{1, 1} = data{:, 2};
     [trainData, ~, ~, ~, ~, ~] = preprocessData(trainData, {}, preprocParams.preprocMethod, true, preprocParams);    
-
-    fid = fopen(labelFile);
-    label = string(textscan(fid, '%s', 1, 'delimiter', '\n', 'headerlines', 0));
-    fclose(fid);
     
     % Convert time series to feature vector
     XTrain_tmp = diagnosticFeatures(trainData{1, 1});
-    XTrain_tmp.(labelName) = label;
+    XTrain_tmp.(labelName) = labels.(fields{i});
     XTrain = [XTrain; XTrain_tmp];
 end
 

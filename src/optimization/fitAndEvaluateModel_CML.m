@@ -6,7 +6,7 @@ function scoresCell = fitAndEvaluateModel_CML(options, dataTrain, labelsTrain, d
 scoresCell = cell(size(dataTest, 1), 1);
 
 model.options = options;
-trainedModel = trainModels_S(model, dataTrain, ...
+trainedModel = trainModels_CML(model, dataTrain, ...
                                         dataValTest, labelsValTest, ratioValTest, thresholds);
 
 options = trainedModel.(options.id).options;
@@ -20,8 +20,8 @@ else
     selectedThreshold = thresholds(1);
 end
 
-for dataIdx = 1:size(testingData, 1)
-    [XTest, YTest, labels] = prepareDataTest_CML(options, testingData(dataIdx, 1), testingLabels(dataIdx, 1));
+for dataIdx = 1:size(dataTest, 1)
+    [XTest, YTest, labels] = prepareDataTest_CML(options, dataTest(dataIdx, 1), labelsTest(dataIdx, 1));
     [anomalyScores, ~, labels] = detectWithCML(options, Mdl, XTest, YTest, labels);
     
     [labels_pred, ~] = calcStaticThresholdPrediction(anomalyScores, labels, selectedThreshold, options.calcThresholdLast, options.model);
