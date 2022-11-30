@@ -1,4 +1,4 @@
-function trainedModels = trainModels_DNN_Parallel(models, dataTrain, labelsTrain, dataValTest, labelsValTest, ratioValTest, thresholds, closeOnFinished)
+function trainedModels = trainModels_DNN_Parallel(models, dataTrain, labelsTrain, dataValTest, labelsValTest, ratioValTest, thresholds, scoringFunction, closeOnFinished)
 %TRAINMODELS_DNN_PARALLEL
 %
 % Trains all DL models in parallel and calculates the thresholds
@@ -40,8 +40,15 @@ for i = 1:numel(models)
     switch options.learningType
         case 'unsupervised'
         case 'semisupervised'
+            if XVal
+                YValCell(i) = convertYForTesting(YValCell(i), options.modelType);
+                pd = getProbDist(options, Mdl, XValCell(i), YValCell(i));
+            else
+                pd = getProbDist(options, Mdl, XTrainCell(i), YTrainCell(i));
+            end
+
             if ~options.calcThresholdLast
-                staticThreshold = getStaticThreshold_DNN(options, Mdls{i}, XTrainCell(i), YTrainCell(i), XValCell(i), YValCell(i), dataValTest, labelsValTest, thresholds);
+                staticThreshold = getStaticThreshold_DNN(options, Mdls{i}, XTrainCell(i), YTrainCell(i), XValCell(i), YValCell(i), dataValTest, labelsValTest, thresholds, scoringFunction, pd);
             else
                 staticThreshold = [];
             end

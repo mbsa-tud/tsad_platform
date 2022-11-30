@@ -1,4 +1,4 @@
-function bestOptions = autoOptimization(models, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, ratioValTest, configOptFileName, cmpScore, threshold, iterations)
+function bestOptions = autoOptimization(models, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, ratioValTest, configOptFileName, cmpScore, threshold, iterations, exportLogdata)
 %AUTOOPTIMIZATION
 %
 % Runs the auto-optimization for all selected models
@@ -31,7 +31,7 @@ for i = 1:length(models)
     results = optimizeModel(optVars, options, dataTrain, ...
                             labelsTrain, dataValTest, labelsValTest, ...
                             dataTest, labelsTest, ...
-                            ratioValTest, threshold, cmpScore, iterations, true);
+                            ratioValTest, threshold, cmpScore, iterations, exportLogdata);
 
     optimumVars = results.XAtMinObjective;
     

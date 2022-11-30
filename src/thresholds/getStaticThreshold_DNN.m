@@ -1,4 +1,4 @@
-function staticThreshold = getStaticThreshold_DNN(options, Mdl, XTrain, YTrain, XVal, YVal, testValData, testValLabels, thresholds)
+function staticThreshold = getStaticThreshold_DNN(options, Mdl, XTrain, YTrain, XVal, YVal, dataValTest, labelsValTest, thresholds, scoringFunction, pd)
 %GETSTATICTHRESHOLD_DNN
 %
 % This function calculates the static threshold for DL models and
@@ -13,16 +13,16 @@ switch options.model
             isMultivariate = false;
         end
 
-        if ~isempty(testValData)
-            XTestValCell = cell(size(testValData, 1), 1);
-            YTestValCell = cell(size(testValData, 1), 1);
-            labelsTestValCell = cell(size(testValData, 1), 1);
+        if ~isempty(dataValTest)
+            XTestValCell = cell(size(dataValTest, 1), 1);
+            YTestValCell = cell(size(dataValTest, 1), 1);
+            labelsTestValCell = cell(size(dataValTest, 1), 1);
             
             numAnoms = 0;
             numTimeSteps = 0;
 
-            for i = 1:size(testValData, 1)
-                [XTestValCell{i, 1}, YTestValCell{i, 1}, labelsTestValCell{i, 1}] = prepareDataTest_DNN(options, testValData(i, :), testValLabels(i, :));
+            for i = 1:size(dataValTest, 1)
+                [XTestValCell{i, 1}, YTestValCell{i, 1}, labelsTestValCell{i, 1}] = prepareDataTest_DNN(options, dataValTest(i, :), labelsValTest(i, :));
                 
                 numAnoms = numAnoms + sum(labelsTestValCell{end} == 1);
                 numTimeSteps = numTimeSteps + size(labelsTestValCell{end}, 1);
@@ -35,7 +35,7 @@ switch options.model
                 labelsTestVal = [];
 
                 for i = 1:size(XTestValCell, 1)
-                    [anomalyScores_tmp, ~, labelsTestVal_tmp] = detectWithDNN(options, Mdl, XTestValCell{i, 1}, YTestValCell{i, 1}, labelsTestValCell{i, 1});
+                    [anomalyScores_tmp, ~, labelsTestVal_tmp] = detectWithDNN(options, Mdl, XTestValCell{i, 1}, YTestValCell{i, 1}, labelsTestValCell{i, 1}, scoringFunction, pd);
                     anomalyScores = [anomalyScores; anomalyScores_tmp];
                     labelsTestVal = [labelsTestVal; labelsTestVal_tmp];
                 end
@@ -96,49 +96,6 @@ switch options.model
                         "bestFscorePointAdjustedParametric", "bestFscoreCompositeParametric", "topKParametric"])) ...
                         && options.hyperparameters.training.ratioTrainVal.value == 1
                     disp("Warning! You selected a parametric static threshold but didn't use any validation data.");
-                end
-
-                if options.hyperparameters.training.ratioTrainVal.value ~= 1
-                    YVal = convertYForTesting(YVal, options.modelType);
-    
-                    [anomalyScoresVal, ~, ~] = detectWithDNN(options, Mdl, XVal, YVal, zeros(size(YVal{1, 1}, 1), 1));
-                    pd = fitdist(anomalyScoresVal, "Normal");
-
-                    if ismember("bestFscorePointwiseParametric", thresholds) || ismember("all", thresholds)
-                        thr = computeBestFscoreThreshold(anomalyScores, labelsTestVal, 1, pd, 'point-wise');
-                        if ~isnan(thr)
-                            staticThreshold.bestFscorePointwiseParametric = thr;
-                        else
-                            staticThreshold.bestFscorePointwiseParametric = 0;
-                        end
-                    end
-    
-                    if ismember("bestFscoreEventwiseParametric", thresholds) || ismember("all", thresholds)
-                        thr = computeBestFscoreThreshold(anomalyScores, labelsTestVal, 1, pd, 'event-wise');
-                        if ~isnan(thr)
-                            staticThreshold.bestFscoreEventwiseParametric = thr;
-                        else
-                            staticThreshold.bestFscoreEventwiseParametric = 0;
-                        end
-                    end
-                    
-                    if ismember("bestFscorePointAdjustedParametric", thresholds) || ismember("all", thresholds)
-                        thr = computeBestFscoreThreshold(anomalyScores, labelsTestVal, 1, pd, 'point-adjusted');
-                        if ~isnan(thr)
-                            staticThreshold.bestFscorePointAdjustedParametric = thr;
-                        else
-                            staticThreshold.bestFscorePointAdjustedParametric = 0;
-                        end
-                    end
-                    
-                    if ismember("bestFscoreCompositeParametric", thresholds) || ismember("all", thresholds)
-                        thr = computeBestFscoreThreshold(anomalyScores, labelsTestVal, 1, pd, 'composite');
-                        if ~isnan(thr)
-                            staticThreshold.bestFscoreCompositeParametric = thr;
-                        else
-                            staticThreshold.bestFscoreCompositeParametric = 0;
-                        end
-                    end
                 end
             else
                 error("Anomalous validation set doesn't contain anomalies");

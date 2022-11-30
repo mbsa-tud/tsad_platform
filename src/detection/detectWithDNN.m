@@ -1,4 +1,4 @@
-function [anomalyScores, YTest, labels] = detectWithDNN(options, Mdl, XTest, YTest, labels)
+function [anomalyScores, YTest, labels] = detectWithDNN(options, Mdl, XTest, YTest, labels, scoringFunction, pd)
 %DETECTWITHDNN
 %
 % Runs the detection for DL models and returns anomaly Scores
@@ -30,9 +30,6 @@ switch options.model
                 end   
                 
                 anomalyScores(:, i) = abs(pred - YTest{i});
-                if length(Mdl) > 1
-                    anomalyScores(:, i) = anomalyScores(:, i) - mean(anomalyScores(:, i));
-                end
             end
         else
             pred = predict(Mdl, XTest{1});
@@ -45,9 +42,24 @@ switch options.model
             anomalyScores = abs(pred - YTest{1});
         end
         
-        aggregateScores = true;
-        if aggregateScores
-            anomalyScores = rms(anomalyScores, 2);
+        numChannels = size(anomalyScores, 2);
+
+        switch scoringFunction
+            case 'channelwise-errors'
+                if numChannels > 1
+                    for i = 1:numChannels
+                        anomalyScores(:, i) = anomalyScores(:, i) - mean(anomalyScores(:, i));
+                    end
+                end
+            case 'aggregated-errors'
+                if numChannels > 1
+                    for i = 1:numChannels
+                        anomalyScores(:, i) = anomalyScores(:, i) - mean(anomalyScores(:, i));
+                    end
+                end
+                anomalyScores = rms(anomalyScores, 2);
+            case 'gauss'
+                anomalyScores = cdf(pd, anomalyScores);
         end
 
         % Crop labels for reconstructive models

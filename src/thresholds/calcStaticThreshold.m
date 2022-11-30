@@ -17,7 +17,7 @@ switch model
             case "bestFscorePointAdjusted"
                 thr = computeBestFscoreThreshold(anomalyScores, labels, 0, 0, 'point-adjusted');
             case "bestFscoreComposite"
-                thr = computeBestFscoreThreshold(anomalyScores, labels, 0, 0, 'point-wise');
+                thr = computeBestFscoreThreshold(anomalyScores, labels, 0, 0, 'composite');
             case "topK"
                 thr = quantile(anomalyScores, 1 - contaminationFraction);
             otherwise
