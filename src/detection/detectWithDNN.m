@@ -56,10 +56,13 @@ switch options.model
                     for i = 1:numChannels
                         anomalyScores(:, i) = anomalyScores(:, i) - mean(anomalyScores(:, i));
                     end
-                end
-                anomalyScores = rms(anomalyScores, 2);
+                    anomalyScores = rms(anomalyScores, 2);
+                end   
             case 'gauss'
-                anomalyScores = cdf(pd, anomalyScores);
+                for i = 1:numChannels
+                    anomalyScores(:, i) = cdf(pd(i), anomalyScores(:, i));
+                end
+                anomalyScores = sum(anomalyScores, 2);
         end
 
         % Crop labels for reconstructive models

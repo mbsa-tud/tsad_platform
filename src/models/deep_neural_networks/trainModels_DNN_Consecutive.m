@@ -1,4 +1,4 @@
-function trainedModels = trainModels_DNN_Consecutive(models, dataTrain, labelsTrain, dataValTest, labelsValTest, ratioValTest, thresholds, scoringFunction, trainingPlots)
+function trainedModels = trainModels_DNN_Consecutive(models, dataTrain, labelsTrain, dataValTest, labelsValTest, ratioValTest, thresholds, trainingPlots)
 %TRAINMODELS_DNN_CONSECUTIVE
 %
 % Trains all DL models consecutively and calculates the thresholds
@@ -18,7 +18,7 @@ for i = 1:length(models)
             [XTrain, YTrain, XVal, YVal] = prepareDataTrain_DNN(options, dataTrain, labelsTrain);
             [Mdl, MdlInfo] = trainDNN(options, XTrain, YTrain, XVal, YVal, trainingPlots);
             
-            if XVal
+            if ~isequal(XVal{1, 1}, 0)
                 YVal = convertYForTesting(YVal, options.modelType);
                 pd = getProbDist(options, Mdl, XVal, YVal);
             else
@@ -26,7 +26,7 @@ for i = 1:length(models)
             end
             
             if ~options.calcThresholdLast
-                staticThreshold = getStaticThreshold_DNN(options, Mdl, XTrain, YTrain, XVal, YVal, dataValTest, labelsValTest, thresholds, scoringFunction, pd);
+                staticThreshold = getStaticThreshold_DNN(options, Mdl, XTrain, YTrain, XVal, YVal, dataValTest, labelsValTest, thresholds, pd);
             else
                 staticThreshold = [];
             end

@@ -1,4 +1,4 @@
-function staticThreshold = getStaticThreshold_DNN(options, Mdl, XTrain, YTrain, XVal, YVal, dataValTest, labelsValTest, thresholds, scoringFunction, pd)
+function staticThreshold = getStaticThreshold_DNN(options, Mdl, XTrain, YTrain, XVal, YVal, dataValTest, labelsValTest, thresholds, pd)
 %GETSTATICTHRESHOLD_DNN
 %
 % This function calculates the static threshold for DL models and
@@ -35,7 +35,7 @@ switch options.model
                 labelsTestVal = [];
 
                 for i = 1:size(XTestValCell, 1)
-                    [anomalyScores_tmp, ~, labelsTestVal_tmp] = detectWithDNN(options, Mdl, XTestValCell{i, 1}, YTestValCell{i, 1}, labelsTestValCell{i, 1}, scoringFunction, pd);
+                    [anomalyScores_tmp, ~, labelsTestVal_tmp] = detectWithDNN(options, Mdl, XTestValCell{i, 1}, YTestValCell{i, 1}, labelsTestValCell{i, 1}, options.scoringFunction, pd);
                     anomalyScores = [anomalyScores; anomalyScores_tmp];
                     labelsTestVal = [labelsTestVal; labelsTestVal_tmp];
                 end
@@ -83,19 +83,6 @@ switch options.model
                     else
                         staticThreshold.topK = 0;
                     end
-                end
-
-                if any(ismember(thresholds, ["bestFscorePointwiseParametric", "bestFscoreEventwiseParametric", ...
-                        "bestFscorePointAdjustedParametric", "bestFscoreCompositeParametric", "topKParametric"])) ...
-                        && ~any(ismember(thresholds, ["bestFscorePointwise", "bestFscoreEventwise", ...
-                        "bestFscorePointAdjusted", "bestFscoreComposite", "topK", "meanStd"])) ...
-                        && options.hyperparameters.training.ratioTrainVal.value == 1
-                    error("To compute parametric static thresholds, validation data is needed!");
-                end
-                if any(ismember(thresholds, ["bestFscorePointwiseParametric", "bestFscoreEventwiseParametric", ...
-                        "bestFscorePointAdjustedParametric", "bestFscoreCompositeParametric", "topKParametric"])) ...
-                        && options.hyperparameters.training.ratioTrainVal.value == 1
-                    disp("Warning! You selected a parametric static threshold but didn't use any validation data.");
                 end
             else
                 error("Anomalous validation set doesn't contain anomalies");
