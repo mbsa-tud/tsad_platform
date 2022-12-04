@@ -6,9 +6,8 @@ function trainedModels = trainModels_DNN_Consecutive(models, dataTrain, labelsTr
 for i = 1:length(models)
     options = models(i).options;
 
-    switch options.learningType
-        case 'unsupervised'
-        case 'semisupervised'
+    switch options.requiresPriorTraining
+        case true
             if ratioValTest == 1
                 options.calcThresholdLast = true;
             else
@@ -19,10 +18,9 @@ for i = 1:length(models)
             [Mdl, MdlInfo] = trainDNN(options, XTrain, YTrain, XVal, YVal, trainingPlots);
             
             if ~isequal(XVal{1, 1}, 0)
-                YVal = convertYForTesting(YVal, options.modelType);
-                pd = getProbDist(options, Mdl, XVal, YVal);
+                pd = getProbDist(options, Mdl, XVal, convertYForTesting(YVal, options.modelType, options.isMultivariate, options.hyperparameters.data.windowSize.value));
             else
-                pd = getProbDist(options, Mdl, XTrain, YTrain);
+                pd = getProbDist(options, Mdl, XTrain, convertYForTesting(YTrain, options.modelType, options.isMultivariate, options.hyperparameters.data.windowSize.value));
             end
             
             if ~options.calcThresholdLast
@@ -30,7 +28,8 @@ for i = 1:length(models)
             else
                 staticThreshold = [];
             end
-        case 'supervised'
+        case false
+            % Not yet implemented
     end
     
     

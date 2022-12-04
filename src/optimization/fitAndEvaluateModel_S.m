@@ -23,7 +23,7 @@ end
 
 for dataIdx = 1:size(dataTest, 1)
     [XTest, YTest, labelsTrain] = prepareDataTest_S(options, dataTest(dataIdx, 1), labelsTest(dataIdx, 1));
-    [anomalyScores, ~, labelsTrain] = detectWithS(options, Mdl, XTest, YTest, labelsTrain);
+    anomalyScores = detectWithS(options, Mdl, XTest, YTest, labelsTrain);
     
     [labels_pred, ~] = calcStaticThresholdPrediction(anomalyScores, labelsTrain, selectedThreshold, options.calcThresholdLast, options.model);
     [scoresPointwise, scoresEventwise, scoresPointAdjusted, scoresComposite] = calcScores(labels_pred, labelsTrain);

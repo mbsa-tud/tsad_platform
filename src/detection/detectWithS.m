@@ -1,4 +1,4 @@
-function [anomalyScores, YTest, labels] = detectWithS(options, Mdl, XTest, YTest, labels)
+function anomalyScores = detectWithS(options, Mdl, XTest, YTest, labels)
 %DETECTWITHS
 %
 % Runs the detection for statistical models and returns anomaly Scores
@@ -21,6 +21,4 @@ end
 
 anomalyScores = repmat(anomalyScores, 1, options.hyperparameters.data.windowSize.value);
 anomalyScores = reshapeReconstructivePrediction(anomalyScores, options.hyperparameters.data.windowSize.value);
-labels = labels(1:(end - options.hyperparameters.data.windowSize.value), 1);
-YTest = YTest(1:(end - options.hyperparameters.data.windowSize.value), :);
 end

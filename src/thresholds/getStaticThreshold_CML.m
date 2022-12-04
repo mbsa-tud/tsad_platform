@@ -27,56 +27,18 @@ switch options.model
             
             if contaminationFraction > 0
                 anomalyScores = [];
-                labelsValTest = [];
+                labels = [];
 
                 for i = 1:size(XTestValCell, 1)
-                    [anomalyScores_tmp, ~, labelsTestVal_tmp] = detectWithCML(options, Mdl, XTestValCell{i, 1}, YTestValCell{i, 1}, labelsTestValCell{i, 1});
+                    anomalyScores_tmp = detectWithCML(options, Mdl, XTestValCell{i, 1}, YTestValCell{i, 1}, labelsTestValCell{i, 1});
                     anomalyScores = [anomalyScores; anomalyScores_tmp];
-                    labelsValTest = [labelsValTest; labelsTestVal_tmp];
+                    labels = [labels; labelsTestValCell{i, 1}];
                 end
                 
-                if ismember("bestFscorePointwise", thresholds) || ismember("all", thresholds)
-                    thr = computeBestFscoreThreshold(anomalyScores, labelsValTest, 0, 0, 'point-wise');
-                    if ~isnan(thr)
-                        staticThreshold.bestFscorePointwise = thr;
-                    else
-                        staticThreshold.bestFscorePointwise = 0;
-                    end
-                end
-
-                if ismember("bestFscoreEventwise", thresholds) || ismember("all", thresholds)
-                    thr = computeBestFscoreThreshold(anomalyScores, labelsValTest, 0, 0, 'event-wise');
-                    if ~isnan(thr)
-                        staticThreshold.bestFscoreEventwise = thr;
-                    else
-                        staticThreshold.bestFscoreEventwise = 0;
-                    end
-                end
-
-                if ismember("bestFscorePointAdjusted", thresholds) || ismember("all", thresholds)
-                    thr = computeBestFscoreThreshold(anomalyScores, labelsValTest, 0, 0, 'point-adjusted');
-                    if ~isnan(thr)
-                        staticThreshold.bestFscorePointAdjusted = thr;
-                    else
-                        staticThreshold.bestFscorePointAdjusted = 0;
-                    end
-                end
-
-                if ismember("bestFscoreComposite", thresholds) || ismember("all", thresholds)
-                    thr = computeBestFscoreThreshold(anomalyScores, labelsValTest, 0, 0, 'composite');
-                    if ~isnan(thr)
-                        staticThreshold.bestFscoreComposite = thr;
-                    else
-                        staticThreshold.bestFscoreComposite = 0;
-                    end
-                end
+                for i = 1:length(thresholds)
+                    if ~strcmp(thresholds(i), "meanStd")
+                        staticThreshold.(thresholds(i)) = calcStaticThreshold(anomalyScores, labels, thresholds(i), options.model);
                 
-                if ismember("topK", thresholds) || ismember("all", thresholds)
-                    thr = quantile(anomalyScores, 1 - contaminationFraction);
-                    if ~isnan(thr)
-                        staticThreshold.topK = thr;
-                    else
-                        staticThreshold.topK = 0;
                     end
                 end
             else
@@ -84,18 +46,10 @@ switch options.model
             end
         end
 
-        if any(ismember(thresholds, ["bestFscorePointwiseParametric", "bestFscoreEventwiseParametric", ...
-                "bestFscorePointAdjustedParametric", "bestFscoreCompositeParametric", "topKParametric"])) ...
-                && ~any(ismember(thresholds, ["bestFscorePointwise", "bestFscoreEventwise", ...
-                "bestFscorePointAdjusted", "bestFscoreComposite", "topK"]))
-            error("Parametric static thresholds are not available for CML models!");
-        end
-        if any(ismember(thresholds, ["bestFscorePointwiseParametric", "bestFscoreEventwiseParametric", ...
-                "bestFscorePointAdjustedParametric", "bestFscoreCompositeParametric", "topKParametric"]))
-            disp("Warning! You selected a parametric static threshold which is not available for CML models.");
-        end
-        if length(thresholds) == 1 && ismember("meanStd", thresholds)
-            disp("Warning! Threshold using the mean and standard deviation of the anomaly scores for training/validation data is only available for DL models.");
+        if ismember("meanStd", thresholds)
+            [anomalyScores, ~, ~] = detectWithCML(options, Mdl, XTrain, [], []);
+            
+            staticThreshold.meanStd = calcStaticThreshold(anomalyScores, [], "meanStd", options.model);
         end
 end
 end

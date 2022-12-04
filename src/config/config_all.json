@@ -8,7 +8,7 @@
                 "dataType": 1,
                 "label": "FC AE  (1)",
                 "id": "FC_AE_1",
-                "learningType": "semisupervised",
+                "requiresPriorTraining": true,
                 "isMultivariate": false,
                 "hyperparameters": {
                     "model": {
@@ -52,7 +52,7 @@
                 "dataType": 2,
                 "label": "LSTM (r)  (1)",
                 "id": "LSTM_r_1",
-                "learningType": "semisupervised",
+                "requiresPriorTraining": true,
                 "isMultivariate": false,
                 "hyperparameters": {
                     "model": {
@@ -96,7 +96,7 @@
                 "dataType": 2,
                 "label": "Hybrid CNN-LSTM (r)  (1)",
                 "id": "Hybrid_CNN_LSTM_r_1",
-                "learningType": "semisupervised",
+                "requiresPriorTraining": true,
                 "isMultivariate": false,
                 "hyperparameters": {
                     "model": {
@@ -144,7 +144,7 @@
                 "dataType": 2,
                 "label": "TCN AE  (1)",
                 "id": "TCN_AE_1",
-                "learningType": "semisupervised",
+                "requiresPriorTraining": true,
                 "isMultivariate": false,
                 "hyperparameters": {
                     "model": {
@@ -188,7 +188,7 @@
                 "dataType": 2,
                 "label": "LSTM  (1)",
                 "id": "LSTM_1",
-                "learningType": "semisupervised",
+                "requiresPriorTraining": true,
                 "isMultivariate": false,
                 "hyperparameters": {
                     "model": {
@@ -232,7 +232,7 @@
                 "dataType": 2,
                 "label": "Hybrid CNN-LSTM  (1)",
                 "id": "Hybrid_CNN_LSTM_1",
-                "learningType": "semisupervised",
+                "requiresPriorTraining": true,
                 "isMultivariate": false,
                 "hyperparameters": {
                     "model": {
@@ -280,7 +280,7 @@
                 "dataType": 2,
                 "label": "GRU  (1)",
                 "id": "GRU_1",
-                "learningType": "semisupervised",
+                "requiresPriorTraining": true,
                 "isMultivariate": false,
                 "hyperparameters": {
                     "model": {
@@ -324,7 +324,7 @@
                 "dataType": 3,
                 "label": "CNN (DeepAnT)  (1)",
                 "id": "CNN_DeepAnT_1",
-                "learningType": "semisupervised",
+                "requiresPriorTraining": true,
                 "isMultivariate": false,
                 "hyperparameters": {
                     "model": {
@@ -368,7 +368,7 @@
                 "dataType": 3,
                 "label": "ResNet  (1)",
                 "id": "ResNet_1",
-                "learningType": "semisupervised",
+                "requiresPriorTraining": true,
                 "isMultivariate": false,
                 "hyperparameters": {
                     "model": {
@@ -412,7 +412,7 @@
                 "dataType": 1,
                 "label": "MLP  (1)",
                 "id": "MLP_1",
-                "learningType": "semisupervised",
+                "requiresPriorTraining": true,
                 "isMultivariate": false,
                 "hyperparameters": {
                     "model": {
@@ -456,7 +456,7 @@
                 "model": "iForest",
                 "label": "iForest  (1)",
                 "id": "iForest_1",
-                "learningType": "semisupervised",
+                "requiresPriorTraining": true,
                 "isMultivariate": true,
                 "hyperparameters": {
                     "data": {
@@ -484,7 +484,7 @@
                 "model": "OC-SVM",
                 "label": "OC-SVM  (1)",
                 "id": "OC_SVM_1",
-                "learningType": "semisupervised",
+                "requiresPriorTraining": true,
                 "isMultivariate": true,
                 "hyperparameters": {
                     "data": {
@@ -506,7 +506,7 @@
                 "model": "ABOD",
                 "label": "ABOD  (1)",
                 "id": "ABOD_1",
-                "learningType": "unsupervised",
+                "requiresPriorTraining": false,
                 "isMultivariate": true,
                 "hyperparameters": {
                     "data": {
@@ -528,7 +528,7 @@
                 "model": "LOF",
                 "label": "LOF  (1)",
                 "id": "LOF_1",
-                "learningType": "unsupervised",
+                "requiresPriorTraining": false,
                 "isMultivariate": true,
                 "hyperparameters": {
                     "data": {
@@ -556,7 +556,7 @@
                 "model": "LDOF",
                 "label": "LDOF  (1)",
                 "id": "LDOF_1",
-                "learningType": "unsupervised",
+                "requiresPriorTraining": false,
                 "isMultivariate": true,
                 "hyperparameters": {
                     "data": {
@@ -584,7 +584,7 @@
                 "model": "Merlin",
                 "label": "Merlin  (1)",
                 "id": "Merlin_1",
-                "learningType": "unsupervised",
+                "requiresPriorTraining": false,
                 "isMultivariate": true,
                 "hyperparameters": {
                     "data": {
@@ -618,7 +618,7 @@
                 "model": "Grubbs test",
                 "label": "Grubbs test  (1)",
                 "id": "Grubbs_test_1",
-                "learningType": "unsupervised",
+                "requiresPriorTraining": false,
                 "isMultivariate": true,
                 "hyperparameters": {
                     "data": {
@@ -646,7 +646,7 @@
                 "model": "OD_wpca",
                 "label": "OD_wpca  (1)",
                 "id": "OD_wpca_1",
-                "learningType": "unsupervised",
+                "requiresPriorTraining": false,
                 "isMultivariate": true,
                 "hyperparameters": {
                     "data": {

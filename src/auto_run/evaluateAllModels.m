@@ -68,7 +68,7 @@ for tmpIdx = 1:length(tmpScores)
 end
 
 
-% Detection with DNN models
+% Detection
 if ~isempty(trainedModels)
     fprintf('Detecting with models\n')
     fields = fieldnames(trainedModels);
@@ -84,15 +84,15 @@ if ~isempty(trainedModels)
                 case 'DNN'
                     [XTest, YTest, labels] = prepareDataTest_DNN(options, dataTest(dataIdx, 1), labelsTest(dataIdx, 1));
                         
-                    [anomalyScores, YTest, labels] = detectWithDNN(options, Mdl, XTest, YTest, labels);
+                    anomalyScores = detectWithDNN(options, Mdl, XTest, YTest, labels, options.scoringFunction, trainedModel.pd);
                 case 'CML'
                     [XTest, YTest, labels] = prepareDataTest_CML(options, dataTest(dataIdx, 1), labelsTest(dataIdx, 1));
 
-                    [anomalyScores, YTest, labels] = detectWithCML(options, Mdl, XTest, YTest, labels);
+                    anomalyScores = detectWithCML(options, Mdl, XTest, YTest, labels);
                 case 'S'
                     [XTest, YTest, labels] = prepareDataTest_S(options, dataTest(dataIdx, 1), labelsTest(dataIdx, 1));
 
-                    [anomalyScores, YTest, labels] = detectWithS(options, Mdl, XTest, YTest, labels);
+                    anomalyScores = detectWithS(options, Mdl, XTest, YTest, labels);
             end
 
             staticThreshold =  trainedModel.staticThreshold;

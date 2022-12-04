@@ -22,7 +22,7 @@ for ch_idx = 1:numChannels
         % XTest
         dataTmp = data{i, 1};
         XTestLag = lagmatrix(dataTmp(:, ch_idx), 1:windowSize);
-        XTestAll = XTestLag((windowSize + 1):end,:);
+        XTestAll = XTestLag((windowSize + 1):end, :);
         
         if dataType == 1
             XTestTmp = zeros(numOfWindows, windowSize);
@@ -44,7 +44,7 @@ for ch_idx = 1:numChannels
         XTest_c = [XTest_c; XTestTmp];
         
         % YTest
-        if strcmp(modelType, 'Predictive')
+        if strcmp(modelType, 'predictive')
             YTestCell = data{i, 1};
             YTestAll = YTestCell((windowSize + 1):end, ch_idx);
     
@@ -55,10 +55,10 @@ for ch_idx = 1:numChannels
             end
         else
             YTestCell = data{i, 1};
-            YTestAll = YTestCell(windowSize:end, ch_idx);                  
-            YTestTmp = zeros(numOfWindows, 1);
+            YTestAll = YTestCell(windowSize:(end - windowSize), ch_idx);                  
+            YTestTmp = zeros((numOfWindows - windowSize), 1);
     
-            for j = 1:numOfWindows
+            for j = 1:(numOfWindows - windowSize)
                 YTestTmp(j, 1) = YTestAll(j, :)';
             end
         end
@@ -71,7 +71,7 @@ for ch_idx = 1:numChannels
 end
 for i = 1:size(data, 1)
     % Get labels
-    if strcmp(modelType, 'Predictive')    
+    if strcmp(modelType, 'predictive')    
         labelsCell = labels{i, 1};
         labelsAll = labelsCell((windowSize + 1):end, 1);
         labelsTestTmp= zeros(numOfWindows, 1);
@@ -81,10 +81,10 @@ for i = 1:size(data, 1)
         end
     else
         labelsCell = labels{i, 1};
-        labelsAll = labelsCell(windowSize:end, 1);   
-        labelsTestTmp = zeros(numOfWindows, 1);
+        labelsAll = labelsCell(windowSize:(end - windowSize), 1);   
+        labelsTestTmp = zeros((numOfWindows - windowSize), 1);
         
-        for j = 1:numOfWindows
+        for j = 1:(numOfWindows - windowSize)
             labelsTestTmp(j, 1) = logical(labelsAll(j, :))';
         end
     end

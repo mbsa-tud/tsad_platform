@@ -20,6 +20,10 @@ switch model
                 thr = computeBestFscoreThreshold(anomalyScores, labels, 0, 0, 'composite');
             case "topK"
                 thr = quantile(anomalyScores, 1 - contaminationFraction);
+            case "meanStd"
+                % The outer mean is required for separate anomaly Scores
+                % for each channel.
+                thr = mean(mean(anomalyScores)) + 4 * mean(std(anomalyScores));
             otherwise
                 thr = 0.5;
                 disp("Warning! The selected static threshold can't be calculated after detection. See file src/thresholds/calcStaticThreshold.m");

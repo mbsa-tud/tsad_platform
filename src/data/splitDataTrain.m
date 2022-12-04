@@ -43,7 +43,7 @@ for ch_idx = 1:numChannels
         
         XTrain_c = [XTrain_c; XTrainTmp];
 
-        if strcmp(modelType, 'Predictive')
+        if strcmp(modelType, 'predictive')
             YTrainCell = data{i, 1};
             YTrainAll = YTrainCell((windowSize + 1):end, ch_idx);
 
@@ -96,6 +96,17 @@ if isMultivariate
     XTrain = cell(1, 1);
     XTrain{1, 1} = XTrain_tmp;
     
-    YTrain = XTrain;
+    if strcmp(modelType, 'reconstructive')
+        YTrain = XTrain;
+    else
+        YTrain_tmp = zeros(numOfWindows, numChannels);
+        for i = 1:numOfWindows
+            for j = 1:numChannels
+                YTrain_tmp(i, j) = YTrain{1, j}(i, 1);
+            end
+        end
+        YTrain = cell(1, 1);
+        YTrain{1, 1} = YTrain_tmp;  
+    end
 end
 end

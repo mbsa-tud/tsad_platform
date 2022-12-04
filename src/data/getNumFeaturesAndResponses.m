@@ -9,7 +9,7 @@ if ~isMultivariate
     if dataType == 1
         numResponses = size(YTrain, 2);
     else
-        if strcmp(modelType, 'Reconstructive')
+        if strcmp(modelType, 'reconstructive')
             numResponses = size(YTrain{1, 1}, 1);
         else
             numResponses = 1;
@@ -17,11 +17,6 @@ if ~isMultivariate
     end        
 else
     numFeatures = size(XTrain{1, 1}, 1);
-
-    if strcmp(modelType, 'Reconstructive')
-        numResponses = numFeatures;
-    else
-        numResponses = 1;
-    end
+    numResponses = numFeatures;
 end
 end

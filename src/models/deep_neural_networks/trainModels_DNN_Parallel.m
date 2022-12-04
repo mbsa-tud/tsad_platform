@@ -13,9 +13,8 @@ YValCell = cell(1, numNetworks);
 for i = 1:numNetworks
     options = models(i).options;
 
-    switch options.learningType
-        case 'unsupervised'
-        case 'semisupervised'
+    switch options.requiresPriorTraining
+        case true
             if ratioValTest == 1
                 models(i).options.calcThresholdLast = true;
             else
@@ -23,7 +22,8 @@ for i = 1:numNetworks
             end
 
             [XTrain, YTrain, XVal, YVal] = prepareDataTrain_DNN(options, dataTrain, labelsTrain);
-        case 'supervised'
+        case false
+            % Not yet implemented
     end
 
     XTrainCell{i} = XTrain{1};
@@ -37,14 +37,12 @@ end
 for i = 1:numel(models)
     options = models(i).options;
 
-    switch options.learningType
-        case 'unsupervised'
-        case 'semisupervised'
+    switch options.requiresPriorTraining
+        case true
             if ~isequal(XVal{1, 1}, 0)
-                YValCell(i) = convertYForTesting(YValCell(i), options.modelType);
-                pd = getProbDist(options, Mdl, XValCell(i), YValCell(i));
+                pd = getProbDist(options, Mdl, XValCell(i), convertYForTesting(YValCell(i), options.modelType, options.isMultivariate, options.hyperparameters.data.windowSize.value));
             else
-                pd = getProbDist(options, Mdl, XTrainCell(i), YTrainCell(i));
+                pd = getProbDist(options, Mdl, XTrainCell(i), convertYForTesting(YTrainCell(i), options.modelType, options.isMultivariate, options.hyperparameters.data.windowSize.value));
             end
 
             if ~options.calcThresholdLast
@@ -52,7 +50,8 @@ for i = 1:numel(models)
             else
                 staticThreshold = [];
             end
-        case 'supervised'
+        case false
+            % Not yet implemented
     end
 
 

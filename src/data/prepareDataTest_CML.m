@@ -8,7 +8,7 @@ switch options.model
     otherwise
         [XTest, YTest, labels] = splitDataTest(testingData, testingLabels, ...
             options.hyperparameters.data.windowSize.value, ...
-            'Predictive', 2, options.isMultivariate);
+            'reconstructive', 2, options.isMultivariate);
         
         for i = 1:size(XTest{1, 1}, 1)
             XTest{1, 1}{i, 1} = reshape(XTest{1, 1}{i, 1}', [1, options.hyperparameters.data.windowSize.value * size(testingData{1, 1}, 2)]);

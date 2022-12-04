@@ -22,7 +22,7 @@ end
 
 for dataIdx = 1:size(dataTest, 1)
     [XTest, YTest, labels] = prepareDataTest_CML(options, dataTest(dataIdx, 1), labelsTest(dataIdx, 1));
-    [anomalyScores, ~, labels] = detectWithCML(options, Mdl, XTest, YTest, labels);
+    anomalyScores = detectWithCML(options, Mdl, XTest, YTest, labels);
     
     [labels_pred, ~] = calcStaticThresholdPrediction(anomalyScores, labels, selectedThreshold, options.calcThresholdLast, options.model);
     [scoresPointwise, scoresEventwise, scoresPointAdjusted, scoresComposite] = calcScores(labels_pred, labels);

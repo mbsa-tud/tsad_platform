@@ -5,13 +5,11 @@ function scores = detectAndEvaluateWith(model, dataTest, labelsTest, thresholds)
 
 
 options = model.options;
-switch model.options.type
+switch options.type
     case 'DNN'
-        Mdl = model.Mdl;
-
         [XTest, YTest, labels] = prepareDataTest_DNN(options, dataTest, labelsTest);
             
-        [anomalyScores, YTest, labels] = detectWithDNN(options, Mdl, XTest, YTest, labels);
+        anomalyScores = detectWithDNN(options, model.Mdl, XTest, YTest, labels, options.scoringFunction, model.pd);
         
         if ~options.calcThresholdLast
             staticThreshold = model.staticThreshold;
@@ -35,12 +33,10 @@ switch model.options.type
             windowSize, min_percent, z_range);
         [scoresPointwiseDynamic, scoresEventwiseDynamic, ...
             scoresPointAdjustedDynamic, scoresCompositeDynamic] = calcScores(anomsDynamic, labels);
-    case 'CML'
-        Mdl = model.Mdl;
-        
+    case 'CML'        
         [XTest, YTest, labels] = prepareDataTest_CML(options, dataTest, labelsTest);
         
-        [anomalyScores, YTest, labels] = detectWithCML(options, Mdl, XTest, YTest, labels);
+        anomalyScores = detectWithCML(options, model.Mdl, XTest, YTest, labels);
         
         if ~options.calcThresholdLast
             staticThreshold = model.staticThreshold;
@@ -65,12 +61,10 @@ switch model.options.type
         [scoresPointwiseDynamic, scoresEventwiseDynamic, ...
             scoresPointAdjustedDynamic, scoresCompositeDynamic] = calcScores(anomsDynamic, labels);
 
-    case 'S'
-        Mdl = model.Mdl;
-        
+    case 'S'        
         [XTest, YTest, labels] = prepareDataTest_S(options, dataTest, labelsTest);
         
-        [anomalyScores, YTest, labels] = detectWithS(options, Mdl, XTest, YTest, labels);
+        anomalyScores = detectWithS(options, model.Mdl, XTest, YTest, labels);
         
         if ~options.calcThresholdLast
             staticThreshold = model.staticThreshold;

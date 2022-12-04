@@ -13,6 +13,7 @@ trainedModel = trainModels_DNN_Consecutive(model, dataTrain, ...
 
 options = trainedModel.(options.id).options;
 Mdl = trainedModel.(options.id).Mdl;
+pd = trainedModel.(options.id).pd;
 staticThreshold = trainedModel.(options.id).staticThreshold;
 
 if ~options.calcThresholdLast
@@ -25,7 +26,7 @@ end
 for dataIdx = 1:size(dataTest, 1)
     [XTest, YTest, labels] = prepareDataTest_DNN(options, dataTest(dataIdx, 1), labelsTest(dataIdx, 1));
     
-    [anomalyScores, ~, labels] = detectWithDNN(options, Mdl, XTest, YTest, labels);
+    anomalyScores = detectWithDNN(options, Mdl, XTest, YTest, labels, options.scoringFunction, pd);
     
     [labels_pred, ~] = calcStaticThresholdPrediction(anomalyScores, labels, selectedThreshold, options.calcThresholdLast, options.model);
     [scoresPointwise, scoresEventwise, scoresPointAdjusted, scoresComposite] = calcScores(labels_pred, labels);

@@ -1,4 +1,4 @@
-function [anomalyScores, YTest, labels] = detectWithDNN(options, Mdl, XTest, YTest, labels, scoringFunction, pd)
+function anomalyScores = detectWithDNN(options, Mdl, XTest, YTest, labels, scoringFunction, pd)
 %DETECTWITHDNN
 %
 % Runs the detection for DL models and returns anomaly Scores
@@ -19,10 +19,8 @@ switch options.model
     
                 pred = predict(net_tmp, XTest{i});
                 
-                if strcmp(options.modelType, 'Reconstructive')
+                if strcmp(options.modelType, 'reconstructive')
                     pred = reshapeReconstructivePrediction(pred, options.hyperparameters.data.windowSize.value);
-                    YTest_tmp = YTest{i};
-                    YTest{i} = YTest_tmp(1:(end - options.hyperparameters.data.windowSize.value), 1);
                 else
                     if iscell(pred)
                         pred = cell2mat(pred);
@@ -34,9 +32,8 @@ switch options.model
         else
             pred = predict(Mdl, XTest{1});
             
-            if strcmp(options.modelType, 'Reconstructive')
+            if strcmp(options.modelType, 'reconstructive')
                 pred = reshapeReconstructivePrediction(pred, options.hyperparameters.data.windowSize.value);
-                YTest{1} = YTest{1}(1:(end - options.hyperparameters.data.windowSize.value), :);
             end   
             
             anomalyScores = abs(pred - YTest{1});
@@ -45,29 +42,26 @@ switch options.model
         numChannels = size(anomalyScores, 2);
 
         switch scoringFunction
+            case 'separate'
             case 'channelwise-errors'
                 if numChannels > 1
                     for i = 1:numChannels
-                        anomalyScores(:, i) = anomalyScores(:, i) - mean(anomalyScores(:, i));
+                        anomalyScores(:, i) = anomalyScores(:, i) - pd(i).mu;
                     end
                 end
             case 'aggregated-errors'
                 if numChannels > 1
                     for i = 1:numChannels
-                        anomalyScores(:, i) = anomalyScores(:, i) - mean(anomalyScores(:, i));
+                        anomalyScores(:, i) = anomalyScores(:, i) - pd(i).mu;
                     end
                     anomalyScores = rms(anomalyScores, 2);
                 end   
             case 'gauss'
                 for i = 1:numChannels
-                    anomalyScores(:, i) = cdf(pd(i), anomalyScores(:, i));
+                    anomalyScores(:, i) = -log(1 - cdf(pd(i), anomalyScores(:, i)));
                 end
                 anomalyScores = sum(anomalyScores, 2);
-        end
-
-        % Crop labels for reconstructive models
-        if strcmp(options.modelType, 'Reconstructive')
-            labels = labels(1:(end - options.hyperparameters.data.windowSize.value), 1);
+%                 anomalyScores = -log(1 - mvncdf(anomalyScores, pd.mu, pd.sigma));
         end
 end
 end
