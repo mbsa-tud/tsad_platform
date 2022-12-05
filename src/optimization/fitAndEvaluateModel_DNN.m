@@ -1,4 +1,4 @@
-function scoresCell = fitAndEvaluateModel_DNN(options, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, ratioValTest, thresholds)
+function scoresCell = fitAndEvaluateModel_DNN(options, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, ratioValTest, threshold)
 %FITANDEVALUATEMODEL_DNN
 %
 % Trains and tests the selected model configured in the options parameter
@@ -9,7 +9,7 @@ model.options = options;
 
 trainedModel = trainModels_DNN_Consecutive(model, dataTrain, ...
                                                 labelsTrain, dataValTest, ...
-                                                labelsValTest, ratioValTest, thresholds, 'none');
+                                                labelsValTest, ratioValTest, threshold, 'none');
 
 options = trainedModel.(options.id).options;
 Mdl = trainedModel.(options.id).Mdl;
@@ -20,7 +20,7 @@ if ~options.calcThresholdLast
     fields = fieldnames(staticThreshold);
     selectedThreshold = staticThreshold.(fields{1});
 else
-    selectedThreshold = thresholds(1);
+    selectedThreshold = threshold;
 end
 
 for dataIdx = 1:size(dataTest, 1)

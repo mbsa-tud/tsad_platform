@@ -1,4 +1,4 @@
-function score = opt_fun(options, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, ratioValTest, thresholds, cmpScore, optVars, exportLogData)
+function score = opt_fun(options, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, ratioValTest, threshold, cmpScore, optVars, exportLogData)
 %OPT_FUN
 %
 % Objective function for the bayesian optimization
@@ -7,11 +7,11 @@ options = adaptModelOptions(options, optVars);
 
 switch options.type
     case 'DNN'
-        scoresCell = fitAndEvaluateModel_DNN(options, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, ratioValTest, thresholds);
+        scoresCell = fitAndEvaluateModel_DNN(options, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, ratioValTest, threshold);
     case 'CML'     
-        scoresCell = fitAndEvaluateModel_CML(options, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, ratioValTest, thresholds);
+        scoresCell = fitAndEvaluateModel_CML(options, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, ratioValTest, threshold);
     case 'S'    
-        scoresCell = fitAndEvaluateModel_S(options, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, ratioValTest, thresholds);
+        scoresCell = fitAndEvaluateModel_S(options, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, ratioValTest, threshold);
 end
 
 numOfMetrics = size(scoresCell{1, 1}, 1);
@@ -38,6 +38,26 @@ switch cmpScore
         avgScore = avgScores(3, 1);
     case 'Point-adjusted F1 Score'
         avgScore = avgScores(4, 1);
+    case 'Composite F0.5 Score'
+        avgScore = avgScores(5, 1);
+    case 'Point-wise F0.5 Score'
+        avgScore = avgScores(6, 1);
+    case 'Event-wise F0.5 Score'
+        avgScore = avgScores(7, 1);
+    case 'Point-adjusted F0.5 Score'
+        avgScore = avgScores(8, 1);
+    case 'Point-wise Precision'
+        avgScore = avgScores(9, 1);
+    case 'Event-wise Precision'
+        avgScore = avgScores(10, 1);
+    case 'Point-adjusted Precision'
+        avgScore = avgScores(11, 1);
+    case 'Point-wise Recall'
+        avgScore = avgScores(12, 1);
+    case 'Event-wise Recall'
+        avgScore = avgScores(13, 1);
+    case 'Point-adjusted Recall'
+        avgScore = avgScores(14, 1);
 end
 
 score = 1 - avgScore;

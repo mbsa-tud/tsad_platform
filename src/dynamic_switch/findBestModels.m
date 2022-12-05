@@ -1,4 +1,4 @@
-function findBestModels(datasetPath, models, preprocMethod, ratioValTest, cmpMetric)
+function findBestModels(datasetPath, models, preprocMethod, ratioValTest, cmpMetric, threshold)
 %FINDBESTMODELS
 %
 % Auto-labels the dynamic switch train dataset
@@ -19,16 +19,6 @@ for i = 1:length(models_S)
     allModelNames = [allModelNames string(models_S(i).options.id)];
 end
 
-switch cmpMetric
-    case 'Composite F1 Score'
-        threshold = "bestFscoreComposite";
-    case 'Point-wise F1 Score'
-        threshold = "bestFscorePointwise";
-    case 'Event-wise F1 Score'
-        threshold = "bestFscoreEventwise";
-    case 'Point-adjusted F1 Score'
-        threshold = "bestFscorePointAdjusted";
-end
 
 [tmpScores, testFileNames, trainedModels, preprocParams] = evaluateAllModels(datasetPath, 'train_switch', models_DNN, models_CML, models_S, ...
         preprocMethod, ratioValTest, threshold);
@@ -53,6 +43,26 @@ switch cmpMetric
         score_idx = 3;
     case 'Point-adjusted F1 Score'
         score_idx = 4;
+    case 'Composite F0.5 Score'
+        score_idx = 5;
+    case 'Point-wise F0.5 Score'
+        score_idx = 6;
+    case 'Event-wise F0.5 Score'
+        score_idx = 7;
+    case 'Point-adjusted F0.5 Score'
+        score_idx = 8;
+    case 'Point-wise Precision'
+        score_idx = 9;
+    case 'Event-wise Precision'
+        score_idx = 10;
+    case 'Point-adjusted Precision'
+        score_idx = 11;
+    case 'Point-wise Recall'
+        score_idx = 12;
+    case 'Event-wise Recall'
+        score_idx = 13;
+    case 'Point-adjusted Recall'
+        score_idx = 14;
 end
 
 fprintf('Comparing model scores\n');

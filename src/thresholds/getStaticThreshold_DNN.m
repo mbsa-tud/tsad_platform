@@ -50,12 +50,12 @@ switch options.model
         
         if ismember("meanStd", thresholds)
             if options.hyperparameters.training.ratioTrainVal.value == 1
-                YTrain = convertYForTesting(YTrain, options.modelType);
+                YTrain = convertYForTesting(YTrain, options.modelType, options.isMultivariate, options.hyperparameters.data.windowSize.value);
                 [anomalyScores, ~, ~] = detectWithDNN(options, Mdl, XTrain, YTrain, [], options.scoringFunction, pd);
                 
                 staticThreshold.meanStd = calcStaticThreshold(anomalyScores, [], "meanStd", options.model);
             else
-                YVal = convertYForTesting(YVal, options.modelType);
+                YVal = convertYForTesting(YVal, options.modelType,  options.isMultivariate, options.hyperparameters.data.windowSize.value);
                 [anomalyScores, ~, ~] = detectWithDNN(options, Mdl, XVal, YVal, [], options.scoringFunction, pd);
                 
                 staticThreshold.meanStd = calcStaticThreshold(anomalyScores, [], "meanStd", options.model);

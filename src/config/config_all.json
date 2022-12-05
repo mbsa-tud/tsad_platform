@@ -4,6 +4,7 @@
             "options": {
                 "type": "DNN",
                 "model": "FC AE",
+                "scoringFunction": "aggregated-errors",
                 "modelType": "Reconstructive",
                 "dataType": 1,
                 "label": "FC AE  (1)",
@@ -48,6 +49,7 @@
             "options": {
                 "type": "DNN",
                 "model": "LSTM (r)",
+                "scoringFunction": "aggregated-errors",
                 "modelType": "Reconstructive",
                 "dataType": 2,
                 "label": "LSTM (r)  (1)",
@@ -92,6 +94,7 @@
             "options": {
                 "type": "DNN",
                 "model": "Hybrid CNN-LSTM (r)",
+                "scoringFunction": "aggregated-errors",
                 "modelType": "Reconstructive",
                 "dataType": 2,
                 "label": "Hybrid CNN-LSTM (r)  (1)",
@@ -140,6 +143,7 @@
             "options": {
                 "type": "DNN",
                 "model": "TCN AE",
+                "scoringFunction": "aggregated-errors",
                 "modelType": "Reconstructive",
                 "dataType": 2,
                 "label": "TCN AE  (1)",
@@ -184,6 +188,7 @@
             "options": {
                 "type": "DNN",
                 "model": "LSTM",
+                "scoringFunction": "aggregated-errors",
                 "modelType": "Predictive",
                 "dataType": 2,
                 "label": "LSTM  (1)",
@@ -228,6 +233,7 @@
             "options": {
                 "type": "DNN",
                 "model": "Hybrid CNN-LSTM",
+                "scoringFunction": "aggregated-errors",
                 "modelType": "Predictive",
                 "dataType": 2,
                 "label": "Hybrid CNN-LSTM  (1)",
@@ -276,6 +282,7 @@
             "options": {
                 "type": "DNN",
                 "model": "GRU",
+                "scoringFunction": "aggregated-errors",
                 "modelType": "Predictive",
                 "dataType": 2,
                 "label": "GRU  (1)",
@@ -320,6 +327,7 @@
             "options": {
                 "type": "DNN",
                 "model": "CNN (DeepAnT)",
+                "scoringFunction": "aggregated-errors",
                 "modelType": "Predictive",
                 "dataType": 3,
                 "label": "CNN (DeepAnT)  (1)",
@@ -364,6 +372,7 @@
             "options": {
                 "type": "DNN",
                 "model": "ResNet",
+                "scoringFunction": "aggregated-errors",
                 "modelType": "Predictive",
                 "dataType": 3,
                 "label": "ResNet  (1)",
@@ -408,6 +417,7 @@
             "options": {
                 "type": "DNN",
                 "model": "MLP",
+                "scoringFunction": "aggregated-errors",
                 "modelType": "Predictive",
                 "dataType": 1,
                 "label": "MLP  (1)",
@@ -585,7 +595,7 @@
                 "label": "Merlin  (1)",
                 "id": "Merlin_1",
                 "requiresPriorTraining": false,
-                "isMultivariate": true,
+                "isMultivariate": false,
                 "hyperparameters": {
                     "data": {
                         "windowSize": {

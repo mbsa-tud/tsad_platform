@@ -16,7 +16,7 @@ fields = fieldnames(models);
 numOfModels = numel(fields);
 allModelNames = strings(numOfModels, 1);
 for i = 1:numOfModels
-    allModelNames(i, 1) = models.(fields{i}).options.model;
+    allModelNames(i, 1) = models.(fields{i}).options.label;
 end
 
 dataTestPath = fullfile(datasetPath, 'test_switch');

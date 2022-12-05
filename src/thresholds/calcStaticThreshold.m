@@ -25,8 +25,7 @@ switch model
                 % for each channel.
                 thr = mean(mean(anomalyScores)) + 4 * mean(std(anomalyScores));
             otherwise
-                thr = 0.5;
-                disp("Warning! The selected static threshold can't be calculated after detection. See file src/thresholds/calcStaticThreshold.m");
+                error(sprintf("The selected static threshold  - %s -  can't be calculated after detection. See file src/thresholds/calcStaticThreshold.m", threshold));
         end
         if ~isnan(thr)
             staticThreshold = thr;

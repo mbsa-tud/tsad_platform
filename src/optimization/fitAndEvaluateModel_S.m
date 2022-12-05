@@ -1,4 +1,4 @@
-function scoresCell = fitAndEvaluateModel_S(options, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, ratioValTest, thresholds)
+function scoresCell = fitAndEvaluateModel_S(options, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, ratioValTest, threshold)
 %FITANDEVALUATEMODEL_S
 %
 % Trains and tests the selected model configured in the options parameter
@@ -8,7 +8,7 @@ scoresCell = cell(size(dataTest, 1), 1);
 model.options = options;
 
 trainedModel = trainModels_S(model, dataTrain, ...
-                                        dataValTest, labelsValTest, ratioValTest, thresholds);
+                                        dataValTest, labelsValTest, ratioValTest, threshold);
 
 options = trainedModel.(options.id).options;
 Mdl = trainedModel.(options.id).Mdl;
@@ -18,7 +18,7 @@ if ~options.calcThresholdLast
     fields = fieldnames(staticThreshold);
     selectedThreshold = staticThreshold.(fields{1});
 else
-    selectedThreshold = thresholds(1);
+    selectedThreshold = threshold;
 end
 
 for dataIdx = 1:size(dataTest, 1)
