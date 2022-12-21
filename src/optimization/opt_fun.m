@@ -1,4 +1,4 @@
-function score = opt_fun(options, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, ratioValTest, threshold, cmpScore, optVars, exportLogData)
+function score = opt_fun(options, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, threshold, cmpScore, optVars, trainingPlots, exportLogData)
 %OPT_FUN
 %
 % Objective function for the bayesian optimization
@@ -7,11 +7,11 @@ options = adaptModelOptions(options, optVars);
 
 switch options.type
     case 'DNN'
-        scoresCell = fitAndEvaluateModel_DNN(options, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, ratioValTest, threshold);
+        scoresCell = fitAndEvaluateModel_DNN(options, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, threshold, trainingPlots);
     case 'CML'     
-        scoresCell = fitAndEvaluateModel_CML(options, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, ratioValTest, threshold);
+        scoresCell = fitAndEvaluateModel_CML(options, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, threshold);
     case 'S'    
-        scoresCell = fitAndEvaluateModel_S(options, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, ratioValTest, threshold);
+        scoresCell = fitAndEvaluateModel_S(options, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, threshold);
 end
 
 numOfMetrics = size(scoresCell{1, 1}, 1);

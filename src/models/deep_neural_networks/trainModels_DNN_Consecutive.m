@@ -1,4 +1,4 @@
-function trainedModels = trainModels_DNN_Consecutive(models, dataTrain, labelsTrain, dataValTest, labelsValTest, ratioValTest, thresholds, trainingPlots)
+function trainedModels = trainModels_DNN_Consecutive(models, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds, trainingPlots)
 %TRAINMODELS_DNN_CONSECUTIVE
 %
 % Trains all DL models consecutively and calculates the thresholds
@@ -8,13 +8,12 @@ for i = 1:length(models)
 
     switch options.requiresPriorTraining
         case true
-            if ratioValTest == 1
-                options.calcThresholdLast = true;
-            else
-                options.calcThresholdLast = false;
+            if isempty(dataTrain)
+                error("One of the selected models requires prior training, but the dataset doesn't contain training data (train folder).")
             end
-    
+
             [XTrain, YTrain, XVal, YVal] = prepareDataTrain_DNN(options, dataTrain, labelsTrain);
+
             [Mdl, MdlInfo] = trainDNN(options, XTrain, YTrain, XVal, YVal, trainingPlots);
             
             if ~isequal(XVal{1, 1}, 0)
@@ -23,11 +22,7 @@ for i = 1:length(models)
                 pd = getProbDist(options, Mdl, XTrain, convertYForTesting(YTrain, options.modelType, options.isMultivariate, options.hyperparameters.data.windowSize.value));
             end
             
-            if ~options.calcThresholdLast
-                staticThreshold = getStaticThreshold_DNN(options, Mdl, XTrain, YTrain, XVal, YVal, dataValTest, labelsValTest, thresholds, pd);
-            else
-                staticThreshold = [];
-            end
+            staticThreshold = getStaticThreshold_DNN(options, Mdl, XTrain, YTrain, XVal, YVal, dataValTest, labelsValTest, thresholds, pd);
         case false
             % Not yet implemented
     end

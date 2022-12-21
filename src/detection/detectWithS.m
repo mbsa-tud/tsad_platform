@@ -19,6 +19,7 @@ switch options.model
         [~, anomalyScores, ~] = OD_wpca(XTest, options.hyperparameters.model.ratioOversample.value);
 end
 
+% Merge overlapping scores
 anomalyScores = repmat(anomalyScores, 1, options.hyperparameters.data.windowSize.value);
 anomalyScores = reshapeReconstructivePrediction(anomalyScores, options.hyperparameters.data.windowSize.value);
 end

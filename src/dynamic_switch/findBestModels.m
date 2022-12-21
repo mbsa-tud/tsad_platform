@@ -1,38 +1,11 @@
-function findBestModels(datasetPath, models, preprocMethod, ratioValTest, cmpMetric, threshold)
+function bestModels = findBestModels(trainedModels, dataTest, labelsTest, filesTest, threshold, cmpMetric)
 %FINDBESTMODELS
 %
-% Auto-labels the dynamic switch train dataset
+% Labels the test dataset according to what model is best using the
+% cmpMetric as the comparison metric
 
-% Get all model names
-models_DNN = models.models_DNN;
-models_CML = models.models_CML;
-models_S = models.models_S;
-
-allModelNames = [];
-for i = 1:length(models_DNN)
-    allModelNames = [allModelNames string(models_DNN(i).options.id)];
-end
-for i = 1:length(models_CML)
-    allModelNames = [allModelNames string(models_CML(i).options.id)];
-end
-for i = 1:length(models_S)
-    allModelNames = [allModelNames string(models_S(i).options.id)];
-end
-
-
-[tmpScores, testFileNames, trainedModels, preprocParams] = evaluateAllModels(datasetPath, 'train_switch', models_DNN, models_CML, models_S, ...
-        preprocMethod, ratioValTest, threshold);
-
-% Save models to models.mat file
-fileName = fullfile(datasetPath, 'models.mat');
-assignin('base', 'trainedModels', trainedModels);
-save(fileName, 'trainedModels');
-
-% Save preproc. parameters
-fileID = fopen(fullfile(datasetPath, 'preprocParams.json'), 'w');
-fprintf(fileID, jsonencode(preprocParams, PrettyPrint=true));
-fclose(fileID);
-
+allScores = evaluateAllModels(trainedModels, dataTest, labelsTest, filesTest, threshold);
+allModelNames = fieldnames(trainedModels);
 
 switch cmpMetric
     case 'Composite F1 Score'
@@ -65,17 +38,10 @@ switch cmpMetric
         score_idx = 14;
 end
 
-fprintf('Comparing model scores\n');
-
-scores_all = tmpScores{1, 1};
+scores_all = allScores{1, 1};
 for i = 1:length(scores_all)
     [~, idx] = max(scores_all{i, 1}(score_idx, :));
     
-    bestModels.(testFileNames(i)) = allModelNames(idx); 
+    bestModels.(filesTest(i)) = allModelNames{idx};
 end
-
-expPath = fullfile(datasetPath, 'train_switch', 'best_models.json');
-fid = fopen(expPath, 'w');
-fprintf(fid, jsonencode(bestModels, PrettyPrint=true));
-fclose(fid);
 end

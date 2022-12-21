@@ -1,5 +1,5 @@
 function [trainingData, timestampsTraining, labelsTraining, filesTraining, ...
-                testingData, timestampsTesting, labelsTesting, filesTesting] = loadCustomDataset(datasetPath, testFolderName)
+                testingData, timestampsTesting, labelsTesting, filesTesting] = loadCustomDataset(datasetPath)
 %LOADCUSTOMDATASET
 %
 % Loads the custom dataset from CSV files.
@@ -23,7 +23,7 @@ if ~isfolder(datasetPath)
 end
 
 dataTrainPath = fullfile(dataPath, 'train');
-dataTestPath = fullfile(dataPath, testFolderName);
+dataTestPath = fullfile(dataPath, 'test');
 
 
 trainingFiles = dir(fullfile(dataTrainPath, '*.csv'));

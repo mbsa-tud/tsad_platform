@@ -1,4 +1,4 @@
-function trainedModels_CML = trainModels_CML(models, dataTrain, dataValTest, labelsValTest, ratioValTest, thresholds)
+function trainedModels_CML = trainModels_CML(models, dataTrain, dataValTest, labelsValTest, thresholds)
 %TRAINMODELS_CML
 %
 % Trains the classic ML models and calculates the static thresholds
@@ -8,21 +8,14 @@ for i = 1:length(models)
     
     switch options.requiresPriorTraining
         case true
-            if ratioValTest == 1
-                options.calcThresholdLast = true;
-            else
-                options.calcThresholdLast = false;
+            if isempty(dataTrain)
+                error("One of the selected models requires prior training, but the dataset doesn't contain training data (train folder).")
             end
-    
+            
             XTrain = prepareDataTrain_CML(options, dataTrain);
             Mdl = trainCML(options, XTrain);
-            if ~options.calcThresholdLast
-                staticThreshold = getStaticThreshold_CML(options, Mdl, XTrain, dataValTest, labelsValTest, thresholds);
-            else
-                staticThreshold = [];
-            end
+            staticThreshold = getStaticThreshold_CML(options, Mdl, XTrain, dataValTest, labelsValTest, thresholds);
         case false
-            options.calcThresholdLast = true;
             Mdl = [];
             staticThreshold = [];
     end

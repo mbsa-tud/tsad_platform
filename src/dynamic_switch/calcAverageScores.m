@@ -17,6 +17,9 @@ for i = 1:numOfMetrics
         scores(j, 1) = tmp(i, 1);
     end
     avgScore = mean(scores);
+    if avgScore == 0
+        avgScore = NaN;
+    end
     avgScores(i, 1) = avgScore;
 end
 end

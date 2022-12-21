@@ -1,9 +1,9 @@
-function [labels_pred, staticThreshold] = calcStaticThresholdPrediction(anomalyScores, labels, staticThreshold, calcThresholdLast, model)
+function [labels_pred, staticThreshold] = calcStaticThresholdPrediction(anomalyScores, labels, staticThreshold, model)
 %CALCSTATICTHRESHOLDPREDICTION
 %
 % Converts anomaly scores to binary detection using the static threshold
 
-if calcThresholdLast
+if isstring(staticThreshold)
     staticThreshold = calcStaticThreshold(anomalyScores, labels, staticThreshold, model);
 end
 

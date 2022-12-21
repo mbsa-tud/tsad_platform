@@ -1,4 +1,4 @@
-function trainedModels = trainModels_DNN_Parallel(models, dataTrain, labelsTrain, dataValTest, labelsValTest, ratioValTest, thresholds, closeOnFinished)
+function trainedModels = trainModels_DNN_Parallel(models, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds, closeOnFinished)
 %TRAINMODELS_DNN_PARALLEL
 %
 % Trains all DL models in parallel and calculates the thresholds
@@ -15,12 +15,10 @@ for i = 1:numNetworks
 
     switch options.requiresPriorTraining
         case true
-            if ratioValTest == 1
-                models(i).options.calcThresholdLast = true;
-            else
-                models(i).options.calcThresholdLast = false;
+            if isempty(dataTrain)
+                error("One of the selected models requires prior training, but the dataset doesn't contain training data (train folder).")
             end
-
+            
             [XTrain, YTrain, XVal, YVal] = prepareDataTrain_DNN(options, dataTrain, labelsTrain);
         case false
             % Not yet implemented
@@ -40,16 +38,12 @@ for i = 1:numel(models)
     switch options.requiresPriorTraining
         case true
             if ~isequal(XVal{1, 1}, 0)
-                pd = getProbDist(options, Mdl, XValCell(i), convertYForTesting(YValCell(i), options.modelType, options.isMultivariate, options.hyperparameters.data.windowSize.value));
+                pd = getProbDist(options, Mdls{i}, XValCell(i), convertYForTesting(YValCell(i), options.modelType, options.isMultivariate, options.hyperparameters.data.windowSize.value));
             else
-                pd = getProbDist(options, Mdl, XTrainCell(i), convertYForTesting(YTrainCell(i), options.modelType, options.isMultivariate, options.hyperparameters.data.windowSize.value));
+                pd = getProbDist(options, Mdls{i}, XTrainCell(i), convertYForTesting(YTrainCell(i), options.modelType, options.isMultivariate, options.hyperparameters.data.windowSize.value));
             end
 
-            if ~options.calcThresholdLast
-                staticThreshold = getStaticThreshold_DNN(options, Mdls{i}, XTrainCell(i), YTrainCell(i), XValCell(i), YValCell(i), dataValTest, labelsValTest, thresholds, pd);
-            else
-                staticThreshold = [];
-            end
+            staticThreshold = getStaticThreshold_DNN(options, Mdls{i}, XTrainCell(i), YTrainCell(i), XValCell(i), YValCell(i), dataValTest, labelsValTest, thresholds, pd);
         case false
             % Not yet implemented
     end

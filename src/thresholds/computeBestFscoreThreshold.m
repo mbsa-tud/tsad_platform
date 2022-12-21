@@ -1,15 +1,10 @@
-function thr = computeBestFscoreThreshold(anomalyScores, labels, useParametric, pd, type)
+function thr = computeBestFscoreThreshold(anomalyScores, labels, type)
 %COMPUTEBESTFSCORETHRESHOLD
 %
 % This function computes the best F score thresholds
 
 beta = 1;
 numChannels = size(anomalyScores, 2);
-
-if useParametric == 1
-    anomalyScores_old = anomalyScores;
-    anomalyScores = pdf(pd, anomalyScores);
-end 
 
 lables_pred = logical([]);
 
@@ -26,22 +21,12 @@ else
     end
 end
 
-if useParametric == 0
-    for i = 1:numOfTimesteps
-        labels_tmp = logical([]);
-        for j = 1:numChannels
-            labels_tmp(:, j) = anomalyScores(:, j) > threshMax(i);
-        end
-        labels_pred(:, i) = any(labels_tmp, 2);
+for i = 1:numOfTimesteps
+    labels_tmp = logical([]);
+    for j = 1:numChannels
+        labels_tmp(:, j) = anomalyScores(:, j) > threshMax(i);
     end
-else
-    for i = 1:numOfTimesteps
-        labels_tmp = logical([]);
-        for j = 1:numChannels
-            labels_tmp(:, j) = anomalyScores(:, j) < threshMax(i);
-        end
-        labels_pred(:, i) = any(labels_tmp, 2);
-    end
+    labels_pred(:, i) = any(labels_tmp, 2);
 end
 
 Fscore = [];
@@ -126,19 +111,11 @@ end
 MaxFScore = max(Fscore);
 thrIdx = find(Fscore == MaxFScore);
 clear thrMax
-if size(thrIdx, 2) >1
+if size(thrIdx, 2) > 1
     p = thrIdx(1);
 else
     p = thrIdx;
 end
 
 thr = threshMax(p);
-
-if useParametric == 1
-    try
-        thr = anomalyScores_old(find(anomalyScores == thr, 1));
-    catch
-        thr = NaN;
-    end
-end
 end

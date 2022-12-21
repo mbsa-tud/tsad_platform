@@ -1,4 +1,4 @@
-function [scoresWeighted, scoresUnweighted, scoresPointAdjusted, scoresComposite] = calcScores(labels_pred, labels)
+function [scoresPointwise, scoresEventwise, scoresPointAdjusted, scoresComposite] = calcScores(labels_pred, labels)
 %CALCSCORES
 %
 % Calculates the different metrics
@@ -13,9 +13,9 @@ try
     rec_p = tp_p / (tp_p + fn_p);
     f1_score_p = 2 * pre_p * rec_p / (pre_p + rec_p);
     f05_score_p = (1 + 0.5^2) * (pre_p * rec_p) / ((0.5^2 * pre_p) + rec_p);
-    scoresWeighted = [pre_p; rec_p; f1_score_p; f05_score_p];
+    scoresPointwise = [pre_p; rec_p; f1_score_p; f05_score_p];
 catch ME
-    scoresWeighted = [NaN; NaN; NaN; NaN];
+    scoresPointwise = [NaN; NaN; NaN; NaN];
     pre_p = NaN;
 end
 
@@ -26,9 +26,9 @@ try
     rec_e = tp_e / (tp_e + fn_e);
     f1_score_e = 2 * pre_e * rec_e / (pre_e + rec_e);
     f05_score_e = (1 + 0.5^2) * (pre_e * rec_e) / ((0.5^2 * pre_e) + rec_e);                
-    scoresUnweighted = [pre_e; rec_e; f1_score_e; f05_score_e];
+    scoresEventwise = [pre_e; rec_e; f1_score_e; f05_score_e];
 catch ME
-    scoresUnweighted = [NaN; NaN; NaN; NaN];
+    scoresEventwise = [NaN; NaN; NaN; NaN];
     rec_e = NaN;
 end
 
@@ -67,8 +67,8 @@ catch ME
     scoresComposite = [NaN; NaN];
 end
 
-scoresWeighted = round(scoresWeighted, 4);
-scoresUnweighted = round(scoresUnweighted, 4);
+scoresPointwise = round(scoresPointwise, 4);
+scoresEventwise = round(scoresEventwise, 4);
 scoresPointAdjusted = round(scoresPointAdjusted, 4);
 scoresComposite = round(scoresComposite, 4);
 end

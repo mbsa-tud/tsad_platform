@@ -6,13 +6,13 @@ function anomalyScores = detectWithCML(options, Mdl, XTest, YTest, labels)
 switch options.model
     case 'iForest'
         [~, anomalyScores] = isanomaly(Mdl, XTest);
-    case 'OC-SVM'
+        case 'OC-SVM'
         [~, anomalyScores] = predict(Mdl, XTest);
         anomalyScores = gnegate(anomalyScores);
     case 'ABOD'
         [~, anomalyScores] = ABOD(XTest);
     case 'LOF'
-        [~, anomalyScores] = LOF(XTest, options.hyperparameters.model.k.value);        
+        [~, anomalyScores] = LOF(XTest, options.hyperparameters.model.k.value);
     case 'Merlin'
         numAnoms = 0;
         i = 1;
@@ -38,7 +38,9 @@ switch options.model
             anomalyScores = run_MERLIN(XTest,  options.hyperparameters.model.minL.value, ...
                 options.hyperparameters.model.maxL.value, numAnoms);
         else
+            fprintf("Warning! minL is greater than maxL for merlin, setting anomaly scores to zero.");
             anomalyScores = zeros(size(XTest, 1), 1);
+            return;
         end
         anomalyScores = double(anomalyScores);
         return;
@@ -46,6 +48,7 @@ switch options.model
         anomalyScores = LDOF(XTest, options.hyperparameters.model.k.value);
 end
 
+% Merge overlapping scores
 anomalyScores = repmat(anomalyScores, 1, options.hyperparameters.data.windowSize.value);
 anomalyScores = reshapeReconstructivePrediction(anomalyScores, options.hyperparameters.data.windowSize.value);
 end

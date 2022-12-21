@@ -1,14 +1,22 @@
-function anomalyScores = detectWithDNN(options, Mdl, XTest, YTest, labels, scoringFunction, pd)
+function [anomalyScores, compTime] = detectWithDNN(options, Mdl, XTest, YTest, labels, scoringFunction, pd, getCompTime)
 %DETECTWITHDNN
 %
 % Runs the detection for DL models and returns anomaly Scores
 
+if ~exist('getCompTime', 'var')
+    getCompTime = false;
+    compTime = NaN;
+end
 
 switch options.model
     case 'Your model'
     otherwise
         if ~options.isMultivariate
             anomalyScores = [];
+
+            % Comp time
+            times = zeros(length(Mdl), 1);
+
             % Get anomaly scores for each channel
             for i = 1:length(Mdl)
                 if iscell(Mdl)
@@ -16,8 +24,19 @@ switch options.model
                 else
                     net_tmp = Mdl(i);
                 end
-    
+                
                 pred = predict(net_tmp, XTest{i});
+                
+                if getCompTime
+                    numWindows = size(XTest{i}, 1);
+                    times_tmp = zeros(numWindows, 1);
+                    for k = 1:numWindows
+                        tStart = cputime;
+                        predict(net_tmp, XTest{i}(k, :));
+                        times_tmp(k, 1) = cputime - tStart;
+                    end
+                    times(i, 1) = mean(times_tmp);
+                end
                 
                 if strcmp(options.modelType, 'reconstructive')
                     pred = reshapeReconstructivePrediction(pred, options.hyperparameters.data.windowSize.value);
@@ -29,8 +48,23 @@ switch options.model
                 
                 anomalyScores(:, i) = abs(pred - YTest{i});
             end
+            
+            if getCompTime
+                compTime = mean(times);
+            end
         else
             pred = predict(Mdl, XTest{1});
+            
+            if getCompTime
+                numWindows = size(XTest{1}, 1);
+                times = zeros(numWindows, 1);
+                for k = 1:numWindows
+                    tStart = cputime;
+                    predict(Mdl, XTest{1}(k, :));
+                    times(k, 1) = cputime - tStart;
+                end
+                compTime = mean(times);
+            end
             
             if strcmp(options.modelType, 'reconstructive')
                 pred = reshapeReconstructivePrediction(pred, options.hyperparameters.data.windowSize.value);

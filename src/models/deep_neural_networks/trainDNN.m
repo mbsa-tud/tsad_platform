@@ -1,4 +1,4 @@
-function [Mdls, MdlInfos] = trainDNN(options, XTrain, YTrain, XVal, YVal, plots)
+function [Mdls, MdlInfos] = trainDNN(options, XTrain, YTrain, XVal, YVal, trainingPlots)
 %TRAINDNN
 %
 % Train DL models
@@ -19,14 +19,15 @@ switch options.model
                 [numFeatures, numResponses] = getNumFeaturesAndResponses(XTrain_c, YTrain_c, options.isMultivariate, options.modelType, options.dataType);
     
                 layers = getLayers(options, numFeatures, numResponses);
-                trainOptions = getOptions(options, XVal_c, YVal_c, size(XTrain_c, 1), plots);
+                trainOptions = getOptions(options, XVal_c, YVal_c, size(XTrain_c, 1), trainingPlots);
                 
                 [Mdls, MdlInfos] = trainNetwork(XTrain_c, YTrain_c, layers, trainOptions);
             else
                 % Train the same model for each channel seperately
-                % but parrallel
+                % if trainParallel is set to true, training is done in
+                % parallel
                 trainParallel = false;
-                
+
                 if trainParallel
                     models = [];
                     for i = 1:numChannels
@@ -47,7 +48,7 @@ switch options.model
                         [numFeatures, numResponses] = getNumFeaturesAndResponses(XTrain_c, YTrain_c, options.isMultivariate, options.modelType, options.dataType);
             
                         layers = getLayers(options, numFeatures, numResponses);
-                        trainOptions = getOptions(options, XVal_c, YVal_c, size(XTrain_c, 1), plots);
+                        trainOptions = getOptions(options, XVal_c, YVal_c, size(XTrain_c, 1), trainingPlots);
                         
                         [model_c, modelInfo_c] = trainNetwork(XTrain_c, YTrain_c, layers, trainOptions);
                         Mdls = [Mdls model_c];
@@ -64,7 +65,7 @@ switch options.model
             [numFeatures, numResponses] = getNumFeaturesAndResponses(XTrain, YTrain, options.isMultivariate, options.modelType, options.dataType);
 
             layers = getLayers(options, numFeatures, numResponses);
-            trainOptions = getOptions(options, XVal, YVal, size(XTrain, 1), plots);
+            trainOptions = getOptions(options, XVal, YVal, size(XTrain, 1), trainingPlots);
             
             [Mdls, MdlInfos] = trainNetwork(XTrain, YTrain, layers, trainOptions);
         end
