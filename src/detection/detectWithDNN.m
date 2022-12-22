@@ -1,11 +1,10 @@
-function [anomalyScores, compTime] = detectWithDNN(options, Mdl, XTest, YTest, labels, scoringFunction, pd, getCompTime)
+function [anomalyScores, compTimeOut] = detectWithDNN(options, Mdl, XTest, YTest, labels, scoringFunction, pd, getCompTime)
 %DETECTWITHDNN
 %
 % Runs the detection for DL models and returns anomaly Scores
 
 if ~exist('getCompTime', 'var')
     getCompTime = false;
-    compTime = NaN;
 end
 
 switch options.model
@@ -50,7 +49,7 @@ switch options.model
             end
             
             if getCompTime
-                compTime = mean(times);
+                compTime = sum(times);
             end
         else
             pred = predict(Mdl, XTest{1});
@@ -98,4 +97,7 @@ switch options.model
 %                 anomalyScores = -log(1 - mvncdf(anomalyScores, pd.mu, pd.sigma));
         end
 end
+
+if nargout == 2
+    compTimeOut = compTime;
 end

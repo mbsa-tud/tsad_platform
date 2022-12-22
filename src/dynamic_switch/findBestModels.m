@@ -7,34 +7,34 @@ function bestModels = findBestModels(trainedModels, dataTest, labelsTest, filesT
 allScores = evaluateAllModels(trainedModels, dataTest, labelsTest, filesTest, threshold);
 allModelNames = fieldnames(trainedModels);
 
-switch cmpMetric
-    case 'Composite F1 Score'
+switch cmpScore
+    case 'F1 Score (point-wise)'
         score_idx = 1;
-    case 'Point-wise F1 Score'
+    case 'F1 Score (event-wise)'
         score_idx = 2;
-    case 'Event-wise F1 Score'
+    case 'F1 Score (point-adjusted)'
         score_idx = 3;
-    case 'Point-adjusted F1 Score'
+    case 'F1 Score (composite)'
         score_idx = 4;
-    case 'Composite F0.5 Score'
+    case 'F0.5 Score (point-wise)'
         score_idx = 5;
-    case 'Point-wise F0.5 Score'
+    case 'F0.5 Score (event-wise)'
         score_idx = 6;
-    case 'Event-wise F0.5 Score'
+    case 'F0.5 Score (point-adjusted)'
         score_idx = 7;
-    case 'Point-adjusted F0.5 Score'
+    case 'F0.5 Score (composite)'
         score_idx = 8;
-    case 'Point-wise Precision'
+    case 'Precision (point-wise)'
         score_idx = 9;
-    case 'Event-wise Precision'
+    case 'Precision (event-wise)'
         score_idx = 10;
-    case 'Point-adjusted Precision'
+    case 'Precision (point-adjusted)'
         score_idx = 11;
-    case 'Point-wise Recall'
+    case 'Recall (point-wise)'
         score_idx = 12;
-    case 'Event-wise Recall'
+    case 'Recall (event-wise)'
         score_idx = 13;
-    case 'Point-adjusted Recall'
+    case 'Recall (point-adjusted)'
         score_idx = 14;
 end
 
