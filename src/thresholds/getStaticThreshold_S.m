@@ -34,13 +34,17 @@ if ~isempty(dataValTest)
         end
         
         for i = 1:length(thresholds)
-            if ~strcmp(thresholds(i), "dynamic")
+            if ~strcmp(thresholds(i), "dynamic") && ~strcmp(thresholds(i), "pointFive")
                 staticThreshold.(thresholds(i)) = calcStaticThreshold(anomalyScores, labels, thresholds(i), options.model);
         
             end
         end
     else
-        error("Anomalous validation set doesn't contain anomalies");
+        fprintf("Warning! Anomalous validation set doesn't contain anomalies, possibly couldn't calculate some static thresholds.");
     end
+end
+
+if ismember("pointFive", thresholds)
+    staticThreshold.pointFive = 0.5;
 end
 end
