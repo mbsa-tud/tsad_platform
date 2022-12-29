@@ -1,0 +1,15 @@
+Metric,FC AE  (1),MLP  (1),LOF  (1)
+F1 Score (point-wise),0.13,0.2963,0.1472
+F1 Score (event-wise),1,0.2353,1
+F1 Score (point-adjusted),0.13,0.5426,0.1472
+F1 Score (composite),0.13,0.3565,0.1472
+F0.5 Score (point-wise),0.0854,0.243,0.0974
+F0.5 Score (event-wise),1,0.1613,1
+F0.5 Score (point-adjusted),0.0854,0.4257,0.0974
+F0.5 Score (composite),0.0854,0.2572,0.0974
+Precision (point-wise),0.0695,0.2169,0.0795
+Precision (event-wise),1,0.1333,1
+Precision (point-adjusted),0.0695,0.3723,0.0795
+Recall (point-wise),1,0.4672,1
+Recall (event-wise),1,1,1
+Recall (point-adjusted),1,1,1

@@ -1,0 +1,15 @@
+Metric,FC AE  (1),MLP  (1),LOF  (1)
+F1 Score (point-wise),NaN,NaN,NaN
+F1 Score (event-wise),NaN,NaN,NaN
+F1 Score (point-adjusted),NaN,NaN,NaN
+F1 Score (composite),NaN,NaN,NaN
+F0.5 Score (point-wise),NaN,NaN,NaN
+F0.5 Score (event-wise),NaN,NaN,NaN
+F0.5 Score (point-adjusted),NaN,NaN,NaN
+F0.5 Score (composite),NaN,NaN,NaN
+Precision (point-wise),NaN,0,NaN
+Precision (event-wise),NaN,NaN,NaN
+Precision (point-adjusted),NaN,0,NaN
+Recall (point-wise),0,0,0
+Recall (event-wise),0,0,0
+Recall (point-adjusted),0,0,0

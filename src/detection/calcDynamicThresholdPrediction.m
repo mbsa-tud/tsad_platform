@@ -3,7 +3,7 @@ function [anoms, threshold] = calcDynamicThresholdPrediction(anomalyScores, labe
 %
 % Converts anomaly scores to binary detection using the dynamic threshold
 
-padding = options.padding;
+padding = options.anomalyPadding;
 windowSize = max(1, floor(length(anomalyScores) * (options.windowSize / 100)));
 min_percent = options.minPercent;
 z_range = 1:options.zRange;
