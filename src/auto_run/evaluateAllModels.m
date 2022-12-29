@@ -1,4 +1,4 @@
-function tmpScores = evaluateAllModels(trainedModels, dataTest, labelsTest, filesTest, thresholds)
+function tmpScores = evaluateAllModels(trainedModels, dataTest, labelsTest, filesTest, thresholds, dynamicThresholdSettings)
 % EVALUATEALLMODELS
 % 
 % Tests all models on a the data within the dataTest argument
@@ -51,19 +51,8 @@ if ~isempty(trainedModels)
        
                     anoms = calcStaticThresholdPrediction(anomalyScores, labels, selectedThreshold, options.model);
                 else
-                    % Dynamic threshold
-                    % TODO: make this configurable
-                    if iscell(YTest)
-                        windowSize = floor(size(YTest{1, 1}, 1) / 2);
-                    else
-                        windowSize = floor(size(YTest, 1) / 2);
-                    end
-                    padding = 3;
-                    z_range = 1:2;
-                    min_percent = 1;
-            
-                    [anoms, ~] = calcDynamicThresholdPrediction(anomalyScores, labels, padding, ...
-                        windowSize, min_percent, z_range); 
+                    % Dynamic threshold            
+                    [anoms, ~] = calcDynamicThresholdPrediction(anomalyScores, labels, dynamicThresholdSettings); 
                 end
 
                 [scoresPointwise, scoresEventwise, ...

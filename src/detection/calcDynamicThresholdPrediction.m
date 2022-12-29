@@ -1,8 +1,12 @@
-function [anoms, threshold] = calcDynamicThresholdPrediction(anomalyScores, labels, padding, windowSize, min_percent, z_range)
+function [anoms, threshold] = calcDynamicThresholdPrediction(anomalyScores, labels, options)
 %CALCDYNAMICTHRESHOLDPREDICTION
 %
 % Converts anomaly scores to binary detection using the dynamic threshold
 
+padding = options.padding;
+windowSize = max(1, floor(length(anomalyScores) * (options.windowSize / 100)));
+min_percent = options.minPercent;
+z_range = 1:options.zRange;
 
 [anom_times, threshold] = find_anomalies(anomalyScores, 'anomaly_padding', padding, ...
     'window_size', windowSize, 'min_percent', min_percent, 'z_range', z_range);

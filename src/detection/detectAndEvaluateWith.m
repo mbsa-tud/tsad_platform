@@ -1,4 +1,4 @@
-function scores = detectAndEvaluateWith(model, dataTest, labelsTest, threshold)
+function scores = detectAndEvaluateWith(model, dataTest, labelsTest, threshold, dynamicThresholdSettings)
 %DETECTANDEVALUATEWITH
 %
 % Runs the detection and returns the scores for the model
@@ -34,20 +34,8 @@ if ~strcmp(threshold, "dynamic")
     [scoresPointwise, scoresEventwise, ...
         scoresPointAdjusted, scoresComposite] = calcScores(anoms, labels);
 else
-    % Dynamic threshold
-    % TODO: make this configurable
-    
-    if iscell(YTest)
-        windowSize = floor(size(YTest{1, 1}, 1) / 2);
-    else
-        windowSize = floor(size(YTest, 1) / 2);
-    end
-    padding = 3;
-    z_range = 1:2;
-    min_percent = 1;
-    
-    [anoms, ~] = calcDynamicThresholdPrediction(anomalyScores, labels, padding, ...
-        windowSize, min_percent, z_range);
+    % Dynamic threshold    
+    [anoms, ~] = calcDynamicThresholdPrediction(anomalyScores, labels, dynamicThresholdSettings);
     [scoresPointwise, scoresEventwise, ...
         scoresPointAdjusted, scoresComposite] = calcScores(anoms, labels);
 end

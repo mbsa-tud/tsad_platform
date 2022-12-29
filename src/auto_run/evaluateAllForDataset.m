@@ -1,4 +1,4 @@
-function finalTable =  evaluateAllForDataset(datasetPath, models, useFraction, preprocMethod, ratioValTest, thresholds, trainParallel, trainingPlots)
+function finalTable =  evaluateAllForDataset(datasetPath, models, useFraction, preprocMethod, ratioValTest, thresholds, dynamicThresholdSettings, trainParallel, trainingPlots)
 %EVALUATEALLFORDATASET
 %
 % Encapsulates the training and testing for all models for a dataset
@@ -105,7 +105,7 @@ for i = 1:length(indices)
     
     % Run evaluation
     [tmpScores, testFileNames, ~, ~] = trainAndEvaluateAllModels(dataPath, models_DNN, models_CML, models_S, ...
-        preprocMethod, ratioValTest, thresholds, trainParallel, trainingPlots);
+        preprocMethod, ratioValTest, thresholds, dynamicThresholdSettings, trainParallel, trainingPlots);
 
     allTestFiles = [allTestFiles testFileNames];
 

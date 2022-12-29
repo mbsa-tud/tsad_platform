@@ -1,13 +1,13 @@
-function bestModels = findBestModels(trainedModels, dataTest, labelsTest, filesTest, threshold, cmpMetric)
+function bestModels = findBestModels(trainedModels, dataTest, labelsTest, filesTest, threshold, dynamicThresholdSettings, cmpMetric)
 %FINDBESTMODELS
 %
 % Labels the test dataset according to what model is best using the
 % cmpMetric as the comparison metric
 
-allScores = evaluateAllModels(trainedModels, dataTest, labelsTest, filesTest, threshold);
+allScores = evaluateAllModels(trainedModels, dataTest, labelsTest, filesTest, threshold, dynamicThresholdSettings);
 allModelNames = fieldnames(trainedModels);
 
-switch cmpScore
+switch cmpMetric
     case 'F1 Score (point-wise)'
         score_idx = 1;
     case 'F1 Score (event-wise)'

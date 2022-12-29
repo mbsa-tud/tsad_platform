@@ -1,5 +1,5 @@
 function [tmpScores, filesTest, trainedModels, preprocParameters] = trainAndEvaluateAllModels(datasetPath, models_DNN, models_CML, models_S, ...
-                                        preprocMethod, ratioTestVal, thresholds, trainParallel, trainingPlots)
+                                        preprocMethod, ratioTestVal, thresholds, dynamicThresholdSettings, trainParallel, trainingPlots)
 % EVALUATEALLMODELS
 % 
 % Trains and tests all models on a dataset
@@ -124,19 +124,8 @@ if ~isempty(trainedModels)
        
                     anoms = calcStaticThresholdPrediction(anomalyScores, labels, selectedThreshold, options.model);
                 else
-                    % Dynamic threshold
-                    % TODO: make this configurable
-                    if iscell(YTest)
-                        windowSize = floor(size(YTest{1, 1}, 1) / 2);
-                    else
-                        windowSize = floor(size(YTest, 1) / 2);
-                    end
-                    padding = 3;
-                    z_range = 1:2;
-                    min_percent = 1;
-            
-                    [anoms, ~] = calcDynamicThresholdPrediction(anomalyScores, labels, padding, ...
-                        windowSize, min_percent, z_range); 
+                    % Dynamic threshold            
+                    [anoms, ~] = calcDynamicThresholdPrediction(anomalyScores, labels, dynamicThresholdSettings); 
                 end
 
                 [scoresPointwise, scoresEventwise, ...
