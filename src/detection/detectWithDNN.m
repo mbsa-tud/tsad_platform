@@ -11,6 +11,7 @@ switch options.model
     case 'Your model'
     otherwise
         if ~options.isMultivariate
+            % For univariate models
             anomalyScores = [];
 
             % Comp time
@@ -46,12 +47,28 @@ switch options.model
                 end   
                 
                 anomalyScores(:, i) = abs(pred - YTest{i});
+
+                % Hi future contributor to this platform.
+                % Do the following lines make more sense than what is done above?
+                % Rather than selecting the median reconstructed value for
+                % each observation, calculate the reconstrunction errors
+                % first and the select the median reconstruction error.
+                
+%                 if strcmp(options.modelType, 'reconstructive')
+%                     anomalyScores(:, i) = reshapeReconstructivePrediction(abs(pred - XTest{i}), options.hyperparameters.data.windowSize.value);
+%                 else
+%                     if iscell(pred)
+%                         pred = cell2mat(pred);
+%                     end
+%                     anomalyScores(:, i) = abs(pred - YTest{i});
+%                 end   
             end
             
             if getCompTime
                 compTime = sum(times);
             end
         else
+            % For multivariate models
             pred = predict(Mdl, XTest{1});
             
             if getCompTime
