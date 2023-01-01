@@ -11,6 +11,7 @@
                 "id": "FC_AE_1",
                 "requiresPriorTraining": true,
                 "isMultivariate": false,
+                "outputsLabels": false,
                 "hyperparameters": {
                     "model": {
                         "neurons": {
@@ -56,6 +57,7 @@
                 "id": "LSTM_r_1",
                 "requiresPriorTraining": true,
                 "isMultivariate": false,
+                "outputsLabels": false,
                 "hyperparameters": {
                     "model": {
                         "hiddenUnits": {
@@ -101,6 +103,7 @@
                 "id": "Hybrid_CNN_LSTM_r_1",
                 "requiresPriorTraining": true,
                 "isMultivariate": false,
+                "outputsLabels": false,
                 "hyperparameters": {
                     "model": {
                         "hiddenUnits": {
@@ -150,6 +153,7 @@
                 "id": "TCN_AE_1",
                 "requiresPriorTraining": true,
                 "isMultivariate": false,
+                "outputsLabels": false,
                 "hyperparameters": {
                     "model": {
                         "filter": {
@@ -195,6 +199,7 @@
                 "id": "LSTM_1",
                 "requiresPriorTraining": true,
                 "isMultivariate": false,
+                "outputsLabels": false,
                 "hyperparameters": {
                     "model": {
                         "hiddenUnits": {
@@ -240,6 +245,7 @@
                 "id": "Hybrid_CNN_LSTM_1",
                 "requiresPriorTraining": true,
                 "isMultivariate": false,
+                "outputsLabels": false,
                 "hyperparameters": {
                     "model": {
                         "hiddenUnits": {
@@ -289,6 +295,7 @@
                 "id": "GRU_1",
                 "requiresPriorTraining": true,
                 "isMultivariate": false,
+                "outputsLabels": false,
                 "hyperparameters": {
                     "model": {
                         "hiddenUnits": {
@@ -334,6 +341,7 @@
                 "id": "CNN_DeepAnT_1",
                 "requiresPriorTraining": true,
                 "isMultivariate": false,
+                "outputsLabels": false,
                 "hyperparameters": {
                     "model": {
                         "filter": {
@@ -379,6 +387,7 @@
                 "id": "ResNet_1",
                 "requiresPriorTraining": true,
                 "isMultivariate": false,
+                "outputsLabels": false,
                 "hyperparameters": {
                     "model": {
                         "filter": {
@@ -424,6 +433,7 @@
                 "id": "MLP_1",
                 "requiresPriorTraining": true,
                 "isMultivariate": false,
+                "outputsLabels": false,
                 "hyperparameters": {
                     "model": {
                         "neurons": {
@@ -468,6 +478,7 @@
                 "id": "iForest_1",
                 "requiresPriorTraining": true,
                 "isMultivariate": true,
+                "outputsLabels": false,
                 "hyperparameters": {
                     "data": {
                         "windowSize": {
@@ -496,6 +507,7 @@
                 "id": "OC_SVM_1",
                 "requiresPriorTraining": true,
                 "isMultivariate": true,
+                "outputsLabels": false,
                 "hyperparameters": {
                     "data": {
                         "windowSize": {
@@ -518,6 +530,7 @@
                 "id": "ABOD_1",
                 "requiresPriorTraining": false,
                 "isMultivariate": true,
+                "outputsLabels": false,
                 "hyperparameters": {
                     "data": {
                         "windowSize": {
@@ -540,6 +553,7 @@
                 "id": "LOF_1",
                 "requiresPriorTraining": false,
                 "isMultivariate": true,
+                "outputsLabels": false,
                 "hyperparameters": {
                     "data": {
                         "windowSize": {
@@ -568,6 +582,7 @@
                 "id": "LDOF_1",
                 "requiresPriorTraining": false,
                 "isMultivariate": true,
+                "outputsLabels": false,
                 "hyperparameters": {
                     "data": {
                         "windowSize": {
@@ -596,6 +611,7 @@
                 "id": "Merlin_1",
                 "requiresPriorTraining": false,
                 "isMultivariate": false,
+                "outputsLabels": true,
                 "hyperparameters": {
                     "data": {
                         "windowSize": {
@@ -630,6 +646,7 @@
                 "id": "Grubbs_test_1",
                 "requiresPriorTraining": false,
                 "isMultivariate": true,
+                "outputsLabels": false,
                 "hyperparameters": {
                     "data": {
                         "windowSize": {
@@ -658,6 +675,7 @@
                 "id": "OD_wpca_1",
                 "requiresPriorTraining": false,
                 "isMultivariate": true,
+                "outputsLabels": false,
                 "hyperparameters": {
                     "data": {
                         "windowSize": {
