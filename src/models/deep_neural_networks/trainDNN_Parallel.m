@@ -26,7 +26,7 @@ for i = 1:numNetworks
     XVal = XValCell{i};
     YVal = YValCell{i};
     
-    [numFeatures, numResponses] = getNumFeaturesAndResponses(XTrain, YTrain, options.isMultivariate, options.modelType, options.dataType);
+    [numFeatures, numResponses] = getNumFeaturesAndResponses(XTrain, YTrain, options.modelType, options.dataType);
 
     layersCell{i} = getLayers(options, numFeatures, numResponses);
     trainOptionsCell{i} = getOptionsForParallel(options, XVal, YVal, size(XTrain, 1), dataqueue, i);

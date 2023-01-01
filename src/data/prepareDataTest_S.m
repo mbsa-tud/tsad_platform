@@ -10,11 +10,6 @@ switch options.model
             options.hyperparameters.data.windowSize.value, ...
             'reconstructive', 1, options.isMultivariate);
         
-        for i = 1:size(XTest{1, 1}, 1)
-            XTest{1, 1}{i, 1} = reshape(XTest{1, 1}{i, 1}', [1, options.hyperparameters.data.windowSize.value * size(dataTest{1, 1}, 2)]);
-        end
-        
-        XTest = cell2mat(XTest{1, 1});
-        YTest = cell2mat(YTest);
+        XTest = XTest{1, 1};
 end
 end
