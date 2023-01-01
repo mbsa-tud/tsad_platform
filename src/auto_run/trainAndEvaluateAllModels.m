@@ -114,22 +114,26 @@ if ~isempty(trainedModels)
             
             % For all thresholds in the thresholds variable
             for k = 1:length(thresholds)
-                if ~strcmp(thresholds(k), 'dynamic')
-                    % Static thresholds
-                    if ~isempty(staticThreshold) && isfield(staticThreshold, thresholds(k))  
-                        selectedThreshold = staticThreshold.(thresholds(k));
+                if ~options.outputsLabels
+                    if ~strcmp(thresholds(k), 'dynamic')
+                        % Static thresholds
+                        if ~isempty(staticThreshold) && isfield(staticThreshold, thresholds(k))  
+                            selectedThreshold = staticThreshold.(thresholds(k));
+                        else
+                            selectedThreshold = thresholds(k);
+                        end
+           
+                        predictedLabels = calcStaticThresholdPrediction(anomalyScores, labels, selectedThreshold, options.model);
                     else
-                        selectedThreshold = thresholds(k);
+                        % Dynamic threshold            
+                        [predictedLabels, ~] = calcDynamicThresholdPrediction(anomalyScores, labels, dynamicThresholdSettings); 
                     end
-       
-                    anoms = calcStaticThresholdPrediction(anomalyScores, labels, selectedThreshold, options.model);
                 else
-                    % Dynamic threshold            
-                    [anoms, ~] = calcDynamicThresholdPrediction(anomalyScores, labels, dynamicThresholdSettings); 
+                    predictedLabels = anomalyScores;
                 end
 
                 [scoresPointwise, scoresEventwise, ...
-                    scoresPointAdjusted, scoresComposite] = calcScores(anoms, labels);
+                    scoresPointAdjusted, scoresComposite] = calcScores(predictedLabels, labels);
                 
                 fullScores = [scoresPointwise(3); ...
                                 scoresEventwise(3); ...

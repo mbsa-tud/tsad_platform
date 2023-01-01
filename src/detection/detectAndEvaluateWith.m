@@ -20,26 +20,27 @@ switch options.type
         anomalyScores = detectWithS(options, model.Mdl, XTest, YTest, labels);
 end
 
-
-if ~strcmp(threshold, "dynamic")
-    % Static threshold
-
-    if ~isempty(model.staticThreshold) && isfield(model.staticThreshold, threshold)  
-        selectedThreshold = model.staticThreshold.(threshold);
-    else
-        selectedThreshold = threshold;
-    end
+if ~options.outputsLabels
+    if ~strcmp(threshold, "dynamic")
+        % Static threshold
     
-    anoms = calcStaticThresholdPrediction(anomalyScores, labels, selectedThreshold, options.model);
-    [scoresPointwise, scoresEventwise, ...
-        scoresPointAdjusted, scoresComposite] = calcScores(anoms, labels);
+        if ~isempty(model.staticThreshold) && isfield(model.staticThreshold, threshold)  
+            selectedThreshold = model.staticThreshold.(threshold);
+        else
+            selectedThreshold = threshold;
+        end
+        
+        predictedLabels = calcStaticThresholdPrediction(anomalyScores, labels, selectedThreshold, options.model);
+    else
+        % Dynamic threshold    
+        [predictedLabels, ~] = calcDynamicThresholdPrediction(anomalyScores, labels, dynamicThresholdSettings);
+    end
 else
-    % Dynamic threshold    
-    [anoms, ~] = calcDynamicThresholdPrediction(anomalyScores, labels, dynamicThresholdSettings);
-    [scoresPointwise, scoresEventwise, ...
-        scoresPointAdjusted, scoresComposite] = calcScores(anoms, labels);
+    predictedLabels = anomalyScores;
 end
 
+[scoresPointwise, scoresEventwise, ...
+            scoresPointAdjusted, scoresComposite] = calcScores(predictedLabels, labels);
 
 scores = [scoresPointwise(3); ...
             scoresEventwise(3); ...
