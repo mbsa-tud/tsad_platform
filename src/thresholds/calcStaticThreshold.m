@@ -6,30 +6,25 @@ function thr = calcStaticThreshold(anomalyScores, labels, threshold, model)
 numOfAnoms = sum(labels == 1);
 contaminationFraction = numOfAnoms / size(labels, 1);
 
-switch model
-    case 'Merlin'
+switch threshold
+    case "bestFscorePointwise"
+        thr = computeBestFscoreThreshold(anomalyScores, labels, 'point-wise');
+    case "bestFscoreEventwise"
+        thr = computeBestFscoreThreshold(anomalyScores, labels, 'event-wise');
+    case "bestFscorePointAdjusted"
+        thr = computeBestFscoreThreshold(anomalyScores, labels, 'point-adjusted');
+    case "bestFscoreComposite"
+        thr = computeBestFscoreThreshold(anomalyScores, labels, 'composite');
+    case "topK"
+        thr = quantile(anomalyScores, 1 - contaminationFraction);
+    case "meanStd"
+        % The outer mean is required for separate anomaly Scores
+        % for each channel.
+        thr = mean(mean(anomalyScores)) + 4 * mean(std(anomalyScores));
+    case "pointFive"
         thr = 0.5;
     otherwise
-        switch threshold
-            case "bestFscorePointwise"
-                thr = computeBestFscoreThreshold(anomalyScores, labels, 'point-wise');
-            case "bestFscoreEventwise"
-                thr = computeBestFscoreThreshold(anomalyScores, labels, 'event-wise');
-            case "bestFscorePointAdjusted"
-                thr = computeBestFscoreThreshold(anomalyScores, labels, 'point-adjusted');
-            case "bestFscoreComposite"
-                thr = computeBestFscoreThreshold(anomalyScores, labels, 'composite');
-            case "topK"
-                thr = quantile(anomalyScores, 1 - contaminationFraction);
-            case "meanStd"
-                % The outer mean is required for separate anomaly Scores
-                % for each channel.
-                thr = mean(mean(anomalyScores)) + 4 * mean(std(anomalyScores));
-            case "pointFive"
-                thr = 0.5;
-            otherwise
-                error(sprintf("The selected static threshold  - %s -  can't be calculated after detection. See file src/thresholds/calcStaticThreshold.m", threshold));
-        end
+        error("The selected static threshold  - %s -  can't be calculated after detection. See file src/thresholds/calcStaticThreshold.m", threshold);
 end
 
 % If thr is NaN, set it very high to only produce NaN values after
