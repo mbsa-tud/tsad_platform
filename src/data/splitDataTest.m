@@ -3,6 +3,8 @@ function [XTest, YTest, labelsTest] = splitDataTest(data, labels, windowSize, mo
 %
 % Splits the data for testing using the sliding window
 
+% TODO: this function can be way simpler
+
 if ~isMultivariate
     % For univariate models
     numChannels = size(data{1, 1}, 2);

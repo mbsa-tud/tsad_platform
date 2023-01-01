@@ -3,6 +3,8 @@ function [XTrain, YTrain, XVal, YVal] = splitDataTrain(data, windowSize, stepSiz
 %
 % Splits the data for training using a sliding sliding window
 
+% TODO: this function can be way simpler
+
 if ~isMultivariate
     % For univariate models
     numChannels = size(data{1, 1}, 2);
