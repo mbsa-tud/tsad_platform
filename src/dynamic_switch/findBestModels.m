@@ -42,6 +42,6 @@ scores_all = allScores{1, 1};
 for i = 1:length(scores_all)
     [~, idx] = max(scores_all{i, 1}(score_idx, :));
     
-    bestModels.(filesTest(i)) = allModelNames{idx};
+    bestModels.(sprintf("file_%s", filesTest(i))) = allModelNames{idx};
 end
 end

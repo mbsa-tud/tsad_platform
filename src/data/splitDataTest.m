@@ -5,11 +5,21 @@ function [XTestOut, YTestOut, labelsTestOut] = splitDataTest(data, labels, windo
 
 % TODO: this function can be way simpler
 
+numChannels = size(data{1, 1}, 2);
+numWindows = round((size(data{1, 1}, 1) - windowSize));
+
+if strcmp(modelType, 'reconstructive')
+    if numWindows < windowSize
+        error("Window size is too big for the time series. Must be less than a third the length of the time series");
+    end
+elseif strcmp(modelType, 'predictive')
+    if numWindows < 1
+        error("Window size is too big for the time series. Must be less than half the length of the time series");
+    end
+end
+
 if ~isMultivariate
-    % For univariate models
-    numChannels = size(data{1, 1}, 2);
-    numWindows = round((size(data{1, 1}, 1) - windowSize));
-    
+    % For univariate models    
     XTestOut = cell(1, numChannels);
     YTestOut = cell(1, numChannels);
     
@@ -40,7 +50,7 @@ if ~isMultivariate
         % YTest
         if strcmp(modelType, 'predictive')
             YTestTmp = data{1, 1}((windowSize + 1):end, ch_idx);
-        else
+        elseif strcmp(modelType, 'reconstructive')
             YTestTmp = data{1, 1}(windowSize:(end - windowSize - 1), ch_idx);
         end
     
@@ -53,13 +63,11 @@ if ~isMultivariate
     % Get labels
     if strcmp(modelType, 'predictive')    
         labelsTestOut = logical(labels{1, 1}((windowSize + 1):end, 1));
-    else
+    elseif strcmp(modelType, 'reconstructive')
         labelsTestOut = logical(labels{1, 1}(windowSize:(end - windowSize - 1), 1));
     end
 else
     % For multivariate models
-    numChannels = size(data{1, 1}, 2); 
-    numWindows = round((size(data{1, 1}, 1) - windowSize));
     
     % XTest
     if dataType == 1
@@ -82,7 +90,7 @@ else
     if strcmp(modelType, 'predictive')
         YTestOut = {data{1, 1}((windowSize + 1):end, :)};
         labelsTestOut = logical(labels{1, 1}((windowSize + 1):end, 1));
-    else
+    elseif strcmp(modelType, 'reconstructive')
         YTestOut = {data{1, 1}(windowSize:(end - windowSize - 1), :)};
         labelsTestOut = logical(labels{1, 1}(windowSize:(end - windowSize - 1), 1));
     end

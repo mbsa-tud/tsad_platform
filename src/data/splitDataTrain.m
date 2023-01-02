@@ -18,7 +18,11 @@ if ~isMultivariate
         XTrain_c = [];
         YTrain_c = [];
         for i = 1:size(data, 1)
-            numWindows = round((size(data{i, 1}, 1) - windowSize - stepSize + 1) / stepSize);
+            numWindows = round((size(data{1, 1}, 1) - windowSize - stepSize + 1) / stepSize);
+
+            if numWindows < 1
+                error("Window size and step size are too big for the time series.");
+            end
 
             if dataType == 1
                 XTrainTmp = zeros(numWindows, windowSize);
@@ -53,7 +57,7 @@ if ~isMultivariate
                 end
     
                 YTrain_c = [YTrain_c; YTrainTmp];
-            else
+            elseif strcmp(modelType, 'reconstructive')
                 YTrain_c = XTrain_c;
             end
         end
@@ -110,7 +114,7 @@ else
             end
 
             YTrain = [YTrain; YTrainTmp];
-        else
+        elseif strcmp(modelType, 'reconstructive')
             YTrain = XTrain;
         end
     end
