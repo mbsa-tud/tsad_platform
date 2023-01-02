@@ -37,7 +37,7 @@ for i = 1:numel(models)
 
     switch options.requiresPriorTraining
         case true
-            if ~isequal(XVal{1, 1}, 0)
+            if ~isempty(XVal{1, 1})
                 pd = getProbDist(options, Mdls{i}, XValCell(i), convertYForTesting(YValCell(i), options.modelType, options.isMultivariate, options.hyperparameters.data.windowSize.value));
             else
                 pd = getProbDist(options, Mdls{i}, XTrainCell(i), convertYForTesting(YTrainCell(i), options.modelType, options.isMultivariate, options.hyperparameters.data.windowSize.value));

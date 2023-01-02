@@ -45,7 +45,7 @@ switch options.model
                         XVal_c = XVal{i};
                         YVal_c = YVal{i};
         
-                        [numFeatures, numResponses] = getNumFeaturesAndResponses(XTrain_c, YTrain_c, options.isMultivariate, options.modelType, options.dataType);
+                        [numFeatures, numResponses] = getNumFeaturesAndResponses(XTrain_c, YTrain_c, options.modelType, options.dataType);
             
                         layers = getLayers(options, numFeatures, numResponses);
                         trainOptions = getOptions(options, XVal_c, YVal_c, size(XTrain_c, 1), trainingPlots);
@@ -62,7 +62,7 @@ switch options.model
             XVal = XVal{1};
             YVal = YVal{1};
         
-            [numFeatures, numResponses] = getNumFeaturesAndResponses(XTrain, YTrain, options.isMultivariate, options.modelType, options.dataType);
+            [numFeatures, numResponses] = getNumFeaturesAndResponses(XTrain, YTrain, options.modelType, options.dataType);
 
             layers = getLayers(options, numFeatures, numResponses);
             trainOptions = getOptions(options, XVal, YVal, size(XTrain, 1), trainingPlots);

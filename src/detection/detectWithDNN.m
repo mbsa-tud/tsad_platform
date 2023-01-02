@@ -28,9 +28,9 @@ switch options.model
                 pred = predict(net_tmp, XTest{i});
                 
                 if getCompTime
-                    numWindows = size(XTest{i}, 1);
-                    times_tmp = zeros(numWindows, 1);
-                    for k = 1:numWindows
+                    iterations = min(1000, size(XTest{i}, 1));
+                    times_tmp = zeros(iterations, 1);
+                    for k = 1:iterations
                         tStart = cputime;
                         predict(net_tmp, XTest{i}(k, :));
                         times_tmp(k, 1) = cputime - tStart;
@@ -72,9 +72,9 @@ switch options.model
             pred = predict(Mdl, XTest{1});
             
             if getCompTime
-                numWindows = size(XTest{1}, 1);
-                times = zeros(numWindows, 1);
-                for k = 1:numWindows
+                iterations = min(1000, size(XTest{1}, 1));
+                times = zeros(iterations, 1);
+                for k = 1:iterations
                     tStart = cputime;
                     predict(Mdl, XTest{1}(k, :));
                     times(k, 1) = cputime - tStart;
@@ -107,11 +107,13 @@ switch options.model
                     anomalyScores = rms(anomalyScores, 2);
                 end   
             case 'gauss'
+                % TODO: this is not optimal for multivariate data as the pd
+                % was calculated for each channel separately
                 for i = 1:numChannels
                     anomalyScores(:, i) = -log(1 - cdf(pd(i), anomalyScores(:, i)));
                 end
+                anomalyScores(isinf(anomalyScores)) = 0;
                 anomalyScores = sum(anomalyScores, 2);
-%                 anomalyScores = -log(1 - mvncdf(anomalyScores, pd.mu, pd.sigma));
         end
 end
 

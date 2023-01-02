@@ -10,7 +10,7 @@
                 "label": "FC AE  (1)",
                 "id": "FC_AE_1",
                 "requiresPriorTraining": true,
-                "isMultivariate": true,
+                "isMultivariate": false,
                 "outputsLabels": false,
                 "hyperparameters": {
                     "model": {
@@ -56,7 +56,7 @@
                 "label": "LSTM (r)  (1)",
                 "id": "LSTM_r_1",
                 "requiresPriorTraining": true,
-                "isMultivariate": true,
+                "isMultivariate": false,
                 "outputsLabels": false,
                 "hyperparameters": {
                     "model": {
@@ -102,7 +102,7 @@
                 "label": "Hybrid CNN-LSTM (r)  (1)",
                 "id": "Hybrid_CNN_LSTM_r_1",
                 "requiresPriorTraining": true,
-                "isMultivariate": true,
+                "isMultivariate": false,
                 "outputsLabels": false,
                 "hyperparameters": {
                     "model": {
@@ -152,7 +152,7 @@
                 "label": "TCN AE  (1)",
                 "id": "TCN_AE_1",
                 "requiresPriorTraining": true,
-                "isMultivariate": true,
+                "isMultivariate": false,
                 "outputsLabels": false,
                 "hyperparameters": {
                     "model": {
@@ -198,7 +198,7 @@
                 "label": "LSTM  (1)",
                 "id": "LSTM_1",
                 "requiresPriorTraining": true,
-                "isMultivariate": true,
+                "isMultivariate": false,
                 "outputsLabels": false,
                 "hyperparameters": {
                     "model": {
@@ -244,7 +244,7 @@
                 "label": "Hybrid CNN-LSTM  (1)",
                 "id": "Hybrid_CNN_LSTM_1",
                 "requiresPriorTraining": true,
-                "isMultivariate": true,
+                "isMultivariate": false,
                 "outputsLabels": false,
                 "hyperparameters": {
                     "model": {
@@ -294,7 +294,7 @@
                 "label": "GRU  (1)",
                 "id": "GRU_1",
                 "requiresPriorTraining": true,
-                "isMultivariate": true,
+                "isMultivariate": false,
                 "outputsLabels": false,
                 "hyperparameters": {
                     "model": {
@@ -340,7 +340,7 @@
                 "label": "CNN (DeepAnT)  (1)",
                 "id": "CNN_DeepAnT_1",
                 "requiresPriorTraining": true,
-                "isMultivariate": true,
+                "isMultivariate": false,
                 "outputsLabels": false,
                 "hyperparameters": {
                     "model": {
@@ -386,7 +386,7 @@
                 "label": "ResNet  (1)",
                 "id": "ResNet_1",
                 "requiresPriorTraining": true,
-                "isMultivariate": true,
+                "isMultivariate": false,
                 "outputsLabels": false,
                 "hyperparameters": {
                     "model": {
@@ -432,7 +432,7 @@
                 "label": "MLP  (1)",
                 "id": "MLP_1",
                 "requiresPriorTraining": true,
-                "isMultivariate": true,
+                "isMultivariate": false,
                 "outputsLabels": false,
                 "hyperparameters": {
                     "model": {

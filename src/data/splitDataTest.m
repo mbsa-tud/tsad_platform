@@ -41,7 +41,7 @@ if ~isMultivariate
         if strcmp(modelType, 'predictive')
             YTestTmp = data{1, 1}((windowSize + 1):end, ch_idx);
         else
-            YTestTmp = data{1, 1}((windowSize):(end - windowSize), ch_idx);
+            YTestTmp = data{1, 1}(windowSize:(end - windowSize - 1), ch_idx);
         end
     
         YTest_c = [YTest_c; YTestTmp];        
@@ -54,7 +54,7 @@ if ~isMultivariate
     if strcmp(modelType, 'predictive')    
         labelsTestOut = logical(labels{1, 1}((windowSize + 1):end, 1));
     else
-        labelsTestOut = logical(labels{1, 1}((windowSize):(end - windowSize), 1));
+        labelsTestOut = logical(labels{1, 1}(windowSize:(end - windowSize - 1), 1));
     end
 else
     % For multivariate models
@@ -76,20 +76,14 @@ else
             XTest{j, 1} = data{1, 1}(j:(j + windowSize - 1), :)';
         end
         XTestOut = {XTest};
-    elseif dataType == 3
-        XTest = cell(numWindows, 1);
-        for j = 1:numWindows
-            XTest{j, 1} = data{1, 1}(j:(j + windowSize - 1), :);
-        end
-        XTestOut = {XTest};
     end
     
     % YTest and labels
     if strcmp(modelType, 'predictive')
-        YTestOut = data{1, 1}((windowSize + 1):end, :);
+        YTestOut = {data{1, 1}((windowSize + 1):end, :)};
         labelsTestOut = logical(labels{1, 1}((windowSize + 1):end, 1));
     else
-        YTestOut = data{1, 1}(windowSize:(end - windowSize - 1), 1);
+        YTestOut = {data{1, 1}(windowSize:(end - windowSize - 1), :)};
         labelsTestOut = logical(labels{1, 1}(windowSize:(end - windowSize - 1), 1));
     end
 end

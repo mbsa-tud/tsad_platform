@@ -16,7 +16,7 @@ for i = 1:length(models)
 
             [Mdl, MdlInfo] = trainDNN(options, XTrain, YTrain, XVal, YVal, trainingPlots);
             
-            if ~isequal(XVal{1, 1}, 0)
+            if ~isempty(XVal{1, 1})
                 pd = getProbDist(options, Mdl, XVal, convertYForTesting(YVal, options.modelType, options.isMultivariate, options.hyperparameters.data.windowSize.value));
             else
                 pd = getProbDist(options, Mdl, XTrain, convertYForTesting(YTrain, options.modelType, options.isMultivariate, options.hyperparameters.data.windowSize.value));

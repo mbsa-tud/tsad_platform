@@ -99,27 +99,14 @@ else
             for j = 1:numWindows
                 XTrainTmp{j, 1} = data{i, 1}((j * stepSize):(j * stepSize + windowSize - 1), :)';
             end
-        elseif dataType == 3
-            XTrainTmp = cell(numWindows, 1);
-            for j = 1:numWindows
-                XTrainTmp{j, 1} = data{i, 1}((j * stepSize):(j * stepSize + windowSize - 1), :);
-            end
-        end        
+        end     
         
         XTrain = [XTrain; XTrainTmp];
 
         if strcmp(modelType, 'predictive')
-            % Types here
-            if dataType == 3
-                YTrainTmp = cell(numWindows, 1);
-                for j = 1:numWindows
-                    YTrainTmp{j, 1} = data{i, 1}((((j - 1) * stepSize) + windowSize + 1), :);
-                end
-            else
-                YTrainTmp = zeros(numWindows, 1);
-                for j = 1:numWindows
-                    YTrainTmp(j, 1) = data{i, 1}((((j - 1) * stepSize) + windowSize + 1), :);
-                end
+            YTrainTmp = zeros(numWindows, numChannels);
+            for j = 1:numWindows
+                YTrainTmp(j, :) = data{i, 1}((((j - 1) * stepSize) + windowSize + 1), :);
             end
 
             YTrain = [YTrain; YTrainTmp];

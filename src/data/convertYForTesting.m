@@ -5,18 +5,27 @@ function Y = convertYForTesting(Y, type, isMultivariate, windowSize)
 
 if isMultivariate
     if strcmp(type, 'reconstructive')
-        numChannels = size(Y{1, 1}{1, 1}, 1);
-        numObservations = size(Y{1, 1}, 1) - windowSize;
-    
-        Y_tmp = zeros(numObservations, numChannels);
-
-        for i = 1:numObservations
-            Y_tmp(i, :) = Y{1, 1}{i, 1}(:, end)';
-        end
-        Y = cell(1, 1);
-        Y{1, 1} = Y_tmp;
-    else
+        if iscell(Y{1, 1})
+            numChannels = size(Y{1, 1}{1, 1}, 1);
+            numObservations = size(Y{1, 1}, 1) - windowSize;
         
+            Y_tmp = zeros(numObservations, numChannels);
+    
+            for i = 1:numObservations
+                Y_tmp(i, :) = Y{1, 1}{i, 1}(:, end)';
+            end
+            Y = {Y_tmp};
+        else
+            numChannels = round(size(Y{1, 1}, 2) / windowSize);
+            numObservations = size(Y{1, 1}, 1) - windowSize;
+        
+            Y_tmp = zeros(numObservations, numChannels);
+    
+            for i = 1:numObservations
+                Y_tmp(i, :) = Y{1, 1}(i, windowSize:windowSize:size(Y{1, 1}, 2));
+            end
+            Y = {Y_tmp};
+        end
     end
 else
     numChannels = size(Y, 2);
@@ -30,10 +39,9 @@ else
             end
         end
     else
-        for i = 1:numChannels
-            if iscell(Y{1, i})
+        if iscell(Y{1, 1})
+            for i = 1:numChannels
                 Y{1, i} = cell2mat(Y{1, i});
-                Y{1, i} = Y{1, i}(1:(end - windowSize), :);
             end
         end
     end
