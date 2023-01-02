@@ -10,7 +10,5 @@ switch options.model
             options.hyperparameters.data.windowSize.value,  ...
             options.hyperparameters.data.stepSize.value, ...
             1, 'reconstructive', 1, options.isMultivariate);
-        
-        XTrain = XTrain{1, 1};
 end
 end

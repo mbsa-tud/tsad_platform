@@ -14,9 +14,9 @@ end
 % Detect with model
 switch options.model
     case 'Grubbs test'
-        anomalyScores = grubbs_test(XTest, options.hyperparameters.model.alpha.value);
+        anomalyScores = grubbs_test(XTest{1, 1}, options.hyperparameters.model.alpha.value);
     case 'OD_wpca'
-        [~, anomalyScores, ~] = OD_wpca(XTest, options.hyperparameters.model.ratioOversample.value);
+        [~, anomalyScores, ~] = OD_wpca(XTest{1, 1}, options.hyperparameters.model.ratioOversample.value);
 end
 
 % Merge overlapping scores

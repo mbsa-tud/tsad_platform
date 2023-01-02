@@ -74,7 +74,7 @@ else
         flattenedWindowsSize = windowSize * numChannels;
         XTest = zeros(numWindows, flattenedWindowsSize);
         for j = 1:numWindows
-            XTest(j, :) = reshape(data{1, 1}(j:(j + windowSize - 1), :)', ...
+            XTest(j, :) = reshape(data{1, 1}(j:(j + windowSize - 1), :), ...
                     [1, flattenedWindowsSize]);
         end
         XTestOut = {XTest};

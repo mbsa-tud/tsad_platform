@@ -95,7 +95,7 @@ else
             flattenedWindowsSize = windowSize * numChannels;
             XTrainTmp = zeros(numWindows, flattenedWindowsSize);
             for j = 1:numWindows
-                XTrainTmp(j, :) = reshape(data{i, 1}((j * stepSize):(j * stepSize + windowSize - 1), :)', ...
+                XTrainTmp(j, :) = reshape(data{i, 1}((j * stepSize):(j * stepSize + windowSize - 1), :), ...
                     [1, flattenedWindowsSize]);
             end
         elseif dataType == 2

@@ -5,14 +5,16 @@ function anomalyScores = detectWithCML(options, Mdl, XTest, YTest, labels)
 
 switch options.model
     case 'iForest'
-        [~, anomalyScores] = isanomaly(Mdl, XTest);
+        [~, anomalyScores] = isanomaly(Mdl, XTest{1, 1});
         case 'OC-SVM'
-        [~, anomalyScores] = predict(Mdl, XTest);
+        [~, anomalyScores] = predict(Mdl, XTest{1, 1});
         anomalyScores = gnegate(anomalyScores);
     case 'ABOD'
-        [~, anomalyScores] = ABOD(XTest);
+        [~, anomalyScores] = ABOD(XTest{1, 1});
     case 'LOF'
-        [~, anomalyScores] = LOF(XTest, options.hyperparameters.model.k.value);
+        [~, anomalyScores] = LOF(XTest{1, 1}, options.hyperparameters.model.k.value);
+    case 'LDOF'
+        anomalyScores = LDOF(XTest{1, 1}, options.hyperparameters.model.k.value);
     case 'Merlin'
         numAnoms = 0;
         i = 1;
@@ -44,8 +46,6 @@ switch options.model
         end
         anomalyScores = double(anomalyScores);
         return;
-    case 'LDOF'
-        anomalyScores = LDOF(XTest, options.hyperparameters.model.k.value);
 end
 
 % Merge overlapping scores
