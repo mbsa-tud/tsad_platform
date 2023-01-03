@@ -1,5 +1,5 @@
 function [tmpScores, filesTest, trainedModels, preprocParameters] = trainAndEvaluateAllModels(datasetPath, models_DNN, models_CML, models_S, ...
-                                        preprocMethod, ratioTestVal, thresholds, dynamicThresholdSettings, trainParallel, trainingPlots)
+                                        preprocMethod, ratioTestVal, thresholds, dynamicThresholdSettings, trainingPlots, trainParallel)
 % EVALUATEALLMODELS
 % 
 % Trains and tests all models on a dataset
@@ -46,7 +46,8 @@ if ~isempty(models_DNN)
                                                         dataTestVal, ...
                                                         labelsTestVal, ...
                                                         thresholds, ...
-                                                        trainingPlots);
+                                                        trainingPlots, ...
+                                                        trainParallel);
     end
 
     fields = fieldnames(trainedModels_DNN);

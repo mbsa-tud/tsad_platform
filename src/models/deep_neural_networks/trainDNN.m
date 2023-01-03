@@ -1,4 +1,4 @@
-function [Mdls, MdlInfos] = trainDNN(options, XTrain, YTrain, XVal, YVal, trainingPlots)
+function [Mdls, MdlInfos] = trainDNN(options, XTrain, YTrain, XVal, YVal, trainingPlots, trainParallel)
 %TRAINDNN
 %
 % Train DL models
@@ -26,8 +26,6 @@ switch options.model
                 % Train the same model for each channel seperately
                 % if trainParallel is set to true, training is done in
                 % parallel
-                trainParallel = false;
-
                 if trainParallel
                     models = [];
                     for i = 1:numChannels
