@@ -94,7 +94,7 @@ To enable this feature, proceed as follows:
 
 A dataset can be loaded on the `Data` panel:
 
-<img src="media/final_data_panel.png" alt="Data panel" title="Data panel" width=700/>
+<img src="media/final_data_panel.png" alt="Data panel" title="Data panel" width=900/>
 
 1. On the `Data` panel, click `Browse` (1) to select a folder from the computer or enter a path manually.
 2. Click `Load Data` (2) to import the selected dataset.
@@ -121,7 +121,7 @@ The **format** of a dataset must be as such:
 
 The dataset can be split and processed on the `Preprocessing` panel
 
-<img src="media/final_preprocessing_panel.png" alt="Preprocessing panel" title="Preprocessing panel" width=700/>
+<img src="media/final_preprocessing_panel.png" alt="Preprocessing panel" title="Preprocessing panel" width=900/>
 
 ### Preprocessing method selection
 
@@ -155,7 +155,7 @@ To enable the anomalous validation set, do the following:
 
 On the `Training` panel you can train or optimize a selection of models.
 
-<img src="media/final_training_panel.png" alt="Training panel" title="Training panel" width=700/>
+<img src="media/final_training_panel.png" alt="Training panel" title="Training panel" width=900/>
 
 To do so, proceed as follows:
 
@@ -223,7 +223,7 @@ To optimize **multiple models** automatically, do the following:
 
 The offline anomaly detection using the models trained earlier (see [Training and optimization](#training-and-optimization)) is available on the `Detection` panel.
 
-<img src="media/final_detection_panel.png" alt="Detection panel" title="Detection panel" width=700/>
+<img src="media/final_detection_panel.png" alt="Detection panel" title="Detection panel" width=900/>
 
 **List of trained Models (1)**
 
@@ -263,7 +263,7 @@ To **run the simulink detection**, proceed as follows:
 
 ## Dynamic switch
 
-<img src="media/final_dynamic_switch_panel.png" alt="Dynamic switch panel" title="Dynamic switch panel" width=700/>
+<img src="media/final_dynamic_switch_panel.png" alt="Dynamic switch panel" title="Dynamic switch panel" width=900/>
 
 The usage of the dynamic switch mechanism **requires** the following things:
 
@@ -284,7 +284,7 @@ To **train and test the dynamic switch**, proceed as follows:
 
 This is a powerful tool to automatically train and test models on single- or multi-entity datasets.
 
-<img src="media/final_auto_run_panel.png" alt="Auto Run panel" title="Auto Run panel" width=700/>
+<img src="media/final_auto_run_panel.png" alt="Auto Run panel" title="Auto Run panel" width=900/>
 
 To use this function, proceed as follows:
 
