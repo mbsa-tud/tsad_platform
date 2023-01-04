@@ -7,6 +7,14 @@ A platform for time series anomaly detection.
 2. Download the Anomaly Detection Toolbox from `https://github.com/dsmi-lab-ntust/AnomalyDetectionToolbox.git`.
 3. To use MERLIN, download it and add it to the MATLAB path.
 3. Add the Anomaly Detection Toolbox to the MATLAB path.
+4. Install MATLAB Toolboxes:
+    * `Simulink`
+    * `Signal Processing Toolbox`
+    * `Image Processing Toolbox`
+    * `Econometrics Toolbox`
+    * `Predictive Maintenance Toolbox`
+    * `Statistics and Machine Learning Toolbox`
+    * `Deep Learning Toolbox`
 4. Add the `tsad_platform` folder to the MATLAB path (without subfolders).
 5. Add the `src` and `Sim Models` folders to the MATLAB path (with subfolders).
 6. Open the `tsad_platform` folder with MATLAB.
@@ -368,8 +376,10 @@ This field is only required for DL models. Its value changes how the anomaly sco
 | Value | Description |
 |-|-|
 | aggregated-errors | The mean training reconstruction error gets sutracted from the channel-wise errors (Only for multivariate datasets). Afterwards, the root-mean-square is taken across channels. |
-| gauss | The channelwise mean and standard deviation of the training error distribution is used to compute -log(1 - cdf("channelwise errors")) of the channel-wise errors to get channel-wise anomaly scores. Afterwards, the channelwise anomaly scores are added. |
 | channelwise-errors | The mean training reconstruction error gets subtracted from the channel-wise errors (Only for multivariate datasets). Nothing else is done. |
+| gauss | The channelwise mean and standard deviation of the training error distribution is used to compute -log(1 - cdf("channelwise errors")) of the channel-wise errors to get channel-wise anomaly scores. Afterwards, the channelwise anomaly scores are added. |
+| channelwise-gauss | The channelwise mean and standard deviation of the training error distribution is used to compute -log(1 - cdf("channelwise errors")) of the channel-wise errors to get channel-wise anomaly scores |
+
 
 **modelType**
 This field is only required for DL models. Its value must be one of: `"predictive"`, `"reconstructive"`. It indicates whether the model produces prediction- or reconstruction errors.
