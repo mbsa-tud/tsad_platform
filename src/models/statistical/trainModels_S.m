@@ -14,7 +14,12 @@ for i = 1:length(models)
             
             XTrain = prepareDataTrain_S(options, dataTrain);
             Mdl = trainCML(options, XTrain);
-            staticThreshold = getStaticThreshold_S(options, Mdl, XTrain, dataValTest, labelsValTest, thresholds);
+
+            if ~options.outputsLabels
+                staticThreshold = getStaticThreshold_S(options, Mdl, XTrain, dataValTest, labelsValTest, thresholds);
+            else
+                staticThreshold = [];
+            end
         case false
             Mdl = [];
             staticThreshold = [];

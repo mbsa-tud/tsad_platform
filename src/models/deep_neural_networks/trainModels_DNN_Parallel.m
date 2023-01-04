@@ -37,15 +37,20 @@ for i = 1:numel(models)
 
     switch options.requiresPriorTraining
         case true
-            if ~isempty(XVal{1, 1})
-                pd = getProbDist(options, Mdls{i}, XValCell(i), convertYForTesting(YValCell(i), options.modelType, options.isMultivariate, options.hyperparameters.data.windowSize.value));
+            if ~options.outputsLabels
+                if ~isempty(XVal{1, 1})
+                    pd = getProbDist(options, Mdls{i}, XValCell(i), convertYForTesting(YValCell(i), options.modelType, options.isMultivariate, options.hyperparameters.data.windowSize.value));
+                else
+                    pd = getProbDist(options, Mdls{i}, XTrainCell(i), convertYForTesting(YTrainCell(i), options.modelType, options.isMultivariate, options.hyperparameters.data.windowSize.value));
+                end
+    
+                staticThreshold = getStaticThreshold_DNN(options, Mdls{i}, XTrainCell(i), YTrainCell(i), XValCell(i), YValCell(i), dataValTest, labelsValTest, thresholds, pd);
             else
-                pd = getProbDist(options, Mdls{i}, XTrainCell(i), convertYForTesting(YTrainCell(i), options.modelType, options.isMultivariate, options.hyperparameters.data.windowSize.value));
+                pd = [];
+                staticThreshold = [];
             end
-
-            staticThreshold = getStaticThreshold_DNN(options, Mdls{i}, XTrainCell(i), YTrainCell(i), XValCell(i), YValCell(i), dataValTest, labelsValTest, thresholds, pd);
         case false
-            % Not yet implemented
+            % Not yet implemented, does this even make sense?
     end
 
 
