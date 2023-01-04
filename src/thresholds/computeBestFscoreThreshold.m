@@ -10,23 +10,27 @@ lables_pred = logical([]);
 
 numOfTimesteps = size(anomalyScores, 1);
 
-if numChannels == 1
-    threshMax = sort(anomalyScores);
-else
+if numChannels > 1
     minimum = min(min(anomalyScores));
     maximum = max(max(anomalyScores));
     threshMax = zeros(numOfTimesteps, 1);
     for i = 1:numOfTimesteps
         threshMax(i) = minimum + ((i / numOfTimesteps) * (maximum - minimum));
     end
+else
+    threshMax = sort(anomalyScores);
 end
 
 for i = 1:numOfTimesteps
-    labels_tmp = logical([]);
-    for j = 1:numChannels
-        labels_tmp(:, j) = anomalyScores(:, j) > threshMax(i);
+    if numChannels > 1
+        labels_tmp = logical([]);
+        for j = 1:numChannels
+            labels_tmp(:, j) = anomalyScores(:, j) > threshMax(i);
+        end
+        labels_pred(:, i) = any(labels_tmp, 2);
+    else
+        labels_pred(:, i) = anomalyScores > threshMax(i);
     end
-    labels_pred(:, i) = any(labels_tmp, 2);
 end
 
 Fscore = [];

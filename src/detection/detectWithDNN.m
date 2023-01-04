@@ -112,8 +112,15 @@ switch options.model
                 for i = 1:numChannels
                     anomalyScores(:, i) = -log(1 - cdf(pd(i), anomalyScores(:, i)));
                 end
-                anomalyScores(isinf(anomalyScores)) = 0;
+                anomalyScores(isinf(anomalyScores)) = 0; % Does this make sense?
                 anomalyScores = sum(anomalyScores, 2);
+            case 'channelwise-gauss'
+                % TODO: this is not optimal for multivariate data as the pd
+                % was calculated for each channel separately
+                for i = 1:numChannels
+                    anomalyScores(:, i) = -log(1 - cdf(pd(i), anomalyScores(:, i)));
+                end
+                anomalyScores(isinf(anomalyScores)) = 0; % Does this make sense?
         end
 end
 
