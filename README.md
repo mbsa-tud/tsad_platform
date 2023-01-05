@@ -263,13 +263,14 @@ You can select another threshold or reconfigure the dynamic threshold. This will
 
 ## Simulink Detection
 
-MISSING IMAGE
+<img src="media/final_simulink_detection_panel.png" alt="Simulink detection panel" title="Simulink detection panel" width=900/>
 
 To **run the simulink detection**, proceed as follows:
 
-1. Select a file from the `Select faulty Data` (2) dropdown menu.
-2. Select a threshold from the `Threshold` (3) dropdown menu.
-3. Select models from the **list of trained models** (1) and click `Run Detection` (5) to start the online detection simulation. If you additionaly checked the `Open Model` (4) checkbox before running the detection, Simulink will open.
+1. Select models from the **list of trained models** (1). You can also import or save a selection of models within this list.
+2. Select a file from the `Select faulty Data` dropdown menu and aa threshold from the `Threshold` dropdown menu (2).
+3. If you want Simulink to open once running a detection, check the `Open Model` (3) checkbox.
+3. Click `Run Detection` (4) to start the online detection simulation. 
 
 ---
 
