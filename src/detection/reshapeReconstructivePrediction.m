@@ -1,73 +1,56 @@
-function pred = reshapeReconstructivePrediction(prediction, windowSize)
+function reshapedPrediction = reshapeReconstructivePrediction(prediction, isMultivariate, windowSize, dataType)
 %RESHAPERECONSTRUCTIVEPREDICTION
 %
 % Calculates the median anomaly score for all overlapping subsequences for
 % the reconstructive DL models and ML algorithms
 
-if iscell(prediction)
-    if size(prediction{1, 1}, 1) > 1
-        isMultivariate = true;
-    else
-        isMultivariate = false;
-    end
-else
-    if size(prediction, 2) > windowSize
-        isMultivariate = true;
-    else
-        isMultivariate = false;
-    end
-end
-
 if ~isMultivariate
-    data = prediction;
+    if dataType == 1
+        data = prediction;
 
-    c = [];
-    if iscell(data)
-        for i = 1:size(data, 1)
-            c(:, i) = data{i, :};
-        end
-    else
+        c = [];
         for i = 1:size(data, 1)
             c(:, i) = data(i, :);
         end
-    end
-    b = [];
-    c = flip(c);
-    for i = 1:(size(c, 2) - windowSize)
-        b(i, :) = median(diag(c(:, i:(i + windowSize - 1))));
-    end
-    pred = b;
-else
-    if iscell(prediction)
-        numChannels = size(prediction{1, 1}, 1);
-        pred = zeros((size(prediction, 1) - windowSize), numChannels);
-        
-        for h = 1:numChannels
-            data = zeros(size(prediction, 1), size(prediction{1, 1}, 2));
-            for j = 1:size(prediction, 1)
-                data(j, :) = prediction{j, 1}(h, :);
-            end
-        
-            c = [];
-            if iscell(data)
-                for i = 1:size(data, 1)
-                    c(:, i) = data{i, :};
-                end
-            else
-                for i = 1:size(data, 1)
-                    c(:, i) = data(i, :);
-                end
-            end
-            b = [];
-            c = flip(c);
-            for i = 1:(size(c, 2) - windowSize)
-                b(i, :) = median(diag(c(:, i:(i + windowSize - 1))));
-            end
-            pred(:, h) = b;
+        b = [];
+        c = flip(c);
+        for i = 1:(size(c, 2) - windowSize)
+            b(i, :) = median(diag(c(:, i:(i + windowSize - 1))));
         end
-    else
+        reshapedPrediction = b;
+    elseif dataType == 2
+        data = prediction;
+
+        c = [];
+        for i = 1:size(data, 1)
+            c(:, i) = data{i, 1};
+        end
+
+        b = [];
+        c = flip(c);
+        for i = 1:(size(c, 2) - windowSize)
+            b(i, :) = median(diag(c(:, i:(i + windowSize - 1))));
+        end
+        reshapedPrediction = b;
+    elseif dataType == 3
+        data = prediction;
+
+        c = [];
+        for i = 1:size(data, 1)
+            c(:, i) = data{i, :}';
+        end
+
+        b = [];
+        c = flip(c);
+        for i = 1:(size(c, 2) - windowSize)
+            b(i, :) = median(diag(c(:, i:(i + windowSize - 1))));
+        end
+        reshapedPrediction = b;
+    end
+else
+    if dataType == 1
         numChannels = round(size(prediction, 2) / windowSize);
-        pred = zeros((size(prediction, 1) - windowSize), numChannels);
+        reshapedPrediction = zeros((size(prediction, 1) - windowSize), numChannels);
         
         for h = 1:numChannels
             data = zeros(size(prediction, 1), windowSize);
@@ -76,22 +59,37 @@ else
             end
         
             c = [];
-            if iscell(data)
-                for i = 1:size(data, 1)
-                    c(:, i) = data{i, :};
-                end
-            else
-                for i = 1:size(data, 1)
-                    c(:, i) = data(i, :);
-                end
+            for i = 1:size(data, 1)
+                c(:, i) = data(i, :);
             end
             b = [];
             c = flip(c);
             for i = 1:(size(c, 2) - windowSize)
                 b(i, :) = median(diag(c(:, i:(i + windowSize - 1))));
             end
-            pred(:, h) = b;
+            reshapedPrediction(:, h) = b;
         end
+    elseif dataType == 2
+        numChannels = size(prediction{1, 1}, 1);
+        reshapedPrediction = zeros((size(prediction, 1) - windowSize), numChannels);
+        
+        for h = 1:numChannels
+            data = zeros(size(prediction, 1), size(prediction{1, 1}, 2));
+            for j = 1:size(prediction, 1)
+                data(j, :) = prediction{j, 1}(h, :);
+            end
+        
+            c = [];
+            for i = 1:size(data, 1)
+                c(:, i) = data(i, :);
+            end
+            b = [];
+            c = flip(c);
+            for i = 1:(size(c, 2) - windowSize)
+                b(i, :) = median(diag(c(:, i:(i + windowSize - 1))));
+            end
+            reshapedPrediction(:, h) = b;
+        end        
     end
 end
 end

@@ -12,6 +12,6 @@ switch options.model
     otherwise
         [XTest, YTest, labels] = splitDataTest(dataTest, labelsTest, ...
             options.hyperparameters.data.windowSize.value, ...
-            'reconstructive', 1, options.isMultivariate);
+            'reconstructive', options.dataType, options.isMultivariate);
     end
 end

@@ -50,5 +50,5 @@ end
 
 % Merge overlapping scores
 anomalyScores = repmat(anomalyScores, 1, options.hyperparameters.data.windowSize.value);
-anomalyScores = reshapeReconstructivePrediction(anomalyScores, options.hyperparameters.data.windowSize.value);
+anomalyScores = reshapeReconstructivePrediction(anomalyScores, false, options.hyperparameters.data.windowSize.value, 1);
 end

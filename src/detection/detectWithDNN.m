@@ -25,7 +25,7 @@ switch options.model
                     net_tmp = Mdl(i);
                 end
                 
-                pred = predict(net_tmp, XTest{i});
+                prediction = predict(net_tmp, XTest{i});
                 
                 if getCompTime
                     iterations = min(1000, size(XTest{i}, 1));
@@ -39,14 +39,14 @@ switch options.model
                 end
                 
                 if strcmp(options.modelType, 'reconstructive')
-                    pred = reshapeReconstructivePrediction(pred, options.hyperparameters.data.windowSize.value);
+                    prediction = reshapeReconstructivePrediction(prediction, options.isMultivariate, options.hyperparameters.data.windowSize.value, options.dataType);
                 else
-                    if iscell(pred)
-                        pred = cell2mat(pred);
+                    if iscell(prediction)
+                        prediction = cell2mat(prediction);
                     end
                 end   
                 
-                anomalyScores(:, i) = abs(pred - YTest{i});
+                anomalyScores(:, i) = abs(prediction - YTest{i});
 
                 % Hi future contributor to this platform.
                 % Do the following lines make more sense than what is done above?
@@ -55,7 +55,7 @@ switch options.model
                 % first and the select the median reconstruction error.
                 
 %                 if strcmp(options.modelType, 'reconstructive')
-%                     anomalyScores(:, i) = reshapeReconstructivePrediction(abs(pred - XTest{i}), options.hyperparameters.data.windowSize.value);
+%                     anomalyScores(:, i) = reshapeReconstructivePrediction(abs(pred - XTest{i}), options.isMultivariate, options.hyperparameters.data.windowSize.value, options.dataType);
 %                 else
 %                     if iscell(pred)
 %                         pred = cell2mat(pred);
@@ -69,7 +69,7 @@ switch options.model
             end
         else
             % For multivariate models
-            pred = predict(Mdl, XTest{1});
+            prediction = predict(Mdl, XTest{1});
             
             if getCompTime
                 iterations = min(1000, size(XTest{1}, 1));
@@ -83,10 +83,10 @@ switch options.model
             end
             
             if strcmp(options.modelType, 'reconstructive')
-                pred = reshapeReconstructivePrediction(pred, options.hyperparameters.data.windowSize.value);
+                prediction = reshapeReconstructivePrediction(prediction, options.isMultivariate, options.hyperparameters.data.windowSize.value, options.dataType);
             end   
             
-            anomalyScores = abs(pred - YTest{1});
+            anomalyScores = abs(prediction - YTest{1});
         end
         
         numChannels = size(anomalyScores, 2);
@@ -107,16 +107,15 @@ switch options.model
                     anomalyScores = rms(anomalyScores, 2);
                 end   
             case 'gauss'
-                % TODO: this is not optimal for multivariate data as the pd
-                % was calculated for each channel separately
+                % TODO: this is not optimal for multivariate data as the
+                % probabislity distribution (pd) was calculated for each 
+                % channel separately
                 for i = 1:numChannels
                     anomalyScores(:, i) = -log(1 - cdf(pd(i), anomalyScores(:, i)));
                 end
                 anomalyScores(isinf(anomalyScores)) = 0; % Does this make sense?
                 anomalyScores = sum(anomalyScores, 2);
             case 'channelwise-gauss'
-                % TODO: this is not optimal for multivariate data as the pd
-                % was calculated for each channel separately
                 for i = 1:numChannels
                     anomalyScores(:, i) = -log(1 - cdf(pd(i), anomalyScores(:, i)));
                 end

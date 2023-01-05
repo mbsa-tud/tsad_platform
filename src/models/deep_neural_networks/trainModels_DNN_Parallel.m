@@ -39,9 +39,9 @@ for i = 1:numel(models)
         case true
             if ~options.outputsLabels
                 if ~isempty(XVal{1, 1})
-                    pd = getProbDist(options, Mdls{i}, XValCell(i), convertYForTesting(YValCell(i), options.modelType, options.isMultivariate, options.hyperparameters.data.windowSize.value));
+                    pd = getProbDist(options, Mdls{i}, XValCell(i), convertYForTesting(YValCell(i), options.modelType, options.isMultivariate, options.hyperparameters.data.windowSize.value, options.dataType));
                 else
-                    pd = getProbDist(options, Mdls{i}, XTrainCell(i), convertYForTesting(YTrainCell(i), options.modelType, options.isMultivariate, options.hyperparameters.data.windowSize.value));
+                    pd = getProbDist(options, Mdls{i}, XTrainCell(i), convertYForTesting(YTrainCell(i), options.modelType, options.isMultivariate, options.hyperparameters.data.windowSize.value, options.dataType));
                 end
     
                 staticThreshold = getStaticThreshold_DNN(options, Mdls{i}, XTrainCell(i), YTrainCell(i), XValCell(i), YValCell(i), dataValTest, labelsValTest, thresholds, pd);
