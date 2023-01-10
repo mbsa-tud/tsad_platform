@@ -1,0 +1,33 @@
+[
+  {
+    "anomaly_length": {
+      "max": 63,
+      "median": 63,
+      "min": 63
+    },
+    "contamination": 0.10136765888978279,
+    "dataset_id": [
+      "NAB",
+      "iio_us-east-1_i-a2eb1cd9_NetworkIn"
+    ],
+    "dimensions": 1,
+    "is_train": false,
+    "length": 1243,
+    "means": {
+      "value": 4615221.908447305
+    },
+    "num_anomalies": 2,
+    "periods": {
+      "value": 1
+    },
+    "stationarities": {
+      "value": "difference_stationary"
+    },
+    "stddevs": {
+      "value": 4534241.665066066
+    },
+    "trends": {
+      "value": []
+    }
+  }
+]

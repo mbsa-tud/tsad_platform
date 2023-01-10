@@ -1,0 +1,64 @@
+[
+  {
+    "anomaly_length": {
+      "max": 68,
+      "median": 68,
+      "min": 68
+    },
+    "contamination": 0.0017661878912236047,
+    "dataset_id": [
+      "KDD-TSAD",
+      "166_UCR_Anomaly_apneaecg"
+    ],
+    "dimensions": 1,
+    "is_train": false,
+    "length": 38501,
+    "means": {
+      "value": -1.5642450845432587
+    },
+    "num_anomalies": 1,
+    "periods": {
+      "value": 45
+    },
+    "stationarities": {
+      "value": "stationary"
+    },
+    "stddevs": {
+      "value": 74.5438353282746
+    },
+    "trends": {
+      "value": []
+    }
+  },
+  {
+    "anomaly_length": {
+      "max": 0,
+      "median": 0,
+      "min": 0
+    },
+    "contamination": 0.0,
+    "dataset_id": [
+      "KDD-TSAD",
+      "166_UCR_Anomaly_apneaecg"
+    ],
+    "dimensions": 1,
+    "is_train": true,
+    "length": 10000,
+    "means": {
+      "value": 1.7887
+    },
+    "num_anomalies": 0,
+    "periods": {
+      "value": 48
+    },
+    "stationarities": {
+      "value": "difference_stationary"
+    },
+    "stddevs": {
+      "value": 73.6612072237142
+    },
+    "trends": {
+      "value": []
+    }
+  }
+]

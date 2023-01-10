@@ -1,0 +1,33 @@
+[
+  {
+    "anomaly_length": {
+      "max": 207,
+      "median": 207,
+      "min": 207
+    },
+    "contamination": 0.1002906976744186,
+    "dataset_id": [
+      "NAB",
+      "nyc_taxi"
+    ],
+    "dimensions": 1,
+    "is_train": false,
+    "length": 10320,
+    "means": {
+      "value": 15137.569379844961
+    },
+    "num_anomalies": 5,
+    "periods": {
+      "value": 48
+    },
+    "stationarities": {
+      "value": "difference_stationary"
+    },
+    "stddevs": {
+      "value": 6939.495808067993
+    },
+    "trends": {
+      "value": []
+    }
+  }
+]

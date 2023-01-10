@@ -1,0 +1,33 @@
+[
+  {
+    "anomaly_length": {
+      "max": 403,
+      "median": 403,
+      "min": 403
+    },
+    "contamination": 0.09995039682539683,
+    "dataset_id": [
+      "NAB",
+      "ec2_cpu_utilization_77c1ca"
+    ],
+    "dimensions": 1,
+    "is_train": false,
+    "length": 4032,
+    "means": {
+      "value": 10.518176091269842
+    },
+    "num_anomalies": 1,
+    "periods": {
+      "value": 18
+    },
+    "stationarities": {
+      "value": "difference_stationary"
+    },
+    "stddevs": {
+      "value": 26.92863403853026
+    },
+    "trends": {
+      "value": []
+    }
+  }
+]

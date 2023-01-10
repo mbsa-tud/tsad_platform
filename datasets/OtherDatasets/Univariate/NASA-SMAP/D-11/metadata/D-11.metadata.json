@@ -1,0 +1,108 @@
+[
+  {
+    "anomaly_length": {
+      "max": 61,
+      "median": 61,
+      "min": 61
+    },
+    "contamination": 0.008208854797470059,
+    "dataset_id": [
+      "NASA-SMAP",
+      "D-11"
+    ],
+    "dimensions": 1,
+    "is_train": false,
+    "length": 7431,
+    "means": {
+      "value": -0.12239149886558681
+    },
+    "num_anomalies": 1,
+    "periods": {
+      "value": 1
+    },
+    "stationarities": {
+      "value": "trend_stationary"
+    },
+    "stddevs": {
+      "value": 0.8652475019232407
+    },
+    "trends": {
+      "value": [
+        {
+          "coef": [
+            0.00036501036464109654
+          ],
+          "confidence_r2": 0.8190330015730235,
+          "tpe": "linear"
+        },
+        {
+          "coef": [
+            4.7846667892252113e-08
+          ],
+          "confidence_r2": 0.8287204590976323,
+          "tpe": "quadratic"
+        },
+        {
+          "coef": [
+            6.45325323565215e-12
+          ],
+          "confidence_r2": 0.7524217814112025,
+          "tpe": "kubic"
+        }
+      ]
+    }
+  },
+  {
+    "anomaly_length": {
+      "max": 0,
+      "median": 0,
+      "min": 0
+    },
+    "contamination": 0.0,
+    "dataset_id": [
+      "NASA-SMAP",
+      "D-11"
+    ],
+    "dimensions": 1,
+    "is_train": true,
+    "length": 2611,
+    "means": {
+      "value": -0.2413294182731186
+    },
+    "num_anomalies": 0,
+    "periods": {
+      "value": 6
+    },
+    "stationarities": {
+      "value": "trend_stationary"
+    },
+    "stddevs": {
+      "value": 0.5530457904037671
+    },
+    "trends": {
+      "value": [
+        {
+          "coef": [
+            0.0006995983658264868
+          ],
+          "confidence_r2": 0.9094402873538194,
+          "tpe": "linear"
+        },
+        {
+          "coef": [
+            2.6585831075909566e-07
+          ],
+          "confidence_r2": 0.9543498810514925,
+          "tpe": "quadratic"
+        },
+        {
+          "coef": [
+            1.0596135295841236e-10
+          ],
+          "confidence_r2": 0.9338716715680082,
+          "tpe": "kubic"
+        }
+      ]
+    }
+  }
+]

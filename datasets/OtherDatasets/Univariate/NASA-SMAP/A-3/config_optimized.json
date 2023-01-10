@@ -1,0 +1,92 @@
+{
+  "CML_Models": [
+    {
+      "options": {
+        "type": "CML",
+        "model": "iForest",
+        "hyperparameters": {
+          "model": {
+            "numLearners": {
+              "value": 52,
+              "type": "integer"
+            },
+            "numObservationsPerLearner": {
+              "value": 200,
+              "type": "integer"
+            }
+          },
+          "training": {
+            "ratioTrainVal": {
+              "value": 0.8,
+              "type": "real"
+            }
+          }
+        },
+        "id": "iForest_1",
+        "label": "iForest  (1)"
+      }
+    },
+    {
+      "options": {
+        "type": "CML",
+        "model": "OC-SVM",
+        "hyperparameters": {
+          "training": {
+            "ratioTrainVal": {
+              "value": 0.8,
+              "type": "real"
+            }
+          }
+        },
+        "id": "OC_SVM_1",
+        "label": "OC-SVM  (1)"
+      }
+    }
+  ],
+  "S_Models": [
+    {
+      "options": {
+        "type": "S",
+        "model": "Grubbs test",
+        "hyperparameters": {
+          "model": {
+            "alpha": {
+              "value": 0.21351939528095787,
+              "type": "real"
+            }
+          },
+          "training": {
+            "ratioTrainVal": {
+              "value": 0.8,
+              "type": "real"
+            }
+          }
+        },
+        "id": "Grubbs_test_1",
+        "label": "Grubbs test  (1)"
+      }
+    },
+    {
+      "options": {
+        "type": "S",
+        "model": "OD_wpca",
+        "hyperparameters": {
+          "model": {
+            "ratioOversample": {
+              "value": 0.21351939528095787,
+              "type": "real"
+            }
+          },
+          "training": {
+            "ratioTrainVal": {
+              "value": 0.8,
+              "type": "real"
+            }
+          }
+        },
+        "id": "OD_wpca_1",
+        "label": "OD_wpca  (1)"
+      }
+    }
+  ]
+}

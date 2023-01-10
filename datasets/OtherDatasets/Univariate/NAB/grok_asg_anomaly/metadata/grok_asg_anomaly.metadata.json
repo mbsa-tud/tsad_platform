@@ -1,0 +1,48 @@
+[
+  {
+    "anomaly_length": {
+      "max": 155,
+      "median": 155,
+      "min": 155
+    },
+    "contamination": 0.10062756979008873,
+    "dataset_id": [
+      "NAB",
+      "grok_asg_anomaly"
+    ],
+    "dimensions": 1,
+    "is_train": false,
+    "length": 4621,
+    "means": {
+      "value": 27.684723438649645
+    },
+    "num_anomalies": 3,
+    "periods": {
+      "value": 23
+    },
+    "stationarities": {
+      "value": "trend_stationary"
+    },
+    "stddevs": {
+      "value": 13.144794768553062
+    },
+    "trends": {
+      "value": [
+        {
+          "coef": [
+            -1.5981366458753474e-06
+          ],
+          "confidence_r2": 0.5990033971956246,
+          "tpe": "quadratic"
+        },
+        {
+          "coef": [
+            -3.933913817801542e-10
+          ],
+          "confidence_r2": 0.700460897576243,
+          "tpe": "kubic"
+        }
+      ]
+    }
+  }
+]

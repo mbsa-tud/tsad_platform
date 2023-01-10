@@ -1,0 +1,33 @@
+[
+  {
+    "anomaly_length": {
+      "max": 795,
+      "median": 795,
+      "min": 795
+    },
+    "contamination": 0.10004404454791417,
+    "dataset_id": [
+      "NAB",
+      "Twitter_volume_IBM"
+    ],
+    "dimensions": 1,
+    "is_train": false,
+    "length": 15893,
+    "means": {
+      "value": 4.3902346945196
+    },
+    "num_anomalies": 2,
+    "periods": {
+      "value": 27
+    },
+    "stationarities": {
+      "value": "stationary"
+    },
+    "stddevs": {
+      "value": 5.501388541885235
+    },
+    "trends": {
+      "value": []
+    }
+  }
+]
