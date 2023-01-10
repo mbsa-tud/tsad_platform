@@ -4,10 +4,7 @@ A platform for time series anomaly detection.
 
 ## Getting Started
 
-1. Download the TSAD Platform repository from `https://github.com/AdrianWolf1999/tsad_platform.git`.
-2. Download the Anomaly Detection Toolbox from `https://github.com/dsmi-lab-ntust/AnomalyDetectionToolbox.git`.
-3. To use MERLIN, download it and add it to the MATLAB path.
-4. Install MATLAB Toolboxes:
+1. Install MATLAB Toolboxes:
     * `Simulink`
     * `Signal Processing Toolbox`
     * `DSP System Toolbox`
@@ -16,12 +13,12 @@ A platform for time series anomaly detection.
     * `Predictive Maintenance Toolbox`
     * `Statistics and Machine Learning Toolbox`
     * `deep-learning Toolbox`
-5. Add the `Anomaly Detection Toolbox` to the MATLAB path.
-6. Add the `tsad_platform` folder to the MATLAB path (without subfolders).
-7. Add the `src` and `Sim Models` folders to the MATLAB path (with subfolders).
-8. Open the `tsad_platform` folder with MATLAB.
-9. Open the `TSADPlatform.mlapp` file with MATLAB App Designer (double click on it).
-10. Click the `Run` icon on the top of the App Designer window to start the platform.
+2. Download the Anomaly Detection Toolbox from `https://github.com/dsmi-lab-ntust/AnomalyDetectionToolbox.git`, and add the `Anomaly Detection Toolbox` to the MATLAB path. To use MERLIN, download it and add it to the MATLAB path.
+3. Add the `tsad_platform` folder to the MATLAB path (without subfolders).
+4. Add the `src` and `Sim Models` folders to the MATLAB path (with subfolders).
+5. Open the `tsad_platform` folder with MATLAB.
+6. Open the `TSADPlatform.mlapp` file with MATLAB App Designer (double click on it).
+7. Click the `Run` icon on the top of the App Designer window to start the platform.
 
 ---
 
