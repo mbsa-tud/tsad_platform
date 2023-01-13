@@ -18,7 +18,7 @@ A platform for time series anomaly detection.
     * `deep-learning Toolbox`
 5. Add the `Anomaly Detection Toolbox` to the MATLAB path.
 6. Add the `tsad_platform` folder to the MATLAB path (without subfolders).
-7. Add the `src` and `Sim Models` folders to the MATLAB path (with subfolders).
+7. Add the `src` folder to the MATLAB path (with subfolders).
 8. Open the `tsad_platform` folder with MATLAB.
 9. Open the `TSADPlatform.mlapp` file with MATLAB App Designer (double click on it).
 10. Click the `Run` icon on the top of the App Designer window to start the platform.
