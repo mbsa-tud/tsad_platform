@@ -84,6 +84,12 @@ else
             XTest{j, 1} = data{1, 1}(j:(j + windowSize - 1), :)';
         end
         XTestOut = {XTest};
+    elseif dataType == 3
+        XTest = cell(numWindows, 1);
+        for j = 1:numWindows
+            XTest{j, 1} = data{1, 1}(j:(j + windowSize - 1), :);
+        end
+        XTestOut = {XTest};
     end
     
     % YTest and labels

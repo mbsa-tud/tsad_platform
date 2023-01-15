@@ -25,6 +25,29 @@ if isMultivariate
                 Y_tmp(i, :) = Y{1, 1}{i, 1}(:, end)';
             end
             Y = {Y_tmp};
+        elseif dataType == 3
+            %TODO: this was never tested
+            numChannels = size(Y{1, 1}{1, 1}, 2);
+            numObservations = size(Y{1, 1}, 1) - windowSize;
+        
+            Y_tmp = zeros(numObservations, numChannels);
+    
+            for i = 1:numObservations
+                Y_tmp(i, :) = Y{1, 1}{i, 1}(end, :);
+            end
+            Y = {Y_tmp};
+        end
+    else
+        %TODO: this was never tested
+        if iscell(Y{1, 1})
+            numChannels = size(Y{1, 1}{1, 1}, 1);
+            numObservations = size(Y{1, 1}, 1) - windowSize;
+
+            Y_tmp = zeros(numObservations, numChannels);
+
+            for i = 1:numObservations
+                Y_tmp(i, :) = Y{1, 1}{i, 1}';
+            end
         end
     end
 else
@@ -37,6 +60,7 @@ else
                 Y{1, i} = cell2mat(Y{1, i});
                 Y{1, i} = Y{1, i}(1:(end - windowSize), end);
             elseif dataType == 3
+                %TODO: this was never tested
                 Y{1, i} = cell2mat(Y{1, i});
                 Y{1, i} = Y{1, i}(windowSize:windowSize:end, 1);
             end
