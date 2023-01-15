@@ -40,7 +40,7 @@ switch options.model
                 
                 if strcmp(options.modelType, 'reconstructive')
                     prediction = reshapeReconstructivePrediction(prediction, options.isMultivariate, options.hyperparameters.data.windowSize.value, options.dataType);
-                else
+                elseif strcmp(options.modelType, 'predictive')
                     if iscell(prediction)
                         prediction = cell2mat(prediction);
                     end
@@ -84,7 +84,15 @@ switch options.model
             
             if strcmp(options.modelType, 'reconstructive')
                 prediction = reshapeReconstructivePrediction(prediction, options.isMultivariate, options.hyperparameters.data.windowSize.value, options.dataType);
-            end   
+            elseif strcmp(options.modelType, 'predictive')
+                if iscell(prediction)
+                    pred_tmp = zeros(size(prediction, 1), size(prediction{1, 1}, 1));
+                    for i = 1:size(prediction, 1)
+                            pred_tmp(i, :) = prediction{i, 1}';
+                    end
+                    prediction = pred_tmp;
+                end
+            end
             
             anomalyScores = abs(prediction - YTest{1});
         end

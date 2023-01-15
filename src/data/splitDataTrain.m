@@ -114,7 +114,7 @@ else
 
         if strcmp(modelType, 'predictive')
             if dataType == 3
-                YTrainTmp = cell(numWindows, numChannels);
+                YTrainTmp = cell(numWindows, 1);
                 for j = 1:numWindows
                     YTrainTmp{j, 1} = data{i, 1}((((j - 1) * stepSize) + windowSize + 1), :)';
                 end

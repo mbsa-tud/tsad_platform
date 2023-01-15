@@ -38,16 +38,17 @@ if isMultivariate
             Y = {Y_tmp};
         end
     else
-        %TODO: this was never tested
         if iscell(Y{1, 1})
             numChannels = size(Y{1, 1}{1, 1}, 1);
-            numObservations = size(Y{1, 1}, 1) - windowSize;
+            numObservations = size(Y{1, 1}, 1);
 
             Y_tmp = zeros(numObservations, numChannels);
 
             for i = 1:numObservations
                 Y_tmp(i, :) = Y{1, 1}{i, 1}';
             end
+
+            Y = {Y_tmp};
         end
     end
 else

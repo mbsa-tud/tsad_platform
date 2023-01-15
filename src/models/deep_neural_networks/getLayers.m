@@ -111,7 +111,7 @@ switch options.model
         layers = layerGraph(layers);
     case 'CNN (DeepAnT)'
         layers = [
-            sequenceInputLayer([options.hyperparameters.data.windowsize.value numFeatures 1], Name='Input')
+            sequenceInputLayer([options.hyperparameters.data.windowSize.value numFeatures 1], Name='Input')
             sequenceFoldingLayer(Name='Fold')
 
             convolution2dLayer(5, options.hyperparameters.model.filter.value, Stride=1, Padding='same', WeightsInitializer='he')
@@ -135,7 +135,7 @@ switch options.model
         layers = connectLayers(layers, 'Fold/miniBatchSize', 'Unfold/miniBatchSize');
     case 'ResNet'
         layers = [
-            sequenceInputLayer([options.hyperparameters.data.windowsize.value numFeatures 1], Name='Input')
+            sequenceInputLayer([options.hyperparameters.data.windowSize.value numFeatures 1], Name='Input')
             sequenceFoldingLayer(Name='Fold')
 
             convolution2dLayer(5, options.hyperparameters.model.filter.value, Stride=1, Padding='same', WeightsInitializer='he')
