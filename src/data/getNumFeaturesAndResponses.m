@@ -6,6 +6,9 @@ if strcmp(modelType, 'reconstructive')
     elseif dataType == 2
         numFeatures = size(XTrain{1, 1}, 1);
         numResponses = numFeatures;
+    elseif dataType == 3
+        numFeatures = size(XTrain{1, 1}, 2);
+        numResponses = numFeatures;
     end
 else
     if dataType == 1
@@ -15,8 +18,8 @@ else
         numFeatures = size(XTrain{1, 1}, 1);
         numResponses = numFeatures;
     elseif dataType == 3
-        numFeatures = size(XTrain{1, 1}, 1);
-        numResponses = 1;
+        numFeatures = size(XTrain{1, 1}, 2);
+        numResponses = numFeatures;
     end
 end
 end
