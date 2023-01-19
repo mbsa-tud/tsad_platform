@@ -90,7 +90,7 @@ else
             end
             reshapedPrediction(:, h) = b;
         end        
-    elseif dataType == 2
+    elseif dataType == 3
         numChannels = size(prediction{1, 1}, 2);
         reshapedPrediction = zeros((size(prediction, 1) - windowSize), numChannels);
         
