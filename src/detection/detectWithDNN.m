@@ -106,8 +106,11 @@ switch options.model
                         anomalyScores(:, i) = anomalyScores(:, i) - trainingErrorFeatures.mu(i);
                     end
                     anomalyScores = rms(anomalyScores, 2);
-                end   
+                end
             case 'gauss'
+                anomalyScores = -log(1 - mvncdf(anomalyScores, trainingErrorFeatures.mu, trainingErrorFeatures.covar));
+                anomalyScores(isinf(anomalyScores)) = 0; % Does this make sense?
+            case 'aggregated-gauss'
                 for i = 1:numChannels
                     anomalyScores(:, i) = -log(1 - cdf('Normal', anomalyScores(:, i), ...
                         trainingErrorFeatures.mu(i), sqrt(trainingErrorFeatures.covar(i, i))));
