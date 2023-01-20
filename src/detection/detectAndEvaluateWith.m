@@ -9,7 +9,7 @@ switch options.type
     case 'DNN'
         [XTest, YTest, labels] = prepareDataTest_DNN(options, dataTest, labelsTest);
             
-        anomalyScores = detectWithDNN(options, model.Mdl, XTest, YTest, labels, options.scoringFunction, model.pd);
+        anomalyScores = detectWithDNN(options, model.Mdl, XTest, YTest, labels, options.scoringFunction, model.trainingErrorFeatures);
     case 'CML'        
         [XTest, YTest, labels] = prepareDataTest_CML(options, dataTest, labelsTest);
         

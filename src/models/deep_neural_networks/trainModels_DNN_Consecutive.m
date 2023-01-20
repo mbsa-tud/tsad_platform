@@ -18,14 +18,14 @@ for i = 1:length(models)
             
             if ~options.outputsLabels
                 if ~isempty(XVal{1, 1})
-                    pd = getProbDist(options, Mdl, XVal, convertYForTesting(YVal, options.modelType, options.isMultivariate, options.hyperparameters.data.windowSize.value, options.dataType));
+                    trainingErrorFeatures = getTrainingErrorFeatures(options, Mdl, XVal, convertYForTesting(YVal, options.modelType, options.isMultivariate, options.hyperparameters.data.windowSize.value, options.dataType));
                 else
-                    pd = getProbDist(options, Mdl, XTrain, convertYForTesting(YTrain, options.modelType, options.isMultivariate, options.hyperparameters.data.windowSize.value, options.dataType));
+                    trainingErrorFeatures = getTrainingErrorFeatures(options, Mdl, XTrain, convertYForTesting(YTrain, options.modelType, options.isMultivariate, options.hyperparameters.data.windowSize.value, options.dataType));
                 end
                 
-                staticThreshold = getStaticThreshold_DNN(options, Mdl, XTrain, YTrain, XVal, YVal, dataValTest, labelsValTest, thresholds, pd);
+                staticThreshold = getStaticThreshold_DNN(options, Mdl, XTrain, YTrain, XVal, YVal, dataValTest, labelsValTest, thresholds, trainingErrorFeatures);
             else
-                pd = [];
+                trainingErrorFeatures = [];
                 staticThreshold = [];
             end
         case false
@@ -37,7 +37,7 @@ for i = 1:length(models)
     trainedNetwork.MdlInfo = MdlInfo;
     trainedNetwork.options = options;
     trainedNetwork.staticThreshold = staticThreshold;
-    trainedNetwork.pd = pd;
+    trainedNetwork.trainingErrorFeatures = trainingErrorFeatures;
 
     trainedModels.(options.id) = trainedNetwork;
 end

@@ -1,4 +1,4 @@
-function staticThreshold = getStaticThreshold_DNN(options, Mdl, XTrain, YTrain, XVal, YVal, dataValTest, labelsValTest, thresholds, pd)
+function staticThreshold = getStaticThreshold_DNN(options, Mdl, XTrain, YTrain, XVal, YVal, dataValTest, labelsValTest, thresholds, trainingErrorFeatures)
 %GETSTATICTHRESHOLD_DNN
 %
 % This function calculates the static threshold for DL models and
@@ -34,7 +34,7 @@ if ~isempty(dataValTest)
         labels = [];
 
         for i = 1:size(XValTestCell, 1)
-            anomalyScores_tmp = detectWithDNN(options, Mdl, XValTestCell{i, 1}, YValTestCell{i, 1}, labelsValTestCell{i, 1}, options.scoringFunction, pd);
+            anomalyScores_tmp = detectWithDNN(options, Mdl, XValTestCell{i, 1}, YValTestCell{i, 1}, labelsValTestCell{i, 1}, options.scoringFunction, trainingErrorFeatures);
             anomalyScores = [anomalyScores; anomalyScores_tmp];
             labels = [labels; labelsValTestCell{i, 1}];
         end

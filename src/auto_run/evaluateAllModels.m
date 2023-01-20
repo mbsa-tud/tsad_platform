@@ -26,7 +26,7 @@ if ~isempty(trainedModels)
                 case 'DNN'
                     [XTest, YTest, labels] = prepareDataTest_DNN(options, dataTest(dataIdx, 1), labelsTest(dataIdx, 1));
                         
-                    anomalyScores = detectWithDNN(options, Mdl, XTest, YTest, labels, options.scoringFunction, trainedModel.pd);
+                    anomalyScores = detectWithDNN(options, Mdl, XTest, YTest, labels, options.scoringFunction, trainedModel.trainingErrorFeatures);
                 case 'CML'
                     [XTest, YTest, labels] = prepareDataTest_CML(options, dataTest(dataIdx, 1), labelsTest(dataIdx, 1));
 
