@@ -17,10 +17,8 @@ end
 
 fprintf('Preprocessing data with method: %s\n', preprocMethod);
 
-%Global transformation
-if ~strcmp(GT_choice, 'none')
-    rawDataTrain = applyDataAugmentation(rawDataTrain, GT_choice, GT_intensity);
-end
+
+
 
 % Preprocessing
 [dataTrain, dataTest, preprocParameters] = preprocessData(rawDataTrain, ...
@@ -28,6 +26,10 @@ end
                                                             preprocMethod, ...
                                                             false, ...
                                                             []);         
+
+%Global transformation
+dataTest = applyDataAugmentation(dataTest, GT_choice, GT_intensity);
+
 
 % Splitting test/val set
 [dataTest, labelsTest, filesTest, ...

@@ -8,5 +8,6 @@ function augmentedData = applyDataAugmentation(data, choice, intensity)
             augmentedData = shiftData(data, intensity);
         case 'attenuate extremum'
             augmentedData = attenuateExtremum(data, intensity);
+        
     end
 end

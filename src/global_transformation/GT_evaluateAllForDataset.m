@@ -30,7 +30,7 @@ scoreNames.Properties.VariableNames = "Metric";
 %                                                                     Min_Scores.csv,
 %                                                                     Avg_Scores.csv,
 %                                                                     Std_Scores.csv
-datasetOutputFolder = fullfile(pwd, 'Auto_Run_Results');
+datasetOutputFolder = fullfile(pwd, 'GT_Auto_Run_Results');
 if ~exist(datasetOutputFolder, 'dir')
     mkdir(datasetOutputFolder);
 end
