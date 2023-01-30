@@ -480,6 +480,7 @@
                 "requiresPriorTraining": true,
                 "isMultivariate": true,
                 "outputsLabels": false,
+                "useSubsequences": true,
                 "hyperparameters": {
                     "data": {
                         "windowSize": {
@@ -510,6 +511,7 @@
                 "requiresPriorTraining": true,
                 "isMultivariate": true,
                 "outputsLabels": false,
+                "useSubsequences": true,
                 "hyperparameters": {
                     "data": {
                         "windowSize": {
@@ -534,6 +536,7 @@
                 "requiresPriorTraining": false,
                 "isMultivariate": true,
                 "outputsLabels": false,
+                "useSubsequences": true,
                 "hyperparameters": {
                     "data": {
                         "windowSize": {
@@ -558,6 +561,7 @@
                 "requiresPriorTraining": false,
                 "isMultivariate": true,
                 "outputsLabels": false,
+                "useSubsequences": true,
                 "hyperparameters": {
                     "data": {
                         "windowSize": {
@@ -588,6 +592,7 @@
                 "requiresPriorTraining": false,
                 "isMultivariate": true,
                 "outputsLabels": false,
+                "useSubsequences": true,
                 "hyperparameters": {
                     "data": {
                         "windowSize": {
@@ -653,6 +658,7 @@
                 "requiresPriorTraining": false,
                 "isMultivariate": true,
                 "outputsLabels": false,
+                "useSubsequences": true,
                 "hyperparameters": {
                     "data": {
                         "windowSize": {
@@ -683,6 +689,7 @@
                 "requiresPriorTraining": false,
                 "isMultivariate": true,
                 "outputsLabels": false,
+                "useSubsequences": true,
                 "hyperparameters": {
                     "data": {
                         "windowSize": {

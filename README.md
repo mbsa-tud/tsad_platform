@@ -414,10 +414,16 @@ The id is the same as the `label` field but with all non-letter characters being
 If this is set to **false**, the model is trained on the data from the **train** folder. If it is set to **true**, the model doesn't get trained prior to testing.
 
 **isMultivariate**
-Set this to `true` if the model is suited for multivariate data. Otherwise set it to `false`. **(Only for deep-learning models: If it is set to `false` but the loaded dataset is multivariate, a separate model will be trained for each channel of the dataset.)**
+This field is only required for classic ML and statistical models which use the standard data preparation functions provided by the platform.
+It's value can be `true` or `false`. See field **dataType** above for more information on the effect on the data preparation. **(Only for deep-learning models: If it is set to `false` but the loaded dataset is multivariate, a separate model will be trained for each channel of the dataset.)**
 
 **outputsLabels**
 If your anomaly detection method doesn't output anomaly scores, but binary labes for each observation within the time series, set this field to `true` to bypass all thresholding methods. Otherwise it must be set to `false`.
+
+**useSubsequences**
+This field is only required for classic ML and statistical models which use the standard data preparation functions provided by the platform.
+
+If it is set to `true`, the dataset will be split into overlapping subsequences (See field **dataType** above), otherwise the data is used directly.
 
 **hyperparameters**
 This field can contains all configurable hyperparameters for your model/algorithm. Its value is another struct array. The hyperparameters should be separated into three groups: **model**, **data** and **training** related hyperparameters, which are all separate fields within this struct. If you want to add a hyperparameter, specify its name as a new key within on of the aforementioned fields (model, data, training). It must contain two keys: **value** and **type**. The type is only required for the optimization algorithm of the platform. It must be one of: `"integer"`, `"real"`, `"categorical"`. Look at the example above for reference.

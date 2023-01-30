@@ -39,7 +39,7 @@ switch options.model
                 end
                 
                 if strcmp(options.modelType, 'reconstructive')
-                    prediction = reshapeReconstructivePrediction(prediction, options.isMultivariate, options.hyperparameters.data.windowSize.value, options.dataType);
+                    prediction = reshapeOverlappingSubsequences(prediction, options.isMultivariate, options.hyperparameters.data.windowSize.value, options.dataType);
                 elseif strcmp(options.modelType, 'predictive')
                     if iscell(prediction)
                         prediction = cell2mat(prediction);
@@ -75,7 +75,7 @@ switch options.model
             end
             
             if strcmp(options.modelType, 'reconstructive')
-                prediction = reshapeReconstructivePrediction(prediction, options.isMultivariate, options.hyperparameters.data.windowSize.value, options.dataType);
+                prediction = reshapeOverlappingSubsequences(prediction, options.isMultivariate, options.hyperparameters.data.windowSize.value, options.dataType);
             elseif strcmp(options.modelType, 'predictive')
                 if iscell(prediction)
                     pred_tmp = zeros(size(prediction, 1), size(prediction{1, 1}, 1));
