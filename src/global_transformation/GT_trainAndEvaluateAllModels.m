@@ -1,5 +1,5 @@
 function [tmpScores, filesTest, trainedModels, preprocParameters] = GT_trainAndEvaluateAllModels(datasetPath, models_DNN, models_CML, models_S, ...
-                                        preprocMethod, ratioTestVal, thresholds, dynamicThresholdSettings, trainingPlots, trainParallel,GT_choice,GT_intensity)
+                                        preprocMethod, ratioTestVal, thresholds, dynamicThresholdSettings, trainingPlots, trainParallel,augmentationChoice,intensity)
 % EVALUATEALLMODELS
 % 
 % Trains and tests all models on a dataset
@@ -16,20 +16,14 @@ else
 end
 
 fprintf('Preprocessing data with method: %s\n', preprocMethod);
-
-
-
-
 % Preprocessing
 [dataTrain, dataTest, preprocParameters] = preprocessData(rawDataTrain, ...
                                                             rawDataTest, ...
                                                             preprocMethod, ...
                                                             false, ...
-                                                            []);         
-
-%Global transformation
-dataTest = applyDataAugmentation(dataTest, GT_choice, GT_intensity);
-
+                                                            []); 
+% Augmentation
+[dataTrain,dataTest]=augmentationData(dataTrain,dataTest,augmentationChoice,intensity);
 
 % Splitting test/val set
 [dataTest, labelsTest, filesTest, ...

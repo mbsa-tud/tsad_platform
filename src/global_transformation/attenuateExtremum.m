@@ -7,10 +7,22 @@ for i = 1:size(rawData, 1)
     currentData = rawData{i, 1};
     meanValue = mean(currentData);
     for j = 1:size(currentData, 1)
-        if currentData(j) > meanValue
-            currentData(j) = currentData(j) * level;
-        else
-            currentData(j) = currentData(j) / level;
+        if ~(level==0)
+
+            if currentData(j)>0
+                if currentData(j) > meanValue
+                    currentData(j) =currentData(j)*(level/100);
+                else
+                    currentData(j) =currentData(j)/ (level/100);
+                end
+            else
+                if currentData(j) > meanValue
+                    currentData(j) =currentData(j)/(level/100);
+                else
+                    currentData(j) =currentData(j)* (level/100);
+                end
+
+            end
         end
     end
     rawData{i, 1} = currentData;

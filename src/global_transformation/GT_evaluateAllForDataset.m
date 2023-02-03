@@ -1,4 +1,4 @@
-function finalTable =  GT_evaluateAllForDataset(datasetPath, models, useFraction, preprocMethod, ratioValTest, thresholds, dynamicThresholdSettings, trainingPlots, trainParallel,GT_choice,GT_intensity)
+function finalTable =  GT_evaluateAllForDataset(datasetPath, models, useFraction, preprocMethod, ratioValTest, thresholds, dynamicThresholdSettings, trainingPlots, trainParallel,augmentationChoice,intensity)
 %EVALUATEALLFORDATASET
 %
 % Encapsulates the training and testing for all models for a dataset
@@ -30,7 +30,7 @@ scoreNames.Properties.VariableNames = "Metric";
 %                                                                     Min_Scores.csv,
 %                                                                     Avg_Scores.csv,
 %                                                                     Std_Scores.csv
-datasetOutputFolder = fullfile(pwd, 'GT_Auto_Run_Results');
+datasetOutputFolder = fullfile(pwd, 'Auto_Run_Results');
 if ~exist(datasetOutputFolder, 'dir')
     mkdir(datasetOutputFolder);
 end
@@ -105,7 +105,7 @@ for i = 1:length(indices)
     
     % Run evaluation
     [tmpScores, testFileNames, ~, ~] = GT_trainAndEvaluateAllModels(dataPath, models_DNN, models_CML, models_S, ...
-        preprocMethod, ratioValTest, thresholds, dynamicThresholdSettings, trainingPlots, trainParallel,GT_choice,GT_intensity);
+        preprocMethod, ratioValTest, thresholds, dynamicThresholdSettings, trainingPlots, trainParallel,augmentationChoice,intensity);
 
     allTestFiles = [allTestFiles testFileNames];
 

@@ -9,7 +9,7 @@ for i = 1:size(rawData, 1)
     currentData = rawData{i, 1};
     for j = 1:numChannels
         % Generate random walk noise scaled by the amplitude of the signal
-        noise = cumsum(randn(size(currentData, 1), 1) * level * (maximum(j) - minimum(j)));
+        noise = cumsum(randn(size(currentData, 1), 1) * level/50 * (maximum(j) - minimum(j)));
         % Add noise to current channel
         currentData(:, j) = currentData(:, j) + noise;
     end
