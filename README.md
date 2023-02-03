@@ -542,14 +542,14 @@ It's recommended to implement the deep-learning models using functions from MATL
 
 If you want to add a network **without using the MATLAB deep-learning Toolbox**, proceed as follows:
 
-1. **Add the training function call for you network**: Go to the folder `tsad_platform > src > models > deep_neural_networks` and open the file `trainDNN.m`. Add your model name within the main *switch* statement, then call your training function and save the trained network in the `Mdls` vairable. The `MdlInfos` variable is optional and can be left empty:
+1. **Add the training function call for you network**: Go to the folder `tsad_platform > src > models > deep_neural_networks` and open the file `trainDNN.m`. Add your model name within the main *switch* statement, then call your training function and save the trained network in the `Mdl` vairable. The `MdlInfo` variable is optional and can be left empty:
 
     ```matlab
     switch options.model
         % Add your model here
         case 'Your model name'
-            Mdls = yourTrainFunction(XTrain, YTrain, XVal, YVal);
-            MdlInfos = [];
+            Mdl = yourTrainFunction(XTrain, YTrain, XVal, YVal);
+            MdlInfo = [];
     ```
 
 2. **Add the detection call for your network**: Go to the folder `tsad_platform > src > detection` and open the file `detectWithDNN.m`. Add your model name within the main *switch* statement, then add your detection function call. Make sure to return anomaly scores (`anomalyScores`) and optionally the computational time (`compTimeOut`) of your model:

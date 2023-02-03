@@ -98,17 +98,17 @@ if ~isempty(trainedModels)
         for dataIdx = 1:length(filesTest)
             switch options.type
                 case 'DNN'
-                    [XTest, YTest, labels] = prepareDataTest_DNN(options, dataTest(dataIdx, 1), labelsTest(dataIdx, 1));
+                    [XTest, YTest, labels] = prepareDataTest_DNN_wrapper(options, dataTest(dataIdx, 1), labelsTest(dataIdx, 1));
                         
-                    anomalyScores = detectWithDNN(options, Mdl, XTest, YTest, labels, options.scoringFunction, trainedModel.trainingErrorFeatures);
+                    anomalyScores = detectWithDNN_wrapper(options, Mdl, XTest, YTest, labels, trainedModel.trainingErrorFeatures);
                 case 'CML'
-                    [XTest, YTest, labels] = prepareDataTest_CML(options, dataTest(dataIdx, 1), labelsTest(dataIdx, 1));
+                    [XTest, YTest, labels] = prepareDataTest_CML_wrapper(options, dataTest(dataIdx, 1), labelsTest(dataIdx, 1));
 
-                    anomalyScores = detectWithCML(options, Mdl, XTest, YTest, labels);
+                    anomalyScores = detectWithCML_wrapper(options, Mdl, XTest, YTest, labels);
                 case 'S'
-                    [XTest, YTest, labels] = prepareDataTest_S(options, dataTest(dataIdx, 1), labelsTest(dataIdx, 1));
+                    [XTest, YTest, labels] = prepareDataTest_S_wrapper(options, dataTest(dataIdx, 1), labelsTest(dataIdx, 1));
 
-                    anomalyScores = detectWithS(options, Mdl, XTest, YTest, labels);
+                    anomalyScores = detectWithS_wrapper(options, Mdl, XTest, YTest, labels);
             end
 
             staticThreshold = trainedModel.staticThreshold;

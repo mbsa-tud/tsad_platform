@@ -622,6 +622,7 @@
                 "requiresPriorTraining": false,
                 "isMultivariate": false,
                 "outputsLabels": true,
+                "useSubsequences": false,
                 "hyperparameters": {
                     "data": {
                         "windowSize": {

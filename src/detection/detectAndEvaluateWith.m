@@ -7,17 +7,17 @@ function scores = detectAndEvaluateWith(model, dataTest, labelsTest, threshold, 
 options = model.options;
 switch options.type
     case 'DNN'
-        [XTest, YTest, labels] = prepareDataTest_DNN(options, dataTest, labelsTest);
+        [XTest, YTest, labels] = prepareDataTest_DNN_wrapper(options, dataTest, labelsTest);
             
-        anomalyScores = detectWithDNN(options, model.Mdl, XTest, YTest, labels, options.scoringFunction, model.trainingErrorFeatures);
+        anomalyScores = detectWithDNN_wrapper(options, model.Mdl, XTest, YTest, labels, model.trainingErrorFeatures);
     case 'CML'        
-        [XTest, YTest, labels] = prepareDataTest_CML(options, dataTest, labelsTest);
+        [XTest, YTest, labels] = prepareDataTest_CML_wrapper(options, dataTest, labelsTest);
         
-        anomalyScores = detectWithCML(options, model.Mdl, XTest, YTest, labels);
+        anomalyScores = detectWithCML_wrapper(options, model.Mdl, XTest, YTest, labels);
     case 'S'        
-        [XTest, YTest, labels] = prepareDataTest_S(options, dataTest, labelsTest);
+        [XTest, YTest, labels] = prepareDataTest_S_wrapper(options, dataTest, labelsTest);
         
-        anomalyScores = detectWithS(options, model.Mdl, XTest, YTest, labels);
+        anomalyScores = detectWithS_wrapper(options, model.Mdl, XTest, YTest, labels);
 end
 
 if ~options.outputsLabels

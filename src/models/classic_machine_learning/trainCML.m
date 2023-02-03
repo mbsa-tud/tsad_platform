@@ -5,9 +5,9 @@ function Mdl = trainCML(options, XTrain)
 
 switch options.model
     case 'OC-SVM'
-        Mdl = fitcsvm(XTrain{1, 1}, ones(size(XTrain{1, 1}, 1), 1));
+        Mdl = fitcsvm(XTrain, ones(size(XTrain, 1), 1));
     case 'iForest'
-        [Mdl, ~, ~] = iforest(XTrain{1, 1}, NumLearners=options.hyperparameters.model.numLearners.value);
+        [Mdl, ~, ~] = iforest(XTrain, NumLearners=options.hyperparameters.model.numLearners.value);
     otherwise
         Mdl = [];
 end

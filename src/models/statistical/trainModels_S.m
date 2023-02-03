@@ -12,11 +12,11 @@ for i = 1:length(models)
                 error("One of the selected models requires prior training, but the dataset doesn't contain training data (train folder).")
             end
             
-            XTrain = prepareDataTrain_S(options, dataTrain);
-            Mdl = trainCML(options, XTrain);
+            XTrain = prepareDataTrain_S_wrapper(options, dataTrain);
+            Mdl = trainS_wrapper(options, XTrain);
 
             if ~options.outputsLabels
-                staticThreshold = getStaticThreshold_S(options, Mdl, XTrain, dataValTest, labelsValTest, thresholds);
+                staticThreshold = getStaticThreshold_S(options, Mdl, dataValTest, labelsValTest, thresholds);
             else
                 staticThreshold = [];
             end

@@ -1,152 +1,67 @@
-function [XTrainOut, YTrainOut, XValOut, YValOut] = splitDataTrain(data, windowSize, stepSize, ratioTrainVal, modelType, dataType, isMultivariate)
+function [XTrain, YTrain, XVal, YVal] = splitDataTrain(data, windowSize, stepSize, ratioTrainVal, modelType, dataType)
 %SPLITDATATRAIN
 %
 % Splits the data for training using a sliding sliding window
 
-% TODO: this function can be way simpler
+XTrain = [];
+YTrain = [];
 
-if ~isMultivariate
-    % For univariate models
-    numChannels = size(data{1, 1}, 2);
-    
-    XTrainOut = cell(1, numChannels);
-    YTrainOut = cell(1, numChannels);
-    XValOut = cell(1, numChannels);
-    YValOut = cell(1, numChannels);
-    
-    for ch_idx = 1:numChannels
-        XTrain_c = [];
-        YTrain_c = [];
-        for i = 1:size(data, 1)
-            numWindows = round((size(data{1, 1}, 1) - windowSize - stepSize + 1) / stepSize);
+numChannels = size(data{1, 1}, 2);
 
-            if numWindows < 1
-                error("Window size and step size are too big for the time series.");
-            end
-
-            if dataType == 1
-                XTrainTmp = zeros(numWindows, windowSize);
-                for j = 1:numWindows
-                    XTrainTmp(j, :) = data{i, 1}((j * stepSize):(j * stepSize + windowSize - 1), ch_idx);
-                end
-            elseif dataType == 2
-                XTrainTmp = cell(numWindows, 1);
-                for j = 1:numWindows
-                    XTrainTmp{j, 1} = data{i, 1}((j * stepSize):(j * stepSize + windowSize - 1), ch_idx)';
-                end
-            elseif dataType == 3
-                XTrainTmp = cell(numWindows, 1);
-                for j = 1:numWindows
-                    XTrainTmp{j, 1} = data{i, 1}((j * stepSize):(j * stepSize + windowSize - 1), ch_idx);
-                end
-            end
-            
-            XTrain_c = [XTrain_c; XTrainTmp];
+for i = 1:size(data, 1)
+    numWindows = round((size(data{i, 1}, 1) - windowSize - stepSize + 1) / stepSize);
     
-            if strcmp(modelType, 'predictive')
-                if dataType == 3
-                    YTrainTmp = cell(numWindows, 1);
-                    for j = 1:numWindows
-                        YTrainTmp{j, 1} = data{i, 1}((((j - 1) * stepSize) + windowSize + 1), ch_idx);
-                    end
-                else
-                    YTrainTmp = zeros(numWindows, 1);
-                    for j = 1:numWindows
-                        YTrainTmp(j, 1) = data{i, 1}((((j - 1) * stepSize) + windowSize + 1), ch_idx);
-                    end
-                end
-    
-                YTrain_c = [YTrain_c; YTrainTmp];
-            elseif strcmp(modelType, 'reconstructive')
-                YTrain_c = XTrain_c;
-            end
+    if dataType == 1
+        flattenedWindowsSize = windowSize * numChannels;
+        XTrainTmp = zeros(numWindows, flattenedWindowsSize);
+        for j = 1:numWindows
+            XTrainTmp(j, :) = reshape(data{i, 1}((j * stepSize):(j * stepSize + windowSize - 1), :), ...
+                [1, flattenedWindowsSize]);
         end
+    elseif dataType == 2
+        XTrainTmp = cell(numWindows, 1);
+        for j = 1:numWindows
+            XTrainTmp{j, 1} = data{i, 1}((j * stepSize):(j * stepSize + windowSize - 1), :)';
+        end
+    elseif dataType == 3
+        XTrainTmp = cell(numWindows, 1);
+        for j = 1:numWindows
+            XTrainTmp{j, 1} = data{i, 1}((j * stepSize):(j * stepSize + windowSize - 1), :);
+        end
+    end      
     
-        if ratioTrainVal ~= 1
-            numWindows = size(XTrain_c, 1);
-        
-            l = round(ratioTrainVal * numWindows);
-            
-            XVal_c = XTrain_c((l + 1):end, :);
-            YVal_c = YTrain_c((l + 1):end, :);
-            XTrain_c = XTrain_c(1:l, :);
-            YTrain_c = YTrain_c(1:l, :);
+    XTrain = [XTrain; XTrainTmp];
+
+    if strcmp(modelType, 'predictive')
+        if dataType == 3
+            YTrainTmp = cell(numWindows, 1);
+            for j = 1:numWindows
+                YTrainTmp{j, 1} = data{i, 1}((((j - 1) * stepSize) + windowSize + 1), :)';
+            end
         else
-            XVal_c = [];
-            YVal_c = [];
+            YTrainTmp = zeros(numWindows, numChannels);
+            for j = 1:numWindows
+                YTrainTmp(j, :) = data{i, 1}((((j - 1) * stepSize) + windowSize + 1), :);
+            end
         end
-    
-        XTrainOut{1, ch_idx} = XTrain_c;
-        YTrainOut{1, ch_idx} = YTrain_c;
-        XValOut{1, ch_idx} = XVal_c;
-        YValOut{1, ch_idx} = YVal_c;
+
+        YTrain = [YTrain; YTrainTmp];
+    elseif strcmp(modelType, 'reconstructive')
+        YTrain = XTrain;
     end
+end
+
+if ratioTrainVal ~= 1
+    numWindows = size(XTrain, 1);
+
+    l = round(ratioTrainVal * numWindows);
+    
+    XVal = XTrain((l + 1):end, :);
+    YVal = YTrain((l + 1):end, :);
+    XTrain = XTrain(1:l, :);
+    YTrain = YTrain(1:l, :);
 else
-    % For multivariate models 
-    XTrain = [];
-    YTrain = [];
-
-    numChannels = size(data{1, 1}, 2);
-    
-    for i = 1:size(data, 1)
-        numWindows = round((size(data{i, 1}, 1) - windowSize - stepSize + 1) / stepSize);
-        
-        if dataType == 1
-            flattenedWindowsSize = windowSize * numChannels;
-            XTrainTmp = zeros(numWindows, flattenedWindowsSize);
-            for j = 1:numWindows
-                XTrainTmp(j, :) = reshape(data{i, 1}((j * stepSize):(j * stepSize + windowSize - 1), :), ...
-                    [1, flattenedWindowsSize]);
-            end
-        elseif dataType == 2
-            XTrainTmp = cell(numWindows, 1);
-            for j = 1:numWindows
-                XTrainTmp{j, 1} = data{i, 1}((j * stepSize):(j * stepSize + windowSize - 1), :)';
-            end
-        elseif dataType == 3
-            XTrainTmp = cell(numWindows, 1);
-            for j = 1:numWindows
-                XTrainTmp{j, 1} = data{i, 1}((j * stepSize):(j * stepSize + windowSize - 1), :);
-            end
-        end      
-        
-        XTrain = [XTrain; XTrainTmp];
-
-        if strcmp(modelType, 'predictive')
-            if dataType == 3
-                YTrainTmp = cell(numWindows, 1);
-                for j = 1:numWindows
-                    YTrainTmp{j, 1} = data{i, 1}((((j - 1) * stepSize) + windowSize + 1), :)';
-                end
-            else
-                YTrainTmp = zeros(numWindows, numChannels);
-                for j = 1:numWindows
-                    YTrainTmp(j, :) = data{i, 1}((((j - 1) * stepSize) + windowSize + 1), :);
-                end
-            end
-
-            YTrain = [YTrain; YTrainTmp];
-        elseif strcmp(modelType, 'reconstructive')
-            YTrain = XTrain;
-        end
-    end
-
-    if ratioTrainVal ~= 1
-        numWindows = size(XTrain, 1);
-    
-        l = round(ratioTrainVal * numWindows);
-        
-        XVal = XTrain((l + 1):end, :);
-        YVal = YTrain((l + 1):end, :);
-        XTrain = XTrain(1:l, :);
-        YTrain = YTrain(1:l, :);
-    else
-        XVal = [];
-        YVal = [];
-    end
-
-    XTrainOut = {XTrain};
-    YTrainOut = {YTrain};
-    XValOut = {XVal};
-    YValOut = {YVal};
+    XVal = [];
+    YVal = [];
+end
 end

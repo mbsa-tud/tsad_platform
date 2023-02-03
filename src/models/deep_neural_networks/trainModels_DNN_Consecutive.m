@@ -12,18 +12,18 @@ for i = 1:length(models)
                 error("One of the selected models requires prior training, but the dataset doesn't contain training data (train folder).")
             end
 
-            [XTrain, YTrain, XVal, YVal] = prepareDataTrain_DNN(options, dataTrain, labelsTrain);
+            [XTrain, YTrain, XVal, YVal] = prepareDataTrain_DNN_wrapper(options, dataTrain, labelsTrain);
 
-            [Mdl, MdlInfo] = trainDNN(options, XTrain, YTrain, XVal, YVal, trainingPlots, trainParallel);
+            [Mdl, MdlInfo] = trainDNN_wrapper(options, XTrain, YTrain, XVal, YVal, trainingPlots, trainParallel);
             
             if ~options.outputsLabels
                 if ~isempty(XVal{1, 1})
-                    trainingErrorFeatures = getTrainingErrorFeatures(options, Mdl, XVal, convertYForTesting(YVal, options.modelType, options.isMultivariate, options.hyperparameters.data.windowSize.value, options.dataType));
+                    trainingErrorFeatures = getTrainingErrorFeatures(options, Mdl, XVal, convertYForTesting(options, YVal));
                 else
-                    trainingErrorFeatures = getTrainingErrorFeatures(options, Mdl, XTrain, convertYForTesting(YTrain, options.modelType, options.isMultivariate, options.hyperparameters.data.windowSize.value, options.dataType));
+                    trainingErrorFeatures = getTrainingErrorFeatures(options, Mdl, XTrain, convertYForTesting(options, YTrain));
                 end
                 
-                staticThreshold = getStaticThreshold_DNN(options, Mdl, XTrain, YTrain, XVal, YVal, dataValTest, labelsValTest, thresholds, trainingErrorFeatures);
+                staticThreshold = getStaticThreshold_DNN(options, Mdl, dataValTest, labelsValTest, thresholds, trainingErrorFeatures);
             else
                 trainingErrorFeatures = [];
                 staticThreshold = [];

@@ -19,18 +19,18 @@ for i = 1:numNetworks
                 error("One of the selected models requires prior training, but the dataset doesn't contain training data (train folder).")
             end
             
-            [XTrain, YTrain, XVal, YVal] = prepareDataTrain_DNN(options, dataTrain, labelsTrain);
+            [XTrain, YTrain, XVal, YVal] = prepareDataTrain_DNN_wrapper(options, dataTrain, labelsTrain);
         case false
             % Not yet implemented
     end
 
-    XTrainCell{i} = XTrain{1};
-    YTrainCell{i} = YTrain{1};
-    XValCell{i} = XVal{1};
-    YValCell{i} = YVal{1};
+    XTrainCell{i} = XTrain{1, 1};
+    YTrainCell{i} = YTrain{1, 1};
+    XValCell{i} = XVal{1, 1};
+    YValCell{i} = YVal{1, 1};
 end
 
-[Mdls, MdlInfos] = trainDNN_Parallel(models, XTrainCell, YTrainCell, XValCell, YValCell, closeOnFinished);
+[Mdl, MdlInfo] = trainDNN_Parallel(models, XTrainCell, YTrainCell, XValCell, YValCell, closeOnFinished);
 
 for i = 1:numel(models)
     options = models(i).options;
@@ -39,12 +39,12 @@ for i = 1:numel(models)
         case true
             if ~options.outputsLabels
                 if ~isempty(XVal{1, 1})
-                    trainingErrorFeatures = getTrainingErrorFeatures(options, Mdls{i}, XValCell(i), convertYForTesting(YValCell(i), options.modelType, options.isMultivariate, options.hyperparameters.data.windowSize.value, options.dataType));
+                    trainingErrorFeatures = getTrainingErrorFeatures(options, Mdl{i}, XValCell(i), convertYForTesting(options, YValCell(i)));
                 else
-                    trainingErrorFeatures = getTrainingErrorFeatures(options, Mdls{i}, XTrainCell(i), convertYForTesting(YTrainCell(i), options.modelType, options.isMultivariate, options.hyperparameters.data.windowSize.value, options.dataType));
+                    trainingErrorFeatures = getTrainingErrorFeatures(options, Mdl{i}, XTrainCell(i), convertYForTesting(options, YTrainCell(i)));
                 end
     
-                staticThreshold = getStaticThreshold_DNN(options, Mdls{i}, XTrainCell(i), YTrainCell(i), XValCell(i), YValCell(i), dataValTest, labelsValTest, thresholds, trainingErrorFeatures);
+                staticThreshold = getStaticThreshold_DNN(options, Mdl{i}, dataValTest, labelsValTest, thresholds, trainingErrorFeatures);
             else
                 trainingErrorFeatures = [];
                 staticThreshold = [];
@@ -54,8 +54,8 @@ for i = 1:numel(models)
     end
 
 
-    trainedNetwork.Mdl = Mdls{i};
-    trainedNetwork.MdlInfo = MdlInfos{i};
+    trainedNetwork.Mdl = Mdl{i};
+    trainedNetwork.MdlInfo = MdlInfo{i};
     trainedNetwork.options = options;
     trainedNetwork.staticThreshold = staticThreshold;
     trainedNetwork.trainingErrorFeatures = trainingErrorFeatures;

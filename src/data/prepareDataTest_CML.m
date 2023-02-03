@@ -1,33 +1,19 @@
-function [XTest, YTest, labels] = prepareDataTest_CML(options, dataTest, labelsTest)
+function [XTest, YTest, labelsTest] = prepareDataTest_CML(options, data, labels)
 %PREPAREDATATEST_CML
 %
 % Prepares the testing data for classic ML models
 
 switch options.model
     case 'Your model'
-    case 'Merlin'
-        XTest = cell2mat(dataTest);
-        YTest = XTest;
-        labels = cell2mat(labelsTest);
     otherwise
         if options.useSubsequences
-            [XTest, YTest, labels] = splitDataTest(dataTest, labelsTest, ...
+            [XTest, YTest, labelsTest] = splitDataTest(data, labels, ...
                 options.hyperparameters.data.windowSize.value, ...
-                'reconstructive', options.dataType, options.isMultivariate);
+                'reconstructive', options.dataType);
         else
-            if options.isMultivariate
-                XTest = dataTest;
-                YTest = XTest;
-                labels = cell2mat(labelsTest);
-            else
-                numChannels = size(dataTest{1, 1}, 2);
-                XTest = cell(1, numChannels);
-                for i = 1:numChannels
-                    XTest{1, i} = dataTest{1, 1}(:, i);
-                end
-                YTest = XTest;
-                labels = cell2mat(labelsTest);
-            end
+            XTest = cell2mat(data);
+            YTest = XTest;
+            labelsTest = cell2mat(labels);
         end
-    end
+end
 end

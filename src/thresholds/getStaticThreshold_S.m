@@ -1,4 +1,4 @@
-function staticThreshold = getStaticThreshold_S(options, Mdl, XTrain, dataValTest, labelsValTest, thresholds)
+function staticThreshold = getStaticThreshold_S(options, Mdl, dataValTest, labelsValTest, thresholds)
 %GETSTATICTHRESHOLD_S
 %
 % This function calculates the static threshold for statistical models and
@@ -15,7 +15,7 @@ if ~isempty(dataValTest)
     numTimeSteps = 0;
 
     for i = 1:size(dataValTest, 1)
-        [XValTestCell{i, 1}, YValTestCell{i, 1}, labelsValTestCell{i, 1}] = prepareDataTest_S(options, dataValTest(i, 1), labelsValTest(i, 1));
+        [XValTestCell{i, 1}, YValTestCell{i, 1}, labelsValTestCell{i, 1}] = prepareDataTest_S_wrapper(options, dataValTest(i, 1), labelsValTest(i, 1));
         
         numAnoms = numAnoms + sum(labelsValTestCell{end} == 1);
         numTimeSteps = numTimeSteps + size(labelsValTestCell{end}, 1);
@@ -28,7 +28,7 @@ if ~isempty(dataValTest)
         labels = [];
 
         for i = 1:size(XValTestCell, 1)
-            anomalyScores_tmp = detectWithS(options, Mdl, XValTestCell{i, 1}, YValTestCell{i, 1}, labelsValTestCell{i, 1});
+            anomalyScores_tmp = detectWithS_wrapper(options, Mdl, XValTestCell{i, 1}, YValTestCell{i, 1}, labelsValTestCell{i, 1});
             anomalyScores = [anomalyScores; anomalyScores_tmp];
             labels = [labels; labelsValTestCell{i, 1}];
         end

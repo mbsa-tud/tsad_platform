@@ -1,4 +1,4 @@
-function [Mdls, MdlInfos] = trainDNN_Parallel(models, XTrainCell, YTrainCell, XValCell, YValCell, closeOnFinished)
+function [Mdl, MdlInfo] = trainDNN_Parallel(models, XTrainCell, YTrainCell, XValCell, YValCell, closeOnFinished)
 %TRAINDNN_PARALLEL
 %
 % Train DL models in parallel
@@ -41,7 +41,16 @@ for i=1:numel(layersCell)
     trainingFuture(i) = parfeval(@trainNetwork, 2, XTrainCell{i}, YTrainCell{i}, layersCell{i}, trainOptionsCell{i});
 end
 
-[Mdls, MdlInfos] = fetchOutputs(trainingFuture, 'UniformOutput', false);
+[Mdl_tmp, MdlInfo_tmp] = fetchOutputs(trainingFuture, 'UniformOutput', false);
+
+% Rearrange into cell array
+Mdl = cell(numNetworks, 1);
+MdlInfo = cell(numNetworks, 1);
+for i = 1:numNetworks
+    Mdl{i, 1} = Mdl_tmp(i);
+    MdlInfo{i, 1} = MdlInfo_tmp(i);
+end
+
 
 delete(gcp('nocreate'));
 
