@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.apptool" plugin-version="1.0">
-  <configuration build-checksum="364257627" file="C:\Ich\Studium\Bachelorarbeit\Inhalt\Git\tsad_platform\TSADPlatform.prj" location="C:\Ich\Studium\Bachelorarbeit\Inhalt\Git\tsad_platform" name="TSADPlatform" target="target.mlapps" target-name="Package App">
+  <configuration build-checksum="364257627" file="C:\Users\Admin\Documents\insa\PRI\tsad_platform\TSADPlatform.prj" location="C:\Users\Admin\Documents\insa\PRI\tsad_platform" name="TSADPlatform" target="target.mlapps" target-name="Package App">
     <param.appname>TSADPlatform</param.appname>
     <param.authnamewatermark>Skander Ayoub</param.authnamewatermark>
     <param.email />
@@ -35,14 +35,14 @@
       <item>19</item>
     </param.products.id>
     <param.products.version>
-      <item>9.12</item>
-      <item>10.5</item>
-      <item>14.4</item>
-      <item>6.0</item>
-      <item>11.5</item>
-      <item>2.5</item>
-      <item>9.0</item>
-      <item>12.3</item>
+      <item>9.13</item>
+      <item>10.6</item>
+      <item>14.5</item>
+      <item>6.1</item>
+      <item>11.6</item>
+      <item>2.6</item>
+      <item>9.1</item>
+      <item>12.4</item>
     </param.products.version>
     <param.platforms />
     <param.output>${PROJECT_ROOT}</param.output>
@@ -87,11 +87,11 @@
     <fileset.resources />
     <fileset.package />
     <build-deliverables>
-      <file location="C:\Ich\Studium\Bachelorarbeit\Inhalt\Git" name="tsad_platform" optional="false">C:\Ich\Studium\Bachelorarbeit\Inhalt\Git\tsad_platform</file>
+      <file location="C:\Users\Admin\Documents\insa\PRI" name="tsad_platform" optional="false">C:\Users\Admin\Documents\insa\PRI\tsad_platform</file>
     </build-deliverables>
     <workflow />
     <matlab>
-      <root>C:\Program Files\MATLAB\R2022a</root>
+      <root>C:\Program Files\MATLAB\R2022b</root>
       <toolboxes>
         <toolbox name="neuralnetwork" />
       </toolboxes>
