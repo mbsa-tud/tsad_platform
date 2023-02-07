@@ -404,12 +404,6 @@ It's value must be one of: `1`, `2`, `3`. The number controls the shape of the d
 | **2** | `1 x D` cell array with `D` being the number of channels. For each channel a separate model of the same type will be trained (Only for deep-learning models). Each cell contains a `N x 1` cell array with `N` being the number of observations. Each cell is a matrix of size `1 x w` with `w` being the window-size. | `1 x 1` cell array containing a `N x 1` cell array with `N` being the number of observations. Each cell contains a matrix of size `d x w` with `d` being the number of channels and `w` being the window size. |
 | **3** | `1 x D` cell array with `D` being the number of channels. For each channel a separate model of the same type will be trained (Only for deep-learning models). Each cell contains a `N x 1` cell array with `N` being the number of observations. Each cell is a matrix of size `w x 1` with `w` being the window-size. | `1 x 1` cell array containing a `N x 1` cell array with `N` being the number of observations. Each cell is a matrix of size `w x d` with `w` being the window-size and `d` being the number of channels. |
 
-**label**
-The label for the model. It's only displayed in the lists on the training panel. It **MUST** be the the same as the `model` field followed by **two whitespaces and a number in brackets**. Example: **FC AE &nbsp;(1)**. **This field gets automatically set by the platform and only needs to be specified in the `config_all.json` file located in the `tsad_platform > src > config` folder**.
-
-**id**
-The id is the same as the `label` field but with all non-letter characters being replaced by `_`. For multiple consecutive non-letter characters, only a single `_` must be insterted. This field is automatically set by the platform. Once the platform finished training all models, it creates a struct of trained models. The fieldnames of this struct are the **ids** specified in this field of the options struct.
-
 **requiresPirorTraining**
 If this is set to **false**, the model is trained on the data from the **train** folder. If it is set to **true**, the model doesn't get trained prior to testing.
 
