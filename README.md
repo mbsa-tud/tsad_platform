@@ -589,3 +589,9 @@ To prepare the data your own way, you can add your model to the main *switch* st
 * **For deep neural networks**: `prepareDataTrain_DNN.m`, `prepareDataTest_DNN.m`.
 * **For classic machine learning methods**: `prepareDataTrain_CML.m`, `prepareDataTest_CML.m`.
 * **For statistical methods**: `prepareDataTrain_S.m`, `prepareDataTest_S.m`.
+
+## Known limitations and issues
+
+1. The step-size for the detection process is always set to 1 and can't be adjusted.
+2. The forecast horizon for DL models is always set to 1 and can't be adjusted.
+3. The simulinkt detection doesn't implement the different data preparation methods and scoring functions, which makes it non-functional in some cases.
