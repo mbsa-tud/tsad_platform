@@ -604,7 +604,7 @@
                     },
                     "model": {
                         "minL": {
-                            "value": 70,
+                            "value": 80,
                             "type": "integer"
                         },
                         "maxL": {

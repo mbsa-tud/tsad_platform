@@ -37,8 +37,16 @@ switch options.model
         end
 
         if options.hyperparameters.model.minL.value < options.hyperparameters.model.maxL.value
-            anomalyScores = run_MERLIN(XTest,  options.hyperparameters.model.minL.value, ...
+            [~, indices, ~] = run_MERLIN(XTest,  options.hyperparameters.model.minL.value, ...
                 options.hyperparameters.model.maxL.value, numAnoms);
+            indices = sort(indices, 2);
+            
+            anomalyScores = zeros(size(XTest, 1), 1);
+
+            for i = 1:numAnoms
+                mean_disc_loc = floor(mean(indices(:, i)));
+                anomalyScores(mean_disc_loc:(mean_disc_loc + floor((options.hyperparameters.model.minL.value + options.hyperparameters.model.maxL.value) / 2))) = 1;
+            end
         else
             fprintf("Warning! minL is greater than maxL for merlin, setting anomaly scores to zero.");
             anomalyScores = zeros(size(XTest, 1), 1);
