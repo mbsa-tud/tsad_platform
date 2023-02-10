@@ -590,8 +590,12 @@ To prepare the data your own way, you can add your model to the main *switch* st
 * **For classic machine learning methods**: `prepareDataTrain_CML.m`, `prepareDataTest_CML.m`.
 * **For statistical methods**: `prepareDataTrain_S.m`, `prepareDataTest_S.m`.
 
-## Known limitations and issues
+## Known limitations, issues and possible future upgrades
 
-1. The step-size for the detection process is always set to 1 and can't be adjusted.
-2. The forecast horizon for DL models is always set to 1 and can't be adjusted.
-3. The simulinkt detection doesn't implement the different data preparation methods and scoring functions, which makes it non-functional in some cases.
+1. Check on startup of the platform whether all required folders are on the matlab path to avoid errors later on.
+2. Output more information to the MATLAB command window (e.g. for the training, detection and threshold calculation steps) to let the user know the current step (useful for longer running tasks).
+3. Optimize the threshold caclucation (in file computeBestFScoreThreshold.m). It can be slow, especially for larger datasets, as it checks the fscore for every single anomaly score value at every timestamp of the used time series (either anomalous validation set or test set). An upper bound of threshold values to check could be implemented to counter this issue.
+2. The simulink detection doesn't implement the different data preparation methods and scoring functions, which makes it non-functional in some cases.
+4. The step-size for the detection process is always set to 1 and can't be adjusted.
+5. The forecast horizon for DL models is always set to 1 and can't be adjusted.
+
