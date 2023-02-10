@@ -1,5 +1,5 @@
-function reshapedPrediction = reshapeReconstructivePrediction(prediction, isMultivariate, windowSize, dataType)
-%RESHAPERECONSTRUCTIVEPREDICTION
+function reshapedPrediction = reshapeOverlappingSubsequences(prediction, isMultivariate, windowSize, dataType)
+%reshapeOverlappingSubsequences
 %
 % Calculates the median anomaly score for all overlapping subsequences for
 % the reconstructive DL models and ML algorithms
