@@ -34,7 +34,7 @@ if ~isempty(dataValTest)
         end
         
         for i = 1:length(thresholds)
-            if ~strcmp(thresholds(i), "dynamic") && ~strcmp(thresholds(i), "pointFive")
+            if ~strcmp(thresholds(i), "dynamic") && ~strcmp(thresholds(i), "pointFive") && ~strcmp(thresholds(i), "custom")
                 staticThreshold.(thresholds(i)) = calcStaticThreshold(anomalyScores, labels, thresholds(i), options.model);
         
             end
@@ -45,6 +45,9 @@ if ~isempty(dataValTest)
 end
 
 if ismember("pointFive", thresholds)
-    staticThreshold.pointFive = 0.5;
+    staticThreshold.pointFive = calcStaticThreshold([], [], "pointFive", "");
+end
+if ismember("custom", thresholds)
+    staticThreshold.custom = calcStaticThreshold([], [], "custom", "");
 end
 end

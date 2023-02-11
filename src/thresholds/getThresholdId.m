@@ -16,4 +16,6 @@ switch thr
         id = "pointFive";
     case "Dynamic"
         id = "dynamic";
+    case "Custom"
+        id = "custom";
 end

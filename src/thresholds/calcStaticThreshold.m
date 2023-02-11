@@ -3,8 +3,10 @@ function thr = calcStaticThreshold(anomalyScores, labels, threshold, model)
 %
 % Calculates the static threshold specified in the threshold parameter
 
-numOfAnoms = sum(labels == 1);
-contaminationFraction = numOfAnoms / size(labels, 1);
+if ~isempty(labels)
+    numOfAnoms = sum(labels == 1);
+    contaminationFraction = numOfAnoms / size(labels, 1);
+end
 
 switch threshold
     case "bestFscorePointwise"
@@ -23,6 +25,13 @@ switch threshold
         thr = mean(mean(anomalyScores)) + 4 * mean(std(anomalyScores));
     case "pointFive"
         thr = 0.5;
+    case "custom"
+        switch model
+            case "Your model"
+			% Add your custom threshold here
+            otherwise
+                thr = 0.5;
+        end
     otherwise
         error("The selected static threshold  - %s -  can't be calculated after detection. See file src/thresholds/calcStaticThreshold.m", threshold);
 end

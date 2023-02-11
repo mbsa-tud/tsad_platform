@@ -20,6 +20,8 @@ for i = 1:numIds
             labels(1, i) = "0.5";
         case "dynamic"
             labels(1, i) = "Dynamic";
+        case "custom"
+            labels(1, i) = "Custom";
     end
 end
 end

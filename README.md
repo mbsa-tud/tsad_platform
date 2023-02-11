@@ -590,6 +590,20 @@ To prepare the data your own way, you can add your model to the main *switch* st
 * **For classic machine learning methods**: `prepareDataTrain_CML.m`, `prepareDataTest_CML.m`.
 * **For statistical methods**: `prepareDataTrain_S.m`, `prepareDataTest_S.m`.
 
+#### (Optional) Custom Threshold
+
+To add a custom static threshold, open the file `tsad_platform > src > thresholds > calcStaticThreshold.m`. In `line 30` add your model name and store your custom threshold in the `thr` variable.
+
+```matlab
+case "custom"
+        switch model
+            case "Your model"
+                % Add your custom threshold here
+            otherwise
+                thr = 0.5;
+        end
+```
+
 ## Known limitations, issues and possible future upgrades
 
 1. Check on startup of the platform whether all required folders are on the matlab path to avoid errors later on.
