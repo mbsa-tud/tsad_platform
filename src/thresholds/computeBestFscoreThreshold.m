@@ -8,9 +8,8 @@ numChannels = size(anomalyScores, 2);
 
 lables_pred = logical([]);
 
-numOfTimesteps = size(anomalyScores, 1);
-
 if numChannels > 1
+    numOfTimesteps = min(4000, size(anomalyScores, 1));
     minimum = min(min(anomalyScores));
     maximum = max(max(anomalyScores));
     threshMax = zeros(numOfTimesteps, 1);
@@ -18,10 +17,12 @@ if numChannels > 1
         threshMax(i) = minimum + ((i / numOfTimesteps) * (maximum - minimum));
     end
 else
-    threshMax = sort(anomalyScores);
+    threshMax = unique(anomalyScores);
 end
 
-for i = 1:numOfTimesteps
+numPossibleThresh = size(threshMax, 1);
+
+for i = 1:numPossibleThresh
     if numChannels > 1
         labels_tmp = logical([]);
         for j = 1:numChannels
@@ -36,7 +37,7 @@ end
 Fscore = [];
 switch type
     case 'point-wise'
-        for k = 1:numOfTimesteps
+        for k = 1:numPossibleThresh
             confmat = confusionmat(logical(labels), logical(labels_pred(:, k)));
             try
                 pre_p = confmat(2, 2) / (confmat(2, 2) + confmat(1, 2));
@@ -47,7 +48,7 @@ switch type
             end
         end
     case 'event-wise'   
-        for k = 1:numOfTimesteps
+        for k = 1:numPossibleThresh
             try
                 [fp_e, fn_e, tp_e] = overlap_seg(labels, labels_pred(:, k));
                 pre_e = tp_e / (tp_e + fp_e);
@@ -60,7 +61,7 @@ switch type
     case 'point-adjusted'
         sequences = find_cons_sequences(find(labels == 1));
 
-        for k = 1:numOfTimesteps
+        for k = 1:numPossibleThresh
             labels_pred_point_adjusted = labels_pred(:, k);
 
             for j = 1:size(sequences, 1) 
@@ -84,7 +85,7 @@ switch type
     case 'composite'
         sequences = find_cons_sequences(find(labels == 1));
 
-        for k = 1:numOfTimesteps
+        for k = 1:numPossibleThresh
             tp_e = 0;
             fn_e = 0;
             
@@ -112,14 +113,8 @@ if isempty(Fscore) || ~any(Fscore)
     return;
 end
 
-MaxFScore = max(Fscore);
-thrIdx = find(Fscore == MaxFScore);
-clear thrMax
-if size(thrIdx, 2) > 1
-    p = thrIdx(1);
-else
-    p = thrIdx;
-end
+maxFScore = max(Fscore);
+thrIdx = find(Fscore == maxFScore, 1);
 
-thr = threshMax(p);
+thr = threshMax(thrIdx);
 end
