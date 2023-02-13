@@ -609,7 +609,8 @@ case "custom"
 1. Check on startup of the platform whether all required folders are on the matlab path to avoid errors later on.
 2. Output more information to the MATLAB command window (e.g. for the training, detection and threshold calculation steps) to let the user know the current step (useful for longer running tasks).
 3. Optimize the threshold caclucation (in file computeBestFScoreThreshold.m). It can be slow, especially for larger datasets, as it checks the FScore for every single unique anomaly score value of the used time series (either anomalous validation set or test set). An upper bound of threshold values to check could be implemented to counter this issue. (For multivariate anomaly scores, the upper bound is already set to 4000, see file computeBestFScoreThreshold.m)
-2. The simulink detection doesn't implement the different data preparation methods and scoring functions, which makes it non-functional in some cases.
-4. The step-size for the detection process is always set to 1 and can't be adjusted.
-5. The forecast horizon for DL models is always set to 1 and can't be adjusted.
+4. Parallel training on gpu was never tested properly/failed. Most importand related files: (trainDNN_parallel.m and getOptionsForParallel.m).
+5. The simulink detection doesn't implement the different data preparation methods and scoring functions, which makes it non-functional in some cases.
+6. The step-size for the detection process is always set to 1 and can't be adjusted.
+7. The forecast horizon for DL models is always set to 1 and can't be adjusted.
 
