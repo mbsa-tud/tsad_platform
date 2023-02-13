@@ -401,7 +401,7 @@ It's value must be one of: `1`, `2`, `3`. The number controls the shape of the d
 |-|-|-|
 | **1** | `1 x D` cell array with `D` being the number of channels. For each channel a separate model of the same type will be trained. Each cell contains a `N x w` matrix with `w` being the window-size and `N` being the number of observations.| `1 x 1` cell array containing a `N x (w * d)` matrix with `N` being the number of observations, `w` the window size and `d` the number of channels. |
 | **2** | `1 x D` cell array with `D` being the number of channels. For each channel a separate model of the same type will be trained. Each cell contains a `N x 1` cell array with `N` being the number of observations. Each cell is a matrix of size `1 x w` with `w` being the window-size. | `1 x 1` cell array containing a `N x 1` cell array with `N` being the number of observations. Each cell contains a matrix of size `d x w` with `d` being the number of channels and `w` being the window size. |
-| **3** | Same as dataType `2`. (only different for DL models: YTrain is a cell array instead of numeric array) | Same as dataType `2`. (only different for DL models: YTrain is a cell array instead of numeric array) |
+| **3** | Same as dataType `2`. (only different for predictive DL models: YTrain is a cell array instead of numeric array) | Same as dataType `2`. (only different for predictive DL models: YTrain is a cell array instead of numeric array) |
 
 **requiresPirorTraining**
 If this is set to **false**, the model is trained on the data from the **train** folder. If it is set to **true**, the model doesn't get trained prior to testing.
