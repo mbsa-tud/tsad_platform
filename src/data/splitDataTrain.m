@@ -51,15 +51,23 @@ for i = 1:size(data, 1)
     end
 end
 
-if ratioTrainVal ~= 1
+
+% Shuffle
+indices = randperm(size(XTrain, 1));
+
+XTrain = XTrain(indices, :);
+YTrain = YTrain(indices, :);
+
+
+if ratioTrainVal ~= 0
     numWindows = size(XTrain, 1);
 
     l = round(ratioTrainVal * numWindows);
-    
-    XVal = XTrain((l + 1):end, :);
-    YVal = YTrain((l + 1):end, :);
-    XTrain = XTrain(1:l, :);
-    YTrain = YTrain(1:l, :);
+
+    XVal = XTrain(1:l, :);
+    YVal = YTrain(1:l, :);
+    XTrain = XTrain((l + 1):end, :);
+    YTrain = YTrain((l + 1):end, :);
 else
     XVal = [];
     YVal = [];

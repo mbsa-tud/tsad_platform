@@ -37,7 +37,7 @@
                             "type": "integer"
                         },
                          "ratioTrainVal": {
-                            "value": 1,
+                            "value": 0,
                             "type": "real"
                         }
                     }
@@ -81,7 +81,7 @@
                             "type": "integer"
                         },
                          "ratioTrainVal": {
-                            "value": 1,
+                            "value": 0,
                             "type": "real"
                         }
                     }
@@ -129,7 +129,7 @@
                             "type": "integer"
                         },
                          "ratioTrainVal": {
-                            "value": 1,
+                            "value": 0,
                             "type": "real"
                         }
                     }
@@ -173,7 +173,7 @@
                             "type": "integer"
                         },
                          "ratioTrainVal": {
-                            "value": 1,
+                            "value": 0,
                             "type": "real"
                         }
                     }
@@ -217,7 +217,7 @@
                             "type": "integer"
                         },
                          "ratioTrainVal": {
-                            "value": 1,
+                            "value": 0,
                             "type": "real"
                         }
                     }
@@ -265,7 +265,7 @@
                             "type": "integer"
                         },
                          "ratioTrainVal": {
-                            "value": 1,
+                            "value": 0,
                             "type": "real"
                         }
                     }
@@ -309,7 +309,7 @@
                             "type": "integer"
                         },
                          "ratioTrainVal": {
-                            "value": 1,
+                            "value": 0,
                             "type": "real"
                         }
                     }
@@ -353,7 +353,7 @@
                             "type": "integer"
                         },
                          "ratioTrainVal": {
-                            "value": 1,
+                            "value": 0,
                             "type": "real"
                         }
                     }
@@ -397,7 +397,7 @@
                             "type": "integer"
                         },
                          "ratioTrainVal": {
-                            "value": 1,
+                            "value": 0,
                             "type": "real"
                         }
                     }
@@ -441,7 +441,7 @@
                             "type": "integer"
                         },
                          "ratioTrainVal": {
-                            "value": 1,
+                            "value": 0,
                             "type": "real"
                         }
                     }
