@@ -18,15 +18,10 @@ for i = 1:size(data, 1)
             XTrainTmp(j, :) = reshape(data{i, 1}((j * stepSize):(j * stepSize + windowSize - 1), :), ...
                 [1, flattenedWindowsSize]);
         end
-    elseif dataType == 2
+    elseif dataType == 2 || dataType == 3
         XTrainTmp = cell(numWindows, 1);
         for j = 1:numWindows
             XTrainTmp{j, 1} = data{i, 1}((j * stepSize):(j * stepSize + windowSize - 1), :)';
-        end
-    elseif dataType == 3
-        XTrainTmp = cell(numWindows, 1);
-        for j = 1:numWindows
-            XTrainTmp{j, 1} = data{i, 1}((j * stepSize):(j * stepSize + windowSize - 1), :);
         end
     end      
     

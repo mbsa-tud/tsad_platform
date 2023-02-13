@@ -24,15 +24,10 @@ if dataType == 1
         XTest(j, :) = reshape(data{1, 1}(j:(j + windowSize - 1), :), ...
                 [1, flattenedWindowsSize]);
     end
-elseif dataType == 2
+elseif dataType == 2 || dataType == 3
     XTest = cell(numWindows, 1);
     for j = 1:numWindows
         XTest{j, 1} = data{1, 1}(j:(j + windowSize - 1), :)';
-    end
-elseif dataType == 3
-    XTest = cell(numWindows, 1);
-    for j = 1:numWindows
-        XTest{j, 1} = data{1, 1}(j:(j + windowSize - 1), :);
     end
 end
 
