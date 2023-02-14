@@ -606,12 +606,16 @@ case "custom"
 
 ## Known limitations, issues and possible future upgrades (Mostly relevant for developers)
 
-1. Check on startup of the platform whether all required folders are on the matlab path to avoid errors later on.
-2. Output more information to the MATLAB command window (e.g. for the training, detection and threshold calculation steps) to let the user know the current step (useful for longer running tasks).
-3. Optimize the threshold caclucation (in file computeBestFScoreThreshold.m). It can be slow, especially for larger datasets, as it checks the FScore for every single unique anomaly score value of the used time series (either anomalous validation set or test set). An upper bound of threshold values to check could be implemented to counter this issue. (For multivariate anomaly scores, the upper bound is already set to 4000, see file computeBestFScoreThreshold.m)
-4. Parallel training on gpu was never tested properly/failed (It worked on cpu or with a few models on gpu; otherwise memory error). Most importand related files: (trainDNN_parallel.m and getOptionsForParallel.m).
-5. The simulink detection doesn't implement the different data preparation methods and scoring functions, which makes it non-functional in some cases.
-6. The step-size for the detection process is always set to 1 and can't be adjusted.
-7. The forecast horizon for DL models is always set to 1 and can't be adjusted.
-8. The CNN (DeppAnT) and ResNet model both use a sequenceInputLayer, which requires the use of a sequenceFolding and a sequenceUnfoldingLayer for the 2d convolutional layers. Maybe use an imageInputLayer instead?
+1. Training DL models using `standardized` data often leads to bad or no gradient-convergence during training. This can be further investigated and possibly fixed in the future. (It might be related to the network architecture (ReLU / leaky ReLU layers) and or data; Maybe dying ReLU Problem?)
+2. The network architecture of the `TCN AE` requires the sequence length/window size to be divisible by 4. This should be fixed in the future.
+3. The `ResNet` network architecture isn't very good somehow as the training isn't as stable as for other models. Maybe change it somehow?
+4. Optimize the threshold caclucation (in file computeBestFScoreThreshold.m). It can be slow, especially for larger datasets, as it checks the FScore for every single unique anomaly score value of the used time series (either anomalous validation set or test set). An upper bound of threshold values to check could be implemented to counter this issue. (For multivariate anomaly scores, the upper bound is already set to 4000, see file computeBestFScoreThreshold.m)
+5. Parallel training on gpu was never tested properly/failed (It worked on cpu or with a few models on gpu; otherwise memory error). Most importand related files: (trainDNN_parallel.m and getOptionsForParallel.m).
+6. The simulink detection doesn't implement the different data preparation methods and scoring functions, which makes it non-functional in some cases.
+7. The step-size for the detection process is always set to 1 and can't be adjusted.
+8. The forecast horizon for DL models is always set to 1 and can't be adjusted.
+9. The CNN (DeppAnT) and ResNet model both use a sequenceInputLayer, which requires the use of a sequenceFolding and a sequenceUnfoldingLayer for the 2d convolutional layers. Maybe use an imageInputLayer instead? This isn't really an issue as the endresult is the same, but this might be cleaner.
+10. Check on startup of the platform whether all required folders are on the matlab path to avoid errors later on.
+11. Output more information to the MATLAB command window (e.g. for the training, detection and threshold calculation steps) to let the user know the current step (useful for longer running tasks).
 
+**NOTE** The entire platform is quite large at this point and not all functions, data manipulation and app interaction steps could be tested in every way. New errors can always occur and be fixed in the future. The platform should not be seen as bug-free ;)
