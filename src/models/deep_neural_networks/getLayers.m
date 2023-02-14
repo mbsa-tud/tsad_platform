@@ -159,7 +159,6 @@ switch options.model
         layers = layerGraph(layers);
         layers = connectLayers(layers, 'ReLU 1', 'Add/in2');
         layers = connectLayers(layers, 'Fold/miniBatchSize', 'Unfold/miniBatchSize');
-        analyzeNetwork(layers)
     case 'MLP'
         layers = [
             featureInputLayer(numFeatures, Name='Input')
