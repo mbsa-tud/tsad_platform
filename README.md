@@ -615,6 +615,7 @@ case "custom"
 7. The step-size for the detection process is always set to 1 and can't be adjusted.
 8. The forecast horizon for DL models is always set to 1 and can't be adjusted.
 9. The CNN (DeppAnT) and ResNet model both use a sequenceInputLayer, which requires the use of a sequenceFolding and a sequenceUnfoldingLayer for the 2d convolutional layers. Maybe use an imageInputLayer instead? This isn't really an issue as the endresult is the same, but this might be cleaner.
+10. Dropout layers in some DL models might need to be replaced by spatial dropout layers, which don't exist in MATLAB by default and would have to be implemented by hand.
 10. Check on startup of the platform whether all required folders are on the matlab path to avoid errors later on.
 11. Output more information to the MATLAB command window (e.g. for the training, detection and threshold calculation steps) to let the user know the current step (useful for longer running tasks).
 
