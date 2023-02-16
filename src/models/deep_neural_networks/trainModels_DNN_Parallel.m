@@ -38,11 +38,8 @@ for i = 1:numel(models)
     switch options.requiresPriorTraining
         case true
             if ~options.outputsLabels
-                if ~isempty(XVal{1, 1})
-                    trainingErrorFeatures = getTrainingErrorFeatures(options, Mdl{i}, XValCell(i), convertYForTesting(options, YValCell(i)));
-                else
-                    trainingErrorFeatures = getTrainingErrorFeatures(options, Mdl{i}, XTrainCell(i), convertYForTesting(options, YTrainCell(i)));
-                end
+                [XTrainTest, YTrainTest, ~] = prepareDataTest_DNN_wrapper(options, dataTrain, labelsTrain);
+                trainingErrorFeatures = getTrainingErrorFeatures(options, Mdl{i}, XTrainTest, YTrainTest);
     
                 staticThreshold = getStaticThreshold_DNN(options, Mdl{i}, dataValTest, labelsValTest, thresholds, trainingErrorFeatures);
             else

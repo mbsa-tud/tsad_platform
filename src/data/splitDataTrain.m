@@ -8,61 +8,95 @@ YTrain = [];
 
 numChannels = size(data{1, 1}, 2);
 
-for i = 1:size(data, 1)
-    numWindows = round((size(data{i, 1}, 1) - windowSize - stepSize + 1) / stepSize);
-    
-    if dataType == 1
-        flattenedWindowsSize = windowSize * numChannels;
-        XTrainTmp = zeros(numWindows, flattenedWindowsSize);
-        for j = 1:numWindows
-            XTrainTmp(j, :) = reshape(data{i, 1}((j * stepSize):(j * stepSize + windowSize - 1), :), ...
-                [1, flattenedWindowsSize]);
-        end
-    elseif dataType == 2 || dataType == 3
-        XTrainTmp = cell(numWindows, 1);
-        for j = 1:numWindows
-            XTrainTmp{j, 1} = data{i, 1}((j * stepSize):(j * stepSize + windowSize - 1), :)';
-        end
-    end      
-    
-    XTrain = [XTrain; XTrainTmp];
-
-    if strcmp(modelType, 'predictive')
-        if dataType == 3
-            YTrainTmp = cell(numWindows, 1);
+if strcmp(modelType, 'reconstructive')
+    for i = 1:size(data, 1)
+        numWindows = round((size(data{i, 1}, 1) - windowSize - stepSize + 1) / stepSize);
+        
+        if dataType == 1
+            flattenedWindowsSize = windowSize * numChannels;
+            XTrainTmp = zeros(numWindows, flattenedWindowsSize);
             for j = 1:numWindows
-                YTrainTmp{j, 1} = data{i, 1}((((j - 1) * stepSize) + windowSize + 1), :)';
+                XTrainTmp(j, :) = reshape(data{i, 1}((j * stepSize):(j * stepSize + windowSize - 1), :), ...
+                    [1, flattenedWindowsSize]);
             end
+
+            XTrain = [XTrain; XTrainTmp];
+            YTrain = XTrain;
+        elseif dataType == 2
+            XTrainTmp = cell(numWindows, 1);
+            for j = 1:numWindows
+                XTrainTmp{j, 1} = data{i, 1}((j * stepSize):(j * stepSize + windowSize - 1), :)';
+            end
+
+            XTrain = [XTrain; XTrainTmp];
+            YTrain = XTrain;
         else
+            error("Invalid dataType for reconstructive model. Must be one of: 1, 2");
+        end
+    end
+elseif strcmp(modelType, 'predictive')
+    for i = 1:size(data, 1)
+        numWindows = round((size(data{i, 1}, 1) - windowSize - stepSize + 1) / stepSize);
+        
+        if dataType == 1
+            flattenedWindowsSize = windowSize * numChannels;
+            XTrainTmp = zeros(numWindows, flattenedWindowsSize);
+            for j = 1:numWindows
+                XTrainTmp(j, :) = reshape(data{i, 1}((j * stepSize):(j * stepSize + windowSize - 1), :), ...
+                    [1, flattenedWindowsSize]);
+            end
+
             YTrainTmp = zeros(numWindows, numChannels);
             for j = 1:numWindows
                 YTrainTmp(j, :) = data{i, 1}((((j - 1) * stepSize) + windowSize + 1), :);
             end
-        end
 
-        YTrain = [YTrain; YTrainTmp];
-    elseif strcmp(modelType, 'reconstructive')
-        YTrain = XTrain;
+            XTrain = [XTrain; XTrainTmp];
+            YTrain = [YTrain; YTrainTmp]; 
+        elseif dataType == 2
+            XTrainTmp = cell(numWindows, 1);
+            for j = 1:numWindows
+                XTrainTmp{j, 1} = data{i, 1}((j * stepSize):(j * stepSize + windowSize - 1), :)';
+            end
+
+            YTrainTmp = zeros(numWindows, numChannels);
+            for j = 1:numWindows
+                YTrainTmp(j, :) = data{i, 1}((((j - 1) * stepSize) + windowSize + 1), :);
+            end
+
+            XTrain = [XTrain; XTrainTmp];
+            YTrain = [YTrain; YTrainTmp]; 
+        elseif dataType == 3
+            XTrainTmp = cell(numWindows, 1);
+            for j = 1:numWindows
+                XTrainTmp{j, 1} = data{i, 1}((j * stepSize):(j * stepSize + windowSize - 1), :);
+            end
+
+            YTrainTmp = cell(numWindows, 1);
+            for j = 1:numWindows
+                YTrainTmp{j, :} = data{i, 1}((((j - 1) * stepSize) + windowSize + 1), :)';
+            end
+
+            XTrain = [XTrain; XTrainTmp];
+            YTrain = [YTrain; YTrainTmp];
+        else
+            error("Invalid dataType for predictive model. Must be one of: 1, 2, 3");
+        end                   
     end
+else
+    error("Invalid modelType. Must be one of: predictive, reconstructive");
 end
-
-
-% Shuffle
-indices = randperm(size(XTrain, 1));
-
-XTrain = XTrain(indices, :);
-YTrain = YTrain(indices, :);
 
 
 if ratioTrainVal ~= 0
     numWindows = size(XTrain, 1);
 
-    l = round(ratioTrainVal * numWindows);
+    l = round((1 - ratioTrainVal) * numWindows);
 
-    XVal = XTrain(1:l, :);
-    YVal = YTrain(1:l, :);
-    XTrain = XTrain((l + 1):end, :);
-    YTrain = YTrain((l + 1):end, :);
+    XVal = XTrain((l + 1):end, :);
+    YVal = YTrain((l + 1):end, :);
+    XTrain = XTrain(1:l, :);
+    YTrain = YTrain(1:l, :);
 else
     XVal = [];
     YVal = [];

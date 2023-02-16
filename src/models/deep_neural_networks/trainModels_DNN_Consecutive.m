@@ -17,11 +17,8 @@ for i = 1:length(models)
             [Mdl, MdlInfo] = trainDNN_wrapper(options, XTrain, YTrain, XVal, YVal, trainingPlots, trainParallel);
             
             if ~options.outputsLabels
-                if ~isempty(XVal{1, 1})
-                    trainingErrorFeatures = getTrainingErrorFeatures(options, Mdl, XVal, convertYForTesting(options, YVal));
-                else
-                    trainingErrorFeatures = getTrainingErrorFeatures(options, Mdl, XTrain, convertYForTesting(options, YTrain));
-                end
+                [XTrainTest, YTrainTest, ~] = prepareDataTest_DNN_wrapper(options, dataTrain, labelsTrain);
+                trainingErrorFeatures = getTrainingErrorFeatures(options, Mdl, XTrainTest, YTrainTest);
                 
                 staticThreshold = getStaticThreshold_DNN(options, Mdl, dataValTest, labelsValTest, thresholds, trainingErrorFeatures);
             else

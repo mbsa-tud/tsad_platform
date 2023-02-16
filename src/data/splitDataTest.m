@@ -16,28 +16,55 @@ elseif strcmp(modelType, 'predictive')
     end
 end
 
-% XTest
-if dataType == 1
-    flattenedWindowsSize = windowSize * numChannels;
-    XTest = zeros(numWindows, flattenedWindowsSize);
-    for j = 1:numWindows
-        XTest(j, :) = reshape(data{1, 1}(j:(j + windowSize - 1), :), ...
-                [1, flattenedWindowsSize]);
+if strcmp(modelType, 'reconstructive')
+    % XTest
+    if dataType == 1
+        flattenedWindowsSize = windowSize * numChannels;
+        XTest = zeros(numWindows, flattenedWindowsSize);
+        for j = 1:numWindows
+            XTest(j, :) = reshape(data{1, 1}(j:(j + windowSize - 1), :), ...
+                    [1, flattenedWindowsSize]);
+        end
+    elseif dataType == 2
+        XTest = cell(numWindows, 1);
+        for j = 1:numWindows
+            XTest{j, 1} = data{1, 1}(j:(j + windowSize - 1), :)';
+        end
+    else
+        error("Invalid dataType for reconstructive model. Must be one of: 1, 2");
     end
-elseif dataType == 2 || dataType == 3
-    XTest = cell(numWindows, 1);
-    for j = 1:numWindows
-        XTest{j, 1} = data{1, 1}(j:(j + windowSize - 1), :)';
-    end
-end
 
-% YTest and labels
-if strcmp(modelType, 'predictive')
-    YTest = data{1, 1}((windowSize + 1):end, :);
-    labelsTest = logical(labels{1, 1}((windowSize + 1):end, 1));
-elseif strcmp(modelType, 'reconstructive')
+    % YTest and labels
     YTest = data{1, 1}(windowSize:(end - windowSize - 1), :);
     labelsTest = logical(labels{1, 1}(windowSize:(end - windowSize - 1), 1));
+elseif strcmp(modelType, 'predictive')
+    % XTest
+    if dataType == 1
+        flattenedWindowsSize = windowSize * numChannels;
+        XTest = zeros(numWindows, flattenedWindowsSize);
+        for j = 1:numWindows
+            XTest(j, :) = reshape(data{1, 1}(j:(j + windowSize - 1), :), ...
+                    [1, flattenedWindowsSize]);
+        end
+    elseif dataType == 2
+        XTest = cell(numWindows, 1);
+        for j = 1:numWindows
+            XTest{j, 1} = data{1, 1}(j:(j + windowSize - 1), :)';
+        end
+    elseif dataType == 3
+        XTest = cell(numWindows, 1);
+        for j = 1:numWindows
+            XTest{j, 1} = data{1, 1}(j:(j + windowSize - 1), :);
+        end
+    else
+        error("Invalid dataType for predictive model. Must be one of: 1, 2, 3");
+    end
+    
+    % YTest and labels
+    YTest = data{1, 1}((windowSize + 1):end, :);
+    labelsTest = logical(labels{1, 1}((windowSize + 1):end, 1));
+else
+    error("Invalid modelType. Must be one of: predictive, reconstructive");
 end
 end
 
