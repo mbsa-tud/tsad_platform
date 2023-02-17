@@ -69,6 +69,19 @@ To select thresholds, proceed as follows:
 2. Select the desired thresholds (1).
 3. Click `Save` (2) to save the new selection.
 
+The thresholds are set as follows:
+
+| Threshold | Description |
+|-|-|
+| Best F1 Score thresholds | Calculates the best possible F1 score on either the anomalous validation set or the test set directly (depending on wether a anomalous validation set is used or not) |
+| topK | Set threshold to detect the correct amount of anomalies as given by the labels. This is done either on the anomalous validation set or the test set |
+| Mean + 4 * Std | Mean + 4 * Std of the anomaly scores of either the anomalous validation set or the test set |
+| Mean + 4 * Std (Train) | Mean + 4 * Std of the anomaly scores of the training set |
+| Max Train Anomaly Score | The maximum value of the anomaly score when running the detection on the training data |
+| 0.5 | 0.5 |
+| Dynamic | Unsupervised dynamic threshold. See [Dynamic threshold](#dynamic-threshold) |
+| Custom | Integrate custom threshold. If none is specified, it's value is set to 0.5 (See [Add custom threshold](#optional-custom-threshold)) |
+
 ### Dynamic threshold
 
 These options control the default parameters for the dynmaic threshold, which can also be configured on the `Detection` panel. To update their values, proceed as follows:
@@ -616,7 +629,7 @@ case "custom"
 8. The forecast horizon for DL models is always set to 1 and can't be adjusted.
 9. The CNN (DeppAnT) and ResNet model both use a sequenceInputLayer, which requires the use of a sequenceFolding and a sequenceUnfoldingLayer for the 2d convolutional layers. Maybe use an imageInputLayer instead? This isn't really an issue as the endresult is the same, but this might be cleaner.
 10. Dropout layers in some DL models might need to be replaced by spatial dropout layers, which don't exist in MATLAB by default and would have to be implemented by hand.
-10. Check on startup of the platform whether all required folders are on the matlab path to avoid errors later on.
-11. Output more information to the MATLAB command window (e.g. for the training, detection and threshold calculation steps) to let the user know the current step (useful for longer running tasks).
+11. Check on startup of the platform whether all required folders are on the matlab path to avoid errors later on.
+12. Output more information to the MATLAB command window (e.g. for the training, detection and threshold calculation steps) to let the user know the current step (useful for longer running tasks).
 
 **NOTE** The entire platform is quite large at this point and not all functions, data manipulation and app interaction steps could be tested in every way. New errors can always occur and be fixed in the future.

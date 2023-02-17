@@ -1,4 +1,4 @@
-function trainedModels = trainModels_DNN_Parallel(models, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds, closeOnFinished)
+function trainedModels_DNN = trainModels_DNN_Parallel(models, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds, closeOnFinished)
 %TRAINMODELS_DNN_PARALLEL
 %
 % Trains all DL models in parallel and calculates the thresholds
@@ -13,15 +13,14 @@ YValCell = cell(1, numNetworks);
 for i = 1:numNetworks
     options = models(i).options;
 
-    switch options.requiresPriorTraining
-        case true
-            if isempty(dataTrain)
-                error("One of the selected models requires prior training, but the dataset doesn't contain training data (train folder).")
-            end
-            
-            [XTrain, YTrain, XVal, YVal] = prepareDataTrain_DNN_wrapper(options, dataTrain, labelsTrain);
-        case false
-            % Not yet implemented
+    if options.requiresPriorTraining
+        if isempty(dataTrain)
+            error("One of the selected models requires prior training, but the dataset doesn't contain training data (train folder).")
+        end
+        
+        [XTrain, YTrain, XVal, YVal] = prepareDataTrain_DNN_wrapper(options, dataTrain, labelsTrain);
+    else
+        error("One of the selected models for parallel training doesn't require prior training.");
     end
 
     XTrainCell{i} = XTrain{1, 1};
@@ -35,18 +34,24 @@ end
 for i = 1:numel(models)
     options = models(i).options;
 
-    switch options.requiresPriorTraining
-        case true
-            if ~options.outputsLabels
-                [XTrainTest, YTrainTest, ~] = prepareDataTest_DNN_wrapper(options, dataTrain, labelsTrain);
-                trainingErrorFeatures = getTrainingErrorFeatures(options, Mdl{i}, XTrainTest, YTrainTest);
-    
-                staticThreshold = getStaticThreshold_DNN(options, Mdl{i}, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds, trainingErrorFeatures);
-            else
-                trainingErrorFeatures = [];
-                staticThreshold = [];
+    if options.requiresPriorTraining
+        if ~options.outputsLabels
+            XTrainTestCell = cell(size(dataTrain, 1), 1);
+            YTrainTestCell = cell(size(dataTrain, 1), 1);
+
+        
+            for j = 1:size(dataTrain, 1)
+                [XTrainTestCell{i, 1}, YTrainTestCell{i, 1}, ~] = prepareDataTest_DNN_wrapper(options, dataTrain(i, :), labelsTrain(i, :));
             end
-        case false
+
+            trainingErrorFeatures = getTrainingErrorFeatures(options, Mdl{i}, XTrainTestCell, YTrainTestCell);
+
+            staticThreshold = getStaticThreshold_DNN(options, Mdl{i}, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds, trainingErrorFeatures);
+        else
+            trainingErrorFeatures = [];
+            staticThreshold = [];
+        end
+    else
             % Not yet implemented, does this even make sense?
     end
 
@@ -57,6 +62,6 @@ for i = 1:numel(models)
     trainedNetwork.staticThreshold = staticThreshold;
     trainedNetwork.trainingErrorFeatures = trainingErrorFeatures;
 
-    trainedModels.(options.id) = trainedNetwork;
+    trainedModels_DNN.(options.id) = trainedNetwork;
 end
 end                              

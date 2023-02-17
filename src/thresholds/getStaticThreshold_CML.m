@@ -24,23 +24,60 @@ if ~isempty(dataValTest)
     contaminationFraction = numAnoms / numTimeSteps;                       
     
     if contaminationFraction > 0
-        anomalyScores = [];
+        anomalyScoresValTest = [];
         labels = [];
 
         for i = 1:size(XValTestCell, 1)
             anomalyScores_tmp = detectWithCML_wrapper(options, Mdl, XValTestCell{i, 1}, YValTestCell{i, 1}, labelsValTestCell{i, 1});
-            anomalyScores = [anomalyScores; anomalyScores_tmp];
+            anomalyScoresValTest = [anomalyScoresValTest; anomalyScores_tmp];
             labels = [labels; labelsValTestCell{i, 1}];
         end
         
-        for i = 1:length(thresholds)
-            if ~strcmp(thresholds(i), "dynamic") && ~strcmp(thresholds(i), "pointFive") && ~strcmp(thresholds(i), "custom")
-                staticThreshold.(thresholds(i)) = calcStaticThreshold(anomalyScores, labels, thresholds(i), options.model);
-        
-            end
+        if ismember("bestFscorePointwise", thresholds)
+            staticThreshold.bestFscorePointwise = calcStaticThreshold(anomalyScoresValTest, labels, "bestFscorePointwise", options.model);
+        end
+        if ismember("bestFscoreEventwise", thresholds)
+            staticThreshold.bestFscoreEventwise = calcStaticThreshold(anomalyScoresValTest, labels, "bestFscoreEventwise", options.model);
+        end
+        if ismember("bestFscorePointAdjusted", thresholds)
+            staticThreshold.bestFscorePointAdjusted = calcStaticThreshold(anomalyScoresValTest, labels, "bestFscorePointAdjusted", options.model);
+        end
+        if ismember("bestFscoreComposite", thresholds)
+            staticThreshold.bestFscoreComposite = calcStaticThreshold(anomalyScoresValTest, labels, "bestFscoreComposite", options.model);
+        end
+        if ismember("topK", thresholds)
+            staticThreshold.topK = calcStaticThreshold(anomalyScoresValTest, labels, "topK", options.model);
+        end
+        if ismember("meanStd", thresholds)
+            staticThreshold.meanStd = calcStaticThreshold(anomalyScoresValTest, labels, "meanStd", options.model);
         end
     else
         fprintf("Warning! Anomalous validation set doesn't contain anomalies, possibly couldn't calculate some static thresholds.");
+    end
+end
+
+if ~isempty(dataTrain)
+    if ismember("meanStdTrain", thresholds) || ismember("maxTrainAnomalyScore", thresholds)
+        XTrainTestCell = cell(size(dataTrain, 1), 1);
+        YTrainTestCell = cell(size(dataTrain, 1), 1);
+        labelsTrainTestCell = cell(size(dataTrain, 1), 1);
+    
+        for i = 1:size(dataTrain, 1)
+            [XTrainTestCell{i, 1}, YTrainTestCell{i, 1}, labelsTrainTestCell{i, 1}] = prepareDataTest_CML_wrapper(options, dataTrain(i, :), labelsTrain(i, :));
+        end
+    
+        anomalyScoresTrain = [];
+        for i = 1:size(XTrainTestCell, 1)
+            anomalyScores_tmp = detectWithCML_wrapper(options, Mdl, XTrainTestCell{i, 1}, YTrainTestCell{i, 1}, labelsTrainTestCell{i, 1});
+            anomalyScoresTrain = [anomalyScoresTrain; anomalyScores_tmp];
+        end
+    end
+    
+    if ismember("meanStdTrain", thresholds)
+        staticThreshold.meanStdTrain = mean(mean(anomalyScoresTrain)) + 4 * mean(std(anomalyScoresTrain));
+    end
+    if ismember("maxTrainAnomalyScore", thresholds)
+        staticThreshold.maxTrainAnomalyScore = max(max(anomalyScoresTrain));
     end
 end
 

@@ -12,6 +12,10 @@ switch thr
         id = "topK";
     case "Mean + 4 * Std"
         id = "meanStd";
+    case "Mean + 4 * Std (Train)"
+        id = "meanStdTrain";
+    case "Max Train Anomaly Score"
+        id = "maxTrainAnomalyScore";
     case "0.5"
         id = "pointFive";
     case "Dynamic"

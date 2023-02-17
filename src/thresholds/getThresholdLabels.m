@@ -16,6 +16,10 @@ for i = 1:numIds
             labels(1, i) = "Top k";
         case "meanStd"
             labels(1, i) = "Mean + 4 * Std";
+        case "meanStdTrain"
+            labels(1, i) = "Mean + 4 * Std (Train)";
+        case "maxTrainAnomalyScore"
+            labels(1, i) = "Max Train Anomaly Score";
         case "pointFive"
             labels(1, i) = "0.5";
         case "dynamic"

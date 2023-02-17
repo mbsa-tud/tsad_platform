@@ -33,7 +33,7 @@ end
 
 numChannels = size(anomalyScores, 2);
 
-if isfield(options, 'scoringFunction')
+if isfield(options, 'scoringFunction') && ~isempty(trainingErrorFeatures)
     % Apply scoring function
     switch options.scoringFunction
         case 'channelwise-errors'
