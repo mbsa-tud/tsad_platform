@@ -1,10 +1,10 @@
-function XTrain = prepareDataTrain_CML_wrapper(options, data)
+function XTrain = prepareDataTrain_CML_wrapper(options, data, labels)
 %PREPAREDATATRAIN_DNN
 %
 % Prepares the training data for DL models
 
 if options.isMultivariate
-    XTrain = prepareDataTrain_CML(options, data);
+    XTrain = prepareDataTrain_CML(options, data, labels);
     XTrain = {XTrain};
 else
     numChannels = size(data{1, 1}, 2);
@@ -16,7 +16,7 @@ else
             data_tmp{j, 1} = data{j, 1}(:, i);
         end
 
-        XTrain{1, i} = prepareDataTrain_CML(options, data_tmp);
+        XTrain{1, i} = prepareDataTrain_CML(options, data_tmp, labels);
     end
 end
 end

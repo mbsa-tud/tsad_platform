@@ -1,4 +1,4 @@
-function staticThreshold = getStaticThreshold_DNN(options, Mdl, dataValTest, labelsValTest, thresholds, trainingErrorFeatures)
+function staticThreshold = getStaticThreshold_DNN(options, Mdl, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds, trainingErrorFeatures)
 %GETSTATICTHRESHOLD_DNN
 %
 % This function calculates the static threshold for DL models and

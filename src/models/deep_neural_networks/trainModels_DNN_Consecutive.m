@@ -20,7 +20,7 @@ for i = 1:length(models)
                 [XTrainTest, YTrainTest, ~] = prepareDataTest_DNN_wrapper(options, dataTrain, labelsTrain);
                 trainingErrorFeatures = getTrainingErrorFeatures(options, Mdl, XTrainTest, YTrainTest);
                 
-                staticThreshold = getStaticThreshold_DNN(options, Mdl, dataValTest, labelsValTest, thresholds, trainingErrorFeatures);
+                staticThreshold = getStaticThreshold_DNN(options, Mdl, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds, trainingErrorFeatures);
             else
                 trainingErrorFeatures = [];
                 staticThreshold = [];

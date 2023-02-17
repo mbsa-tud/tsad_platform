@@ -1,4 +1,4 @@
-function staticThreshold = getStaticThreshold_CML(options, Mdl, dataValTest, labelsValTest, thresholds)
+function staticThreshold = getStaticThreshold_CML(options, Mdl, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds)
 %GETSTATICTHRESHOLD_CML
 %
 % This function calculates the static threshold for classic ML models and

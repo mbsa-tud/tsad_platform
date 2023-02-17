@@ -7,7 +7,7 @@ scoresCell = cell(size(dataTest, 1), 1);
 
 model.options = options;
 
-trainedModel = trainModels_S(model, dataTrain, ...
+trainedModel = trainModels_S(model, dataTrain, labelsTrain, ...
                                         dataValTest, labelsValTest, threshold);
 
 for dataIdx = 1:size(dataTest, 1)

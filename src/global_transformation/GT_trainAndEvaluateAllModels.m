@@ -61,7 +61,7 @@ end
 if ~isempty(models_CML)
     % Training CML models
     fprintf('Training CML models\n')
-    trainedModels_CML = trainModels_CML(models_CML, dataTrain, ...
+    trainedModels_CML = trainModels_CML(models_CML, dataTrain, labelsTrain, ...
                                         dataTestVal, labelsTestVal, thresholds);
     fields = fieldnames(trainedModels_CML);
     for f_idx = 1:length(fields)
@@ -72,7 +72,7 @@ end
 if ~isempty(models_S)
     % Training S models
     fprintf('Training Statistical models\n')
-    trainedModels_S = trainModels_S(models_S, dataTrain, ...
+    trainedModels_S = trainModels_S(models_S, dataTrain, labelsTrain,  ...
                                         dataTestVal, labelsTestVal, thresholds);
     fields = fieldnames(trainedModels_S);
     for f_idx = 1:length(fields)

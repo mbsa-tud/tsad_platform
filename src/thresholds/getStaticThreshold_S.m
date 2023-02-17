@@ -1,4 +1,4 @@
-function staticThreshold = getStaticThreshold_S(options, Mdl, dataValTest, labelsValTest, thresholds)
+function staticThreshold = getStaticThreshold_S(options, Mdl, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds)
 %GETSTATICTHRESHOLD_S
 %
 % This function calculates the static threshold for statistical models and

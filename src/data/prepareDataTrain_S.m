@@ -1,4 +1,4 @@
-function XTrain = prepareDataTrain_S(options, data)
+function XTrain = prepareDataTrain_S(options, data, labels)
 %PREPAREDATATRAIN_S
 %
 % Prepares the training data for statistical models

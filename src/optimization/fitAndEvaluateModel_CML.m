@@ -6,7 +6,7 @@ function scoresCell = fitAndEvaluateModel_CML(options, dataTrain, labelsTrain, d
 scoresCell = cell(size(dataTest, 1), 1);
 
 model.options = options;
-trainedModel = trainModels_CML(model, dataTrain, ...
+trainedModel = trainModels_CML(model, dataTrain, labelsTrain, ...
                                         dataValTest, labelsValTest, threshold);
 
 for dataIdx = 1:size(dataTest, 1)

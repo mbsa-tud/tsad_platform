@@ -1,4 +1,4 @@
-function XTrain = prepareDataTrain_CML(options, data)
+function XTrain = prepareDataTrain_CML(options, data, labels)
 %PREPAREDATATRAIN_CML
 %
 % Prepares the training data for classic ML models
