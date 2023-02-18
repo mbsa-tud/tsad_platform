@@ -91,40 +91,36 @@ if ~isempty(trainedModels)
 
     for j = 1:length(fields)
         trainedModel = trainedModels.(fields{j});
-        options = trainedModel.options;
-        Mdl = trainedModel.Mdl;
     
         % For all files in the test folder
         for dataIdx = 1:length(filesTest)
-            switch options.type
+            switch trainedModel.options.type
                 case 'DNN'
-                    [XTest, YTest, labels] = prepareDataTest_DNN_wrapper(options, dataTest(dataIdx, 1), labelsTest(dataIdx, 1));
+                    [XTest, YTest, labels] = prepareDataTest_DNN_wrapper(trainedModel.options, dataTest(dataIdx, 1), labelsTest(dataIdx, 1));
                         
-                    anomalyScores = detectWithDNN_wrapper(options, Mdl, XTest, YTest, labels, trainedModel.trainingErrorFeatures);
+                    anomalyScores = detectWithDNN_wrapper(trainedModel, XTest, YTest, labels);
                 case 'CML'
-                    [XTest, YTest, labels] = prepareDataTest_CML_wrapper(options, dataTest(dataIdx, 1), labelsTest(dataIdx, 1));
+                    [XTest, YTest, labels] = prepareDataTest_CML_wrapper(trainedModel.options, dataTest(dataIdx, 1), labelsTest(dataIdx, 1));
 
-                    anomalyScores = detectWithCML_wrapper(options, Mdl, XTest, YTest, labels);
+                    anomalyScores = detectWithCML_wrapper(trainedModel, XTest, YTest, labels);
                 case 'S'
-                    [XTest, YTest, labels] = prepareDataTest_S_wrapper(options, dataTest(dataIdx, 1), labelsTest(dataIdx, 1));
+                    [XTest, YTest, labels] = prepareDataTest_S_wrapper(trainedModel.options, dataTest(dataIdx, 1), labelsTest(dataIdx, 1));
 
-                    anomalyScores = detectWithS_wrapper(options, Mdl, XTest, YTest, labels);
+                    anomalyScores = detectWithS_wrapper(trainedModel, XTest, YTest, labels);
             end
-
-            staticThreshold = trainedModel.staticThreshold;
             
             % For all thresholds in the thresholds variable
             for k = 1:length(thresholds)
-                if ~options.outputsLabels
+                if ~trainedModel.options.outputsLabels
                     if ~strcmp(thresholds(k), 'dynamic')
                         % Static thresholds
-                        if ~isempty(staticThreshold) && isfield(staticThreshold, thresholds(k))  
-                            selectedThreshold = staticThreshold.(thresholds(k));
+                        if ~isempty(trainedModel.staticThreshold) && isfield(trainedModel.staticThreshold, thresholds(k))  
+                            selectedThreshold = trainedModel.staticThreshold.(thresholds(k));
                         else
                             selectedThreshold = thresholds(k);
                         end
            
-                        predictedLabels = calcStaticThresholdPrediction(anomalyScores, labels, selectedThreshold, options.model);
+                        predictedLabels = calcStaticThresholdPrediction(anomalyScores, labels, selectedThreshold, trainedModel.options.model);
                     else
                         % Dynamic threshold            
                         [predictedLabels, ~] = calcDynamicThresholdPrediction(anomalyScores, labels, dynamicThresholdSettings); 

@@ -1,16 +1,16 @@
-function features = getTrainingErrorFeatures(options, Mdl, X, Y)
-switch options.model
+function features = getTrainingErrorFeatures(trainedModel, X, Y)
+switch trainedModel.options.model
     case 'Your model'
     otherwise
-        if isfield(options, 'scoringFunction')
+        if isfield(trainedModel.options, 'scoringFunction')
             % Remove scoring function field to not apply a scoring function
             % for this step
-            options = rmfield(options, 'scoringFunction');
+            trainedModel.options = rmfield(trainedModel.options, 'scoringFunction');
         end
 
         anomalyScores = [];
         for i = 1:size(X, 1)
-            anomalyScores_tmp = detectWithDNN_wrapper(options, Mdl, X{i, 1}, Y{i, 1}, [], []);
+            anomalyScores_tmp = detectWithDNN_wrapper(trainedModel, X{i, 1}, Y{i, 1}, []);
             anomalyScores = [anomalyScores; anomalyScores_tmp];
         end
 

@@ -1,4 +1,4 @@
-function staticThreshold = getStaticThreshold_DNN(options, Mdl, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds, trainingErrorFeatures)
+function staticThreshold = getStaticThreshold_DNN(trainedModel, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds)
 %GETSTATICTHRESHOLD_DNN
 %
 % This function calculates the static threshold for DL models and
@@ -15,7 +15,7 @@ if ~isempty(dataValTest)
     numTimeSteps = 0;
 
     for i = 1:size(dataValTest, 1)
-        [XValTestCell{i, 1}, YValTestCell{i, 1}, labelsValTestCell{i, 1}] = prepareDataTest_DNN_wrapper(options, dataValTest(i, :), labelsValTest(i, :));
+        [XValTestCell{i, 1}, YValTestCell{i, 1}, labelsValTestCell{i, 1}] = prepareDataTest_DNN_wrapper(trainedModel.options, dataValTest(i, :), labelsValTest(i, :));
         
         numAnoms = numAnoms + sum(labelsValTestCell{end} == 1);
         numTimeSteps = numTimeSteps + size(labelsValTestCell{end}, 1);
@@ -28,29 +28,29 @@ if ~isempty(dataValTest)
         labels = [];
 
         for i = 1:size(XValTestCell, 1)
-            anomalyScores_tmp = detectWithDNN_wrapper(options, Mdl, XValTestCell{i, 1}, YValTestCell{i, 1}, labelsValTestCell{i, 1}, trainingErrorFeatures);
+            anomalyScores_tmp = detectWithDNN_wrapper(trainedModel, XValTestCell{i, 1}, YValTestCell{i, 1}, labelsValTestCell{i, 1});
             anomalyScoresValTest = [anomalyScoresValTest; anomalyScores_tmp];
             labels = [labels; labelsValTestCell{i, 1}];
         end
 
 
         if ismember("bestFscorePointwise", thresholds)
-            staticThreshold.bestFscorePointwise = calcStaticThreshold(anomalyScoresValTest, labels, "bestFscorePointwise", options.model);
+            staticThreshold.bestFscorePointwise = calcStaticThreshold(anomalyScoresValTest, labels, "bestFscorePointwise", trainedModel.options.model);
         end
         if ismember("bestFscoreEventwise", thresholds)
-            staticThreshold.bestFscoreEventwise = calcStaticThreshold(anomalyScoresValTest, labels, "bestFscoreEventwise", options.model);
+            staticThreshold.bestFscoreEventwise = calcStaticThreshold(anomalyScoresValTest, labels, "bestFscoreEventwise", trainedModel.options.model);
         end
         if ismember("bestFscorePointAdjusted", thresholds)
-            staticThreshold.bestFscorePointAdjusted = calcStaticThreshold(anomalyScoresValTest, labels, "bestFscorePointAdjusted", options.model);
+            staticThreshold.bestFscorePointAdjusted = calcStaticThreshold(anomalyScoresValTest, labels, "bestFscorePointAdjusted", trainedModel.options.model);
         end
         if ismember("bestFscoreComposite", thresholds)
-            staticThreshold.bestFscoreComposite = calcStaticThreshold(anomalyScoresValTest, labels, "bestFscoreComposite", options.model);
+            staticThreshold.bestFscoreComposite = calcStaticThreshold(anomalyScoresValTest, labels, "bestFscoreComposite", trainedModel.options.model);
         end
         if ismember("topK", thresholds)
-            staticThreshold.topK = calcStaticThreshold(anomalyScoresValTest, labels, "topK", options.model);
+            staticThreshold.topK = calcStaticThreshold(anomalyScoresValTest, labels, "topK", trainedModel.options.model);
         end
         if ismember("meanStd", thresholds)
-            staticThreshold.meanStd = calcStaticThreshold(anomalyScoresValTest, labels, "meanStd", options.model);
+            staticThreshold.meanStd = calcStaticThreshold(anomalyScoresValTest, labels, "meanStd", trainedModel.options.model);
         end
     else
         fprintf("Warning! Anomalous validation set doesn't contain anomalies, possibly couldn't calculate some static thresholds.");
@@ -64,12 +64,12 @@ if ~isempty(dataTrain)
         labelsTrainTestCell = cell(size(dataTrain, 1), 1);
     
         for i = 1:size(dataTrain, 1)
-            [XTrainTestCell{i, 1}, YTrainTestCell{i, 1}, labelsTrainTestCell{i, 1}] = prepareDataTest_DNN_wrapper(options, dataTrain(i, :), labelsTrain(i, :));
+            [XTrainTestCell{i, 1}, YTrainTestCell{i, 1}, labelsTrainTestCell{i, 1}] = prepareDataTest_DNN_wrapper(trainedModel.options, dataTrain(i, :), labelsTrain(i, :));
         end
     
         anomalyScoresTrain = [];
         for i = 1:size(XTrainTestCell, 1)
-            anomalyScores_tmp = detectWithDNN_wrapper(options, Mdl, XTrainTestCell{i, 1}, YTrainTestCell{i, 1}, labelsTrainTestCell{i, 1}, trainingErrorFeatures);
+            anomalyScores_tmp = detectWithDNN_wrapper(trainedModel, XTrainTestCell{i, 1}, YTrainTestCell{i, 1}, labelsTrainTestCell{i, 1});
             anomalyScoresTrain = [anomalyScoresTrain; anomalyScores_tmp];
         end
     end
@@ -83,9 +83,9 @@ if ~isempty(dataTrain)
 end
 
 if ismember("pointFive", thresholds)
-    staticThreshold.pointFive = calcStaticThreshold([], [], "pointFive", "");
+    staticThreshold.pointFive = calcStaticThreshold([], [], "pointFive", trainedModel.options.model);
 end
 if ismember("custom", thresholds)
-    staticThreshold.custom = calcStaticThreshold([], [], "custom", "");
+    staticThreshold.custom = calcStaticThreshold([], [], "custom", trainedModel.options.model);
 end
 end

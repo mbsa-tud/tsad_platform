@@ -5,6 +5,7 @@ function trainedModels_DNN = trainModels_DNN_Consecutive(models, dataTrain, labe
 
 for i = 1:length(models)
     options = models(i).options;
+    trainedModel.options = options;
 
     if options.requiresPriorTraining
         if isempty(dataTrain)
@@ -13,7 +14,7 @@ for i = 1:length(models)
 
         [XTrain, YTrain, XVal, YVal] = prepareDataTrain_DNN_wrapper(options, dataTrain, labelsTrain);
 
-        [Mdl, MdlInfo] = trainDNN_wrapper(options, XTrain, YTrain, XVal, YVal, trainingPlots, trainParallel);
+        [trainedModel.Mdl, trainedModel.MdlInfo] = trainDNN_wrapper(options, XTrain, YTrain, XVal, YVal, trainingPlots, trainParallel);
         
         if ~options.outputsLabels
             XTrainTestCell = cell(size(dataTrain, 1), 1);
@@ -21,30 +22,23 @@ for i = 1:length(models)
 
         
             for j = 1:size(dataTrain, 1)
-                [XTrainTestCell{i, 1}, YTrainTestCell{i, 1}, ~] = prepareDataTest_DNN_wrapper(options, dataTrain(i, :), labelsTrain(i, :));
+                [XTrainTestCell{j, 1}, YTrainTestCell{j, 1}, ~] = prepareDataTest_DNN_wrapper(options, dataTrain(j, :), labelsTrain(j, :));
             end
 
-            trainingErrorFeatures = getTrainingErrorFeatures(options, Mdl, XTrainTestCell, YTrainTestCell);
+            trainedModel.trainingErrorFeatures = getTrainingErrorFeatures(trainedModel, XTrainTestCell, YTrainTestCell);
             
-            staticThreshold = getStaticThreshold_DNN(options, Mdl, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds, trainingErrorFeatures);
+            trainedModel.staticThreshold = getStaticThreshold_DNN(trainedModel, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds);
         else
-            trainingErrorFeatures = [];
-            staticThreshold = [];
+            trainedModel.trainingErrorFeatures = [];
+            trainedModel.staticThreshold = [];
         end
     else
         % Does this make sense?
-        Mdl = [];
-        trainingErrorFeatures = [];
-        staticThreshold = getStaticThreshold_DNN(options, Mdl, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds, trainingErrorFeatures);
+        trainedModel.Mdl = [];
+        trainedModel.trainingErrorFeatures = [];
+        trainedModel.staticThreshold = getStaticThreshold_DNN(trainedModel, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds);
     end
-    
-    
-    trainedNetwork.Mdl = Mdl;
-    trainedNetwork.MdlInfo = MdlInfo;
-    trainedNetwork.options = options;
-    trainedNetwork.staticThreshold = staticThreshold;
-    trainedNetwork.trainingErrorFeatures = trainingErrorFeatures;
 
-    trainedModels_DNN.(options.id) = trainedNetwork;
+    trainedModels_DNN.(options.id) = trainedModel;
 end
 end

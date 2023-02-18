@@ -5,6 +5,7 @@ function trainedModels_S = trainModels_S(models, dataTrain, labelsTrain, dataVal
 
 for i = 1:length(models)
     options = models(i).options;
+    trainedModel.options = options;
 
     if options.requiresPriorTraining
         if isempty(dataTrain)
@@ -12,22 +13,18 @@ for i = 1:length(models)
         end
         
         XTrain = prepareDataTrain_S_wrapper(options, dataTrain, labelsTrain);
-        Mdl = trainS_wrapper(options, XTrain);
+        trainedModel.Mdl = trainS_wrapper(options, XTrain);
 
         if ~options.outputsLabels
-            staticThreshold = getStaticThreshold_S(options, Mdl, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds);
+            trainedModel.staticThreshold = getStaticThreshold_S(trainedModel, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds);
         else
-            staticThreshold = [];
+            trainedModel.staticThreshold = [];
         end
     else
-        Mdl = [];
-        staticThreshold = getStaticThreshold_S(options, Mdl, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds);
+        trainedModel.Mdl = [];
+        trainedModel.staticThreshold = getStaticThreshold_S(trainedModel, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds);
     end
 
-    trainedModel.staticThreshold = staticThreshold;
-    trainedModel.options = options;
-    trainedModel.Mdl = Mdl;    
-    
     trainedModels_S.(models(i).options.id) = trainedModel;
 end
 end

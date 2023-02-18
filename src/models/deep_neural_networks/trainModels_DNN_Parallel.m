@@ -12,7 +12,7 @@ YValCell = cell(1, numNetworks);
 
 for i = 1:numNetworks
     options = models(i).options;
-
+    
     if options.requiresPriorTraining
         if isempty(dataTrain)
             error("One of the selected models requires prior training, but the dataset doesn't contain training data (train folder).")
@@ -33,6 +33,9 @@ end
 
 for i = 1:numel(models)
     options = models(i).options;
+    trainedModel.options = options;
+    trainedModel.Mdl = Mdl{i};
+    trainedModel.MdlInfo = MdlInfo{i};
 
     if options.requiresPriorTraining
         if ~options.outputsLabels
@@ -41,27 +44,20 @@ for i = 1:numel(models)
 
         
             for j = 1:size(dataTrain, 1)
-                [XTrainTestCell{i, 1}, YTrainTestCell{i, 1}, ~] = prepareDataTest_DNN_wrapper(options, dataTrain(i, :), labelsTrain(i, :));
+                [XTrainTestCell{j, 1}, YTrainTestCell{j, 1}, ~] = prepareDataTest_DNN_wrapper(options, dataTrain(j, :), labelsTrain(j, :));
             end
 
-            trainingErrorFeatures = getTrainingErrorFeatures(options, Mdl{i}, XTrainTestCell, YTrainTestCell);
+            trainedModel.trainingErrorFeatures = getTrainingErrorFeatures(trainedModel, XTrainTestCell, YTrainTestCell);
 
-            staticThreshold = getStaticThreshold_DNN(options, Mdl{i}, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds, trainingErrorFeatures);
+            trainedModel.staticThreshold = getStaticThreshold_DNN(trainedModel, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds);
         else
-            trainingErrorFeatures = [];
-            staticThreshold = [];
+            trainedModel.trainingErrorFeatures = [];
+            trainedModel.staticThreshold = [];
         end
     else
             % Not yet implemented, does this even make sense?
     end
 
-
-    trainedNetwork.Mdl = Mdl{i};
-    trainedNetwork.MdlInfo = MdlInfo{i};
-    trainedNetwork.options = options;
-    trainedNetwork.staticThreshold = staticThreshold;
-    trainedNetwork.trainingErrorFeatures = trainingErrorFeatures;
-
-    trainedModels_DNN.(options.id) = trainedNetwork;
+    trainedModels_DNN.(options.id) = trainedModel;
 end
 end                              

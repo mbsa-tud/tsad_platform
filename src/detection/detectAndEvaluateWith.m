@@ -1,36 +1,34 @@
-function scores = detectAndEvaluateWith(model, dataTest, labelsTest, threshold, dynamicThresholdSettings)
+function scores = detectAndEvaluateWith(trainedModel, dataTest, labelsTest, threshold, dynamicThresholdSettings)
 %DETECTANDEVALUATEWITH
 %
 % Runs the detection and returns the scores for the model
 
-
-options = model.options;
-switch options.type
+switch trainedModel.options.type
     case 'DNN'
-        [XTest, YTest, labels] = prepareDataTest_DNN_wrapper(options, dataTest, labelsTest);
+        [XTest, YTest, labels] = prepareDataTest_DNN_wrapper(trainedModel.options, dataTest, labelsTest);
             
-        anomalyScores = detectWithDNN_wrapper(options, model.Mdl, XTest, YTest, labels, model.trainingErrorFeatures);
+        anomalyScores = detectWithDNN_wrapper(trainedModel, XTest, YTest, labels);
     case 'CML'        
-        [XTest, YTest, labels] = prepareDataTest_CML_wrapper(options, dataTest, labelsTest);
+        [XTest, YTest, labels] = prepareDataTest_CML_wrapper(trainedModel.options, dataTest, labelsTest);
         
-        anomalyScores = detectWithCML_wrapper(options, model.Mdl, XTest, YTest, labels);
+        anomalyScores = detectWithCML_wrapper(trainedModel, XTest, YTest, labels);
     case 'S'        
-        [XTest, YTest, labels] = prepareDataTest_S_wrapper(options, dataTest, labelsTest);
+        [XTest, YTest, labels] = prepareDataTest_S_wrapper(trainedModel.options, dataTest, labelsTest);
         
-        anomalyScores = detectWithS_wrapper(options, model.Mdl, XTest, YTest, labels);
+        anomalyScores = detectWithS_wrapper(trainedModel, XTest, YTest, labels);
 end
 
-if ~options.outputsLabels
+if ~trainedModel.options.outputsLabels
     if ~strcmp(threshold, "dynamic")
         % Static threshold
     
-        if ~isempty(model.staticThreshold) && isfield(model.staticThreshold, threshold)  
-            selectedThreshold = model.staticThreshold.(threshold);
+        if ~isempty(trainedModel.staticThreshold) && isfield(trainedModel.staticThreshold, threshold)  
+            selectedThreshold = trainedModel.staticThreshold.(threshold);
         else
             selectedThreshold = threshold;
         end
         
-        predictedLabels = calcStaticThresholdPrediction(anomalyScores, labels, selectedThreshold, options.model);
+        predictedLabels = calcStaticThresholdPrediction(anomalyScores, labels, selectedThreshold, trainedModel.options.model);
     else
         % Dynamic threshold    
         [predictedLabels, ~] = calcDynamicThresholdPrediction(anomalyScores, labels, dynamicThresholdSettings);
