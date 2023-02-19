@@ -404,6 +404,8 @@ This field is only required for DL models. Its value changes how the anomaly sco
 
 For the channel-wise scores, a common threshold gets applied accross all channels during testing. A single observation only needs to be labeled as anomalous in one of the channels to be considered an anomaly.
 
+**NOTE** This field is optional for classic ML or statistical models. If it is used for such, the value can be either `separate` or `aggregated`. In the second case, the RMS is taken across all channels of anomaly scores. The first option is similar to the channel-wise scores mentioned above. The scoring functions only apply, if the model outputs separate anomaly scores for each channel. This is possible if the `isMultivariate` field is set to false, but a multivariate dataset is selected.
+
 **modelType**
 This field is only required for DL models. Its value must be one of: `"predictive"`, `"reconstructive"`. It indicates whether the model produces prediction or reconstruction errors.
 
