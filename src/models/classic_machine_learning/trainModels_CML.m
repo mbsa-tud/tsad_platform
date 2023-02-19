@@ -9,7 +9,7 @@ for i = 1:length(models)
 
     if options.requiresPriorTraining
         if isempty(dataTrain)
-            error("One of the selected models requires prior training, but the dataset doesn't contain training data (train folder).")
+            error("The %s model requires prior training, but the dataset doesn't contain training data (train folder).", options.model);
         end
         
         XTrain = prepareDataTrain_CML_wrapper(options, dataTrain, labelsTrain);

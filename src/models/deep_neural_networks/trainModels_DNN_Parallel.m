@@ -15,7 +15,7 @@ for i = 1:numNetworks
     
     if options.requiresPriorTraining
         if isempty(dataTrain)
-            error("One of the selected models requires prior training, but the dataset doesn't contain training data (train folder).")
+            error("The %s model requires prior training, but the dataset doesn't contain training data (train folder).", options.model);
         end
         
         [XTrain, YTrain, XVal, YVal] = prepareDataTrain_DNN_wrapper(options, dataTrain, labelsTrain);
