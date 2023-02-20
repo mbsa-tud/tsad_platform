@@ -605,6 +605,8 @@ To prepare the data your own way, you can add your model to the main *switch* st
 * **For classic machine learning methods**: `prepareDataTrain_CML.m`, `prepareDataTest_CML.m`.
 * **For statistical methods**: `prepareDataTrain_S.m`, `prepareDataTest_S.m`.
 
+**NOTE** If you do so, you must also call your training and prediction functions as described above. Otherwise it might lead to errors as the platform doesn't recognize your data.
+
 #### (Optional) Custom Threshold
 
 To add a custom static threshold, open the file `tsad_platform > src > thresholds > calcStaticThreshold.m`. In `line 30` add your model name and store your custom threshold in the `thr` variable.
