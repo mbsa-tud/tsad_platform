@@ -75,8 +75,8 @@ The thresholds are set as follows:
 |-|-|
 | Best F1 Score thresholds | Calculates the best possible F1 score on either the anomalous validation set or the test set directly (depending on wether a anomalous validation set is used or not) |
 | topK | Set threshold to detect the correct amount of anomalies as given by the labels. This is done either on the anomalous validation set or the test set |
-| Mean + 4 * Std | Mean + 4 * Std of the anomaly scores of either the anomalous validation set or the test set |
-| Mean + 4 * Std (Train) | Mean + 4 * Std of the anomaly scores of the training set |
+| Mean + 4 * Std | Mean + 4 * Std of the anomaly scores of either the anomalous validation set or the test set. If the anomaly score output of a model (after a optional scoring function is applied) still has multiple channels, the average mean and average standard deviation across channels are used instead. |
+| Mean + 4 * Std (Train) | Mean + 4 * Std of the anomaly scores of the training set. If the anomaly score output of a model (after a optional scoring function is applied) still has multiple channels, the average mean and average standard deviation across channels are used instead. |
 | Max Train Anomaly Score | The maximum value of the anomaly score when running the detection on the training data |
 | 0.5 | 0.5 |
 | Dynamic | Unsupervised dynamic threshold. See [Dynamic threshold](#dynamic-threshold) |
