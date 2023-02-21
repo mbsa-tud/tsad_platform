@@ -76,18 +76,18 @@ switch options.model
 
 
 
-            convolution1dLayer(5, options.hyperparameters.model.filter.value, Stride=1, Padding='causal', WeightsInitializer='he', DilationFactor=1)
+            convolution1dLayer(5, options.hyperparameters.model.filter.value, Stride=1, Padding='causal', WeightsInitializer='he', DilationFactor=2)
             batchNormalizationLayer()
             leakyReluLayer()
-            convolution1dLayer(5, options.hyperparameters.model.filter.value, Stride=1, Padding='causal', WeightsInitializer='he', DilationFactor=1)
+            convolution1dLayer(5, options.hyperparameters.model.filter.value, Stride=1, Padding='causal', WeightsInitializer='he', DilationFactor=2)
             batchNormalizationLayer()
             additionLayer(2, Name='Add_3')
             leakyReluLayer(Name='Relu_6')
 
-            convolution1dLayer(5, options.hyperparameters.model.filter.value, Stride=1, Padding='causal', WeightsInitializer='he', DilationFactor=2)
+            convolution1dLayer(5, options.hyperparameters.model.filter.value, Stride=1, Padding='causal', WeightsInitializer='he', DilationFactor=1)
             batchNormalizationLayer()
             leakyReluLayer()
-            convolution1dLayer(5, options.hyperparameters.model.filter.value, Stride=1, Padding='causal', WeightsInitializer='he', DilationFactor=2)
+            convolution1dLayer(5, options.hyperparameters.model.filter.value, Stride=1, Padding='causal', WeightsInitializer='he', DilationFactor=1)
             batchNormalizationLayer()
             additionLayer(2, Name='Add_4')
             leakyReluLayer()

@@ -32,6 +32,10 @@
                             "value": 50,
                             "type": "integer"
                         },
+                        "learningRate": {
+                            "value": 0.001,
+                            "type": "real"
+                        },
                         "minibatchSize": {
                             "value": 64,
                             "type": "integer"
@@ -75,6 +79,10 @@
                         "epochs": {
                             "value": 50,
                             "type": "integer"
+                        },
+                        "learningRate": {
+                            "value": 0.001,
+                            "type": "real"
                         },
                         "minibatchSize": {
                             "value": 64,
@@ -124,6 +132,10 @@
                             "value": 50,
                             "type": "integer"
                         },
+                        "learningRate": {
+                            "value": 0.001,
+                            "type": "real"
+                        },
                         "minibatchSize": {
                             "value": 64,
                             "type": "integer"
@@ -168,6 +180,10 @@
                             "value": 50,
                             "type": "integer"
                         },
+                        "learningRate": {
+                            "value": 0.001,
+                            "type": "real"
+                        },
                         "minibatchSize": {
                             "value": 64,
                             "type": "integer"
@@ -211,6 +227,10 @@
                         "epochs": {
                             "value": 50,
                             "type": "integer"
+                        },
+                        "learningRate": {
+                            "value": 0.001,
+                            "type": "real"
                         },
                         "minibatchSize": {
                             "value": 64,
@@ -260,6 +280,10 @@
                             "value": 50,
                             "type": "integer"
                         },
+                        "learningRate": {
+                            "value": 0.001,
+                            "type": "real"
+                        },
                         "minibatchSize": {
                             "value": 64,
                             "type": "integer"
@@ -303,6 +327,10 @@
                         "epochs": {
                             "value": 50,
                             "type": "integer"
+                        },
+                        "learningRate": {
+                            "value": 0.001,
+                            "type": "real"
                         },
                         "minibatchSize": {
                             "value": 64,
@@ -348,6 +376,10 @@
                             "value": 50,
                             "type": "integer"
                         },
+                        "learningRate": {
+                            "value": 0.001,
+                            "type": "real"
+                        },
                         "minibatchSize": {
                             "value": 64,
                             "type": "integer"
@@ -392,6 +424,10 @@
                             "value": 50,
                             "type": "integer"
                         },
+                        "learningRate": {
+                            "value": 0.001,
+                            "type": "real"
+                        },
                         "minibatchSize": {
                             "value": 64,
                             "type": "integer"
@@ -435,6 +471,10 @@
                         "epochs": {
                             "value": 50,
                             "type": "integer"
+                        },
+                        "learningRate": {
+                            "value": 0.001,
+                            "type": "real"
                         },
                         "minibatchSize": {
                             "value": 64,
