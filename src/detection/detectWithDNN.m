@@ -28,7 +28,7 @@ switch options.model
          % better?
          % 1. (currently used version) calculate median predicted value for each time step and then calculate the errors for the entire time series
 
-            prediction = reshapeOverlappingSubsequences(prediction, options.isMultivariate, options.hyperparameters.data.windowSize.value, options.dataType);
+            prediction = mergeOverlappingSubsequences(options, prediction);
             anomalyScores = abs(prediction - YTest);
 
          % 2.calulate the errors for each subsequence and then calculate the median (/mean?) error for each time step
@@ -42,7 +42,7 @@ switch options.model
 %                 end
 %             end
 %             
-%             anomalyScores = reshapeOverlappingSubsequences(anomalyScores, options.isMultivariate, options.hyperparameters.data.windowSize.value, options.dataType);
+%             anomalyScores = mergeOverlappingSubsequences(options, anomalyScores);
         elseif strcmp(options.modelType, 'predictive')
             if iscell(prediction)
                 pred_tmp = zeros(size(prediction, 1), size(prediction{1, 1}, 1));

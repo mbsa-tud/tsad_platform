@@ -32,5 +32,5 @@ end
 
 % Merge overlapping scores
 anomalyScores = repmat(anomalyScores, 1, options.hyperparameters.data.windowSize.value);
-anomalyScores = reshapeOverlappingSubsequences(anomalyScores, false, options.hyperparameters.data.windowSize.value, 1);
+anomalyScores = mergeOverlappingAnomalyScores(anomalyScores, options.hyperparameters.data.windowSize.value);
 end
