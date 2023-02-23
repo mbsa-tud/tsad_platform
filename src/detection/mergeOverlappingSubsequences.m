@@ -1,5 +1,5 @@
 function reshapedPrediction = mergeOverlappingSubsequences(options, prediction)
-%reshapeOverlappingSubsequences
+%mergeOverlappingSubsequences
 %
 % Calculates the median anomaly score for all overlapping subsequences for
 % the reconstructive DL models

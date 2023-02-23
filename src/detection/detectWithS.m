@@ -31,6 +31,5 @@ if isfield(options, 'useSubsequences')
 end
 
 % Merge overlapping scores
-anomalyScores = repmat(anomalyScores, 1, options.hyperparameters.data.windowSize.value);
-anomalyScores = mergeOverlappingAnomalyScores(anomalyScores, options.hyperparameters.data.windowSize.value);
+anomalyScores = mergeOverlappingAnomalyScores(options, anomalyScores);
 end
