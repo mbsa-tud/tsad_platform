@@ -33,22 +33,16 @@ switch options.model
 
          % 2.calulate the errors for each subsequence and then calculate the median (/mean?) error for each time step
             
-%          % This switch statement is only intended to make it easier to
-%          % extend the platform for users
-%             switch options.model
-%                 case 'Your model'
-%                 otherwise
-%                     if options.dataType == 1
-%                         anomalyScores = abs(prediction - XTest);
-%                     elseif options.dataType == 2
-%                         anomalyScores = cell(size(prediction, 1), 1);
-%                         for i = 1:size(prediction, 1)
-%                             anomalyScores{i, 1} = abs(prediction{i, 1} - XTest{i, 1});
-%                         end
-%                     end
-%                     
-%                     anomalyScores = mergeOverlappingSubsequences(options, anomalyScores);
+%             if options.dataType == 1
+%                 anomalyScores = abs(prediction - XTest);
+%             elseif options.dataType == 2
+%                 anomalyScores = cell(size(prediction, 1), 1);
+%                 for i = 1:size(prediction, 1)
+%                     anomalyScores{i, 1} = abs(prediction{i, 1} - XTest{i, 1});
+%                 end
 %             end
+%                     
+%             anomalyScores = mergeOverlappingSubsequences(options, anomalyScores);
         elseif strcmp(options.modelType, 'predictive')
             if iscell(prediction)
                 pred_tmp = zeros(size(prediction, 1), size(prediction{1, 1}, 1));
