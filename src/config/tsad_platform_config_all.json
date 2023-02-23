@@ -8,7 +8,7 @@
                 "modelType": "reconstructive",
                 "dataType": 1,
                 "requiresPriorTraining": true,
-                "isMultivariate": false,
+                "isMultivariate": true,
                 "outputsLabels": false,
                 "hyperparameters": {
                     "model": {
@@ -56,7 +56,7 @@
                 "modelType": "reconstructive",
                 "dataType": 2,
                 "requiresPriorTraining": true,
-                "isMultivariate": false,
+                "isMultivariate": true,
                 "outputsLabels": false,
                 "hyperparameters": {
                     "model": {
@@ -104,7 +104,7 @@
                 "modelType": "reconstructive",
                 "dataType": 2,
                 "requiresPriorTraining": true,
-                "isMultivariate": false,
+                "isMultivariate": true,
                 "outputsLabels": false,
                 "hyperparameters": {
                     "model": {
@@ -156,7 +156,7 @@
                 "modelType": "reconstructive",
                 "dataType": 2,
                 "requiresPriorTraining": true,
-                "isMultivariate": false,
+                "isMultivariate": true,
                 "outputsLabels": false,
                 "hyperparameters": {
                     "model": {
@@ -204,7 +204,7 @@
                 "modelType": "predictive",
                 "dataType": 2,
                 "requiresPriorTraining": true,
-                "isMultivariate": false,
+                "isMultivariate": true,
                 "outputsLabels": false,
                 "hyperparameters": {
                     "model": {
@@ -252,7 +252,7 @@
                 "modelType": "predictive",
                 "dataType": 2,
                 "requiresPriorTraining": true,
-                "isMultivariate": false,
+                "isMultivariate": true,
                 "outputsLabels": false,
                 "hyperparameters": {
                     "model": {
@@ -304,7 +304,7 @@
                 "modelType": "predictive",
                 "dataType": 2,
                 "requiresPriorTraining": true,
-                "isMultivariate": false,
+                "isMultivariate": true,
                 "outputsLabels": false,
                 "hyperparameters": {
                     "model": {
@@ -352,7 +352,7 @@
                 "modelType": "predictive",
                 "dataType": 3,
                 "requiresPriorTraining": true,
-                "isMultivariate": false,
+                "isMultivariate": true,
                 "outputsLabels": false,
                 "hyperparameters": {
                     "model": {
@@ -400,7 +400,7 @@
                 "modelType": "predictive",
                 "dataType": 3,
                 "requiresPriorTraining": true,
-                "isMultivariate": false,
+                "isMultivariate": true,
                 "outputsLabels": false,
                 "hyperparameters": {
                     "model": {
@@ -448,7 +448,7 @@
                 "modelType": "predictive",
                 "dataType": 1,
                 "requiresPriorTraining": true,
-                "isMultivariate": false,
+                "isMultivariate": true,
                 "outputsLabels": false,
                 "hyperparameters": {
                     "model": {
