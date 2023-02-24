@@ -5,8 +5,15 @@ function anomalyScores = detectWithCML(options, Mdl, XTest, YTest, labels)
 
 switch options.model
     case 'iForest'
-        [~, anomalyScores] = isanomaly(Mdl, XTest);
-        case 'OC-SVM'
+        if isempty(Mdl)
+            [~, ~, anomalyScores] = iforest(XTest, NumLearners=options.hyperparameters.model.numLearners.value);
+        else
+            [~, anomalyScores] = isanomaly(Mdl, XTest);
+        end
+    case 'OC-SVM'
+        if isempty(Mdl)
+            Mdl = fitcsvm(XTest, ones(size(XTest, 1), 1));
+        end
         [~, anomalyScores] = predict(Mdl, XTest);
         anomalyScores = gnegate(anomalyScores);
     case 'ABOD'
