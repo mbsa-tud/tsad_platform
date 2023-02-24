@@ -498,8 +498,18 @@
                 "requiresPriorTraining": true,
                 "isMultivariate": true,
                 "outputsLabels": false,
-                "useSubsequences": false,
+                "useSubsequences": true,
                 "hyperparameters": {
+                    "data": {
+                        "windowSize": {
+                            "value": 100,
+                            "type": "integer"
+                        },
+                        "stepSize": {
+                            "value": 1,
+                            "type": "integer"
+                        }
+                    },
                     "model": {
                         "numLearners": {
                             "value": 100,
@@ -517,8 +527,18 @@
                 "requiresPriorTraining": true,
                 "isMultivariate": true,
                 "outputsLabels": false,
-                "useSubsequences": false,
+                "useSubsequences": true,
                 "hyperparameters": {
+                    "data": {
+                        "windowSize": {
+                            "value": 100,
+                            "type": "integer"
+                        },
+                        "stepSize": {
+                            "value": 1,
+                            "type": "integer"
+                        }
+                    }
                 }
             }
         },
@@ -530,8 +550,14 @@
                 "requiresPriorTraining": false,
                 "isMultivariate": true,
                 "outputsLabels": false,
-                "useSubsequences": false,
+                "useSubsequences": true,
                 "hyperparameters": {
+                    "data": {
+                        "windowSize": {
+                            "value": 100,
+                            "type": "integer"
+                        }
+                    }
                 }
             }
         },
@@ -543,8 +569,14 @@
                 "requiresPriorTraining": false,
                 "isMultivariate": true,
                 "outputsLabels": false,
-                "useSubsequences": false,
+                "useSubsequences": true,
                 "hyperparameters": {
+                    "data": {
+                        "windowSize": {
+                            "value": 100,
+                            "type": "integer"
+                        }
+                    },
                     "model": {
                         "k": {
                             "value": 10,
@@ -562,8 +594,14 @@
                 "requiresPriorTraining": false,
                 "isMultivariate": true,
                 "outputsLabels": false,
-                "useSubsequences": false,
+                "useSubsequences": true,
                 "hyperparameters": {
+                    "data": {
+                        "windowSize": {
+                            "value": 100,
+                            "type": "integer"
+                        }
+                    },
                     "model": {
                         "k": {
                             "value": 10,
@@ -605,8 +643,14 @@
                 "requiresPriorTraining": false,
                 "isMultivariate": true,
                 "outputsLabels": false,
-                "useSubsequences": false,
+                "useSubsequences": true,
                 "hyperparameters": {
+                    "data": {
+                        "windowSize": {
+                            "value": 100,
+                            "type": "integer"
+                        }
+                    },
                     "model": {
                         "alpha": {
                             "value": 0.5,
@@ -624,8 +668,14 @@
                 "requiresPriorTraining": false,
                 "isMultivariate": true,
                 "outputsLabels": false,
-                "useSubsequences": false,
+                "useSubsequences": true,
                 "hyperparameters": {
+                    "data": {
+                        "windowSize": {
+                            "value": 100,
+                            "type": "integer"
+                        }
+                    },
                     "model": {
                         "ratioOversample": {
                             "value": 0.1,
