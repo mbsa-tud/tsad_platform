@@ -111,21 +111,41 @@
         "numLearners": {
             "value": [10, 200],
             "type": "integer"
+        },
+        "windowSize": {
+            "value": [10, 400],
+            "type": "integer"
         }
     },
     "OC_SVM": {
+        "windowSize": {
+            "value": [10, 400],
+            "type": "integer"
+        }
     },
     "ABOD": {
+        "windowSize": {
+            "value": [10, 400],
+            "type": "integer"
+        }
     },
     "LOF": {
         "k": {
             "value": [10, 200],
+            "type": "integer"
+        },
+        "windowSize": {
+            "value": [10, 400],
             "type": "integer"
         }
     },
     "LDOF": {
         "k": {
             "value": [10, 200],
+            "type": "integer"
+        },
+        "windowSize": {
+            "value": [10, 400],
             "type": "integer"
         }
     },
@@ -143,12 +163,20 @@
         "ratioOversample": {
             "value": [0, 1],
             "type": "real"
+        },
+        "windowSize": {
+            "value": [10, 400],
+            "type": "integer"
         }
     },
     "Grubbs_test": {
         "alpha": {
             "value": [0, 1],
             "type": "real"
+        },
+        "windowSize": {
+            "value": [10, 400],
+            "type": "integer"
         }
     }
 }
