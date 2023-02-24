@@ -556,10 +556,6 @@
                         "windowSize": {
                             "value": 100,
                             "type": "integer"
-                        },
-                        "stepSize": {
-                            "value": 1,
-                            "type": "integer"
                         }
                     }
                 }
@@ -578,10 +574,6 @@
                     "data": {
                         "windowSize": {
                             "value": 100,
-                            "type": "integer"
-                        },
-                        "stepSize": {
-                            "value": 1,
                             "type": "integer"
                         }
                     },
@@ -608,10 +600,6 @@
                         "windowSize": {
                             "value": 100,
                             "type": "integer"
-                        },
-                        "stepSize": {
-                            "value": 1,
-                            "type": "integer"
                         }
                     },
                     "model": {
@@ -632,16 +620,6 @@
                 "outputsLabels": true,
                 "useSubsequences": false,
                 "hyperparameters": {
-                    "data": {
-                        "windowSize": {
-                            "value": 100,
-                            "type": "integer"
-                        },
-                        "stepSize": {
-                            "value": 1,
-                            "type": "integer"
-                        }
-                    },
                     "model": {
                         "minL": {
                             "value": 80,
@@ -671,10 +649,6 @@
                         "windowSize": {
                             "value": 100,
                             "type": "integer"
-                        },
-                        "stepSize": {
-                            "value": 1,
-                            "type": "integer"
                         }
                     },
                     "model": {
@@ -699,10 +673,6 @@
                     "data": {
                         "windowSize": {
                             "value": 100,
-                            "type": "integer"
-                        },
-                        "stepSize": {
-                            "value": 1,
                             "type": "integer"
                         }
                     },
