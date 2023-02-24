@@ -6,7 +6,7 @@ function anomalyScores = detectWithCML(options, Mdl, XTest, YTest, labels)
 switch options.model
     case 'iForest'
         if isempty(Mdl)
-            [~, ~, anomalyScores] = iforest(XTest, NumLearners=options.hyperparameters.model.numLearners.value);
+            [~, ~, anomalyScores] = iforest(XTest, NumLearners=options.hyperparameters.model.numLearners.value, NumObservationsPerLearner=options.hyperparameters.model.numObservationsPerLearner.value);
         else
             [~, anomalyScores] = isanomaly(Mdl, XTest);
         end

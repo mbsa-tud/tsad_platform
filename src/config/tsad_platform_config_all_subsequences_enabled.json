@@ -514,6 +514,10 @@
                         "numLearners": {
                             "value": 100,
                             "type": "integer"
+                        },
+                        "numObservationsPerLearner": {
+                            "value": 128,
+                            "type": "integer"
                         }
                     }
                 }

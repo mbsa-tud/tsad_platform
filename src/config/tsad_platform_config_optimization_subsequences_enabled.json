@@ -112,6 +112,10 @@
             "value": [10, 200],
             "type": "integer"
         },
+        "numObservationsPerLearner": {
+            "value": [32, 256],
+            "type": "integer"
+        },
         "windowSize": {
             "value": [10, 400],
             "type": "integer"

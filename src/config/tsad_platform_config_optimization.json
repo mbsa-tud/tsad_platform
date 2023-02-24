@@ -111,6 +111,10 @@
         "numLearners": {
             "value": [10, 200],
             "type": "integer"
+        },
+        "numObservationsPerLearner": {
+            "value": [32, 256],
+            "type": "integer"
         }
     },
     "OC_SVM": {
