@@ -12,9 +12,36 @@ for i = 1:length(models)
     % Load hyperparameters to be optimized
     optVars = getOptimizationVariables(models(i).options.model, configOptFileName);
     
+    % Check for each optVar if it matches a hyperparameter in the options struct
+    if isfield(options, 'hyperparameters')
+        varNames = fieldnames(optVars);
+        for j = 1:length(varNames)
+            flag = false;
+            if isfield(options.hyperparameters, 'model')
+                if isfield(options.hyperparameters.model, varNames{j})
+                    flag = true;
+                end
+            end
+            if isfield(options.hyperparameters, 'data')
+                if isfield(options.hyperparameters.data, varNames{j})
+                    flag = true;
+                end
+            end
+            if isfield(options.hyperparameters, 'training')
+                if isfield(options.hyperparameters.training, varNames{j})
+                    flag = true;
+                end
+            end
+            if ~flag
+                optVars = rmfield(optVars, varNames{j});
+            end
+        end
+    end
+
+    
     % If no hyperparameters are available for the model, save default
     % options
-    if isempty(optVars)
+    if isempty(optVars) || ~isfield(options, 'hyperparameters')
         bestOptions_tmp.options = options;
         switch options.type
             case 'DNN'
