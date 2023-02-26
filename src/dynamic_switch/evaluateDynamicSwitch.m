@@ -24,9 +24,9 @@ for fileIdx = 1:numOfTestingFiles
     pred = string(classify(classifier, XTest_switch));
     selectedModel = trainedModels.(pred);
     
-    fullScores_Switch{fileIdx, 1} = detectAndEvaluateWith(selectedModel, dataTestSwitch(fileIdx, 1), labelsTestSwitch, threshold, dynamicThresholdSettings);
+    fullScores_Switch{fileIdx, 1} = detectAndEvaluateWith(selectedModel, dataTestSwitch(fileIdx, 1), labelsTestSwitch(fileIdx, 1), threshold, dynamicThresholdSettings);
     for j = 1:numOfModels
-        fullScores{j, 1}{fileIdx, 1} = detectAndEvaluateWith(trainedModels.(trainedModelsFields{j}),  dataTestSwitch(fileIdx, 1), labelsTestSwitch, threshold, dynamicThresholdSettings);
+        fullScores{j, 1}{fileIdx, 1} = detectAndEvaluateWith(trainedModels.(trainedModelsFields{j}),  dataTestSwitch(fileIdx, 1), labelsTestSwitch(fileIdx, 1), threshold, dynamicThresholdSettings);
     end
 end
 

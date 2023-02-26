@@ -2,6 +2,7 @@ function anomalyScores = detectWithCML_wrapper(trainedModel, XTest, YTest, label
 %DETECTWITHCML
 %
 % Runs the detection for classic ML models and returns anomaly Scores
+fprintf("Detecting with: %s\n", trainedModel.options.model);
 
 if trainedModel.options.isMultivariate
     % For multivariate models

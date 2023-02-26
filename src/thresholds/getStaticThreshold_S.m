@@ -4,6 +4,8 @@ function staticThreshold = getStaticThreshold_S(trainedModel, dataTrain, labelsT
 % This function calculates the static threshold for statistical models and
 % returnes them in the staticThreshold struct
 
+fprintf("Calculating static thresholds\n");
+
 staticThreshold = [];
 
 if ~isempty(dataValTest)

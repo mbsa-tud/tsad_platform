@@ -2,6 +2,7 @@ function [anomalyScores, compTimeOut] = detectWithDNN_wrapper(trainedModel, XTes
 %DETECTWITHDNN
 %
 % Runs the detection for DL models and returns anomaly Scores
+fprintf("Detecting with: %s\n", trainedModel.options.model);
 
 if ~exist('getCompTime', 'var')
     getCompTime = false;

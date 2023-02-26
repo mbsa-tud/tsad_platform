@@ -2,6 +2,7 @@ function anomalyScores = detectWithS_wrapper(trainedModel, XTest, YTest, labels)
 %DETECTWITHS
 %
 % Runs the detection for statistical models and returns anomaly Scores
+fprintf("Detecting with: %s\n", trainedModel.options.model);
 
 if trainedModel.options.isMultivariate
     % For multivariate models

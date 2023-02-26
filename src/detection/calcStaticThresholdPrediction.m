@@ -4,6 +4,7 @@ function [labels_pred, staticThreshold] = calcStaticThresholdPrediction(anomalyS
 % Converts anomaly scores to binary detection using the static threshold
 
 if isstring(staticThreshold)
+    fprintf("Calculating static threshold: %s\n", staticThreshold);
     staticThreshold = calcStaticThreshold(anomalyScores, labels, staticThreshold, model);
 end
 

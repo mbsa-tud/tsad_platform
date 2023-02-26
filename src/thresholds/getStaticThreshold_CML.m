@@ -4,6 +4,8 @@ function staticThreshold = getStaticThreshold_CML(trainedModel, dataTrain, label
 % This function calculates the static threshold for classic ML models and
 % returnes them in the staticThreshold struct
 
+fprintf("Calculating static thresholds\n");
+
 staticThreshold = [];
 
 if ~isempty(dataValTest)

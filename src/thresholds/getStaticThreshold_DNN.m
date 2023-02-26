@@ -4,6 +4,8 @@ function staticThreshold = getStaticThreshold_DNN(trainedModel, dataTrain, label
 % This function calculates the static threshold for DL models and
 % returnes them in the staticThreshold struct
 
+fprintf("Calculating static thresholds\n");
+
 staticThreshold = [];
 
 if ~isempty(dataValTest)

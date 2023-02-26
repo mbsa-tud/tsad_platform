@@ -7,6 +7,8 @@ for i = 1:length(models)
     options = models(i).options;
     trainedModel.options = options;
 
+    fprintf("Training: %s\n", options.model);
+
     if options.requiresPriorTraining
         if isempty(dataTrain)
             error("The %s model requires prior training, but the dataset doesn't contain training data (train folder).", options.model);

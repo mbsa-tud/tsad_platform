@@ -3,9 +3,11 @@ function trainedModels_CML = trainModels_CML(models, dataTrain, labelsTrain, dat
 %
 % Trains the classic ML models and calculates the static thresholds
 
-for i = 1:length(models)
+for i = 1:length(models)    
     options = models(i).options;
     trainedModel.options = options;
+
+    fprintf("Training: %s\n", options.model);
 
     if options.requiresPriorTraining
         if isempty(dataTrain)
