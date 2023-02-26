@@ -1,4 +1,4 @@
-function XTrain = prepareDataTrain_S(options, data, labels)
+function [XTrain, YTrain] = prepareDataTrain_S(options, data, labels)
 %PREPAREDATATRAIN_S
 %
 % Prepares the training data for statistical models
@@ -6,6 +6,8 @@ function XTrain = prepareDataTrain_S(options, data, labels)
 switch options.model
     case 'Your model'
     otherwise
+        YTrain = [];
+        
         if options.useSubsequences
             [XTrain, ~, ~, ~] = splitDataTrain(data, ...
                 options.hyperparameters.data.windowSize.value,  ...

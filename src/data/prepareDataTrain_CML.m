@@ -1,4 +1,4 @@
-function XTrain = prepareDataTrain_CML(options, data, labels)
+function [XTrain, YTrain] = prepareDataTrain_CML(options, data, labels)
 %PREPAREDATATRAIN_CML
 %
 % Prepares the training data for classic ML models
@@ -6,6 +6,8 @@ function XTrain = prepareDataTrain_CML(options, data, labels)
 switch options.model
     case 'Your model'
     otherwise
+        YTrain = [];
+        
         if options.useSubsequences
             [XTrain, ~, ~, ~] = splitDataTrain(data, ...
                 options.hyperparameters.data.windowSize.value,  ...

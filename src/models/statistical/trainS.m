@@ -1,4 +1,4 @@
-function Mdl = trainS(options, XTrain)
+function Mdl = trainS(options, XTrain, YTrain)
 %TRAINS
 %
 % Train the statistical models here

@@ -1,4 +1,4 @@
-function Mdl = trainCML(options, XTrain)
+function Mdl = trainCML(options, XTrain, YTrain)
 %TRAINCML
 %
 % Trains the classic ML model specified in the options parameter
