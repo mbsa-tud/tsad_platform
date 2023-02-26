@@ -1,4 +1,4 @@
-function finalTable =  GT_evaluateAllForDataset(datasetPath, models, useFraction, preprocMethod, ratioValTest, thresholds, dynamicThresholdSettings, trainingPlots, trainParallel,augmentationChoice,intensity,trained)
+function finalTable =  GT_evaluateAllForDataset(datasetPath, models, useFraction, preprocMethod, ratioTestVal, thresholds, dynamicThresholdSettings, trainingPlots, trainParallel,augmentationChoice,intensity,trained)
 %EVALUATEALLFORDATASET
 %
 % Encapsulates the training and testing for all models for a dataset
@@ -105,7 +105,7 @@ for i = 1:length(indices)
     
     % Run evaluation
     [tmpScores, testFileNames, ~, ~] = GT_trainAndEvaluateAllModels(dataPath, models_DNN, models_CML, models_S, ...
-        preprocMethod, ratioValTest, thresholds, dynamicThresholdSettings, trainingPlots, trainParallel,augmentationChoice,intensity,trained);
+        preprocMethod, ratioTestVal, thresholds, dynamicThresholdSettings, trainingPlots, trainParallel,augmentationChoice,intensity,trained);
 
     allTestFiles = [allTestFiles testFileNames];
 
