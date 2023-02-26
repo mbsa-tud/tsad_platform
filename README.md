@@ -496,7 +496,7 @@ It's recommended to implement the deep-learning models using functions from MATL
             layers = layerGraph(layers);
     ```
 
-2. **Define training options**: Go to the folder `tsad_platform > src > models > deep_neural_networks` and open the file `getOptions.m`. Add a new option in the main *switch* statement for the name of your model. Look at the example for more information:
+2. **Define training options**: Go to the folder `tsad_platform > src > models > deep_neural_networks` and open the file `getOptions.m`. Add a new option in the main *switch* statement for the name of your model. If you don't add your model here, default training options will be used. Look at the example for more information:
 
     ```matlab
     switch options.model

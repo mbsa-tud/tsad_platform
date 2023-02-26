@@ -51,7 +51,7 @@
         {
             "options": {
                 "type": "DNN",
-                "model": "LSTM (r)",
+                "model": "LSTM (reconstruction)",
                 "scoringFunction": "aggregated-errors",
                 "modelType": "reconstructive",
                 "dataType": 2,
@@ -99,7 +99,7 @@
         {
             "options": {
                 "type": "DNN",
-                "model": "Hybrid CNN-LSTM (r)",
+                "model": "Hybrid CNN-LSTM (reconstruction)",
                 "scoringFunction": "aggregated-errors",
                 "modelType": "reconstructive",
                 "dataType": 2,

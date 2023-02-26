@@ -9,7 +9,7 @@
             "type": "integer"
         }
     },
-    "LSTM_r": {
+    "LSTM_reconstruction": {
         "hiddenUnits": {
             "value": [8, 128],
             "type": "integer"
@@ -19,7 +19,7 @@
             "type": "integer"
         }
     },
-    "Hybrid_CNN_LSTM_r": {
+    "Hybrid_CNN_LSTM_reconstruction": {
         "hiddenUnits": {
             "value": [8, 128],
             "type": "integer"

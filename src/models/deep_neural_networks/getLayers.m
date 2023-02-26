@@ -21,7 +21,7 @@ switch options.model
             leakyReluLayer()
             regressionLayer(Name='Output')];
         layers = layerGraph(layers);
-    case 'LSTM (r)'
+    case 'LSTM (reconstruction)'
         layers = [
             sequenceInputLayer(numFeatures, MinLength=options.hyperparameters.data.windowSize.value)
             lstmLayer(options.hyperparameters.model.hiddenUnits.value)
@@ -30,7 +30,7 @@ switch options.model
             fullyConnectedLayer(numResponses)
             regressionLayer];
         layers = layerGraph(layers);
-    case 'Hybrid CNN-LSTM (r)'
+    case 'Hybrid CNN-LSTM (reconstruction)'
         layers = [...
             sequenceInputLayer(numFeatures, MinLength=options.hyperparameters.data.windowSize.value)
             convolution1dLayer(5, options.hyperparameters.model.filter.value, Padding='same', WeightsInitializer='he', DilationFactor=1)
