@@ -222,7 +222,7 @@ To optimize a **single model**, do the following:
 6. Select a `Threshold`
 7. To show training plots for deep-learning models, check the `Training Plots` checkbox.
 8. Click `Run Optimization` to start the optimization process. This opens windows showing the progress of the bayesian optimization.
-9. Once it's done, the model with the best configuration will be added to the list of models.
+9. Once it's done, the optimized model will appear on the [Detection Panel](#detection).
 
 To optimize **multiple models** automatically, do the following:
 
@@ -233,7 +233,7 @@ To optimize **multiple models** automatically, do the following:
 
 3. Configure the optimization process by selecting a `Score`, a `Threshold` and check the `Training Plots` checkbox if you want to show plots for deep-learning models.
 4. Click the `Run Optimization` button to optimize all models.
-5. Once it's done, the models with the best configuration will be added to the list of models.
+5. Once it's done, the optimized models will appear on the [Detection Panel](#detection).
 
 **NOTE** You need to train the optimized models before they're available on the [Detection](#detection) and [Simulink detection](#simulink-detection) panels.
 
@@ -270,6 +270,8 @@ You can select another threshold or reconfigure the dynamic threshold. This will
 ---
 
 ## Simulink Detection
+
+**NOTE The simulink detection isn't fully functional at this point**
 
 The online detection simulation using Simulink is available on the `Simulink detection` panel:
 
@@ -636,7 +638,7 @@ case "custom"
 3. The `ResNet` network architecture isn't very good somehow as the training isn't as stable as for other models. Maybe change it somehow?
 4. Optimize the threshold caclucation (in file computeBestFScoreThreshold.m). It can be slow, especially for larger datasets, as it checks the FScore for every single unique anomaly score value of the used time series (either anomalous validation set or test set). An upper bound of threshold values to check could be implemented to counter this issue. (For multivariate anomaly scores, the upper bound is already set to 4000, see file computeBestFScoreThreshold.m)
 5. Parallel training on gpu was never tested properly/failed (It worked on cpu or with a few models on gpu; otherwise memory error). Most importand related files: (trainDNN_parallel.m and getOptionsForParallel.m).
-6. The simulink detection doesn't implement the different data preparation methods and scoring functions, which makes it non-functional in some cases.
+6. The simulink detection doesn't implement the different data preparation methods and scoring functions for the different deep-learning models, which makes it non-functional in many cases. The functionality of using a univariate model on multivariate datasets, where a separate model is trained for each channel of the dataset, must be implemented aswell. This feature already exists in the normal detection mode (It can be enabled by setting the `isMultivariate` field to `false` for a model).
 7. The step-size for the detection process is always set to 1 and can't be adjusted.
 8. The forecast horizon for DL models is always set to 1 and can't be adjusted.
 9. The CNN (DeppAnT) and ResNet model both use a sequenceInputLayer, which requires the use of a sequenceFolding and a sequenceUnfoldingLayer for the 2d convolutional layers. Maybe use an imageInputLayer instead? This isn't really an issue as the endresult is the same, but this might be cleaner.
