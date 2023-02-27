@@ -30,6 +30,9 @@ switch threshold
                 distance = abs(numAnoms - sum(any(anomalyScores > thresholdCandidates(i), 2)));
                 if distance < currentMinDistance
                     thr = thresholdCandidates(i);
+                    if distance == 0
+                        break;
+                    end
                     currentMinDistance = distance;
                 end
             end
