@@ -4,8 +4,8 @@ function thr = calcStaticThreshold(anomalyScores, labels, threshold, model)
 % Calculates the static threshold specified in the threshold parameter
 
 if ~isempty(labels)
-    numOfAnoms = sum(labels == 1);
-    contaminationFraction = numOfAnoms / size(labels, 1);
+    numAnoms = sum(labels == 1);
+    contaminationFraction = numAnoms / size(labels, 1);
 end
 
 switch threshold
@@ -17,8 +17,25 @@ switch threshold
         thr = computeBestFscoreThreshold(anomalyScores, labels, 'point-adjusted');
     case "bestFscoreComposite"
         thr = computeBestFscoreThreshold(anomalyScores, labels, 'composite');
-    case "topK"
-        thr = quantile(anomalyScores, 1 - contaminationFraction);
+    case "topK"        
+        numChannels = size(anomalyScores, 2);
+
+        if numChannels > 1
+            thresholdCandidates = uniquetol(anomalyScores, 0.0001);
+            numThresholdCandidates = size(thresholdCandidates, 1);
+
+            currentMinDistance = numel(labels);
+            thr = NaN;
+            for i = 1:numThresholdCandidates
+                distance = abs(numAnoms - sum(any(anomalyScores > thresholdCandidates(i), 2)));
+                if distance < currentMinDistance
+                    thr = thresholdCandidates(i);
+                    currentMinDistance = distance;
+                end
+            end
+        else
+            thr = quantile(anomalyScores, 1 - contaminationFraction);
+        end
     case "meanStd"
         % The outer mean is required for separate anomaly Scores
         % for each channel.
