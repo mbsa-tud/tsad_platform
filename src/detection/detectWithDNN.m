@@ -6,7 +6,6 @@ function [anomalyScores, compTime] = detectWithDNN(options, Mdl, XTest, YTest, l
 switch options.model
     case 'Your model'
     otherwise
-        % For multivariate models
         prediction = predict(Mdl, XTest);
         
         if getCompTime
