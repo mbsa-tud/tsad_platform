@@ -1,13 +1,8 @@
 function mergedData = mergeSequences(data, windowSize)
-reshapedData = [];
-for i = 1:size(data, 1)
-    reshapedData(:, i) = data(i, :);
-end
+reshapedData = flip(data');
 
-reshapedData = flip(reshapedData);
-
-mergedData = [];
+mergedData = zeros(size(data, 1), 1);
 for i = 1:(size(reshapedData, 2) - windowSize)
-    mergedData(i, :) = median(diag(reshapedData(:, i:(i + windowSize - 1))));
+    mergedData(i, 1) = median(diag(reshapedData(:, i:(i + windowSize - 1))));
 end
 end
