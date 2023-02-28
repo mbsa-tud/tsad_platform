@@ -12,7 +12,13 @@ switch options.model
         end
     case 'OC-SVM'
         if isempty(Mdl)
-            Mdl = fitcsvm(XTest, ones(size(XTest, 1), 1));
+            if ~isempty(labels)
+                numOfAnoms = sum(labels == 1);
+                contaminationFraction = numOfAnoms / size(labels, 1);
+            else
+                contaminationFraction = 0;
+            end
+            Mdl = fitcsvm(XTest, ones(size(XTest, 1), 1), OutlierFraction=contaminationFraction);
         end
         [~, anomalyScores] = predict(Mdl, XTest);
         anomalyScores = gnegate(anomalyScores);

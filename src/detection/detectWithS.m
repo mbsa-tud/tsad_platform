@@ -4,12 +4,6 @@ function anomalyScores = detectWithS(options, Mdl, XTest, YTest, labels)
 % Runs the detection for statistical models and returns anomaly Scores
 
 % Fraction of outliers
-if ~isempty(labels)
-    numOfAnoms = sum(labels == 1);
-    contaminationFraction = numOfAnoms / size(labels, 1);
-else
-    contaminationFraction = 0;
-end
 
 % Detect with model
 switch options.model
