@@ -20,7 +20,7 @@ switch options.model
             else
                 contaminationFraction = 0;
             end
-            Mdl = fitcsvm(XTest, ones(size(XTest, 1), 1), OutlierFraction=contaminationFraction, KernelFunction=options.hyperparameters.kernelFunction.value, KernelScale="auto");
+            Mdl = fitcsvm(XTest, ones(size(XTest, 1), 1), OutlierFraction=contaminationFraction, KernelFunction=string(options.hyperparameters.kernelFunction.value), KernelScale="auto");
         end
         [~, anomalyScores] = predict(Mdl, XTest);
         anomalyScores = gnegate(anomalyScores);

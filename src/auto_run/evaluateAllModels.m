@@ -15,8 +15,8 @@ if ~isempty(trainedModels)
     fprintf('\nDetecting with models\n\n')
     fields = fieldnames(trainedModels);
 
-    for j = 1:length(fields)
-        trainedModel = trainedModels.(fields{j});
+    for modelIdx = 1:length(fields)
+        trainedModel = trainedModels.(fields{modelIdx});
     
         % For all test files
         for dataIdx = 1:length(filesTest)
@@ -36,14 +36,14 @@ if ~isempty(trainedModels)
             end
             
             % For all thresholds in the thresholds variable
-            for k = 1:length(thresholds)
+            for thrIdx = 1:length(thresholds)
                 if ~trainedModel.options.outputsLabels
-                    if ~strcmp(thresholds(k), 'dynamic')
+                    if ~strcmp(thresholds(thrIdx), 'dynamic')
                         % Static thresholds
-                        if ~isempty(trainedModel.staticThreshold) && isfield(trainedModel.staticThreshold, thresholds(k))  
-                            selectedThreshold = trainedModel.staticThreshold.(thresholds(k));
+                        if ~isempty(trainedModel.staticThreshold) && isfield(trainedModel.staticThreshold, thresholds(thrIdx))  
+                            selectedThreshold = trainedModel.staticThreshold.(thresholds(thrIdx));
                         else
-                            selectedThreshold = thresholds(k);
+                            selectedThreshold = thresholds(thrIdx);
                         end
            
                         predictedLabels = calcStaticThresholdPrediction(anomalyScores, labels, selectedThreshold, trainedModel.options.model);
@@ -73,9 +73,9 @@ if ~isempty(trainedModels)
                                 scoresEventwise(2); ...
                                 scoresPointAdjusted(2)];
         
-                tmp = tmpScores{k, 1};
+                tmp = tmpScores{thrIdx, 1};
                 tmp{dataIdx, 1} = [tmp{dataIdx, 1}, fullScores];
-                tmpScores{k, 1} = tmp;
+                tmpScores{thrIdx, 1} = tmp;
             end
         end
     end
