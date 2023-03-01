@@ -401,6 +401,8 @@ If it is set to `true`, the dataset will be split into overlapping subsequences 
 **hyperparameters**
 This field can contains all configurable hyperparameters for your model/algorithm. If you want to add a hyperparameter, specify its name as a new key within this field. It must contain two keys: **value** and **type**. The type is only required for the optimization algorithm of the platform. It must be one of: `"integer"`, `"real"`, `"categorical"`. Look at the example [above](#the-options-struct) for reference.
 
+You can then use these hyperparameters in the data preparation, model training and detection functions to modify your model.
+See Chapter [adding models](#adding-models) for some examples.
 One hyperparamter that must be mentioned is the `scoringFunction`:
 It is optional for all models. Its value changes how the anomaly scores are defined:
 
