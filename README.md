@@ -16,8 +16,9 @@ A platform for time series anomaly detection.
     * `Statistics and Machine Learning Toolbox`
     * `deep-learning Toolbox`
 4. Add the `Anomaly Detection Toolbox` to the MATLAB path.
-5. Add the `tsad_platform` folder to the MATLAB path (without subfolders).
-6. Add the `src` folder to the MATLAB path (with subfolders).
+5. Add the `tsad_platform` folder (the main folder of this repository) to the MATLAB path (without subfolders).
+6. Add the `src` folder within the `tsad_platform` folder to the MATLAB path (with subfolders).
+7. Add the `config` folder within the `tsad_platform` folder to the MATLAB path.
 7. Open the `tsad_platform` folder with MATLAB.
 8. Open the `TSADPlatform.mlapp` file with MATLAB App Designer (double click on it).
 9. Click the `Run` icon on the top of the App Designer window to start the platform.
@@ -415,7 +416,7 @@ For the channel-wise scores, a common threshold gets applied accross all channel
 
 **NOTE** If this hyperparameter it is used for classic ML or statistical models, the value can be either `separate` or `aggregated`. In the second case, the RMS is taken across all channels of anomaly scores. The first option is similar to the channel-wise scores mentioned above. The scoring functions only apply, if the model outputs separate anomaly scores for each channel. This is possible if the `isMultivariate` field is set to false, but a multivariate dataset is selected.
 
-The file `config_all.json` contains the JSON representation of a MATLAB struct with separate fields for DNN, CML and statistical models. Each field's value is a struct array with individual "options" structs, as presented before. This file is used for loading the default configuration of models on the [Training](#training-and-optimization) panel using the `Add All` buttons:
+The file `tsad_platform > config > tsad_platform_config_all.json` contains the JSON representation of a MATLAB struct with separate fields for DNN, CML and statistical models. Each field's value is a struct array with individual "options" structs, as presented before. This file is used for loading the default configuration of models on the [Training](#training-and-optimization) panel using the `Add All` buttons:
 
 ```json
 {
@@ -445,10 +446,11 @@ The file `config_all.json` contains the JSON representation of a MATLAB struct w
 
 To add more models to the platform (deep-learning, classic machine learning and statistical), proceed as follows:
 
-1. Define the `options` struct mentioned before. You can create a `.json` file as mentioned before to be able to load your model into the platform. Alternativeley, edit on of the following files: `ModelSelection_DNN.mlapp`, `ModelSelection_CML.mlapp`, `ModelSelection_S.mlapp`. Use other examples in those files as a guideline on how to add your model.
-2. **(optional)** Edit the `conifg_optimization.json` file within the `tsad_platform > src > config` folder and define a range of hyperparameters. Look at the other examples in that file as reference.
-3. Add the training and detection function calls to the source code of the platform. See [below](#add-deep-learning-anomaly-detection-models) for a detailed explanation.
-4. If you require the data to be transformed in another way as provided by the platform, see [below](#optional-data-preparation) for more information.
+1. Define the `options` struct mentioned before. You can create a `.json` file (use the `tsad_platform_config_all.json` file as reference or add your model to this file directly) as mentioned above to be able to load your model into the platform. Alternativeley, edit on of the following files: `ModelSelection_DNN.mlapp`, `ModelSelection_CML.mlapp`, `ModelSelection_S.mlapp`. Use other examples in those files as a guideline on how to add your model.
+2. Add the training and detection function calls to the source code of the platform. See [below](#add-deep-learning-anomaly-detection-models) for a detailed explanation.
+3. (optional) Enable optimization for your model: [Enable optimization](#optional-enable-optimization-for-your-model).
+4. (optional) If you require the data to be transformed in another way as provided by the platform, see [below](#optional-data-preparation) for more information.
+5. (optional) Add a custom threshold: [Add custom threshold](#optional-custom-threshold).
 
 #### Add deep-learning anomaly detection models
 
@@ -584,8 +586,8 @@ The process for adding these algorithms will only be explained for classic machi
 
 #### (Optional) Enable optimization for your model
 
-To enable the built-in optimization for your model, open the file `tsad_platform > src > config > tsad_platform_config_optimization.json`.
-Add your model name as a new key, but replace all non-letter and non-number character with underscores. Then name the hyperparameters you want to optimize as new keys within this new field. See the following example for the `FC AE` for reference:
+To enable the built-in optimization for your model, open the file `tsad_platform > config > tsad_platform_config_optimization.json`.
+Add your model name as a new key, but replace all non-letter and non-number characters with underscores. Then name the hyperparameters you want to optimize as new keys within this new field. Only hyperparameters which are defined in the `hyperparameters` field of the `options` struct of your model can be optimized. See the following example for the `FC AE` for reference:
 
 ```json
 {
@@ -602,6 +604,12 @@ Add your model name as a new key, but replace all non-letter and non-number char
 }
 ```
 
+The `value` must be an array with two values being the lower and upper bounds of the hyperparameter.
+
+For `categorical` hyperparameters, the value is an array of strings containing the possible values.
+
+The `type` must be one of `"integer"`, `"real"`, `"categorical"`.
+
 #### (Optional) Data preparation
 
 To prepare the data your own way, you can add your model to the main *switch* statements in the following files within the `tsad_platform > src > data` folder:
@@ -614,7 +622,7 @@ To prepare the data your own way, you can add your model to the main *switch* st
 
 #### (Optional) Custom Threshold
 
-To add a custom static threshold, open the file `tsad_platform > src > thresholds > calcStaticThreshold.m`. In `line 30` add your model name and store your custom threshold in the `thr` variable.
+To add a custom static threshold, open the file `tsad_platform > src > thresholds > calcStaticThreshold.m`. In line `50` add your model name and store your custom threshold in the `thr` variable.
 
 ```matlab
 case "custom"
@@ -631,7 +639,7 @@ case "custom"
 1. **Training DL models using `standardized` data often leads to bad or no gradient-convergence during training. This can be further investigated and possibly fixed in the future. (It might be related to the network architecture, data or even the training options)**
 2. The network architecture of the `TCN AE` requires the sequence length/window size to be divisible by 4. This could be fixed in the future. It also trains rather unstable sometimes.
 3. The `ResNet` network architecture isn't very good somehow as the training isn't as stable as for other models. Maybe change it somehow?
-4. Optimize the threshold caclucation (in file computeBestFScoreThreshold.m). It can be slow, especially for larger datasets, as it checks the FScore for every single unique anomaly score value of the used time series (either anomalous validation set or test set). An upper bound of threshold values to check could be implemented to counter this issue.
+4. Optimize the threshold calcucation (in file computeBestFScoreThreshold.m). It can be slow, especially for larger datasets, as it checks the F-Score for every single unique anomaly score value of the used time series (either anomalous validation set or test set). An upper bound of threshold values to check could be implemented to counter this issue.
 5. The optimization windows don't support categorical hyperparameters at this point.
 5. Parallel training on gpu was never tested properly/failed (It worked on cpu or with a few models on gpu; otherwise memory error). Most importand related files: (trainDNN_parallel.m and getOptionsForParallel.m).
 6. The simulink detection doesn't implement the different data preparation methods and scoring functions for the different deep-learning models, which makes it non-functional in many cases. The functionality of using a univariate model on multivariate datasets, where a separate model is trained for each channel of the dataset, must be implemented aswell. This feature already exists in the normal detection mode (It can be enabled by setting the `isMultivariate` field to `false` for a model).
