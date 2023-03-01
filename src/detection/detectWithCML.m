@@ -5,12 +5,14 @@ function anomalyScores = detectWithCML(options, Mdl, XTest, YTest, labels)
 
 switch options.model
     case 'iForest'
+        % iForest supports outlier and novelty detection.
         if isempty(Mdl)
             [~, ~, anomalyScores] = iforest(XTest, NumLearners=options.hyperparameters.numLearners.value, NumObservationsPerLearner=options.hyperparameters.numObservationsPerLearner.value);
         else
             [~, anomalyScores] = isanomaly(Mdl, XTest);
         end
     case 'OC-SVM'
+        % OC-SVM support outlier and novelty detection.
         if isempty(Mdl)
             if ~isempty(labels)
                 numOfAnoms = sum(labels == 1);
@@ -18,7 +20,7 @@ switch options.model
             else
                 contaminationFraction = 0;
             end
-            Mdl = fitcsvm(XTest, ones(size(XTest, 1), 1), OutlierFraction=contaminationFraction);
+            Mdl = fitcsvm(XTest, ones(size(XTest, 1), 1), OutlierFraction=contaminationFraction, KernelFunction=options.hyperparameters.kernelFunction.value, KernelScale="auto");
         end
         [~, anomalyScores] = predict(Mdl, XTest);
         anomalyScores = gnegate(anomalyScores);

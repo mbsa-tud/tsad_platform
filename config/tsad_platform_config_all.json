@@ -491,6 +491,10 @@
                 "outputsLabels": false,
                 "useSubsequences": false,
                 "hyperparameters": {
+                    "kernelFunction": {
+                        "value": "gaussian",
+                        "type": "categorical"
+                    }
                 }
             }
         },
