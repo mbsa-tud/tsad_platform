@@ -206,10 +206,11 @@ Before training **deep-learning** models, you can configure the training process
 
 To optimize models, do the following:
 
-1. Select the models within the lists and click `Optimize Selection` or just click `Optimize All` to open a **new window**. The `Optimize All` button (6) at the bottom of the panel can be used to optimize all configured models of all types.
+1. Select the models within the lists and click `Optimize Selection` or just click `Optimize All` (5) to open a **new window**. The `Optimize All` button (6) at the bottom of the panel can be used to optimize all configured models of all types.
 
     <img src="media/final_optimization_window.png" alt="Optimization window" title="Optimization window" width=200/>
-2. (optional) Click `Open Optimization Config` to edit the optimization config `.json` file. This file defines the ranges of hyperparameters to optimize. Just look at examples in the file on how to edit this file. 
+
+2. (optional) Click `Open Optimization Config` to edit the optimization config `.json` file. This file defines the ranges of hyperparameters to optimize. Just look at examples in the file on how to edit this file.
 3. Configure the optimization process by selecting a `Score`, a `Threshold` and check the `Training Plots` checkbox if you want to show plots for deep-learning models.
 4. Click the `Run Optimization` button to optimize all models.
 5. Once it's done, the optimized models will appear on the [Detection Panel](#detection).
@@ -581,6 +582,26 @@ The process for adding these algorithms will only be explained for classic machi
             % return;
     ```
 
+#### (Optional) Enable optimization for your model
+
+To enable the built-in optimization for your model, open the file `tsad_platform > src > config > tsad_platform_config_optimization.json`.
+Add your model name as a new key, but replace all non-letter and non-number character with underscores. Then name the hyperparameters you want to optimize as new keys within this new field. See the following example for the `FC AE` for reference:
+
+```json
+{
+    "FC_AE": {
+        "neurons": {
+            "value": [4, 128],
+            "type": "integer"
+        },
+        "windowSize": {
+            "value": [10, 120],
+            "type": "integer"
+        }
+    }
+}
+```
+
 #### (Optional) Data preparation
 
 To prepare the data your own way, you can add your model to the main *switch* statements in the following files within the `tsad_platform > src > data` folder:
@@ -621,4 +642,6 @@ case "custom"
 11. Check on startup of the platform whether all required folders are on the matlab path to avoid errors later on.
 12. Output more information to the MATLAB command window (e.g. for the training, detection and threshold calculation steps) to let the user know the current step (useful for longer running tasks).
 13. Add more models (The platform lacks for example in statistical models. Classic ML oder DL models like a Convolutional Autoencoder or a LSTM Autoencoder could also be added).
+14. Save intermediate results during auto run. This allows to save some results even when a longer running process crashes.
+
 **NOTE** The entire platform is quite large at this point and not all functions, data manipulation and app interaction steps could be tested in every way. New errors can always occur and be fixed in the future.

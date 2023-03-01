@@ -2,10 +2,12 @@ function features = getTrainingErrorFeatures(trainedModel, X, Y)
 switch trainedModel.options.model
     case 'Your model'
     otherwise
-        if isfield(trainedModel.options, 'scoringFunction')
-            % Remove scoring function field to not apply a scoring function
-            % for this step
-            trainedModel.options = rmfield(trainedModel.options, 'scoringFunction');
+        if isfield(trainedModel.options, 'hyperparameters')
+            if isfield(trainedModel.options.hyperparameters, 'scoringFunction')
+                % Remove scoring function field to not apply a scoring function
+                % for this step
+                trainedModel.options.hyperparameters = rmfield(trainedModel.options.hyperparameters, 'scoringFunction');
+            end
         end
 
         anomalyScores = [];

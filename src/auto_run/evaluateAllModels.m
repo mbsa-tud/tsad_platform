@@ -12,7 +12,7 @@ end
 
 % Detection
 if ~isempty(trainedModels)
-    fprintf('Detecting with models\n')
+    fprintf('\nDetecting with models\n\n')
     fields = fieldnames(trainedModels);
 
     for j = 1:length(fields)

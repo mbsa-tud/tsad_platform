@@ -23,7 +23,7 @@
             "type": "integer"
         },
         "windowSize": {
-            "value": [10, 400],
+            "value": [10, 120],
             "type": "integer"
         }
     },
@@ -33,7 +33,7 @@
             "type": "integer"
         },
         "windowSize": {
-            "value": [10, 400],
+            "value": [10, 120],
             "type": "integer"
         }
     },
@@ -47,7 +47,7 @@
             "type": "integer"
         },
         "windowSize": {
-            "value": [10, 400],
+            "value": [10, 120],
             "type": "integer"
         }
     },
@@ -57,7 +57,7 @@
             "type": "integer"
         },
         "windowSize": {
-            "value": [10, 400],
+            "value": [10, 120],
             "type": "integer"
         }
     },
@@ -67,7 +67,7 @@
             "type": "integer"
         },
         "windowSize": {
-            "value": [10, 400],
+            "value": [10, 120],
             "type": "integer"
         }
     },
@@ -81,7 +81,7 @@
             "type": "integer"
         },
         "windowSize": {
-            "value": [10, 400],
+            "value": [10, 120],
             "type": "integer"
         }
     },
@@ -91,7 +91,7 @@
             "type": "integer"
         },
         "windowSize": {
-            "value": [10, 400],
+            "value": [10, 120],
             "type": "integer"
         }
     },
@@ -101,7 +101,7 @@
             "type": "integer"
         },
         "windowSize": {
-            "value": [10, 400],
+            "value": [10, 120],
             "type": "integer"
         }
     },
@@ -111,7 +111,7 @@
             "type": "integer"
         },
         "windowSize": {
-            "value": [10, 400],
+            "value": [10, 120],
             "type": "integer"
         }
     },
@@ -121,7 +121,7 @@
             "type": "integer"
         },
         "windowSize": {
-            "value": [10, 400],
+            "value": [10, 120],
             "type": "integer"
         }
     },
@@ -135,19 +135,19 @@
             "type": "integer"
         },
         "windowSize": {
-            "value": [10, 400],
+            "value": [10, 120],
             "type": "integer"
         }
     },
     "OC_SVM": {
         "windowSize": {
-            "value": [10, 400],
+            "value": [10, 120],
             "type": "integer"
         }
     },
     "ABOD": {
         "windowSize": {
-            "value": [10, 400],
+            "value": [10, 120],
             "type": "integer"
         }
     },
@@ -157,7 +157,7 @@
             "type": "integer"
         },
         "windowSize": {
-            "value": [10, 400],
+            "value": [10, 120],
             "type": "integer"
         }
     },
@@ -167,17 +167,17 @@
             "type": "integer"
         },
         "windowSize": {
-            "value": [10, 400],
+            "value": [10, 120],
             "type": "integer"
         }
     },
     "Merlin": {
         "minL": {
-            "value": [10, 200],
+            "value": [10, 20],
             "type": "integer"
         },
         "maxL": {
-            "value": [20, 400],
+            "value": [11, 21],
             "type": "integer"
         }
     },
@@ -187,7 +187,7 @@
             "type": "real"
         },
         "windowSize": {
-            "value": [10, 400],
+            "value": [10, 120],
             "type": "integer"
         }
     },
@@ -197,7 +197,7 @@
             "type": "real"
         },
         "windowSize": {
-            "value": [10, 400],
+            "value": [10, 120],
             "type": "integer"
         }
     }

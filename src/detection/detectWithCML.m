@@ -61,7 +61,7 @@ switch options.model
                 anomalyScores(avg_disc_loc:(avg_disc_loc + floor((options.hyperparameters.minL.value + options.hyperparameters.maxL.value) / 2))) = 1;
             end
         else
-            fprintf("Warning! minL is greater than maxL for merlin, setting anomaly scores to zero.");
+            fprintf("Warning! minL is greater than maxL for Merlin, setting anomaly scores to zero.");
             anomalyScores = zeros(size(XTest, 1), 1);
             return;
         end

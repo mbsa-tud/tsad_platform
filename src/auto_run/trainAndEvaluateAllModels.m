@@ -1,10 +1,10 @@
-function [tmpScores, filesTest, trainedModels, preprocParameters] = trainAndEvaluateAllModels(datasetPath, models_DNN, models_CML, models_S, ...
+function [tmpScores, filesTest] = trainAndEvaluateAllModels(datasetPath, models_DNN, models_CML, models_S, ...
                                         preprocMethod, ratioTestVal, thresholds, dynamicThresholdSettings, trainingPlots, trainParallel)
 % EVALUATEALLMODELS
 % 
 % Trains and tests all models on a dataset
 
-fprintf('Loading data\n')
+fprintf('\nLoading data\n\n')
 % Loading data
 [rawDataTrain, ~, labelsTrain, ~, ...
     rawDataTest, ~, labelsTest, filesTest] = loadCustomDataset(datasetPath);
@@ -15,9 +15,9 @@ else
     isMultivariate = false;
 end
 
-fprintf('Preprocessing data with method: %s\n', preprocMethod);
+fprintf('\nPreprocessing data with method: %s\n', preprocMethod);
 % Preprocessing
-[dataTrain, dataTest, preprocParameters] = preprocessData(rawDataTrain, ...
+[dataTrain, dataTest, ~] = preprocessData(rawDataTrain, ...
                                                             rawDataTest, ...
                                                             preprocMethod, ...
                                                             false, ...
@@ -29,7 +29,7 @@ fprintf('Preprocessing data with method: %s\n', preprocMethod);
 
 % Training DNN models
 if ~isempty(models_DNN)
-    fprintf('Training DNN models\n')
+    fprintf('\nTraining DNN models\n\n')
     
     if trainParallel && ~isMultivariate
         trainedModels_DNN = trainModels_DNN_Parallel(models_DNN, ...
@@ -58,7 +58,7 @@ end
 
 if ~isempty(models_CML)
     % Training CML models
-    fprintf('Training CML models\n')
+    fprintf('\nTraining CML models\n\n')
     trainedModels_CML = trainModels_CML(models_CML, dataTrain, labelsTrain, ...
                                         dataTestVal, labelsTestVal, thresholds);
     fields = fieldnames(trainedModels_CML);
@@ -69,7 +69,7 @@ end
 
 if ~isempty(models_S)
     % Training S models
-    fprintf('Training Statistical models\n')
+    fprintf('\nTraining Statistical models\n\n')
     trainedModels_S = trainModels_S(models_S, dataTrain, labelsTrain, ...
                                         dataTestVal, labelsTestVal, thresholds);
     fields = fieldnames(trainedModels_S);
@@ -86,7 +86,7 @@ end
 
 % Detection
 if ~isempty(trainedModels)
-    fprintf('Detecting with models\n')
+    fprintf('\nDetecting with models\n\n')
     fields = fieldnames(trainedModels);
 
     for j = 1:length(fields)

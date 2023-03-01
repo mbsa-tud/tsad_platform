@@ -104,7 +104,7 @@ for i = 1:length(indices)
     end
     
     % Run evaluation
-    [tmpScores, testFileNames, ~, ~] = GT_trainAndEvaluateAllModels(dataPath, models_DNN, models_CML, models_S, ...
+    [tmpScores, testFileNames] = GT_trainAndEvaluateAllModels(dataPath, models_DNN, models_CML, models_S, ...
         preprocMethod, ratioTestVal, thresholds, dynamicThresholdSettings, trainingPlots, trainParallel,augmentationChoice,intensity,trained);
 
     allTestFiles = [allTestFiles testFileNames];
@@ -118,7 +118,7 @@ end
 
 
 % Score calculations and saving of results
-fprintf('Calculating max, min, average and standard deviation of scores\n\n')
+fprintf('\nCalculating max, min, average and standard deviation of scores\n\n')
 for thr_idx = 1:length(scoreMatrix)
     scoreMatrix_tmp = scoreMatrix{thr_idx, 1};
     
@@ -162,17 +162,17 @@ for thr_idx = 1:length(scoreMatrix)
     end
     
     for i = 1:length(scoreMatrix_tmp)
-        all_results_filename = fullfile(all_results_folder, sprintf('%s_%s.csv', allTestFiles(i), datestr(now,'mm-dd-yyyy_HH-MM')));
+        all_results_filename = fullfile(all_results_folder, sprintf('%s_%s_augmented_data.csv', allTestFiles(i), datestr(now,'mm-dd-yyyy_HH-MM')));
         scoreTable_tmp = array2table(scoreMatrix_tmp{i, 1});
         scoreTable = [scoreNames scoreTable_tmp];
         scoreTable.Properties.VariableNames = allModelNames;
         writetable(scoreTable, all_results_filename);
     end
     
-    fileName_Max = fullfile(outputFolder, sprintf('Max_Scores__%s.csv', datestr(now,'mm-dd-yyyy_HH-MM')));
-    fileName_Min = fullfile(outputFolder, sprintf('Min_Scores__%s.csv', datestr(now,'mm-dd-yyyy_HH-MM')));
-    fileName_Avg = fullfile(outputFolder, sprintf('Avg_Scores__%s.csv', datestr(now,'mm-dd-yyyy_HH-MM')));
-    fileName_Std = fullfile(outputFolder, sprintf('Std_Scores__%s.csv', datestr(now,'mm-dd-yyyy_HH-MM')));
+    fileName_Max = fullfile(outputFolder, sprintf('Max_Scores__%s_augmented_data.csv', datestr(now,'mm-dd-yyyy_HH-MM')));
+    fileName_Min = fullfile(outputFolder, sprintf('Min_Scores__%s_augmented_data.csv', datestr(now,'mm-dd-yyyy_HH-MM')));
+    fileName_Avg = fullfile(outputFolder, sprintf('Avg_Scores__%s_augmented_data.csv', datestr(now,'mm-dd-yyyy_HH-MM')));
+    fileName_Std = fullfile(outputFolder, sprintf('Std_Scores__%s_augmented_data.csv', datestr(now,'mm-dd-yyyy_HH-MM')));
     
 
     max_tmp = array2table(maxScores);

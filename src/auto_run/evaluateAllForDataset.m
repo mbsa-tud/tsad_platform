@@ -104,7 +104,7 @@ for i = 1:length(indices)
     end
     
     % Run evaluation
-    [tmpScores, testFileNames, ~, ~] = trainAndEvaluateAllModels(dataPath, models_DNN, models_CML, models_S, ...
+    [tmpScores, testFileNames] = trainAndEvaluateAllModels(dataPath, models_DNN, models_CML, models_S, ...
         preprocMethod, ratioTestVal, thresholds, dynamicThresholdSettings, trainingPlots, trainParallel);
 
     allTestFiles = [allTestFiles testFileNames];
@@ -118,7 +118,7 @@ end
 
 
 % Score calculations and saving of results
-fprintf('Calculating max, min, average and standard deviation of scores\n\n')
+fprintf('\nCalculating max, min, average and standard deviation of scores\n\n')
 for thr_idx = 1:length(scoreMatrix)
     scoreMatrix_tmp = scoreMatrix{thr_idx, 1};
     
