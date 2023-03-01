@@ -4,7 +4,7 @@ function reshapedPrediction = mergeOverlappingSubsequences(options, prediction)
 % Calculates the median anomaly score for all overlapping subsequences for
 % the reconstructive DL models
 
-windowSize = options.hyperparameters.data.windowSize.value;
+windowSize = options.hyperparameters.windowSize.value;
 dataType = options.dataType;
 
 if dataType == 1

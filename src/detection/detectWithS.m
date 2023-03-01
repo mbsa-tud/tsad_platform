@@ -8,9 +8,9 @@ function anomalyScores = detectWithS(options, Mdl, XTest, YTest, labels)
 % Detect with model
 switch options.model
     case 'Grubbs test'
-        anomalyScores = grubbs_test(XTest, options.hyperparameters.model.alpha.value);
+        anomalyScores = grubbs_test(XTest, options.hyperparameters.alpha.value);
     case 'OD_wpca'
-        [~, anomalyScores, ~] = OD_wpca(XTest, options.hyperparameters.model.ratioOversample.value);
+        [~, anomalyScores, ~] = OD_wpca(XTest, options.hyperparameters.ratioOversample.value);
 end
 
 if isfield(options, 'outputsLabels')

@@ -1,4 +1,22 @@
-{
+{   
+    "Add_your_model_name_here_but_replace_all_non_letter_characters_with_underscores": {
+        "add_the_hyperparameters_you_want_to_be_optimized_and_their_range_of_values": {
+            "value": [0, 0.9],
+            "type": "real"
+        },
+        "hyperparameter1": {
+            "value": [1, 1000],
+            "type": "integer"
+        },
+        "hyperparameter2": {
+            "value": [0, 0.9],
+            "type": "real"
+        },
+        "hyperparameter3": {
+            "value": ["option1", "option2", "option3"],
+            "type": "categorical"
+        }
+    },
     "FC_AE": {
         "neurons": {
             "value": [4, 128],

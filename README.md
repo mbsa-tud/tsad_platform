@@ -204,33 +204,12 @@ Before training **deep-learning** models, you can configure the training process
 
 ### Optimize models
 
-To optimize a **single model**, do the following:
+To optimize models, do the following:
 
-1. Select **one** model.
-2. Click the `Optimize` button (5) below the list. This opens a **new window**:
+1. Select the models within the lists and click `Optimize Selection` or just click `Optimize All` to open a **new window**. The `Optimize All` button (6) at the bottom of the panel can be used to optimize all configured models of all types.
 
-    <img src="media/final_optimization_single.png" alt="Single optimization" title="Single optimization" width=200/>
-
-3. (optional) Uncheck the `Use Preconfigured Hyperparameter Range` checkbox and click the `Add` button. This opens a **new window** for defining ranges of hyperparameters:
-
-    <img src="media/final_optimization_hyperparameters.png" alt="Optimization hyperparameters" title="Optimization hyperparameters" width=200/>
-
-    Select and configure the parameter and press `Add` to add it to the list.
-    Only these hyperparameters will be varied within the specified range during the optimization process.
-4. Enter a value for the number of `Iterations` for the optimization function.
-5. Select a `Score` you want to be improved.
-6. Select a `Threshold`
-7. To show training plots for deep-learning models, check the `Training Plots` checkbox.
-8. Click `Run Optimization` to start the optimization process. This opens windows showing the progress of the bayesian optimization.
-9. Once it's done, the optimized model will appear on the [Detection Panel](#detection).
-
-To optimize **multiple models** automatically, do the following:
-
-1. Select the models within the lists.
-2. Click `Optimize` (5) to open a **new window**. The `Optimize All` button (6) at the bottom of the panel can be used to optimize all configured models of all types.
-
-    <img src="media/final_optimize_all.png" alt="Optimize all window" title="Optimize all window" width=200/>
-
+    <img src="media/final_optimization_window.png" alt="Optimization window" title="Optimization window" width=200/>
+2. (optional) Click `Open Optimization Config` to edit the optimization config `.json` file. This file defines the ranges of hyperparameters to optimize. Just look at examples in the file on how to edit this file. 
 3. Configure the optimization process by selecting a `Score`, a `Threshold` and check the `Training Plots` checkbox if you want to show plots for deep-learning models.
 4. Click the `Run Optimization` button to optimize all models.
 5. Once it's done, the optimized models will appear on the [Detection Panel](#detection).
@@ -342,7 +321,6 @@ The following figure shows an example for the fully-connected autoencoder (FC AE
 "options": {
     "type": "DNN",
     "model": "FC AE",
-    "scoringFunction": "aggregated-errors",
     "modelType": "reconstructive",
     "label": "FC AE  (1)",
     "id": "FC_AE_1",
@@ -351,35 +329,33 @@ The following figure shows an example for the fully-connected autoencoder (FC AE
     "isMultivariate": false,
     "outputsLabels": false,
     "hyperparameters": {
-        "model": {
-            "neurons": {
-                "value": 32,
-                "type": "integer"
-            }
+        "neurons": {
+            "value": 32,
+            "type": "integer"
         },
-        "data": {
-            "windowSize": {
-                "value": 100,
-                "type": "integer"
-            },
-            "stepSize": {
-                "value": 1,
-                "type": "integer"
-            }
+        "windowSize": {
+            "value": 100,
+            "type": "integer"
         },
-        "training": {
-            "epochs": {
-                "value": 50,
-                "type": "integer"
-            },
-            "minibatchSize": {
-                "value": 64,
-                "type": "integer"
-            },
-                "ratioTrainVal": {
-                "value": 1,
-                "type": "real"
-            }
+        "stepSize": {
+            "value": 1,
+            "type": "integer"
+        },
+        "epochs": {
+            "value": 50,
+            "type": "integer"
+        },
+        "minibatchSize": {
+            "value": 64,
+            "type": "integer"
+        },
+            "ratioTrainVal": {
+            "value": 1,
+            "type": "real"
+        },
+            "scoringFunction": {
+            "value": "aggregated-errors",
+            "type": "categorical"
         }
     }
 }
@@ -392,21 +368,6 @@ The type of the model/algorithm. Must be one of: `"DNN"`, `"CML"`, `"S"`
 
 **model**
 The identifier for the model. This is used by the platform to recognize the model. It should only contain **letters** and the following characters: `-` `(` `)`.
-
-**scoringFunction**
-This field is only required for DL models. Its value changes how the anomaly scores are defined:
-
-| Value | Description |
-|-|-|
-| aggregated-errors | The mean training reconstruction/prediction error gets subtracted from the channel-wise errors (Only for multivariate datasets). Afterwards, the root-mean-square is taken across channels. For univariate datasets, the errors are used directly. |
-| channelwise-errors | The mean training reconstruction error gets subtracted from the channel-wise errors (Only for multivariate datasets). Nothing else is done. For univariate datasets, this is the same as the aggregated-errors scoring function. |
-| gauss | A multivariate gaussian distribution is fitted to the trainig errors and used to compute -log(1 - cdf) to get the anomaly scores. **The max supported number of channels in the dataset is 25** |
-| aggregated-gauss | The channelwise mean and standard deviation of the training error distribution is used to compute -log(1 - cdf("channelwise errors")) of the channel-wise errors to get channel-wise anomaly scores. Afterwards, the channelwise anomaly scores are added. |
-| channelwise-gauss | The channelwise mean and standard deviation of the training error distribution is used to compute -log(1 - cdf("channelwise errors")) of the channel-wise errors to get channel-wise anomaly scores. |
-
-For the channel-wise scores, a common threshold gets applied accross all channels during testing. A single observation only needs to be labeled as anomalous in one of the channels to be considered an anomaly.
-
-**NOTE** This field is optional for classic ML or statistical models. If it is used for such, the value can be either `separate` or `aggregated`. In the second case, the RMS is taken across all channels of anomaly scores. The first option is similar to the channel-wise scores mentioned above. The scoring functions only apply, if the model outputs separate anomaly scores for each channel. This is possible if the `isMultivariate` field is set to false, but a multivariate dataset is selected.
 
 **modelType**
 This field is only required for DL models. Its value must be one of: `"predictive"`, `"reconstructive"`. It indicates whether the model produces prediction or reconstruction errors.
@@ -436,9 +397,22 @@ This field is only required for classic ML and statistical models which use the 
 If it is set to `true`, the dataset will be split into overlapping subsequences (See field **dataType** above), otherwise the data is used directly.
 
 **hyperparameters**
-This field can contains all configurable hyperparameters for your model/algorithm. Its value is another struct array. The hyperparameters should be separated into three groups: **model**, **data** and **training** related hyperparameters, which are all separate fields within this struct. If you want to add a hyperparameter, specify its name as a new key within on of the aforementioned fields (model, data, training). It must contain two keys: **value** and **type**. The type is only required for the optimization algorithm of the platform. It must be one of: `"integer"`, `"real"`, `"categorical"`. Look at the example [above](#the-options-struct) for reference.
+This field can contains all configurable hyperparameters for your model/algorithm. If you want to add a hyperparameter, specify its name as a new key within this field. It must contain two keys: **value** and **type**. The type is only required for the optimization algorithm of the platform. It must be one of: `"integer"`, `"real"`, `"categorical"`. Look at the example [above](#the-options-struct) for reference.
 
-**IMPORTANT** **Every hyperparameters must have a unique name. For example: You can't have a hyperparameter called `param` in both the `model` and `data` section of the hyperparameters field.**
+One hyperparamter that must be mentioned is the `scoringFunction`:
+It is optional for all models. Its value changes how the anomaly scores are defined:
+
+| Value | Description |
+|-|-|
+| aggregated-errors | The mean training reconstruction/prediction error gets subtracted from the channel-wise errors (Only for multivariate datasets). Afterwards, the root-mean-square is taken across channels. For univariate datasets, the errors are used directly. |
+| channelwise-errors | The mean training reconstruction error gets subtracted from the channel-wise errors (Only for multivariate datasets). Nothing else is done. For univariate datasets, this is the same as the aggregated-errors scoring function. |
+| gauss | A multivariate gaussian distribution is fitted to the trainig errors and used to compute -log(1 - cdf) to get the anomaly scores. **The max supported number of channels in the dataset is 25** |
+| aggregated-gauss | The channelwise mean and standard deviation of the training error distribution is used to compute -log(1 - cdf("channelwise errors")) of the channel-wise errors to get channel-wise anomaly scores. Afterwards, the channelwise anomaly scores are added. |
+| channelwise-gauss | The channelwise mean and standard deviation of the training error distribution is used to compute -log(1 - cdf("channelwise errors")) of the channel-wise errors to get channel-wise anomaly scores. |
+
+For the channel-wise scores, a common threshold gets applied accross all channels during testing. A single observation only needs to be labeled as anomalous in one of the channels to be considered an anomaly.
+
+**NOTE** If this hyperparameter it is used for classic ML or statistical models, the value can be either `separate` or `aggregated`. In the second case, the RMS is taken across all channels of anomaly scores. The first option is similar to the channel-wise scores mentioned above. The scoring functions only apply, if the model outputs separate anomaly scores for each channel. This is possible if the `isMultivariate` field is set to false, but a multivariate dataset is selected.
 
 The file `config_all.json` contains the JSON representation of a MATLAB struct with separate fields for DNN, CML and statistical models. Each field's value is a struct array with individual "options" structs, as presented before. This file is used for loading the default configuration of models on the [Training](#training-and-optimization) panel using the `Add All` buttons:
 
@@ -486,7 +460,7 @@ It's recommended to implement the deep-learning models using functions from MATL
         % Add your model here
         case 'Your model name'
             % Get hyperparameters from options
-            neurons = options.hyperparameters.model.neurons.value;
+            neurons = options.hyperparameters.neurons.value;
 
             % Define layers
             layers = [featureInputLayer(numFeatures)
@@ -505,26 +479,26 @@ It's recommended to implement the deep-learning models using functions from MATL
      % Add your model here
         case 'Your model name'
             % Define different options depending on whether validation data is available
-            if options.hyperparameters.training.ratioTrainVal.value == 0
+            if options.hyperparameters.ratioTrainVal.value == 0
                 trainOptions = trainingOptions('adam', ...
                     'Plots', plots, ...
-                    'MaxEpochs', options.hyperparameters.training.epochs.value, ...
-                    'MiniBatchSize', options.hyperparameters.training.minibatchSize.value, ...
+                    'MaxEpochs', options.hyperparameters.epochs.value, ...
+                    'MiniBatchSize', options.hyperparameters.minibatchSize.value, ...
                     'GradientThreshold', 1, ...
-                    'InitialLearnRate', options.hyperparameters.training.learningRate.value, ...
+                    'InitialLearnRate', options.hyperparameters.learningRate.value, ...
                     'Shuffle', 'every-epoch',...
                     'ExecutionEnvironment', device);
             else
                 trainOptions = trainingOptions('adam', ...
                     'Plots', plots, ...
-                    'MaxEpochs', options.hyperparameters.training.epochs.value, ...
-                    'MiniBatchSize', options.hyperparameters.training.minibatchSize.value, ...
+                    'MaxEpochs', options.hyperparameters.epochs.value, ...
+                    'MiniBatchSize', options.hyperparameters.minibatchSize.value, ...
                     'GradientThreshold', 1, ...
-                    'InitialLearnRate', options.hyperparameters.training.learningRate.value, ...
+                    'InitialLearnRate', options.hyperparameters.learningRate.value, ...
                     'Shuffle', 'every-epoch', ...
                     'ExecutionEnvironment', device, ...
                     'ValidationData', {XVal, YVal}, ...
-                    'ValidationFrequency', floor(numWindows / (3 * options.hyperparameters.training.minibatchSize.value)));
+                    'ValidationFrequency', floor(numWindows / (3 * options.hyperparameters.minibatchSize.value)));
             end
     ```
 
@@ -535,25 +509,25 @@ It's recommended to implement the deep-learning models using functions from MATL
         % Add your model here
         case 'Your model name'
             % Similar as before but with the 'OutputFcn' parameter added and no `Plots` parameter
-            if options.hyperparameters.training.ratioTrainVal.value == 0
+            if options.hyperparameters.ratioTrainVal.value == 0
                 trainOptions = trainingOptions('adam', ...
-                    'MaxEpochs', options.hyperparameters.training.epochs.value, ...
-                    'MiniBatchSize', options.hyperparameters.training.minibatchSize.value, ...
+                    'MaxEpochs', options.hyperparameters.epochs.value, ...
+                    'MiniBatchSize', options.hyperparameters.minibatchSize.value, ...
                     'GradientThreshold', 1, ...
-                    'InitialLearnRate', options.hyperparameters.training.learningRate.value, ...
+                    'InitialLearnRate', options.hyperparameters.learningRate.value, ...
                     'Shuffle', 'every-epoch', ...
                     'ExecutionEnvironment', device, ...
                     'OutputFcn', @(info) send(dataqueue, struct('experimentNumber', idx, 'info', info)));
             else
                 trainOptions = trainingOptions('adam', ...
-                    'MaxEpochs', options.hyperparameters.training.epochs.value, ...
-                    'MiniBatchSize', options.hyperparameters.training.minibatchSize.value, ...
+                    'MaxEpochs', options.hyperparameters.epochs.value, ...
+                    'MiniBatchSize', options.hyperparameters.minibatchSize.value, ...
                     'GradientThreshold', 1, ...
-                    'InitialLearnRate', options.hyperparameters.training.learningRate.value, ...
+                    'InitialLearnRate', options.hyperparameters.learningRate.value, ...
                     'Shuffle', 'every-epoch', ...
                     'ExecutionEnvironment', device, ...
                     'ValidationData', {XVal, YVal}, ...
-                    'ValidationFrequency', floor(numWindows / (3 * options.hyperparameters.training.minibatchSize.value)), ...
+                    'ValidationFrequency', floor(numWindows / (3 * options.hyperparameters.minibatchSize.value)), ...
                     'OutputFcn', @(info) send(dataqueue, struct('experimentNumber', idx, 'info', info)));
             end
     ```

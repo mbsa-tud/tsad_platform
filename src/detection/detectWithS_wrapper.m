@@ -36,16 +36,18 @@ end
 
 numChannels = size(anomalyScores, 2);
 
-if isfield(trainedModel.options, 'scoringFunction')
-    % Apply scoring function
-    switch trainedModel.options.scoringFunction
-        case 'separate'
-        case 'aggregated'
-            if numChannels > 1
-                anomalyScores = rms(anomalyScores, 2);
-            end
-        otherwise
-            % Do nothing
+if isfield(trainedModel.options, 'hyperparameters')
+    if isfield(trainedModel.options.hyperparameters, 'scoringFunction')
+        % Apply scoring function
+        switch trainedModel.options.hyperparameters.scoringFunction.value
+            case 'separate'
+            case 'aggregated'
+                if numChannels > 1
+                    anomalyScores = rms(anomalyScores, 2);
+                end
+            otherwise
+                % Do nothing
+        end
     end
 end
 end

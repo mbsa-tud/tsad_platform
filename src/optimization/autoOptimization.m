@@ -17,21 +17,10 @@ for i = 1:length(models)
         varNames = fieldnames(optVars);
         for j = 1:length(varNames)
             flag = false;
-            if isfield(options.hyperparameters, 'model')
-                if isfield(options.hyperparameters.model, varNames{j})
-                    flag = true;
-                end
+            if isfield(options.hyperparameters, varNames{j})
+                flag = true;
             end
-            if isfield(options.hyperparameters, 'data')
-                if isfield(options.hyperparameters.data, varNames{j})
-                    flag = true;
-                end
-            end
-            if isfield(options.hyperparameters, 'training')
-                if isfield(options.hyperparameters.training, varNames{j})
-                    flag = true;
-                end
-            end
+
             if ~flag
                 optVars = rmfield(optVars, varNames{j});
             end

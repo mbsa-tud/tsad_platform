@@ -6,7 +6,7 @@ function anomalyScores = detectWithCML(options, Mdl, XTest, YTest, labels)
 switch options.model
     case 'iForest'
         if isempty(Mdl)
-            [~, ~, anomalyScores] = iforest(XTest, NumLearners=options.hyperparameters.model.numLearners.value, NumObservationsPerLearner=options.hyperparameters.model.numObservationsPerLearner.value);
+            [~, ~, anomalyScores] = iforest(XTest, NumLearners=options.hyperparameters.numLearners.value, NumObservationsPerLearner=options.hyperparameters.numObservationsPerLearner.value);
         else
             [~, anomalyScores] = isanomaly(Mdl, XTest);
         end
@@ -25,9 +25,9 @@ switch options.model
     case 'ABOD'
         [~, anomalyScores] = ABOD(XTest);
     case 'LOF'
-        [~, anomalyScores] = LOF(XTest, options.hyperparameters.model.k.value);
+        [~, anomalyScores] = LOF(XTest, options.hyperparameters.k.value);
     case 'LDOF'
-        anomalyScores = LDOF(XTest, options.hyperparameters.model.k.value);
+        anomalyScores = LDOF(XTest, options.hyperparameters.k.value);
     case 'Merlin'
         numAnoms = 0;
         i = 1;
@@ -49,16 +49,16 @@ switch options.model
             numAnoms = 1;
         end
 
-        if options.hyperparameters.model.minL.value < options.hyperparameters.model.maxL.value
-            [~, indices, ~] = run_MERLIN(XTest,  options.hyperparameters.model.minL.value, ...
-                options.hyperparameters.model.maxL.value, numAnoms);
+        if options.hyperparameters.minL.value < options.hyperparameters.maxL.value
+            [~, indices, ~] = run_MERLIN(XTest,  options.hyperparameters.minL.value, ...
+                options.hyperparameters.maxL.value, numAnoms);
             indices = sort(indices, 2);
             
             anomalyScores = zeros(size(XTest, 1), 1);
 
             for i = 1:numAnoms
                 avg_disc_loc = floor(median(indices(:, i)));
-                anomalyScores(avg_disc_loc:(avg_disc_loc + floor((options.hyperparameters.model.minL.value + options.hyperparameters.model.maxL.value) / 2))) = 1;
+                anomalyScores(avg_disc_loc:(avg_disc_loc + floor((options.hyperparameters.minL.value + options.hyperparameters.maxL.value) / 2))) = 1;
             end
         else
             fprintf("Warning! minL is greater than maxL for merlin, setting anomaly scores to zero.");

@@ -5,23 +5,11 @@ function options = adaptModelOptions(options, optVars)
 
 varNames = optVars.Properties.VariableNames;
 for i = 1:length(varNames)
-    if isfield(options.hyperparameters, 'model')
-        if isfield(options.hyperparameters.model, varNames{i})
-            options.hyperparameters.model.(varNames{i}).value = optVars{1, i};
-            continue;
-        end
-    end
-    if isfield(options.hyperparameters, 'data')
-        if isfield(options.hyperparameters.data, varNames{i})
-            options.hyperparameters.data.(varNames{i}).value = optVars{1, i};
-            continue;
-        end
-    end
-    if isfield(options.hyperparameters, 'training')
-        if isfield(options.hyperparameters.training, varNames{i})
-            options.hyperparameters.training.(varNames{i}).value = optVars{1, i};
-            continue;
-        end
+    if isfield(options.hyperparameters, varNames{i})
+        options.hyperparameters.(varNames{i}).value = optVars{1, i};
+        continue;
+    else
+        warning("Your trying to optimize a hyperparameter which is not defined in the options struct of your model");
     end
 end
 end

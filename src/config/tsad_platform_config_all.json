@@ -4,46 +4,43 @@
             "options": {
                 "type": "DNN",
                 "model": "FC AE",
-                "scoringFunction": "aggregated-errors",
                 "modelType": "reconstructive",
                 "dataType": 1,
                 "requiresPriorTraining": true,
                 "isMultivariate": true,
                 "outputsLabels": false,
                 "hyperparameters": {
-                    "model": {
-                        "neurons": {
-                            "value": 32,
-                            "type": "integer"
-                        }
+                    "neurons": {
+                        "value": 32,
+                        "type": "integer"
                     },
-                    "data": {
-                        "windowSize": {
-                            "value": 100,
-                            "type": "integer"
-                        },
-                        "stepSize": {
-                            "value": 1,
-                            "type": "integer"
-                        }
+                    "windowSize": {
+                        "value": 100,
+                        "type": "integer"
                     },
-                    "training": {
-                        "epochs": {
-                            "value": 50,
-                            "type": "integer"
-                        },
-                        "learningRate": {
-                            "value": 0.001,
-                            "type": "real"
-                        },
-                        "minibatchSize": {
-                            "value": 64,
-                            "type": "integer"
-                        },
-                         "ratioTrainVal": {
-                            "value": 0,
-                            "type": "real"
-                        }
+                    "stepSize": {
+                        "value": 1,
+                        "type": "integer"
+                    },
+                    "epochs": {
+                        "value": 50,
+                        "type": "integer"
+                    },
+                    "learningRate": {
+                        "value": 0.001,
+                        "type": "real"
+                    },
+                    "minibatchSize": {
+                        "value": 64,
+                        "type": "integer"
+                    },
+                     "ratioTrainVal": {
+                        "value": 0,
+                        "type": "real"
+                    },
+                    "scoringFunction": {
+                        "value": "aggregated-errors",
+                        "type": "categorical"
                     }
                 }
             }
@@ -52,46 +49,43 @@
             "options": {
                 "type": "DNN",
                 "model": "LSTM (reconstruction)",
-                "scoringFunction": "aggregated-errors",
                 "modelType": "reconstructive",
                 "dataType": 2,
                 "requiresPriorTraining": true,
                 "isMultivariate": true,
                 "outputsLabels": false,
                 "hyperparameters": {
-                    "model": {
-                        "hiddenUnits": {
-                            "value": 64,
-                            "type": "integer"
-                        }
+                    "hiddenUnits": {
+                        "value": 64,
+                        "type": "integer"
                     },
-                    "data": {
-                        "windowSize": {
-                            "value": 100,
-                            "type": "integer"
-                        },
-                        "stepSize": {
-                            "value": 1,
-                            "type": "integer"
-                        }
+                    "windowSize": {
+                        "value": 100,
+                        "type": "integer"
                     },
-                    "training": {
-                        "epochs": {
-                            "value": 50,
-                            "type": "integer"
-                        },
-                        "learningRate": {
-                            "value": 0.001,
-                            "type": "real"
-                        },
-                        "minibatchSize": {
-                            "value": 64,
-                            "type": "integer"
-                        },
-                         "ratioTrainVal": {
-                            "value": 0,
-                            "type": "real"
-                        }
+                    "stepSize": {
+                        "value": 1,
+                        "type": "integer"
+                    },
+                    "epochs": {
+                        "value": 50,
+                        "type": "integer"
+                    },
+                    "learningRate": {
+                        "value": 0.001,
+                        "type": "real"
+                    },
+                    "minibatchSize": {
+                        "value": 64,
+                        "type": "integer"
+                    },
+                     "ratioTrainVal": {
+                        "value": 0,
+                        "type": "real"
+                    },
+                    "scoringFunction": {
+                        "value": "aggregated-errors",
+                        "type": "categorical"
                     }
                 }
             }
@@ -100,50 +94,47 @@
             "options": {
                 "type": "DNN",
                 "model": "Hybrid CNN-LSTM (reconstruction)",
-                "scoringFunction": "aggregated-errors",
                 "modelType": "reconstructive",
                 "dataType": 2,
                 "requiresPriorTraining": true,
                 "isMultivariate": true,
                 "outputsLabels": false,
                 "hyperparameters": {
-                    "model": {
-                        "hiddenUnits": {
-                            "value": 64,
-                            "type": "integer"
-                        },
-                        "filter": {
-                            "value": 32,
-                            "type": "integer"
-                        }
+                    "hiddenUnits": {
+                        "value": 64,
+                        "type": "integer"
                     },
-                    "data": {
-                        "windowSize": {
-                            "value": 100,
-                            "type": "integer"
-                        },
-                        "stepSize": {
-                            "value": 1,
-                            "type": "integer"
-                        }
+                    "filter": {
+                        "value": 32,
+                        "type": "integer"
                     },
-                    "training": {
-                        "epochs": {
-                            "value": 50,
-                            "type": "integer"
-                        },
-                        "learningRate": {
-                            "value": 0.001,
-                            "type": "real"
-                        },
-                        "minibatchSize": {
-                            "value": 64,
-                            "type": "integer"
-                        },
-                         "ratioTrainVal": {
-                            "value": 0,
-                            "type": "real"
-                        }
+                    "windowSize": {
+                        "value": 100,
+                        "type": "integer"
+                    },
+                    "stepSize": {
+                        "value": 1,
+                        "type": "integer"
+                    },
+                    "epochs": {
+                        "value": 50,
+                        "type": "integer"
+                    },
+                    "learningRate": {
+                        "value": 0.001,
+                        "type": "real"
+                    },
+                    "minibatchSize": {
+                        "value": 64,
+                        "type": "integer"
+                    },
+                     "ratioTrainVal": {
+                        "value": 0,
+                        "type": "real"
+                    },
+                    "scoringFunction": {
+                        "value": "aggregated-errors",
+                        "type": "categorical"
                     }
                 }
             }
@@ -152,46 +143,43 @@
             "options": {
                 "type": "DNN",
                 "model": "TCN AE",
-                "scoringFunction": "aggregated-errors",
                 "modelType": "reconstructive",
                 "dataType": 2,
                 "requiresPriorTraining": true,
                 "isMultivariate": true,
                 "outputsLabels": false,
                 "hyperparameters": {
-                    "model": {
-                        "filter": {
-                            "value": 32,
-                            "type": "integer"
-                        }
+                    "filter": {
+                        "value": 32,
+                        "type": "integer"
                     },
-                    "data": {
-                        "windowSize": {
-                            "value": 100,
-                            "type": "integer"
-                        },
-                        "stepSize": {
-                            "value": 1,
-                            "type": "integer"
-                        }
+                    "windowSize": {
+                        "value": 100,
+                        "type": "integer"
                     },
-                    "training": {
-                        "epochs": {
-                            "value": 50,
-                            "type": "integer"
-                        },
-                        "learningRate": {
-                            "value": 0.001,
-                            "type": "real"
-                        },
-                        "minibatchSize": {
-                            "value": 64,
-                            "type": "integer"
-                        },
-                         "ratioTrainVal": {
-                            "value": 0,
-                            "type": "real"
-                        }
+                    "stepSize": {
+                        "value": 1,
+                        "type": "integer"
+                    },
+                    "epochs": {
+                        "value": 50,
+                        "type": "integer"
+                    },
+                    "learningRate": {
+                        "value": 0.001,
+                        "type": "real"
+                    },
+                    "minibatchSize": {
+                        "value": 64,
+                        "type": "integer"
+                    },
+                     "ratioTrainVal": {
+                        "value": 0,
+                        "type": "real"
+                    },
+                    "scoringFunction": {
+                        "value": "aggregated-errors",
+                        "type": "categorical"
                     }
                 }
             }
@@ -200,46 +188,43 @@
             "options": {
                 "type": "DNN",
                 "model": "LSTM",
-                "scoringFunction": "aggregated-errors",
                 "modelType": "predictive",
                 "dataType": 2,
                 "requiresPriorTraining": true,
                 "isMultivariate": true,
                 "outputsLabels": false,
                 "hyperparameters": {
-                    "model": {
-                        "hiddenUnits": {
-                            "value": 64,
-                            "type": "integer"
-                        }
+                    "hiddenUnits": {
+                        "value": 64,
+                        "type": "integer"
                     },
-                    "data": {
-                        "windowSize": {
-                            "value": 100,
-                            "type": "integer"
-                        },
-                        "stepSize": {
-                            "value": 1,
-                            "type": "integer"
-                        }
+                    "windowSize": {
+                        "value": 100,
+                        "type": "integer"
                     },
-                    "training": {
-                        "epochs": {
-                            "value": 50,
-                            "type": "integer"
-                        },
-                        "learningRate": {
-                            "value": 0.001,
-                            "type": "real"
-                        },
-                        "minibatchSize": {
-                            "value": 64,
-                            "type": "integer"
-                        },
-                         "ratioTrainVal": {
-                            "value": 0,
-                            "type": "real"
-                        }
+                    "stepSize": {
+                        "value": 1,
+                        "type": "integer"
+                    },
+                    "epochs": {
+                        "value": 50,
+                        "type": "integer"
+                    },
+                    "learningRate": {
+                        "value": 0.001,
+                        "type": "real"
+                    },
+                    "minibatchSize": {
+                        "value": 64,
+                        "type": "integer"
+                    },
+                     "ratioTrainVal": {
+                        "value": 0,
+                        "type": "real"
+                    },
+                    "scoringFunction": {
+                        "value": "aggregated-errors",
+                        "type": "categorical"
                     }
                 }
             }
@@ -248,50 +233,47 @@
             "options": {
                 "type": "DNN",
                 "model": "Hybrid CNN-LSTM",
-                "scoringFunction": "aggregated-errors",
                 "modelType": "predictive",
                 "dataType": 2,
                 "requiresPriorTraining": true,
                 "isMultivariate": true,
                 "outputsLabels": false,
                 "hyperparameters": {
-                    "model": {
-                        "hiddenUnits": {
-                            "value": 64,
-                            "type": "integer"
-                        },
-                        "filter": {
-                            "value": 32,
-                            "type": "integer"
-                        }
+                    "hiddenUnits": {
+                        "value": 64,
+                        "type": "integer"
                     },
-                    "data": {
-                        "windowSize": {
-                            "value": 100,
-                            "type": "integer"
-                        },
-                        "stepSize": {
-                            "value": 1,
-                            "type": "integer"
-                        }
+                    "filter": {
+                        "value": 32,
+                        "type": "integer"
                     },
-                    "training": {
-                        "epochs": {
-                            "value": 50,
-                            "type": "integer"
-                        },
-                        "learningRate": {
-                            "value": 0.001,
-                            "type": "real"
-                        },
-                        "minibatchSize": {
-                            "value": 64,
-                            "type": "integer"
-                        },
-                         "ratioTrainVal": {
-                            "value": 0,
-                            "type": "real"
-                        }
+                    "windowSize": {
+                        "value": 100,
+                        "type": "integer"
+                    },
+                    "stepSize": {
+                        "value": 1,
+                        "type": "integer"
+                    },
+                    "epochs": {
+                        "value": 50,
+                        "type": "integer"
+                    },
+                    "learningRate": {
+                        "value": 0.001,
+                        "type": "real"
+                    },
+                    "minibatchSize": {
+                        "value": 64,
+                        "type": "integer"
+                    },
+                     "ratioTrainVal": {
+                        "value": 0,
+                        "type": "real"
+                    },
+                    "scoringFunction": {
+                        "value": "aggregated-errors",
+                        "type": "categorical"
                     }
                 }
             }
@@ -300,46 +282,43 @@
             "options": {
                 "type": "DNN",
                 "model": "GRU",
-                "scoringFunction": "aggregated-errors",
                 "modelType": "predictive",
                 "dataType": 2,
                 "requiresPriorTraining": true,
                 "isMultivariate": true,
                 "outputsLabels": false,
                 "hyperparameters": {
-                    "model": {
-                        "hiddenUnits": {
-                            "value": 64,
-                            "type": "integer"
-                        }
+                    "hiddenUnits": {
+                        "value": 64,
+                        "type": "integer"
                     },
-                    "data": {
-                        "windowSize": {
-                            "value": 100,
-                            "type": "integer"
-                        },
-                        "stepSize": {
-                            "value": 1,
-                            "type": "integer"
-                        }
+                    "windowSize": {
+                        "value": 100,
+                        "type": "integer"
                     },
-                    "training": {
-                        "epochs": {
-                            "value": 50,
-                            "type": "integer"
-                        },
-                        "learningRate": {
-                            "value": 0.001,
-                            "type": "real"
-                        },
-                        "minibatchSize": {
-                            "value": 64,
-                            "type": "integer"
-                        },
-                         "ratioTrainVal": {
-                            "value": 0,
-                            "type": "real"
-                        }
+                    "stepSize": {
+                        "value": 1,
+                        "type": "integer"
+                    },
+                    "epochs": {
+                        "value": 50,
+                        "type": "integer"
+                    },
+                    "learningRate": {
+                        "value": 0.001,
+                        "type": "real"
+                    },
+                    "minibatchSize": {
+                        "value": 64,
+                        "type": "integer"
+                    },
+                     "ratioTrainVal": {
+                        "value": 0,
+                        "type": "real"
+                    },
+                    "scoringFunction": {
+                        "value": "aggregated-errors",
+                        "type": "categorical"
                     }
                 }
             }
@@ -348,46 +327,43 @@
             "options": {
                 "type": "DNN",
                 "model": "CNN (DeepAnT)",
-                "scoringFunction": "aggregated-errors",
                 "modelType": "predictive",
                 "dataType": 3,
                 "requiresPriorTraining": true,
                 "isMultivariate": true,
                 "outputsLabels": false,
                 "hyperparameters": {
-                    "model": {
-                        "filter": {
-                            "value": 8,
-                            "type": "integer"
-                        }
+                    "filter": {
+                        "value": 8,
+                        "type": "integer"
                     },
-                    "data": {
-                        "windowSize": {
-                            "value": 100,
-                            "type": "integer"
-                        },
-                        "stepSize": {
-                            "value": 1,
-                            "type": "integer"
-                        }
+                    "windowSize": {
+                        "value": 100,
+                        "type": "integer"
                     },
-                    "training": {
-                        "epochs": {
-                            "value": 50,
-                            "type": "integer"
-                        },
-                        "learningRate": {
-                            "value": 0.001,
-                            "type": "real"
-                        },
-                        "minibatchSize": {
-                            "value": 64,
-                            "type": "integer"
-                        },
-                         "ratioTrainVal": {
-                            "value": 0,
-                            "type": "real"
-                        }
+                    "stepSize": {
+                        "value": 1,
+                        "type": "integer"
+                    },
+                    "epochs": {
+                        "value": 50,
+                        "type": "integer"
+                    },
+                    "learningRate": {
+                        "value": 0.001,
+                        "type": "real"
+                    },
+                    "minibatchSize": {
+                        "value": 64,
+                        "type": "integer"
+                    },
+                     "ratioTrainVal": {
+                        "value": 0,
+                        "type": "real"
+                    },
+                    "scoringFunction": {
+                        "value": "aggregated-errors",
+                        "type": "categorical"
                     }
                 }
             }
@@ -396,46 +372,43 @@
             "options": {
                 "type": "DNN",
                 "model": "ResNet",
-                "scoringFunction": "aggregated-errors",
                 "modelType": "predictive",
                 "dataType": 3,
                 "requiresPriorTraining": true,
                 "isMultivariate": true,
                 "outputsLabels": false,
                 "hyperparameters": {
-                    "model": {
-                        "filter": {
-                            "value": 32,
-                            "type": "integer"
-                        }
+                    "filter": {
+                        "value": 32,
+                        "type": "integer"
                     },
-                    "data": {
-                        "windowSize": {
-                            "value": 100,
-                            "type": "integer"
-                        },
-                        "stepSize": {
-                            "value": 1,
-                            "type": "integer"
-                        }
+                    "windowSize": {
+                        "value": 100,
+                        "type": "integer"
                     },
-                    "training": {
-                        "epochs": {
-                            "value": 50,
-                            "type": "integer"
-                        },
-                        "learningRate": {
-                            "value": 0.001,
-                            "type": "real"
-                        },
-                        "minibatchSize": {
-                            "value": 64,
-                            "type": "integer"
-                        },
-                         "ratioTrainVal": {
-                            "value": 0,
-                            "type": "real"
-                        }
+                    "stepSize": {
+                        "value": 1,
+                        "type": "integer"
+                    },
+                    "epochs": {
+                        "value": 50,
+                        "type": "integer"
+                    },
+                    "learningRate": {
+                        "value": 0.001,
+                        "type": "real"
+                    },
+                    "minibatchSize": {
+                        "value": 64,
+                        "type": "integer"
+                    },
+                     "ratioTrainVal": {
+                        "value": 0,
+                        "type": "real"
+                    },
+                    "scoringFunction": {
+                        "value": "aggregated-errors",
+                        "type": "categorical"
                     }
                 }
             }
@@ -444,46 +417,43 @@
             "options": {
                 "type": "DNN",
                 "model": "MLP",
-                "scoringFunction": "aggregated-errors",
                 "modelType": "predictive",
                 "dataType": 1,
                 "requiresPriorTraining": true,
                 "isMultivariate": true,
                 "outputsLabels": false,
                 "hyperparameters": {
-                    "model": {
-                        "neurons": {
-                            "value": 32,
-                            "type": "integer"
-                        }
+                    "neurons": {
+                        "value": 32,
+                        "type": "integer"
                     },
-                    "data": {
-                        "windowSize": {
-                            "value": 100,
-                            "type": "integer"
-                        },
-                        "stepSize": {
-                            "value": 1,
-                            "type": "integer"
-                        }
+                    "windowSize": {
+                        "value": 100,
+                        "type": "integer"
                     },
-                    "training": {
-                        "epochs": {
-                            "value": 50,
-                            "type": "integer"
-                        },
-                        "learningRate": {
-                            "value": 0.001,
-                            "type": "real"
-                        },
-                        "minibatchSize": {
-                            "value": 64,
-                            "type": "integer"
-                        },
-                         "ratioTrainVal": {
-                            "value": 0,
-                            "type": "real"
-                        }
+                    "stepSize": {
+                        "value": 1,
+                        "type": "integer"
+                    },
+                    "epochs": {
+                        "value": 50,
+                        "type": "integer"
+                    },
+                    "learningRate": {
+                        "value": 0.001,
+                        "type": "real"
+                    },
+                    "minibatchSize": {
+                        "value": 64,
+                        "type": "integer"
+                    },
+                     "ratioTrainVal": {
+                        "value": 0,
+                        "type": "real"
+                    },
+                    "scoringFunction": {
+                        "value": "aggregated-errors",
+                        "type": "categorical"
                     }
                 }
             }
@@ -495,20 +465,18 @@
                 "type": "CML",
                 "model": "iForest",
                 "dataType": 1,
-                "requiresPriorTraining": true,
+                "requiresPriorTraining": false,
                 "isMultivariate": true,
                 "outputsLabels": false,
                 "useSubsequences": false,
                 "hyperparameters": {
-                    "model": {
-                        "numLearners": {
-                            "value": 100,
-                            "type": "integer"
-                        },
-                        "numObservationsPerLearner": {
-                            "value": 128,
-                            "type": "integer"
-                        }
+                    "numLearners": {
+                        "value": 100,
+                        "type": "integer"
+                    },
+                    "numObservationsPerLearner": {
+                        "value": 128,
+                        "type": "integer"
                     }
                 }
             }
@@ -518,7 +486,7 @@
                 "type": "CML",
                 "model": "OC-SVM",
                 "dataType": 1,
-                "requiresPriorTraining": true,
+                "requiresPriorTraining": false,
                 "isMultivariate": true,
                 "outputsLabels": false,
                 "useSubsequences": false,
@@ -549,11 +517,9 @@
                 "outputsLabels": false,
                 "useSubsequences": false,
                 "hyperparameters": {
-                    "model": {
-                        "k": {
-                            "value": 10,
-                            "type": "integer"
-                        }
+                    "k": {
+                        "value": 10,
+                        "type": "integer"
                     }
                 }
             }
@@ -568,11 +534,9 @@
                 "outputsLabels": false,
                 "useSubsequences": false,
                 "hyperparameters": {
-                    "model": {
-                        "k": {
-                            "value": 10,
-                            "type": "integer"
-                        }
+                    "k": {
+                        "value": 10,
+                        "type": "integer"
                     }
                 }
             }
@@ -586,15 +550,13 @@
                 "outputsLabels": true,
                 "useSubsequences": false,
                 "hyperparameters": {
-                    "model": {
-                        "minL": {
-                            "value": 80,
-                            "type": "integer"
-                        },
-                        "maxL": {
-                            "value": 100,
-                            "type": "integer"
-                        }
+                    "minL": {
+                        "value": 80,
+                        "type": "integer"
+                    },
+                    "maxL": {
+                        "value": 100,
+                        "type": "integer"
                     }
                 }
             }
@@ -608,14 +570,12 @@
                 "dataType": 1,
                 "requiresPriorTraining": false,
                 "isMultivariate": true,
-                "outputsLabels": false,
+                "outputsLabels": true,
                 "useSubsequences": false,
                 "hyperparameters": {
-                    "model": {
-                        "alpha": {
-                            "value": 0.5,
-                            "type": "real"
-                        }
+                    "alpha": {
+                        "value": 0.5,
+                        "type": "real"
                     }
                 }
             }
@@ -630,11 +590,9 @@
                 "outputsLabels": false,
                 "useSubsequences": false,
                 "hyperparameters": {
-                    "model": {
-                        "ratioOversample": {
-                            "value": 0.1,
-                            "type": "real"
-                        }
+                    "ratioOversample": {
+                        "value": 0.1,
+                        "type": "real"
                     }
                 }
             }
