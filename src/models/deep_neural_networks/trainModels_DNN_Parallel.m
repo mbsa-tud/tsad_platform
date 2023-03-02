@@ -18,7 +18,7 @@ for i = 1:numNetworks
             error("The %s model requires prior training, but the dataset doesn't contain training data (train folder).", options.model);
         end
         
-        [XTrain, YTrain, XVal, YVal] = prepareDataTrain_DNN_wrapper(options, dataTrain, labelsTrain);
+        [XTrain, YTrain, XVal, YVal] = prepareDataTrain(options, dataTrain, labelsTrain);
     else
         error("One of the selected models for parallel training doesn't require prior training.");
     end
@@ -37,25 +37,21 @@ for i = 1:numel(models)
     trainedModel.Mdl = Mdl{i};
     trainedModel.MdlInfo = MdlInfo{i};
 
-    if options.requiresPriorTraining
-        if ~options.outputsLabels
-            XTrainTestCell = cell(size(dataTrain, 1), 1);
-            YTrainTestCell = cell(size(dataTrain, 1), 1);
+    if ~options.outputsLabels
+        XTrainTestCell = cell(size(dataTrain, 1), 1);
+        YTrainTestCell = cell(size(dataTrain, 1), 1);
 
-        
-            for j = 1:size(dataTrain, 1)
-                [XTrainTestCell{j, 1}, YTrainTestCell{j, 1}, ~] = prepareDataTest_DNN_wrapper(options, dataTrain(j, :), labelsTrain(j, :));
-            end
-
-            trainedModel.trainingErrorFeatures = getTrainingErrorFeatures(trainedModel, XTrainTestCell, YTrainTestCell);
-
-            trainedModel.staticThreshold = getStaticThreshold_DNN(trainedModel, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds);
-        else
-            trainedModel.trainingErrorFeatures = [];
-            trainedModel.staticThreshold = [];
+    
+        for j = 1:size(dataTrain, 1)
+            [XTrainTestCell{j, 1}, YTrainTestCell{j, 1}, ~] = prepareDataTest(options, dataTrain(j, :), labelsTrain(j, :));
         end
+
+        trainedModel.trainingErrorFeatures = getTrainingErrorFeatures(trainedModel, XTrainTestCell, YTrainTestCell);
+
+        trainedModel.staticThreshold = getStaticThresholds(trainedModel, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds);
     else
-            % Not yet implemented, does this even make sense?
+        trainedModel.trainingErrorFeatures = [];
+        trainedModel.staticThreshold = [];
     end
 
     trainedModels_DNN.(options.id) = trainedModel;

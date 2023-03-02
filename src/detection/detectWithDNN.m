@@ -2,6 +2,7 @@ function [anomalyScores, compTime] = detectWithDNN(options, Mdl, XTest, YTest, l
 %DETECTWITHDNN
 %
 % Runs the detection for DL models and returns anomaly Scores
+compTime = NaN;
 
 switch options.model
     case 'Your model'
@@ -17,8 +18,6 @@ switch options.model
                 times(k, 1) = cputime - tStart;
             end
             compTime = mean(times);
-        else
-            compTime = [];
         end
 
           

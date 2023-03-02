@@ -12,7 +12,7 @@ switch trainedModel.options.model
 
         anomalyScores = [];
         for i = 1:size(X, 1)
-            anomalyScores_tmp = detectWithDNN_wrapper(trainedModel, X{i, 1}, Y{i, 1}, []);
+            anomalyScores_tmp = detectWith(trainedModel, X{i, 1}, Y{i, 1}, []);
             anomalyScores = [anomalyScores; anomalyScores_tmp];
         end
 

@@ -14,7 +14,7 @@ for i = 1:length(models)
             error("The %s model requires prior training, but the dataset doesn't contain training data (train folder).", options.model);
         end
 
-        [XTrain, YTrain, XVal, YVal] = prepareDataTrain_DNN_wrapper(options, dataTrain, labelsTrain);
+        [XTrain, YTrain, XVal, YVal] = prepareDataTrain(options, dataTrain, labelsTrain);
 
         [trainedModel.Mdl, trainedModel.MdlInfo] = trainDNN_wrapper(options, XTrain, YTrain, XVal, YVal, trainingPlots, trainParallel);
         
@@ -24,12 +24,12 @@ for i = 1:length(models)
 
         
             for j = 1:size(dataTrain, 1)
-                [XTrainTestCell{j, 1}, YTrainTestCell{j, 1}, ~] = prepareDataTest_DNN_wrapper(options, dataTrain(j, :), labelsTrain(j, :));
+                [XTrainTestCell{j, 1}, YTrainTestCell{j, 1}, ~] = prepareDataTest(options, dataTrain(j, :), labelsTrain(j, :));
             end
 
             trainedModel.trainingErrorFeatures = getTrainingErrorFeatures(trainedModel, XTrainTestCell, YTrainTestCell);
             
-            trainedModel.staticThreshold = getStaticThreshold_DNN(trainedModel, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds);
+            trainedModel.staticThreshold = getStaticThresholds(trainedModel, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds);
         else
             trainedModel.trainingErrorFeatures = [];
             trainedModel.staticThreshold = [];
@@ -38,7 +38,7 @@ for i = 1:length(models)
         % Does this make sense?
         trainedModel.Mdl = [];
         trainedModel.trainingErrorFeatures = [];
-        trainedModel.staticThreshold = getStaticThreshold_DNN(trainedModel, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds);
+        trainedModel.staticThreshold = getStaticThresholds(trainedModel, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds);
     end
 
     trainedModels_DNN.(options.id) = trainedModel;

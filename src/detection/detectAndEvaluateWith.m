@@ -3,20 +3,9 @@ function scores = detectAndEvaluateWith(trainedModel, dataTest, labelsTest, thre
 %
 % Runs the detection and returns the scores for the model
 
-switch trainedModel.options.type
-    case 'DNN'
-        [XTest, YTest, labels] = prepareDataTest_DNN_wrapper(trainedModel.options, dataTest, labelsTest);
-            
-        anomalyScores = detectWithDNN_wrapper(trainedModel, XTest, YTest, labels);
-    case 'CML'        
-        [XTest, YTest, labels] = prepareDataTest_CML_wrapper(trainedModel.options, dataTest, labelsTest);
-        
-        anomalyScores = detectWithCML_wrapper(trainedModel, XTest, YTest, labels);
-    case 'S'        
-        [XTest, YTest, labels] = prepareDataTest_S_wrapper(trainedModel.options, dataTest, labelsTest);
-        
-        anomalyScores = detectWithS_wrapper(trainedModel, XTest, YTest, labels);
-end
+[XTest, YTest, labels] = prepareDataTest(trainedModel.options, dataTest, labelsTest);
+    
+anomalyScores = detectWith(trainedModel, XTest, YTest, labels);
 
 if ~trainedModel.options.outputsLabels
     if ~strcmp(threshold, "dynamic")

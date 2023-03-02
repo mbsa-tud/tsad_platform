@@ -1,7 +1,8 @@
-function anomalyScores = detectWithCML(options, Mdl, XTest, YTest, labels)
+function [anomalyScores, compTime] = detectWithCML(options, Mdl, XTest, YTest, labels, getCompTime)
 %DETECTWITHCML
 %
 % Runs the detection for classic ML models and returns anomaly Scores
+compTime = NaN;
 
 switch options.model
     case 'iForest'

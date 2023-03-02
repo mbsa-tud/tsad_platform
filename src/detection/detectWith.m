@@ -1,7 +1,7 @@
-function [anomalyScores, compTimeOut] = detectWithDNN_wrapper(trainedModel, XTest, YTest, labels, getCompTime)
-%DETECTWITHDNN
+function [anomalyScores, compTimeOut] = detectWith(trainedModel, XTest, YTest, labels, getCompTime)
+%DETECTWITH
 %
-% Runs the detection for DL models and returns anomaly Scores
+% Runs the detection and returns anomaly Scores
 fprintf("Detecting with: %s\n", trainedModel.options.model);
 
 if ~exist('getCompTime', 'var')
@@ -17,7 +17,14 @@ if trainedModel.options.isMultivariate
         Mdl_tmp = trainedModel.Mdl;
     end
 
-    [anomalyScores, compTime] = detectWithDNN(trainedModel.options, Mdl_tmp, XTest{1, 1}, YTest{1, 1}, labels, getCompTime);
+    switch trainedModel.options.type
+        case 'DNN'
+            [anomalyScores, compTime] = detectWithDNN(trainedModel.options, Mdl_tmp, XTest{1, 1}, YTest{1, 1}, labels, getCompTime);
+        case 'CML'
+            [anomalyScores, compTime] = detectWithCML(trainedModel.options, Mdl_tmp, XTest{1, 1}, YTest{1, 1}, labels, getCompTime);
+        case 'S'
+            [anomalyScores, compTime] = detectWithS(trainedModel.options, Mdl_tmp, XTest{1, 1}, YTest{1, 1}, labels, getCompTime);
+    end
 else
     numChannels = size(XTest, 2);
 
@@ -29,15 +36,30 @@ else
         else
             Mdl_tmp = trainedModel.Mdl;
         end
-
-        [anomalyScores_tmp, compTime_tmp]  = detectWithDNN(trainedModel.options, Mdl_tmp, XTest{1, i}, YTest{1, i}, labels, getCompTime);
-        anomalyScores = [anomalyScores, anomalyScores_tmp];
-        compTimes = [compTimes, compTime_tmp];
+        
+        switch trainedModel.options.type
+            case 'DNN'
+                [anomalyScores_tmp, compTime_tmp]  = detectWithDNN(trainedModel.options, Mdl_tmp, XTest{1, i}, YTest{1, i}, labels, getCompTime);
+                anomalyScores = [anomalyScores, anomalyScores_tmp];
+                compTimes = [compTimes, compTime_tmp];
+            case 'CML'
+                [anomalyScores_tmp, compTime_tmp]  = detectWithCML(trainedModel.options, Mdl_tmp, XTest{1, i}, YTest{1, i}, labels, getCompTime);
+                anomalyScores = [anomalyScores, anomalyScores_tmp];
+                compTimes = [compTimes, compTime_tmp];
+            case 'S'
+                [anomalyScores_tmp, compTime_tmp]  = detectWithS(trainedModel.options, Mdl_tmp, XTest{1, i}, YTest{1, i}, labels, getCompTime);
+                anomalyScores = [anomalyScores, anomalyScores_tmp];
+                compTimes = [compTimes, compTime_tmp];
+        end
     end
     
     if getCompTime
         compTime = sum(compTimes);
     end
+end
+
+if nargout == 2
+    compTimeOut = compTime;
 end
 
 if trainedModel.options.outputsLabels
@@ -84,9 +106,5 @@ if isfield(trainedModel.options, 'hyperparameters')
                 % Do nothing
         end
     end
-end
-
-if nargout == 2
-    compTimeOut = compTime;
 end
 end

@@ -5,14 +5,8 @@ function score = opt_fun(options, dataTrain, labelsTrain, dataValTest, labelsVal
 
 options = adaptModelOptions(options, optVars);
 
-switch options.type
-    case 'DNN'
-        scoresCell = fitAndEvaluateModel_DNN(options, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, threshold, dynamicThresholdSettings, trainingPlots, trainParallel);
-    case 'CML'     
-        scoresCell = fitAndEvaluateModel_CML(options, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, threshold, dynamicThresholdSettings);
-    case 'S'    
-        scoresCell = fitAndEvaluateModel_S(options, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, threshold, dynamicThresholdSettings);
-end
+scoresCell = trainAndEvaluateModel(options, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, threshold, dynamicThresholdSettings, trainingPlots, trainParallel);
+
 
 numOfMetrics = size(scoresCell{1, 1}, 1);
 numOfScoreMatrices = size(scoresCell, 1);

@@ -14,17 +14,17 @@ for i = 1:length(models)
             error("The %s model requires prior training, but the dataset doesn't contain training data (train folder).", options.model);
         end
         
-        [XTrain, YTrain] = prepareDataTrain_CML_wrapper(options, dataTrain, labelsTrain);
+        [XTrain, YTrain] = prepareDataTrain(options, dataTrain, labelsTrain);
         trainedModel.Mdl = trainCML_wrapper(options, XTrain, YTrain);
 
         if ~options.outputsLabels
-            trainedModel.staticThreshold = getStaticThreshold_CML(trainedModel, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds);
+            trainedModel.staticThreshold = getStaticThresholds(trainedModel, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds);
         else
             trainedModel.staticThreshold = [];
         end
     else
         trainedModel.Mdl = [];
-        trainedModel.staticThreshold = getStaticThreshold_CML(trainedModel, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds);
+        trainedModel.staticThreshold = getStaticThresholds(trainedModel, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds);
     end
 
     trainedModels_CML.(models(i).options.id) = trainedModel;

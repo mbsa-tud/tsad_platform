@@ -1,7 +1,7 @@
-function staticThreshold = getStaticThreshold_CML(trainedModel, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds)
-%GETSTATICTHRESHOLD_CML
+function staticThreshold = getStaticThresholds(trainedModel, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds)
+%GETSTATICTHRESHOLD_DNN
 %
-% This function calculates the static threshold for classic ML models and
+% This function calculates the static threshold for DL models and
 % returnes them in the staticThreshold struct
 
 fprintf("Calculating static thresholds\n");
@@ -17,24 +17,25 @@ if ~isempty(dataValTest)
     numTimeSteps = 0;
 
     for i = 1:size(dataValTest, 1)
-        [XValTestCell{i, 1}, YValTestCell{i, 1}, labelsValTestCell{i, 1}] = prepareDataTest_CML_wrapper(trainedModel.options, dataValTest(i, 1), labelsValTest(i, 1));
-        
+        [XValTestCell{i, 1}, YValTestCell{i, 1}, labelsValTestCell{i, 1}] = prepareDataTest(trainedModel.options, dataValTest(i, :), labelsValTest(i, :));
+
         numAnoms = numAnoms + sum(labelsValTestCell{end} == 1);
         numTimeSteps = numTimeSteps + size(labelsValTestCell{end}, 1);
     end
 
-    contaminationFraction = numAnoms / numTimeSteps;                       
+    contaminationFraction = numAnoms / numTimeSteps;
     
     if contaminationFraction > 0
         anomalyScoresValTest = [];
         labels = [];
 
         for i = 1:size(XValTestCell, 1)
-            anomalyScores_tmp = detectWithCML_wrapper(trainedModel, XValTestCell{i, 1}, YValTestCell{i, 1}, labelsValTestCell{i, 1});
+            anomalyScores_tmp = detectWith(trainedModel, XValTestCell{i, 1}, YValTestCell{i, 1}, labelsValTestCell{i, 1});
             anomalyScoresValTest = [anomalyScoresValTest; anomalyScores_tmp];
             labels = [labels; labelsValTestCell{i, 1}];
         end
-        
+
+
         if ismember("bestFscorePointwise", thresholds)
             staticThreshold.bestFscorePointwise = calcStaticThreshold(anomalyScoresValTest, labels, "bestFscorePointwise", trainedModel.options.model);
         end
@@ -65,12 +66,12 @@ if ~isempty(dataTrain)
         labelsTrainTestCell = cell(size(dataTrain, 1), 1);
     
         for i = 1:size(dataTrain, 1)
-            [XTrainTestCell{i, 1}, YTrainTestCell{i, 1}, labelsTrainTestCell{i, 1}] = prepareDataTest_CML_wrapper(trainedModel.options, dataTrain(i, :), labelsTrain(i, :));
+            [XTrainTestCell{i, 1}, YTrainTestCell{i, 1}, labelsTrainTestCell{i, 1}] = prepareDataTest(trainedModel.options, dataTrain(i, :), labelsTrain(i, :));
         end
     
         anomalyScoresTrain = [];
         for i = 1:size(XTrainTestCell, 1)
-            anomalyScores_tmp = detectWithCML_wrapper(trainedModel, XTrainTestCell{i, 1}, YTrainTestCell{i, 1}, labelsTrainTestCell{i, 1});
+            anomalyScores_tmp = detectWith(trainedModel, XTrainTestCell{i, 1}, YTrainTestCell{i, 1}, labelsTrainTestCell{i, 1});
             anomalyScoresTrain = [anomalyScoresTrain; anomalyScores_tmp];
         end
     end

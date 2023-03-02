@@ -1,9 +1,8 @@
-function anomalyScores = detectWithS(options, Mdl, XTest, YTest, labels)
+function [anomalyScores, compTime] = detectWithS(options, Mdl, XTest, YTest, labels, getCompTime)
 %DETECTWITHS
 %
 % Runs the detection for statistical models and returns anomaly Scores
-
-% Fraction of outliers
+compTime = NaN;
 
 % Detect with model
 switch options.model

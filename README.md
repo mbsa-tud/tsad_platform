@@ -403,8 +403,9 @@ This field can contains all configurable hyperparameters for your model/algorith
 
 You can then use these hyperparameters in the data preparation, model training and detection functions to modify your model.
 See Chapter [adding models](#adding-models) for some examples.
+
 One hyperparamter that must be mentioned is the `scoringFunction`:
-It is optional for all models. Its value changes how the anomaly scores are defined:
+It is optional for all models. Its value changes how the anomaly scores are defined. If your model defines its own scoring function, don't add this field to the hyperparameters.
 
 | Value | Description |
 |-|-|
@@ -416,7 +417,7 @@ It is optional for all models. Its value changes how the anomaly scores are defi
 
 For the channel-wise scores, a common threshold gets applied accross all channels during testing. A single observation only needs to be labeled as anomalous in one of the channels to be considered an anomaly.
 
-**NOTE** If this hyperparameter it is used for classic ML or statistical models, the value can be either `separate` or `aggregated`. In the second case, the RMS is taken across all channels of anomaly scores. The first option is similar to the channel-wise scores mentioned above. The scoring functions only apply, if the model outputs separate anomaly scores for each channel. This is possible if the `isMultivariate` field is set to false, but a multivariate dataset is selected.
+### Configuration file
 
 The file `tsad_platform > config > tsad_platform_config_all.json` contains the JSON representation of a MATLAB struct with separate fields for DNN, CML and statistical models. Each field's value is a struct array with individual "options" structs, as presented before. This file is used for loading the default configuration of models on the [Training](#training-and-optimization) panel using the `Add All` buttons:
 
