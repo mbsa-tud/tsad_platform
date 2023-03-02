@@ -11,6 +11,11 @@ switch options.model
         else
             [~, anomalyScores] = isanomaly(Mdl, XTest);
         end
+
+        if options.useSubsequences
+            % Merge overlapping scores
+            anomalyScores = mergeOverlappingAnomalyScores(options, anomalyScores);
+        end
     case 'OC-SVM'
         % OC-SVM support outlier and novelty detection.
         if isempty(Mdl)
@@ -23,13 +28,33 @@ switch options.model
             Mdl = fitcsvm(XTest, ones(size(XTest, 1), 1), OutlierFraction=contaminationFraction, KernelFunction=string(options.hyperparameters.kernelFunction.value), KernelScale="auto");
         end
         [~, anomalyScores] = predict(Mdl, XTest);
-        anomalyScores = gnegate(anomalyScores);
+
+        if options.useSubsequences
+            % Merge overlapping scores
+            anomalyScores = mergeOverlappingAnomalyScores(options, anomalyScores);
+        end
+        anomalyScores = anomalyScores < 0;
     case 'ABOD'
         [~, anomalyScores] = ABOD(XTest);
+
+        if options.useSubsequences
+            % Merge overlapping scores
+            anomalyScores = mergeOverlappingAnomalyScores(options, anomalyScores);
+        end
     case 'LOF'
         [~, anomalyScores] = LOF(XTest, options.hyperparameters.k.value);
+
+        if options.useSubsequences
+            % Merge overlapping scores
+            anomalyScores = mergeOverlappingAnomalyScores(options, anomalyScores);
+        end
     case 'LDOF'
         anomalyScores = LDOF(XTest, options.hyperparameters.k.value);
+
+        if options.useSubsequences
+            % Merge overlapping scores
+            anomalyScores = mergeOverlappingAnomalyScores(options, anomalyScores);
+        end
     case 'Merlin'
         numAnoms = 0;
         i = 1;
@@ -65,23 +90,7 @@ switch options.model
         else
             fprintf("Warning! minL is greater than maxL for Merlin, setting anomaly scores to zero.");
             anomalyScores = zeros(size(XTest, 1), 1);
-            return;
         end
         anomalyScores = double(anomalyScores);
-        return;
 end
-
-if isfield(options, 'outputsLabels')
-    if options.outputsLabels
-        return;
-    end
-end
-if isfield(options, 'useSubsequences')
-    if ~options.useSubsequences
-        return;
-    end
-end
-
-% Merge overlapping scores
-anomalyScores = mergeOverlappingAnomalyScores(options, anomalyScores);
 end

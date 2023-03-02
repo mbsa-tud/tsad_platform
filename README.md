@@ -582,8 +582,6 @@ The process for adding these algorithms will only be explained for classic machi
         % Add your model here
         case 'Your model'
             anomalyScores = detectWithYourModel(Mdl, XTest);
-            % If your model doesn't work with overlapping subsequences or you defined your own data preparation functions, add a return statement here. 
-            % return;
     ```
 
 #### (Optional) Enable optimization for your model

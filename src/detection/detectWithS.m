@@ -9,21 +9,17 @@ function anomalyScores = detectWithS(options, Mdl, XTest, YTest, labels)
 switch options.model
     case 'Grubbs test'
         anomalyScores = grubbs_test(XTest, options.hyperparameters.alpha.value);
+
+        if options.useSubsequences
+            % Merge overlapping scores
+            anomalyScores = mergeOverlappingAnomalyScores(options, anomalyScores);
+        end
     case 'OD_wpca'
         [~, anomalyScores, ~] = OD_wpca(XTest, options.hyperparameters.ratioOversample.value);
-end
 
-if isfield(options, 'outputsLabels')
-    if options.outputsLabels
-        return;
-    end
+        if options.useSubsequences
+            % Merge overlapping scores
+            anomalyScores = mergeOverlappingAnomalyScores(options, anomalyScores);
+        end
 end
-if isfield(options, 'useSubsequences')
-    if ~options.useSubsequences
-        return;
-    end
-end
-
-% Merge overlapping scores
-anomalyScores = mergeOverlappingAnomalyScores(options, anomalyScores);
 end

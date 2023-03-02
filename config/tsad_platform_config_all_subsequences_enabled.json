@@ -492,7 +492,7 @@
                 "dataType": 1,
                 "requiresPriorTraining": false,
                 "isMultivariate": true,
-                "outputsLabels": false,
+                "outputsLabels": true,
                 "useSubsequences": true,
                 "hyperparameters": {
                     "kernelFunction": {
