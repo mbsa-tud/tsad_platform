@@ -9,14 +9,14 @@ YTrain = [];
 numChannels = size(data{1, 1}, 2);
 
 if strcmp(modelType, 'reconstructive')
-    for i = 1:size(data, 1)
-        numWindows = round((size(data{i, 1}, 1) - windowSize - stepSize + 1) / stepSize);
+    for dataIdx = 1:size(data, 1)
+        numWindows = round((size(data{dataIdx, 1}, 1) - windowSize - stepSize + 1) / stepSize);
         
         if dataType == 1
             flattenedWindowsSize = windowSize * numChannels;
             XTrainTmp = zeros(numWindows, flattenedWindowsSize);
-            for j = 1:numWindows
-                XTrainTmp(j, :) = reshape(data{i, 1}((j * stepSize):(j * stepSize + windowSize - 1), :), ...
+            for i = 1:numWindows
+                XTrainTmp(i, :) = reshape(data{dataIdx, 1}((i * stepSize):(i * stepSize + windowSize - 1), :), ...
                     [1, flattenedWindowsSize]);
             end
 
@@ -24,8 +24,8 @@ if strcmp(modelType, 'reconstructive')
             YTrain = XTrain;
         elseif dataType == 2
             XTrainTmp = cell(numWindows, 1);
-            for j = 1:numWindows
-                XTrainTmp{j, 1} = data{i, 1}((j * stepSize):(j * stepSize + windowSize - 1), :)';
+            for i = 1:numWindows
+                XTrainTmp{i, 1} = data{dataIdx, 1}((i * stepSize):(i * stepSize + windowSize - 1), :)';
             end
 
             XTrain = [XTrain; XTrainTmp];
@@ -35,46 +35,46 @@ if strcmp(modelType, 'reconstructive')
         end
     end
 elseif strcmp(modelType, 'predictive')
-    for i = 1:size(data, 1)
-        numWindows = round((size(data{i, 1}, 1) - windowSize - stepSize + 1) / stepSize);
+    for dataIdx = 1:size(data, 1)
+        numWindows = round((size(data{dataIdx, 1}, 1) - windowSize - stepSize + 1) / stepSize);
         
         if dataType == 1
             flattenedWindowsSize = windowSize * numChannels;
             XTrainTmp = zeros(numWindows, flattenedWindowsSize);
-            for j = 1:numWindows
-                XTrainTmp(j, :) = reshape(data{i, 1}((j * stepSize):(j * stepSize + windowSize - 1), :), ...
+            for i = 1:numWindows
+                XTrainTmp(i, :) = reshape(data{dataIdx, 1}((i * stepSize):(i * stepSize + windowSize - 1), :), ...
                     [1, flattenedWindowsSize]);
             end
 
             YTrainTmp = zeros(numWindows, numChannels);
-            for j = 1:numWindows
-                YTrainTmp(j, :) = data{i, 1}((((j - 1) * stepSize) + windowSize + 1), :);
+            for i = 1:numWindows
+                YTrainTmp(i, :) = data{dataIdx, 1}((((i - 1) * stepSize) + windowSize + 1), :);
             end
 
             XTrain = [XTrain; XTrainTmp];
             YTrain = [YTrain; YTrainTmp]; 
         elseif dataType == 2
             XTrainTmp = cell(numWindows, 1);
-            for j = 1:numWindows
-                XTrainTmp{j, 1} = data{i, 1}((j * stepSize):(j * stepSize + windowSize - 1), :)';
+            for i = 1:numWindows
+                XTrainTmp{i, 1} = data{dataIdx, 1}((i * stepSize):(i * stepSize + windowSize - 1), :)';
             end
 
             YTrainTmp = zeros(numWindows, numChannels);
-            for j = 1:numWindows
-                YTrainTmp(j, :) = data{i, 1}((((j - 1) * stepSize) + windowSize + 1), :);
+            for i = 1:numWindows
+                YTrainTmp(i, :) = data{dataIdx, 1}((((i - 1) * stepSize) + windowSize + 1), :);
             end
 
             XTrain = [XTrain; XTrainTmp];
             YTrain = [YTrain; YTrainTmp]; 
         elseif dataType == 3
             XTrainTmp = cell(numWindows, 1);
-            for j = 1:numWindows
-                XTrainTmp{j, 1} = data{i, 1}((j * stepSize):(j * stepSize + windowSize - 1), :);
+            for i = 1:numWindows
+                XTrainTmp{i, 1} = data{dataIdx, 1}((i * stepSize):(i * stepSize + windowSize - 1), :);
             end
 
             YTrainTmp = cell(numWindows, 1);
-            for j = 1:numWindows
-                YTrainTmp{j, :} = data{i, 1}((((j - 1) * stepSize) + windowSize + 1), :)';
+            for i = 1:numWindows
+                YTrainTmp{i, :} = data{dataIdx, 1}((((i - 1) * stepSize) + windowSize + 1), :)';
             end
 
             XTrain = [XTrain; XTrainTmp];

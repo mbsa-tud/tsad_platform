@@ -21,14 +21,14 @@ if strcmp(modelType, 'reconstructive')
     if dataType == 1
         flattenedWindowsSize = windowSize * numChannels;
         XTest = zeros(numWindows, flattenedWindowsSize);
-        for j = 1:numWindows
-            XTest(j, :) = reshape(data{1, 1}(j:(j + windowSize - 1), :), ...
+        for i = 1:numWindows
+            XTest(i, :) = reshape(data{1, 1}(i:(i + windowSize - 1), :), ...
                     [1, flattenedWindowsSize]);
         end
     elseif dataType == 2
         XTest = cell(numWindows, 1);
-        for j = 1:numWindows
-            XTest{j, 1} = data{1, 1}(j:(j + windowSize - 1), :)';
+        for i = 1:numWindows
+            XTest{i, 1} = data{1, 1}(i:(i + windowSize - 1), :)';
         end
     else
         error("Invalid dataType for reconstructive model. Must be one of: 1, 2");
@@ -42,19 +42,19 @@ elseif strcmp(modelType, 'predictive')
     if dataType == 1
         flattenedWindowsSize = windowSize * numChannels;
         XTest = zeros(numWindows, flattenedWindowsSize);
-        for j = 1:numWindows
-            XTest(j, :) = reshape(data{1, 1}(j:(j + windowSize - 1), :), ...
+        for i = 1:numWindows
+            XTest(i, :) = reshape(data{1, 1}(i:(i + windowSize - 1), :), ...
                     [1, flattenedWindowsSize]);
         end
     elseif dataType == 2
         XTest = cell(numWindows, 1);
-        for j = 1:numWindows
-            XTest{j, 1} = data{1, 1}(j:(j + windowSize - 1), :)';
+        for i = 1:numWindows
+            XTest{i, 1} = data{1, 1}(i:(i + windowSize - 1), :)';
         end
     elseif dataType == 3
         XTest = cell(numWindows, 1);
-        for j = 1:numWindows
-            XTest{j, 1} = data{1, 1}(j:(j + windowSize - 1), :);
+        for i = 1:numWindows
+            XTest{i, 1} = data{1, 1}(i:(i + windowSize - 1), :);
         end
     else
         error("Invalid dataType for predictive model. Must be one of: 1, 2, 3");
