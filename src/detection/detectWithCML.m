@@ -8,7 +8,14 @@ switch options.model
     case 'iForest'
         % iForest supports outlier and novelty detection.
         if isempty(Mdl)
-            [~, ~, anomalyScores] = iforest(XTest, NumLearners=options.hyperparameters.numLearners.value, NumObservationsPerLearner=options.hyperparameters.numObservationsPerLearner.value);
+            if ~isempty(labels)
+                numOfAnoms = sum(labels == 1);
+                contaminationFraction = numOfAnoms / size(labels, 1);
+            else
+                contaminationFraction = 0;
+            end
+
+            [~, ~, anomalyScores] = iforest(XTest, contaminationFraction=contaminationFraction, NumLearners=options.hyperparameters.numLearners.value, NumObservationsPerLearner=options.hyperparameters.numObservationsPerLearner.value);
         else
             [~, anomalyScores] = isanomaly(Mdl, XTest);
         end
@@ -26,6 +33,7 @@ switch options.model
             else
                 contaminationFraction = 0;
             end
+
             Mdl = fitcsvm(XTest, ones(size(XTest, 1), 1), OutlierFraction=contaminationFraction, KernelFunction=string(options.hyperparameters.kernelFunction.value), KernelScale="auto");
         end
         [~, anomalyScores] = predict(Mdl, XTest);
