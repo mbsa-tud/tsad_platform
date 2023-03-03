@@ -8,7 +8,7 @@ switch options.model
     case 'Your model'
     otherwise
         prediction = predict(Mdl, XTest);
-        
+
         if getCompTime
             iterations = min(1000, size(XTest, 1));
             times = zeros(iterations, 1);
@@ -17,7 +17,7 @@ switch options.model
                 predict(Mdl, XTest(k, :));
                 times(k, 1) = cputime - tStart;
             end
-            compTime = mean(times);
+            compTime = mean(times(~(times == 0)));
         end
 
           
