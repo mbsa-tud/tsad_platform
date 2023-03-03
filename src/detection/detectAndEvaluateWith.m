@@ -8,20 +8,13 @@ function scores = detectAndEvaluateWith(trainedModel, dataTest, labelsTest, thre
 anomalyScores = detectWith(trainedModel, XTest, YTest, labels);
 
 if ~trainedModel.options.outputsLabels
-    if ~strcmp(threshold, "dynamic")
-        % Static threshold
-    
-        if ~isempty(trainedModel.staticThreshold) && isfield(trainedModel.staticThreshold, threshold)  
-            selectedThreshold = trainedModel.staticThreshold.(threshold);
-        else
-            selectedThreshold = threshold;
-        end
-        
-        predictedLabels = calcStaticThresholdPrediction(anomalyScores, labels, selectedThreshold, trainedModel.options.model);
+    if ~isempty(trainedModel.staticThreshold) && isfield(trainedModel.staticThreshold, threshold)  
+        selectedThreshold = trainedModel.staticThreshold.(threshold);
     else
-        % Dynamic threshold    
-        [predictedLabels, ~] = calcDynamicThresholdPrediction(anomalyScores, labels, dynamicThresholdSettings);
+        selectedThreshold = threshold;
     end
+    
+    [predictedLabels, ~] = applyThresholdToAnomalyScores(anomalyScores, labels, trainedModel.options.model, selectedThreshold, dynamicThresholdSettings);
 else
     predictedLabels = anomalyScores;
 end

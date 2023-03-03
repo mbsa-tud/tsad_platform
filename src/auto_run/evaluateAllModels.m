@@ -27,19 +27,13 @@ if ~isempty(trainedModels)
             % For all thresholds in the thresholds variable
             for thrIdx = 1:length(thresholds)
                 if ~trainedModel.options.outputsLabels
-                    if ~strcmp(thresholds(thrIdx), 'dynamic')
-                        % Static thresholds
-                        if ~isempty(trainedModel.staticThreshold) && isfield(trainedModel.staticThreshold, thresholds(thrIdx))  
-                            selectedThreshold = trainedModel.staticThreshold.(thresholds(thrIdx));
-                        else
-                            selectedThreshold = thresholds(thrIdx);
-                        end
-           
-                        predictedLabels = calcStaticThresholdPrediction(anomalyScores, labels, selectedThreshold, trainedModel.options.model);
+                    if ~isempty(trainedModel.staticThreshold) && isfield(trainedModel.staticThreshold, thresholds(thrIdx))  
+                        selectedThreshold = trainedModel.staticThreshold.(thresholds(thrIdx));
                     else
-                        % Dynamic threshold            
-                        [predictedLabels, ~] = calcDynamicThresholdPrediction(anomalyScores, labels, dynamicThresholdSettings); 
+                        selectedThreshold = thresholds(thrIdx);
                     end
+       
+                    [predictedLabels, ~] = applyThresholdToAnomalyScores(anomalyScores, labels, trainedModel.options.model, selectedThreshold, dynamicThresholdSettings);
                 else
                     predictedLabels = anomalyScores;
                 end
