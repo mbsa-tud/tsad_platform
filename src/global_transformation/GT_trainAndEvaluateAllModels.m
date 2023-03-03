@@ -7,7 +7,11 @@ function [tmpScores, filesTest] = GT_trainAndEvaluateAllModels(datasetPath, mode
 fprintf('\nLoading data\n\n')
 % Loading data
 [rawDataTrain, ~, labelsTrain, ~, ...
-    rawDataTest, ~, labelsTest, filesTest] = loadCustomDataset(datasetPath);
+    rawDataTest, ~, labelsTest, filesTest, ~] = loadCustomDataset(datasetPath);
+
+if isempty(rawDataTest) && isempty(rawDataTrain)
+    error("Invalid dataset selected");
+end
 
 if size(rawDataTest{1, 1}, 2) > 1
     isMultivariate = true;

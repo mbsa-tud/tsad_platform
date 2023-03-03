@@ -1,5 +1,5 @@
 function [trainingData, timestampsTraining, labelsTraining, filesTraining, ...
-                testingData, timestampsTesting, labelsTesting, filesTesting] = loadCustomDataset(datasetPath)
+                testingData, timestampsTesting, labelsTesting, filesTesting, channelNames] = loadCustomDataset(datasetPath)
 %LOADCUSTOMDATASET
 %
 % Loads the custom dataset from CSV files.
@@ -12,6 +12,7 @@ filesTraining = [];
 filesTesting = [];
 labelsTraining = [];
 labelsTesting = [];
+channelNames = [];
 
 dataPath = datasetPath;
 
@@ -62,6 +63,8 @@ for i = 1:numOfTrainingFiles
     catch
         timestampsTraining{i, 1} = data{:, 1};
     end
+
+    channelNames = string(data.Properties.VariableNames(2:(end - 1)));
 end
 
 
@@ -79,5 +82,7 @@ for i = 1:numOfTestingFiles
     catch
         timestampsTesting{i, 1} = data{:, 1};
     end
+
+    channelNames = string(data.Properties.VariableNames(2:(end - 1)));
 end
 end

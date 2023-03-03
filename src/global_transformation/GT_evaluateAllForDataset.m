@@ -54,7 +54,7 @@ end
 fprintf('Selected dataset: %s\n', datasetName);
 
 % Get all dataset files
-if exist(fullfile(datasetPath, 'train'), 'dir') && exist(fullfile(datasetPath, 'test'), 'dir')
+if exist(fullfile(datasetPath, 'test'), 'dir')
     % For single entity datasets
     indices = 1;
     isMultiEntity = false;
@@ -68,6 +68,9 @@ else
     isMultiEntity = true;
 end
 
+if isempty(indices)
+    error("Invalid dataset selected");
+end
 
 
 % Initialize table for evaluation results
