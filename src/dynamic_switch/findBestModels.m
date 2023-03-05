@@ -5,7 +5,7 @@ function bestModels = findBestModels(trainedModels, dataTest, labelsTest, filesT
 % cmpMetric as the comparison metric
 
 allScores = evaluateAllModels(trainedModels, dataTest, labelsTest, filesTest, threshold, dynamicThresholdSettings);
-allModelNames = fieldnames(trainedModels);
+allModelIds = fieldnames(trainedModels);
 
 switch cmpMetric
     case 'F1 Score (point-wise)'
@@ -42,6 +42,7 @@ scores_all = allScores{1, 1};
 for i = 1:length(scores_all)
     [~, idx] = max(scores_all{i, 1}(score_idx, :));
     
-    bestModels.(sprintf("file_%s", filesTest(i))) = allModelNames{idx};
+    bestModels.(filesTest(i)).id = allModelIds{idx};
+    bestModels.(filesTest(i)).label = trainedModels.(allModelIds{idx}).options.label;
 end
 end

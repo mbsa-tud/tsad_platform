@@ -2,7 +2,6 @@ function [anomalyScores, compTimeOut] = detectWith(trainedModel, XTest, YTest, l
 %DETECTWITH
 %
 % Runs the detection and returns anomaly Scores
-fprintf("Detecting with: %s\n", trainedModel.options.model);
 
 if ~exist('getCompTime', 'var')
     getCompTime = false;

@@ -1,4 +1,4 @@
-function finalTable = evaluateDynamicSwitch(classifier, trainedModels, dataTestSwitch, labelsTestSwitch, threshold, dynamicThresholdSettings)
+function [finalTable, selectedModels] = evaluateDynamicSwitch(classifier, trainedModels, dataTestSwitch, labelsTestSwitch, threshold, dynamicThresholdSettings)
 % EVALUATEDYNAMICSWITCH
 %
 % Tests the dynamic switch and compares it to all individual models on the
@@ -16,6 +16,8 @@ end
 fullScores_Switch = cell(numOfTestingFiles, 1);
 fullScores = cell(numOfModels, 1);
 
+selectedModels = strings(numOfTestingFiles, 1);
+
 for fileIdx = 1:numOfTestingFiles    
     % select data
     XTest_switch = diagnosticFeatures(dataTestSwitch{fileIdx, 1});
@@ -23,8 +25,9 @@ for fileIdx = 1:numOfTestingFiles
     % classifier chooses model
     pred = string(classify(classifier, XTest_switch));
     selectedModel = trainedModels.(pred);
-
-    fprintf("\n### Dynamic switch chose model %s for file No.%d ###\n\n", pred, fileIdx);
+    
+    selectedModels(fileIdx, 1) = trainedModels.(pred).options.label;
+    fprintf("\n### Dynamic switch chose model %s for file No.%d ###\n\n", trainedModels.(pred).options.label, fileIdx);
     
     fullScores_Switch{fileIdx, 1} = detectAndEvaluateWith(selectedModel, dataTestSwitch(fileIdx, 1), labelsTestSwitch(fileIdx, 1), threshold, dynamicThresholdSettings);
     for j = 1:numOfModels

@@ -16,8 +16,8 @@ if size(data, 1) > 1
     labels = labels(idx((splitPoint + 1):end), 1);
 
     if ~isempty(files)
-        filesSwitch = files(1, idx(1:splitPoint));
-        files = files(1, idx((splitPoint + 1):end));
+        filesSwitch = files(idx(1:splitPoint), 1);
+        files = files(idx((splitPoint + 1):end), 1);
     end
 else
     error("Dynamic switch can only be used for dataset with multiple anomalous testing files!");     

@@ -23,8 +23,8 @@ if size(dataTest, 1) > 1
     labelsTest = labelsTest(idx((splitPoint + 1):end), 1);
 
     if ~isempty(filesTest)
-        filesTestVal = filesTest(1, idx(1:splitPoint));
-        filesTest = filesTest(1, idx((splitPoint + 1):end));
+        filesTestVal = filesTest(idx(1:splitPoint), 1);
+        filesTest = filesTest(idx((splitPoint + 1):end), 1);
     end
 else
     filesTestVal = filesTest;

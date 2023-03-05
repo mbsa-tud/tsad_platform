@@ -40,13 +40,13 @@ if numOfTrainingFiles > 0
     trainingData = cell(numOfTrainingFiles, 1);
     timestampsTraining = cell(numOfTrainingFiles, 1);
     labelsTraining = cell(numOfTestingFiles, 1);
-    filesTraining = strings(1, numOfTrainingFiles);
+    filesTraining = strings(numOfTrainingFiles, 1);
 end
 if numOfTestingFiles > 0
     testingData = cell(numOfTestingFiles, 1);
     timestampsTesting = cell(numOfTestingFiles, 1);
     labelsTesting = cell(numOfTestingFiles, 1);
-    filesTesting = strings(1, numOfTestingFiles);
+    filesTesting = strings(numOfTestingFiles, 1);
 end
     
 for i = 1:numOfTrainingFiles
@@ -54,7 +54,7 @@ for i = 1:numOfTrainingFiles
     data = readtable(file);
 
     name = strsplit(trainingFiles(i).name, '.');
-    filesTraining(1, i) = name(1);
+    filesTraining(i, 1) = name(1);
     trainingData{i, 1} = data{:, 2:(end - 1)};
     labelsTraining{i, 1} = logical(data{:, end});                
 
@@ -73,7 +73,7 @@ for i = 1:numOfTestingFiles
     data = readtable(file);
 
     name = strsplit(testingFiles(i).name, '.');
-    filesTesting(1, i) = name(1);
+    filesTesting(i, 1) = name(1);
     testingData{i, 1} = data{:, 2:(end - 1)};
     labelsTesting{i, 1} = logical(data{:, end});
 

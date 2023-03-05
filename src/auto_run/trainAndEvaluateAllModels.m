@@ -95,7 +95,9 @@ if ~isempty(trainedModels)
 
     for modelIdx = 1:length(fields)
         trainedModel = trainedModels.(fields{modelIdx});
-    
+        
+        fprintf("Detecting with: %s\n", trainedModel.options.model);
+
         % For all files in the test folder
         for dataIdx = 1:length(filesTest)
             [XTest, YTest, labels] = prepareDataTest(trainedModel.options, dataTest(dataIdx, 1), labelsTest(dataIdx, 1));

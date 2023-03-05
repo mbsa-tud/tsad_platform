@@ -11,11 +11,11 @@ fields = fieldnames(labels);
 XTrain = [];
 
 for i = 1:numel(fields)
-    [~, fileIdx] = ismember(fields{i}(6:end), files);
+    [~, fileIdx] = ismember(fields{i}, files);
 
     % Convert time series to feature vector
     XTrain_tmp = diagnosticFeatures(data{fileIdx, 1});
-    XTrain_tmp.(labelName) = convertCharsToStrings(labels.(fields{i}));
+    XTrain_tmp.(labelName) = convertCharsToStrings(labels.(fields{i}).id);
     XTrain = [XTrain; XTrain_tmp];
 end
 
