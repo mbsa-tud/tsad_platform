@@ -637,10 +637,10 @@ case "custom"
 
 ## Known limitations, issues and possible future upgrades (Mostly relevant for developers)
 
-1. **Training DL models using `standardized` data often leads to bad or no gradient-convergence during training. This can be further investigated and possibly fixed in the future. (It might be related to the network architecture, data or even the training options)**
-2. The network architecture of the `TCN AE` requires the sequence length/window size to be divisible by 4. This could be fixed in the future.
-4. Optimize the threshold calcucation (in file computeBestFScoreThreshold.m). It can be slow, especially for larger datasets, as it checks the F-Score for every single unique anomaly score value of the used time series (either anomalous validation set or test set). An upper bound of threshold values to check could be implemented to counter this issue.
-5. The optimization windows don't support categorical hyperparameters at this point.
+1. **Training some DL models using `standardized` data sometimes leads to bad or no gradient-convergence during training. This can be further investigated and possibly fixed in the future. (It might be related to the network architecture (used layers like batchNormalization or reLU), the dataset or even the training options)**
+2. The network architecture of the `TCN AE` requires the sequence length/window size to be divisible by 4. This might be fixed in the future.
+3. Optimize the threshold calcucation (in file computeBestFScoreThreshold.m). It can be slow, especially for larger datasets, as it checks the F-Score for every single unique anomaly score value of the used time series (either anomalous validation set or test set). An upper bound of threshold values to check could be implemented to counter this issue.
+4. The optimization windows don't support categorical hyperparameters at this point.
 5. Parallel training on gpu was never tested properly/failed (It worked on cpu or with a few models on gpu; otherwise memory error). Most importand related files: (trainDNN_parallel.m and getOptionsForParallel.m).
 6. The simulink detection doesn't implement the different data preparation methods and scoring functions for the different deep-learning models, which makes it non-functional in many cases. The functionality of using a univariate model on multivariate datasets, where a separate model is trained for each channel of the dataset, must be implemented aswell. This feature already exists in the normal detection mode (It can be enabled by setting the `isMultivariate` field to `false` for a model).
 7. The step-size for the detection process is always set to 1 and can't be adjusted.
