@@ -33,7 +33,6 @@ switch options.model
         layers = [...
             sequenceInputLayer(numFeatures, MinLength=options.hyperparameters.windowSize.value)
             convolution1dLayer(5, options.hyperparameters.filter.value, Padding='same', WeightsInitializer='he', DilationFactor=1)
-            batchNormalizationLayer()
             reluLayer()
             convolution1dLayer(5, options.hyperparameters.filter.value, Padding='same', Weightsinitializer='he', DilationFactor=1)
             reluLayer()
@@ -51,18 +50,14 @@ switch options.model
             sequenceInputLayer(numFeatures, Name='Input', MinLength=options.hyperparameters.windowSize.value, Name='Input')
 
             convolution1dLayer(5, options.hyperparameters.filter.value, Stride=1, Padding='causal', WeightsInitializer='he', DilationFactor=1)
-            batchNormalizationLayer()
             reluLayer()
             convolution1dLayer(5, options.hyperparameters.filter.value, Stride=1, Padding='causal', WeightsInitializer='he', DilationFactor=1)
-            batchNormalizationLayer()
             additionLayer(2, Name='Add_1')
             reluLayer(Name='Relu_2')
 
             convolution1dLayer(5, options.hyperparameters.filter.value, Stride=1, Padding='causal', WeightsInitializer='he', DilationFactor=2)
-            batchNormalizationLayer()
             reluLayer()
             convolution1dLayer(5, options.hyperparameters.filter.value, Stride=1, Padding='causal', WeightsInitializer='he', DilationFactor=2)
-            batchNormalizationLayer()
             additionLayer(2, Name='Add_2')
             reluLayer()
 
@@ -76,18 +71,14 @@ switch options.model
 
 
             convolution1dLayer(5, options.hyperparameters.filter.value, Stride=1, Padding='causal', WeightsInitializer='he', DilationFactor=2)
-            batchNormalizationLayer()
             reluLayer()
             convolution1dLayer(5, options.hyperparameters.filter.value, Stride=1, Padding='causal', WeightsInitializer='he', DilationFactor=2)
-            batchNormalizationLayer()
             additionLayer(2, Name='Add_3')
             reluLayer(Name='Relu_6')
 
             convolution1dLayer(5, options.hyperparameters.filter.value, Stride=1, Padding='causal', WeightsInitializer='he', DilationFactor=1)
-            batchNormalizationLayer()
             reluLayer()
             convolution1dLayer(5, options.hyperparameters.filter.value, Stride=1, Padding='causal', WeightsInitializer='he', DilationFactor=1)
-            batchNormalizationLayer()
             additionLayer(2, Name='Add_4')
             reluLayer()
 
@@ -125,7 +116,6 @@ switch options.model
         layers = [...
             sequenceInputLayer(numFeatures, MinLength=options.hyperparameters.windowSize.value, Name='Input')
             convolution1dLayer(5, options.hyperparameters.filter.value, Padding='same', WeightsInitializer='he', DilationFactor=1)
-            batchNormalizationLayer()
             reluLayer()
             convolution1dLayer(5, options.hyperparameters.filter.value, Padding='same', WeightsInitializer='he', DilationFactor=1)
             reluLayer()
@@ -179,10 +169,8 @@ switch options.model
             reluLayer(Name='ReLU 1')
 
             convolution1dLayer(5, options.hyperparameters.filter.value, Stride=1, Padding='same', WeightsInitializer='he')
-            batchNormalizationLayer()
             reluLayer()
             convolution1dLayer(5, options.hyperparameters.filter.value, Stride=1, Padding='same', WeightsInitializer='he')
-            batchNormalizationLayer()
             additionLayer(2, Name='Add')
             reluLayer()                        
 
