@@ -23,6 +23,8 @@ for fileIdx = 1:numOfTestingFiles
     % classifier chooses model
     pred = string(classify(classifier, XTest_switch));
     selectedModel = trainedModels.(pred);
+
+    fprintf("\n### Dynamic switch chose model %s for file No.%d ###\n\n", pred, fileIdx);
     
     fullScores_Switch{fileIdx, 1} = detectAndEvaluateWith(selectedModel, dataTestSwitch(fileIdx, 1), labelsTestSwitch(fileIdx, 1), threshold, dynamicThresholdSettings);
     for j = 1:numOfModels
