@@ -33,6 +33,7 @@ switch options.model
         layers = [...
             sequenceInputLayer(numFeatures, MinLength=options.hyperparameters.windowSize.value)
             convolution1dLayer(5, options.hyperparameters.filter.value, Padding='same', WeightsInitializer='he', DilationFactor=1)
+            batchNormalizationLayer()
             reluLayer()
             convolution1dLayer(5, options.hyperparameters.filter.value, Padding='same', Weightsinitializer='he', DilationFactor=1)
             reluLayer()
@@ -50,16 +51,20 @@ switch options.model
             sequenceInputLayer(numFeatures, Name='Input', MinLength=options.hyperparameters.windowSize.value, Name='Input')
 
             convolution1dLayer(5, options.hyperparameters.filter.value, Stride=1, Padding='causal', WeightsInitializer='he', DilationFactor=1)
+            layerNormalizationLayer()
             reluLayer()
             convolution1dLayer(5, options.hyperparameters.filter.value, Stride=1, Padding='causal', WeightsInitializer='he', DilationFactor=1)
+            layerNormalizationLayer()
+            reluLayer()
             additionLayer(2, Name='Add_1')
-            reluLayer(Name='Relu_2')
 
             convolution1dLayer(5, options.hyperparameters.filter.value, Stride=1, Padding='causal', WeightsInitializer='he', DilationFactor=2)
+            layerNormalizationLayer()
             reluLayer()
             convolution1dLayer(5, options.hyperparameters.filter.value, Stride=1, Padding='causal', WeightsInitializer='he', DilationFactor=2)
-            additionLayer(2, Name='Add_2')
+            layerNormalizationLayer()
             reluLayer()
+            additionLayer(2, Name='Add_2')
 
 
 
@@ -71,16 +76,20 @@ switch options.model
 
 
             convolution1dLayer(5, options.hyperparameters.filter.value, Stride=1, Padding='causal', WeightsInitializer='he', DilationFactor=2)
+            layerNormalizationLayer()
             reluLayer()
             convolution1dLayer(5, options.hyperparameters.filter.value, Stride=1, Padding='causal', WeightsInitializer='he', DilationFactor=2)
+            layerNormalizationLayer()
+            reluLayer()
             additionLayer(2, Name='Add_3')
-            reluLayer(Name='Relu_6')
 
             convolution1dLayer(5, options.hyperparameters.filter.value, Stride=1, Padding='causal', WeightsInitializer='he', DilationFactor=1)
+            layerNormalizationLayer()
             reluLayer()
             convolution1dLayer(5, options.hyperparameters.filter.value, Stride=1, Padding='causal', WeightsInitializer='he', DilationFactor=1)
-            additionLayer(2, Name='Add_4')
+            layerNormalizationLayer()
             reluLayer()
+            additionLayer(2, Name='Add_4')
 
             convolution1dLayer(1, numFeatures, Padding='same')
 
@@ -93,11 +102,11 @@ switch options.model
         layers = addLayers(layers, convolution1dLayer(1, options.hyperparameters.filter.value, Stride=1, Name='Conv_skip_4'));
         layers = connectLayers(layers, "Input", "Conv_skip_1");
         layers = connectLayers(layers, "Conv_skip_1", "Add_1/in2");
-        layers = connectLayers(layers, "Relu_2", "Conv_skip_2");
+        layers = connectLayers(layers, "Add_1", "Conv_skip_2");
         layers = connectLayers(layers, "Conv_skip_2", "Add_2/in2");
         layers = connectLayers(layers, "Upsample", "Conv_skip_3");
         layers = connectLayers(layers, "Conv_skip_3", "Add_3/in2");
-        layers = connectLayers(layers, "Relu_6", "Conv_skip_4");
+        layers = connectLayers(layers, "Add_3", "Conv_skip_4");
         layers = connectLayers(layers, "Conv_skip_4", "Add_4/in2");
     case 'LSTM'
         outputMode = 'last';
@@ -116,6 +125,7 @@ switch options.model
         layers = [...
             sequenceInputLayer(numFeatures, MinLength=options.hyperparameters.windowSize.value, Name='Input')
             convolution1dLayer(5, options.hyperparameters.filter.value, Padding='same', WeightsInitializer='he', DilationFactor=1)
+            batchNormalizationLayer()
             reluLayer()
             convolution1dLayer(5, options.hyperparameters.filter.value, Padding='same', WeightsInitializer='he', DilationFactor=1)
             reluLayer()
@@ -169,8 +179,10 @@ switch options.model
             reluLayer(Name='ReLU 1')
 
             convolution1dLayer(5, options.hyperparameters.filter.value, Stride=1, Padding='same', WeightsInitializer='he')
+            batchNormalizationLayer()
             reluLayer()
             convolution1dLayer(5, options.hyperparameters.filter.value, Stride=1, Padding='same', WeightsInitializer='he')
+            batchNormalizationLayer()
             additionLayer(2, Name='Add')
             reluLayer()                        
 
