@@ -90,7 +90,7 @@ switch options.model
                 options.hyperparameters.maxL.value, numAnoms);
             indices = sort(indices, 2);
             
-            anomalyScores = zeros(size(XTest, 1), size(indices, 1));
+            anomalyScores = zeros(size(XTest, 1), 1);
             
             % Get average locations of top k discords
             for i = 1:numAnoms
@@ -98,7 +98,8 @@ switch options.model
                 anomalyScores(avg_disc_loc:(avg_disc_loc + floor((options.hyperparameters.minL.value + options.hyperparameters.maxL.value) / 2))) = 1;
             end
             
-            % Alternativeley label all found anomalies of all lengths
+            % Alternativeley label all found anomalies of all lengths and merge afterwards
+%	      anomalyScores = zeros(size(XTest, 1), size(indices, 1));
 %             for i = 1:size(indices, 1)
 %                 for j = 1:numAnoms
 %                     anomalyScores(indices(i, j):(indices(i, j) + options.hyperparameters.minL.value - 2 + i)) = 1;
