@@ -561,6 +561,10 @@
                     "maxL": {
                         "value": 100,
                         "type": "integer"
+                    },
+                    "mode": {
+                        "value": "merged",
+                        "type": "categorical"
                     }
                 }
             }
