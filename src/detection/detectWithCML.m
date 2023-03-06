@@ -90,12 +90,21 @@ switch options.model
                 options.hyperparameters.maxL.value, numAnoms);
             indices = sort(indices, 2);
             
-            anomalyScores = zeros(size(XTest, 1), 1);
-
+            anomalyScores = zeros(size(XTest, 1), size(indices, 1));
+            
+            % Get average locations of top k discords
             for i = 1:numAnoms
                 avg_disc_loc = floor(median(indices(:, i)));
                 anomalyScores(avg_disc_loc:(avg_disc_loc + floor((options.hyperparameters.minL.value + options.hyperparameters.maxL.value) / 2))) = 1;
             end
+            
+            % Alternativeley label all found anomalies of all lengths
+%             for i = 1:size(indices, 1)
+%                 for j = 1:numAnoms
+%                     anomalyScores(indices(i, j):(indices(i, j) + options.hyperparameters.minL.value - 2 + i)) = 1;
+%                 end
+%             end
+%             anomalyScores = any(anomalyScores, 2);
         else
             fprintf("Warning! minL is greater than maxL for Merlin, setting anomaly scores to zero.");
             anomalyScores = zeros(size(XTest, 1), 1);
