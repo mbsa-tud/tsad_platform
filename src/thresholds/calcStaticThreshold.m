@@ -53,12 +53,10 @@ switch threshold
                 thr = 0.5;
         end
     otherwise
-        warning("The selected static threshold  - %s -  can't be calculated after detection. Setting threshold to 0. See file src/thresholds/calcStaticThreshold.m", threshold);
-        thr = 0;
+        warning("The selected static threshold  - %s -  can't be calculated after detection. Setting threshold to NaN. See file src/thresholds/calcStaticThreshold.m", threshold);
+        thr = NaN;
 end
 
-% If thr is NaN, set it very high to only produce NaN values after
-% detection but don't throw an error
 if isnan(thr)
     warning("(file: src/thresholds/calcStaticThreshold.m): Threshold %s was calculated to be NaN for %s.\n", threshold, model);
 end
