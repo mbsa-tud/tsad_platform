@@ -10,13 +10,7 @@ fprintf("Detecting with: %s\n", trainedModel.options.model);
 anomalyScores = detectWith(trainedModel, XTest, YTest, labels);
 
 if ~trainedModel.options.outputsLabels
-    if isfield(trainedModel, "staticThreshold") && isfield(trainedModel.staticThreshold, threshold)  
-        selectedThreshold = trainedModel.staticThreshold.(threshold);
-    else
-        selectedThreshold = threshold;
-    end
-    
-    [predictedLabels, ~] = applyThresholdToAnomalyScores(anomalyScores, labels, trainedModel.options.model, selectedThreshold, dynamicThresholdSettings);
+    [predictedLabels, ~] = applyThresholdToAnomalyScores(trainedModel, anomalyScores, labels, threshold, dynamicThresholdSettings);
 else
     predictedLabels = anomalyScores;
 end

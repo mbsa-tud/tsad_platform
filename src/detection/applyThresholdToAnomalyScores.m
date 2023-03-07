@@ -1,10 +1,14 @@
-function [predictedLabels, threshold] = applyThresholdToAnomalyScores(anomalyScores, labels, model, threshold, dynamicThresholdSettings)
+function [predictedLabels, threshold] = applyThresholdToAnomalyScores(trainedModel, anomalyScores, labels, threshold, dynamicThresholdSettings)
 %CALCSTATICTHRESHOLDPREDICTION
 %
 % Converts anomaly scores to binary detection using the static threshold
 
-% If threshold not yet has a value
-if isstring(threshold)
+if isfield(trainedModel, "staticThreshold") && isfield(trainedModel.staticThreshold, threshold)
+    threshold = trainedModel.staticThreshold.(threshold);
+
+    predictedLabels = any(anomalyScores > threshold, 2);
+    % predictedLabels = combineAnomsAndStatic(anomalyScores, predictedLabels);
+else
     if strcmp(threshold, 'dynamic')
         % Dynamic threshold
 
@@ -33,25 +37,10 @@ if isstring(threshold)
     else
         % Other static thresholds
         fprintf("Calculating static threshold (%s) on test set\n", threshold);
-        threshold = calcStaticThreshold(anomalyScores, labels, threshold, model);
+        threshold = calcStaticThreshold(anomalyScores, labels, threshold, trainedModel.options.model);
 
-        numChannels = size(anomalyScores, 2);
-
-        if numChannels > 1
-            predictedLabels = any(anomalyScores > threshold, 2);
-        else
-            predictedLabels = anomalyScores > threshold;
-        end
+        predictedLabels = any(anomalyScores > threshold, 2);
         % predictedLabels = combineAnomsAndStatic(anomalyScores, predictedLabels);
     end
-else
-    numChannels = size(anomalyScores, 2);
-    
-    if numChannels > 1
-        predictedLabels = any(anomalyScores > threshold, 2);
-    else
-        predictedLabels = anomalyScores > threshold;
-    end
-    % predictedLabels = combineAnomsAndStatic(anomalyScores, predictedLabels);
 end
 end

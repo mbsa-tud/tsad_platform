@@ -4,17 +4,12 @@ function thr = computeBestFscoreThreshold(anomalyScores, labels, type)
 % This function computes the best F score thresholds
 
 beta = 1;
-numChannels = size(anomalyScores, 2);
 
 thresholdCandidates = uniquetol(anomalyScores, 0.0001);
 numThresholdCandidates = size(thresholdCandidates, 1);
 
 for i = 1:numThresholdCandidates
-    if numChannels > 1
-        predictedLabels(:, i) = any(anomalyScores > thresholdCandidates(i), 2);
-    else
-        predictedLabels(:, i) = anomalyScores > thresholdCandidates(i);
-    end
+    predictedLabels(:, i) = any(anomalyScores > thresholdCandidates(i), 2);
 end
 
 Fscore = [];

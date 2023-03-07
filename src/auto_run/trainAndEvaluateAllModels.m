@@ -107,13 +107,7 @@ if ~isempty(trainedModels)
             % For all thresholds in the thresholds variable
             for thrIdx = 1:length(thresholds)
                 if ~trainedModel.options.outputsLabels
-                    if isfield(trainedModel, "staticThreshold") && isfield(trainedModel.staticThreshold, thresholds(thrIdx))  
-                        selectedThreshold = trainedModel.staticThreshold.(thresholds(thrIdx));
-                    else
-                        selectedThreshold = thresholds(thrIdx);
-                    end
-       
-                    [predictedLabels, ~] = applyThresholdToAnomalyScores(anomalyScores, labels, trainedModel.options.model, selectedThreshold, dynamicThresholdSettings);
+                    [predictedLabels, ~] = applyThresholdToAnomalyScores(trainedModel, anomalyScores, labels, thresholds(thrIdx), dynamicThresholdSettings);
                 else
                     predictedLabels = anomalyScores;
                 end
