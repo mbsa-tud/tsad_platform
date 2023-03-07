@@ -19,12 +19,7 @@ for i = 1:length(models)
 
         if ~options.outputsLabels
             trainedModel.staticThreshold = getStaticThresholds(trainedModel, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds);
-        else
-            trainedModel.staticThreshold = [];
         end
-    else
-        trainedModel.Mdl = [];
-        trainedModel.staticThreshold = getStaticThresholds(trainedModel, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds);
     end
 
     trainedModels_S.(models(i).options.id) = trainedModel;

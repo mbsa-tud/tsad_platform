@@ -10,10 +10,14 @@ end
 if trainedModel.options.isMultivariate
     % For multivariate models
     
-    if ~isempty(trainedModel.Mdl)
-        Mdl_tmp = trainedModel.Mdl{1, 1};
+    if isfield(trainedModel, "Mdl")
+        if ~isempty(trainedModel.Mdl)
+            Mdl_tmp = trainedModel.Mdl{1, 1};
+        else
+            Mdl_tmp = [];
+        end
     else
-        Mdl_tmp = trainedModel.Mdl;
+        Mdl_tmp = [];
     end
 
     switch trainedModel.options.type
@@ -30,10 +34,14 @@ else
     anomalyScores = [];
     compTimes = [];
     for i = 1:numChannels
-        if ~isempty(trainedModel.Mdl)
-            Mdl_tmp = trainedModel.Mdl{i, 1};
+        if isfield(trainedModel, "Mdl")
+            if ~isempty(trainedModel.Mdl)
+                Mdl_tmp = trainedModel.Mdl{i, 1};
+            else
+                Mdl_tmp = [];
+            end
         else
-            Mdl_tmp = trainedModel.Mdl;
+            Mdl_tmp = [];
         end
         
         switch trainedModel.options.type

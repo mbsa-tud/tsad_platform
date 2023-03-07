@@ -1,4 +1,4 @@
-function features = getTrainingErrorFeatures(trainedModel, X, Y)
+function [trainingErrors, features] = getTrainingErrorFeatures(trainedModel, X, Y)
 switch trainedModel.options.model
     case 'Your model'
     otherwise
@@ -10,13 +10,13 @@ switch trainedModel.options.model
             end
         end
 
-        anomalyScores = [];
+        trainingErrors = [];
         for i = 1:size(X, 1)
-            anomalyScores_tmp = detectWith(trainedModel, X{i, 1}, Y{i, 1}, []);
-            anomalyScores = [anomalyScores; anomalyScores_tmp];
+            trainingErrors_tmp = detectWith(trainedModel, X{i, 1}, Y{i, 1}, [], false);
+            trainingErrors = [trainingErrors; trainingErrors_tmp];
         end
 
-        features.mu = mean(anomalyScores, 1);
-        features.covar = cov(anomalyScores);
+        features.mu = mean(trainingErrors, 1);
+        features.covar = cov(trainingErrors);
 end
 end

@@ -27,18 +27,10 @@ for i = 1:length(models)
                 [XTrainTestCell{j, 1}, YTrainTestCell{j, 1}, ~] = prepareDataTest(options, dataTrain(j, :), labelsTrain(j, :));
             end
 
-            trainedModel.trainingErrorFeatures = getTrainingErrorFeatures(trainedModel, XTrainTestCell, YTrainTestCell);
+            [trainedModel.trainingErrors, trainedModel.trainingErrorFeatures] = getTrainingErrorFeatures(trainedModel, XTrainTestCell, YTrainTestCell);
             
             trainedModel.staticThreshold = getStaticThresholds(trainedModel, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds);
-        else
-            trainedModel.trainingErrorFeatures = [];
-            trainedModel.staticThreshold = [];
         end
-    else
-        % Does this make sense?
-        trainedModel.Mdl = [];
-        trainedModel.trainingErrorFeatures = [];
-        trainedModel.staticThreshold = getStaticThresholds(trainedModel, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds);
     end
 
     trainedModels_DNN.(options.id) = trainedModel;

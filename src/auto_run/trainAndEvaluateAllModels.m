@@ -107,7 +107,7 @@ if ~isempty(trainedModels)
             % For all thresholds in the thresholds variable
             for thrIdx = 1:length(thresholds)
                 if ~trainedModel.options.outputsLabels
-                    if ~isempty(trainedModel.staticThreshold) && isfield(trainedModel.staticThreshold, thresholds(thrIdx))  
+                    if isfield(trainedModel, "staticThreshold") && isfield(trainedModel.staticThreshold, thresholds(thrIdx))  
                         selectedThreshold = trainedModel.staticThreshold.(thresholds(thrIdx));
                     else
                         selectedThreshold = thresholds(thrIdx);
