@@ -8,27 +8,18 @@ numChannels = size(data{1, 1}, 2);
 
 for j = 1:numChannels
     if maximum(j) == minimum(j)
-        % If training data is just a flat line, all points are set 
-        % to 1 for the training dataset
-
+        % If data is just a flat line, set mean to 0
         for i = 1:size(data, 1)
             newData = data{i, 1};
-            if maximum(j) < 0
-                newData(:, j) = newData(:, j) + (1 + abs(maximum(j)));
-            elseif maximum(j) < 1
-                newData(:, j) = newData(:, j) + (1 - maximum(j));
-            else
-                newData(:, j) = newData(:, j) - maximum(j);
-            end
+            newData(:, j) = newData(:, j) - minimum(j);
             data{i, 1} = newData;
         end
-        continue;
-    end
-
-    for i = 1:size(data, 1)
-        newData = data{i, 1};
-        newData(:, j) = (newData(:, j) - minimum(j)) / (maximum(j) - minimum(j));
-        data{i, 1} = newData;
+    else
+        for i = 1:size(data, 1)
+            newData = data{i, 1};
+            newData(:, j) = (newData(:, j) - minimum(j)) / (maximum(j) - minimum(j));
+            data{i, 1} = newData;
+        end
     end
 end
 
