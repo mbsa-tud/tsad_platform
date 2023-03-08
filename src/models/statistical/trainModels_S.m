@@ -13,6 +13,9 @@ for i = 1:length(models)
         if isempty(dataTrain)
             error("The %s model requires prior training, but the dataset doesn't contain training data (train folder).", options.model);
         end
+
+        % Save dimensionality of data
+        trainedModel.dimensionality = size(dataTrain{1, 1}, 2);
         
         [XTrain, YTrain] = prepareDataTrain(options, dataTrain, labelsTrain);
         trainedModel.Mdl = trainS_wrapper(options, XTrain, YTrain);

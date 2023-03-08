@@ -34,6 +34,10 @@ end
 for i = 1:numel(models)
     options = models(i).options;
     trainedModel.options = options;
+
+    % Save dimensionality of data
+    trainedModel.dimensionality = size(dataTrain{1, 1}, 2);
+
     trainedModel.Mdl = Mdl{i};
     trainedModel.MdlInfo = MdlInfo{i};
 
