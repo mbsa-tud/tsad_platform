@@ -27,7 +27,7 @@ for i = 1:length(models)
                 [XTrainTestCell{j, 1}, YTrainTestCell{j, 1}, ~] = prepareDataTest(options, dataTrain(j, :), labelsTrain(j, :));
             end
 
-            [trainedModel.trainingErrors, trainedModel.trainingErrorFeatures] = getTrainingErrorFeatures(trainedModel, XTrainTestCell, YTrainTestCell);
+            [trainedModel.trainingAnomalyScoresRaw, trainedModel.trainingAnomalyScoreFeatures] = getTrainingAnomalyScoreFeatures(trainedModel, XTrainTestCell, YTrainTestCell);
             
             trainedModel.staticThreshold = getStaticThresholds(trainedModel, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds);
         end

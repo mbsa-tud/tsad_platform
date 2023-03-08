@@ -60,19 +60,15 @@ if ~isempty(dataValTest)
 end
 
 if ~isempty(dataTrain)
-    if ismember("meanStdTrain", thresholds) || ismember("maxTrainAnomalyScore", thresholds)
-        XTrainTestCell = cell(size(dataTrain, 1), 1);
-        YTrainTestCell = cell(size(dataTrain, 1), 1);
-        labelsTrainTestCell = cell(size(dataTrain, 1), 1);
-    
-        for i = 1:size(dataTrain, 1)
-            [XTrainTestCell{i, 1}, YTrainTestCell{i, 1}, labelsTrainTestCell{i, 1}] = prepareDataTest(trainedModel.options, dataTrain(i, :), labelsTrain(i, :));
-        end
-    
-        anomalyScoresTrain = [];
-        for i = 1:size(XTrainTestCell, 1)
-            anomalyScores_tmp = detectWith(trainedModel, XTrainTestCell{i, 1}, YTrainTestCell{i, 1}, labelsTrainTestCell{i, 1});
-            anomalyScoresTrain = [anomalyScoresTrain; anomalyScores_tmp];
+    if ismember("meanStdTrain", thresholds) || ismember("maxTrainAnomalyScore", thresholds)    
+        if isfield(trainedModel.options, 'hyperparameters')
+            if isfield(trainedModel.options.hyperparameters, 'scoringFunction')
+                anomalyScoresTrain = applyScoringFunction(trainedModel, trainedModel.trainingAnomalyScoresRaw);
+            else
+                anomalyScoresTrain = trainedModel.trainingAnomalyScoresRaw;
+            end
+        else
+            anomalyScoresTrain = trainedModel.trainingAnomalyScoresRaw;
         end
     end
     

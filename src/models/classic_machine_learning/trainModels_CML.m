@@ -18,6 +18,16 @@ for i = 1:length(models)
         trainedModel.Mdl = trainCML_wrapper(options, XTrain, YTrain);
 
         if ~options.outputsLabels
+            XTrainTestCell = cell(size(dataTrain, 1), 1);
+            YTrainTestCell = cell(size(dataTrain, 1), 1);
+
+        
+            for j = 1:size(dataTrain, 1)
+                [XTrainTestCell{j, 1}, YTrainTestCell{j, 1}, ~] = prepareDataTest(options, dataTrain(j, :), labelsTrain(j, :));
+            end
+
+            [trainedModel.trainingAnomalyScoresRaw, trainedModel.trainingAnomalyScoreFeatures] = getTrainingAnomalyScoreFeatures(trainedModel, XTrainTestCell, YTrainTestCell);
+            
             trainedModel.staticThreshold = getStaticThresholds(trainedModel, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds);
         end
     end
