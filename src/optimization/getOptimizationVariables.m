@@ -4,10 +4,7 @@ function optVars = getOptimizationVariables(model, configOptFileName)
 % Loads the configuration for the auto-optimization
 
 % Convert model name to valid matlab struct fieldname
-model = replace(model, '(', '');
-model = replace(model, ')', '');
-model = replace(model, ' ', '_');
-model = replace(model, '-', '_');
+model = genvarname(model);
 
 % Load all models with their hyperparameter optimization configuration
 fid = fopen(configOptFileName);

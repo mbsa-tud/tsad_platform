@@ -1,5 +1,5 @@
 {   
-    "Add_your_model_name_here_but_replace_all_non_letter_characters_with_underscores": {
+    "Add your model name here": {
         "add_the_hyperparameters_you_want_to_be_optimized_and_their_range_of_values": {
             "value": [0, 0.9],
             "type": "real"
@@ -17,7 +17,7 @@
             "type": "categorical"
         }
     },
-    "FC_AE": {
+    "FC AE": {
         "neurons": {
             "value": [4, 128],
             "type": "integer"
@@ -27,7 +27,7 @@
             "type": "integer"
         }
     },
-    "LSTM_reconstruction": {
+    "LSTM (reconstruction)": {
         "hiddenUnits": {
             "value": [8, 128],
             "type": "integer"
@@ -37,7 +37,7 @@
             "type": "integer"
         }
     },
-    "Hybrid_CNN_LSTM_reconstruction": {
+    "Hybrid CNN-LSTM (reconstruction)": {
         "hiddenUnits": {
             "value": [8, 128],
             "type": "integer"
@@ -51,7 +51,7 @@
             "type": "integer"
         }
     },
-    "TCN_AE": {
+    "TCN AE": {
         "filter": {
             "value": [8, 128],
             "type": "integer"
@@ -71,7 +71,7 @@
             "type": "integer"
         }
     },
-    "Hybrid_CNN_LSTM": {
+    "Hybrid CNN-LSTM": {
         "hiddenUnits": {
             "value": [8, 128],
             "type": "integer"
@@ -95,7 +95,7 @@
             "type": "integer"
         }
     },
-    "CNN_DeepAnT": {
+    "CNN (DeepAnT)": {
         "filter": {
             "value": [8, 64],
             "type": "integer"
@@ -139,7 +139,7 @@
             "type": "integer"
         }
     },
-    "OC_SVM": {
+    "OC-SVM": {
         "kernelFunction": {
             "value": ["gaussian", "rbf", "linear", "polynomial"],
             "type": "categorical"
@@ -195,7 +195,7 @@
             "type": "integer"
         }
     },
-    "Grubbs_test": {
+    "Grubbs test": {
         "alpha": {
             "value": [0, 1],
             "type": "real"
