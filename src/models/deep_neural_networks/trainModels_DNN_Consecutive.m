@@ -7,7 +7,7 @@ for i = 1:length(models)
     options = models(i).options;
     trainedModel.options = options;
 
-    fprintf("Training: %s\n", options.model);
+    fprintf("Training: %s\n", options.label);
 
     if options.requiresPriorTraining
         if isempty(dataTrain)
