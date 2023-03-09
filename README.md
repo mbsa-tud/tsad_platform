@@ -588,11 +588,11 @@ The process for adding these algorithms will only be explained for classic machi
 #### (Optional) Enable optimization for your model
 
 To enable the built-in optimization for your model, open the file `tsad_platform > config > tsad_platform_config_optimization.json`.
-Add your model name as a new key, but replace all non-letter and non-number characters with underscores. Then name the hyperparameters you want to optimize as new keys within this new field. Only hyperparameters which are defined in the `hyperparameters` field of the `options` struct of your model can be optimized. See the following example for the `FC AE` for reference:
+Add your model name as a new key. Then name the hyperparameters you want to optimize as new keys within this new field. Only hyperparameters which are defined in the `hyperparameters` field of the `options` struct of your model can be optimized. See the following example for the `FC AE` for reference:
 
 ```json
 {
-    "FC_AE": {
+    "FC AE": {
         "neurons": {
             "value": [4, 128],
             "type": "integer"
