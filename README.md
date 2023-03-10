@@ -324,8 +324,6 @@ The following figure shows an example for the fully-connected autoencoder (FC AE
     "type": "DNN",
     "model": "FC AE",
     "modelType": "reconstructive",
-    "label": "FC AE  (1)",
-    "id": "FC_AE_1",
     "dataType": 1,
     "requiresPriorTraining": true,
     "isMultivariate": false,
