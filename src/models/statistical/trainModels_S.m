@@ -23,18 +23,21 @@ for i = 1:length(models)
         if ~options.outputsLabels
             XTrainTestCell = cell(size(dataTrain, 1), 1);
             YTrainTestCell = cell(size(dataTrain, 1), 1);
-
+            labelsTrainTest = [];
         
             for j = 1:size(dataTrain, 1)
-                [XTrainTestCell{j, 1}, YTrainTestCell{j, 1}, ~] = prepareDataTest(options, dataTrain(j, :), labelsTrain(j, :));
+                [XTrainTestCell{j, 1}, YTrainTestCell{j, 1}, labelsTrainTest_tmp] = prepareDataTest(options, dataTrain(j, :), labelsTrain(j, :));
+                labelsTrainTest = [labelsTrainTest; labelsTrainTest_tmp];
             end
+
+            trainedModel.trainingLabels = labelsTrainTest;
 
             [trainedModel.trainingAnomalyScoresRaw, trainedModel.trainingAnomalyScoreFeatures] = getTrainingAnomalyScoreFeatures(trainedModel, XTrainTestCell, YTrainTestCell);
             
             if strcmp(options.calcThresholdsOn, "anomalous-validation-data")
                 trainedModel.staticThreshold = getStaticThresholds(trainedModel, dataValTest, labelsValTest, thresholds, "anomalous-validation-data");
             elseif strcmp(options.calcThresholdsOn, "training-data")
-                trainedModel.staticThreshold = getStaticThresholds(trainedModel, dataTrain, labelsTrain, thresholds, "training-data");
+                trainedModel.staticThreshold = getStaticThresholds(trainedModel, [], [], thresholds, "training-data");
             end
         end
     end

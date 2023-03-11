@@ -63,12 +63,8 @@ if strcmp(type, "anomalous-validation-data")
     
     if isfield(trainedModel, "trainingAnomalyScoresRaw")
         if ismember("meanStdTrain", thresholds) || ismember("maxTrainAnomalyScore", thresholds)    
-            if isfield(trainedModel.options, 'hyperparameters')
-                if isfield(trainedModel.options.hyperparameters, 'scoringFunction')
-                    anomalyScoresTrain = applyScoringFunction(trainedModel, trainedModel.trainingAnomalyScoresRaw);
-                else
-                    anomalyScoresTrain = trainedModel.trainingAnomalyScoresRaw;
-                end
+            if isfield(trainedModel.options, 'hyperparameters') && isfield(trainedModel.options.hyperparameters, 'scoringFunction')
+                anomalyScoresTrain = applyScoringFunction(trainedModel, trainedModel.trainingAnomalyScoresRaw);
             else
                 anomalyScoresTrain = trainedModel.trainingAnomalyScoresRaw;
             end
@@ -90,60 +86,38 @@ if strcmp(type, "anomalous-validation-data")
     end
 elseif strcmp(type, "training-data")
     % For supervised models trained on faulty-data
-    if ~isempty(data)
-        XTrainCell = cell(size(data, 1), 1);
-        YTrainCell = cell(size(data, 1), 1);
-        labelsTrainCell = cell(size(data, 1), 1);
-        
-        numAnoms = 0;
-        numTimeSteps = 0;
-    
-        for i = 1:size(data, 1)
-            [XTrainCell{i, 1}, YTrainCell{i, 1}, labelsTrainCell{i, 1}] = prepareDataTest(trainedModel.options, data(i, :), labels(i, :));
-    
-            numAnoms = numAnoms + sum(labelsTrainCell{end} == 1);
-            numTimeSteps = numTimeSteps + size(labelsTrainCell{end}, 1);
-        end
-    
-        contaminationFraction = numAnoms / numTimeSteps;
-        
-        if contaminationFraction > 0
-            anomalyScoresTrain = [];
-            labelsTrain = [];
-    
-            for i = 1:size(XTrainCell, 1)
-                anomalyScores_tmp = detectWith(trainedModel, XTrainCell{i, 1}, YTrainCell{i, 1}, labelsTrainCell{i, 1});
-                anomalyScoresTrain = [anomalyScoresTrain; anomalyScores_tmp];
-                labelsTrain = [labelsTrain; labelsTrainCell{i, 1}];
-            end
-    
-    
-            if ismember("bestFscorePointwise", thresholds)
-                staticThreshold.bestFscorePointwise = calcStaticThreshold(anomalyScoresTrain, labelsTrain, "bestFscorePointwise", trainedModel.options.model);
-            end
-            if ismember("bestFscoreEventwise", thresholds)
-                staticThreshold.bestFscoreEventwise = calcStaticThreshold(anomalyScoresTrain, labelsTrain, "bestFscoreEventwise", trainedModel.options.model);
-            end
-            if ismember("bestFscorePointAdjusted", thresholds)
-                staticThreshold.bestFscorePointAdjusted = calcStaticThreshold(anomalyScoresTrain, labelsTrain, "bestFscorePointAdjusted", trainedModel.options.model);
-            end
-            if ismember("bestFscoreComposite", thresholds)
-                staticThreshold.bestFscoreComposite = calcStaticThreshold(anomalyScoresTrain, labelsTrain, "bestFscoreComposite", trainedModel.options.model);
-            end
-            if ismember("topK", thresholds)
-                staticThreshold.topK = calcStaticThreshold(anomalyScoresTrain, labelsTrain, "topK", trainedModel.options.model);
-            end
-            if ismember("meanStd", thresholds)
-                staticThreshold.meanStd = calcStaticThreshold(anomalyScoresTrain, labelsTrain, "meanStd", trainedModel.options.model);
-            end
-            if ismember("meanStdTrain", thresholds)
-                staticThreshold.meanStdTrain = mean(mean(anomalyScoresTrain)) + 4 * mean(std(anomalyScoresTrain));
-            end
-            if ismember("maxTrainAnomalyScore", thresholds)
-                staticThreshold.maxTrainAnomalyScore = max(max(anomalyScoresTrain));
-            end
+    if isfield(trainedModel, "trainingAnomalyScoresRaw")
+        if isfield(trainedModel.options, 'hyperparameters') && isfield(trainedModel.options.hyperparameters, 'scoringFunction')
+            anomalyScoresTrain = applyScoringFunction(trainedModel, trainedModel.trainingAnomalyScoresRaw);
         else
-            warning("Warning! Anomalous validation set doesn't contain anomalies, possibly couldn't calculate some static thresholds.");
+            anomalyScoresTrain = trainedModel.trainingAnomalyScoresRaw;
+        end
+
+        labelsTrain = trainedModel.trainingLabels;
+
+        if ismember("bestFscorePointwise", thresholds)
+            staticThreshold.bestFscorePointwise = calcStaticThreshold(anomalyScoresTrain, labelsTrain, "bestFscorePointwise", trainedModel.options.model);
+        end
+        if ismember("bestFscoreEventwise", thresholds)
+            staticThreshold.bestFscoreEventwise = calcStaticThreshold(anomalyScoresTrain, labelsTrain, "bestFscoreEventwise", trainedModel.options.model);
+        end
+        if ismember("bestFscorePointAdjusted", thresholds)
+            staticThreshold.bestFscorePointAdjusted = calcStaticThreshold(anomalyScoresTrain, labelsTrain, "bestFscorePointAdjusted", trainedModel.options.model);
+        end
+        if ismember("bestFscoreComposite", thresholds)
+            staticThreshold.bestFscoreComposite = calcStaticThreshold(anomalyScoresTrain, labelsTrain, "bestFscoreComposite", trainedModel.options.model);
+        end
+        if ismember("topK", thresholds)
+            staticThreshold.topK = calcStaticThreshold(anomalyScoresTrain, labelsTrain, "topK", trainedModel.options.model);
+        end
+        if ismember("meanStd", thresholds)
+            staticThreshold.meanStd = calcStaticThreshold(anomalyScoresTrain, labelsTrain, "meanStd", trainedModel.options.model);
+        end
+        if ismember("meanStdTrain", thresholds)
+            staticThreshold.meanStdTrain = mean(mean(anomalyScoresTrain)) + 4 * mean(std(anomalyScoresTrain));
+        end
+        if ismember("maxTrainAnomalyScore", thresholds)
+            staticThreshold.maxTrainAnomalyScore = max(max(anomalyScoresTrain));
         end
     end
     
