@@ -7,6 +7,7 @@
                 "modelType": "reconstructive",
                 "dataType": 1,
                 "requiresPriorTraining": true,
+                "calcThresholdsOn": "anomalous-validation-data",
                 "isMultivariate": true,
                 "outputsLabels": false,
                 "hyperparameters": {
@@ -52,6 +53,7 @@
                 "modelType": "reconstructive",
                 "dataType": 2,
                 "requiresPriorTraining": true,
+                "calcThresholdsOn": "anomalous-validation-data",
                 "isMultivariate": true,
                 "outputsLabels": false,
                 "hyperparameters": {
@@ -97,6 +99,7 @@
                 "modelType": "reconstructive",
                 "dataType": 2,
                 "requiresPriorTraining": true,
+                "calcThresholdsOn": "anomalous-validation-data",
                 "isMultivariate": true,
                 "outputsLabels": false,
                 "hyperparameters": {
@@ -144,6 +147,7 @@
                 "type": "DNN",
                 "model": "TCN AE",
                 "modelType": "reconstructive",
+                "calcThresholdsOn": "anomalous-validation-data",
                 "dataType": 2,
                 "requiresPriorTraining": true,
                 "isMultivariate": true,
@@ -191,6 +195,7 @@
                 "modelType": "predictive",
                 "dataType": 2,
                 "requiresPriorTraining": true,
+                "calcThresholdsOn": "anomalous-validation-data",
                 "isMultivariate": true,
                 "outputsLabels": false,
                 "hyperparameters": {
@@ -236,6 +241,7 @@
                 "modelType": "predictive",
                 "dataType": 2,
                 "requiresPriorTraining": true,
+                "calcThresholdsOn": "anomalous-validation-data",
                 "isMultivariate": true,
                 "outputsLabels": false,
                 "hyperparameters": {
@@ -285,6 +291,7 @@
                 "modelType": "predictive",
                 "dataType": 2,
                 "requiresPriorTraining": true,
+                "calcThresholdsOn": "anomalous-validation-data",
                 "isMultivariate": true,
                 "outputsLabels": false,
                 "hyperparameters": {
@@ -330,6 +337,7 @@
                 "modelType": "predictive",
                 "dataType": 3,
                 "requiresPriorTraining": true,
+                "calcThresholdsOn": "anomalous-validation-data",
                 "isMultivariate": true,
                 "outputsLabels": false,
                 "hyperparameters": {
@@ -375,6 +383,7 @@
                 "modelType": "predictive",
                 "dataType": 3,
                 "requiresPriorTraining": true,
+                "calcThresholdsOn": "anomalous-validation-data",
                 "isMultivariate": true,
                 "outputsLabels": false,
                 "hyperparameters": {
@@ -420,6 +429,7 @@
                 "modelType": "predictive",
                 "dataType": 1,
                 "requiresPriorTraining": true,
+                "calcThresholdsOn": "anomalous-validation-data",
                 "isMultivariate": true,
                 "outputsLabels": false,
                 "hyperparameters": {
@@ -465,7 +475,8 @@
                 "type": "CML",
                 "model": "iForest",
                 "dataType": 1,
-                "requiresPriorTraining": false,
+                "requiresPriorTraining": true,
+                "calcThresholdsOn": "anomalous-validation-data",
                 "isMultivariate": true,
                 "outputsLabels": false,
                 "useSubsequences": false,
@@ -486,7 +497,8 @@
                 "type": "CML",
                 "model": "OC-SVM",
                 "dataType": 1,
-                "requiresPriorTraining": false,
+                "requiresPriorTraining": true,
+                "calcThresholdsOn": "anomalous-validation-data",
                 "isMultivariate": true,
                 "outputsLabels": true,
                 "useSubsequences": false,

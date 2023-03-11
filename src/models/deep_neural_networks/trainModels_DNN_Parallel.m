@@ -52,7 +52,11 @@ for i = 1:numel(models)
 
         [trainedModel.trainingAnomalyScoresRaw, trainedModel.trainingAnomalyScoreFeatures] = getTrainingAnomalyScoreFeatures(trainedModel, XTrainTestCell, YTrainTestCell);
 
-        trainedModel.staticThreshold = getStaticThresholds(trainedModel, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds);
+        if strcmp(options.calcThresholdsOn, "anomalous-validation-data")
+            trainedModel.staticThreshold = getStaticThresholds(trainedModel, dataValTest, labelsValTest, thresholds, "anomalous-validation-data");
+        elseif strcmp(options.calcThresholdsOn, "training-data")
+            trainedModel.staticThreshold = getStaticThresholds(trainedModel, dataTrain, labelsTrain, thresholds, "training-data");
+        end
     end
 
     trainedModels_DNN.(options.id) = trainedModel;

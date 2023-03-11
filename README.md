@@ -326,6 +326,7 @@ The following figure shows an example for the fully-connected autoencoder (FC AE
     "modelType": "reconstructive",
     "dataType": 1,
     "requiresPriorTraining": true,
+    "calcThresholdsOn": "anomalous-validation-data",
     "isMultivariate": false,
     "outputsLabels": false,
     "hyperparameters": {
@@ -382,7 +383,12 @@ It's value must be one of: `1`, `2`, `3`. The number controls the shape of the d
 | **3** | `1 x D` cell array with `D` being the number of channels. For each channel a separate model of the same type will be trained. Each cell contains a `N x 1` cell array with `N` being the number of observations. Each cell is a matrix of size `w x 1` with `w` being the window-size. **Note: For predictive dl models, the YTrain data is a cell array, unlike for dataType 2** | `1 x 1` cell array containing a `N x 1` cell array with `N` being the number of observations. Each cell contains a matrix of size `w x d` with `d` being the number of channels and `w` being the window size. |
 
 **requiresPirorTraining**
-If this is set to **false**, the model is trained on the data from the **train** folder. If it is set to **true**, the model doesn't get trained prior to testing.
+If this is set to **false**, the model is trained on the data from the **train** folder. If it is set to **true**, the model doesn't get trained on data from the train folder prior to testing.
+**NOTE** If this field is set to true, you must also set the `calcThresholdsOn` field below.
+
+**calcThresholdsOn**
+Only required if the `requiresPriorTraining` field is set to true.
+Its value can be either `"anomalous-validation-data"` or `"training-data"`. This determines what dataset to use to calculate the static threholds. If the selected option is `"anoamlous-validation-data"`, but no anomalous validation data is available, the thresholds will be calculated on the test set directly after running the detection.
 
 **isMultivariate**
 This field is only required for classic ML and statistical models which use the standard data preparation functions provided by the platform.
