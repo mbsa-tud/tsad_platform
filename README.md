@@ -641,19 +641,19 @@ case "custom"
 
 ## Known limitations, issues and possible future upgrades (Mostly relevant for developers)
 
-1. **Training some DL models using `standardized` data sometimes leads to bad or no gradient-convergence during training. This can be further investigated and possibly fixed in the future. (It might be related to the network architecture (used layers like batchNormalization or reLU), the dataset or even the training options)**
-2. The network architecture of the `TCN AE` requires the sequence length/window size to be divisible by 4. This might be fixed in the future.
-3. Optimize the threshold calcucation (in file computeBestFScoreThreshold.m). It can be slow, especially for larger datasets, as it checks the F-Score for every single unique anomaly score value of the used time series (either anomalous validation set or test set). An upper bound of threshold values to check could be implemented to counter this issue.
-4. The optimization windows don't support categorical hyperparameters at this point.
-5. Parallel training on gpu was never tested properly/failed (It worked on cpu or with a few models on gpu; otherwise memory error). Most importand related files: (trainDNN_parallel.m and getOptionsForParallel.m).
-6. The simulink detection doesn't implement the different data preparation methods and scoring functions for the different deep-learning models, which makes it non-functional in many cases. The functionality of using a univariate model on multivariate datasets, where a separate model is trained for each channel of the dataset, must be implemented aswell. This feature already exists in the normal detection mode (It can be enabled by setting the `isMultivariate` field to `false` for a model).
-7. The step-size for the detection process is always set to 1 and can't be adjusted.
-8. The forecast horizon for DL models is always set to 1 and can't be adjusted.
-9. The CNN (DeppAnT) and ResNet model both use a sequenceInputLayer, which requires the use of a sequenceFolding and a sequenceUnfoldingLayer for the 2d convolutional layers. Maybe use an imageInputLayer instead? This isn't really an issue as the endresult is the same, but this might be cleaner.
-10. Dropout layers in some DL models might need to be replaced by spatial dropout layers, which don't exist in MATLAB by default and would have to be implemented by hand.
-11. Check on startup of the platform whether all required folders are on the matlab path to avoid errors later on.
-12. Output more information to the MATLAB command window (e.g. for the training, detection and threshold calculation steps) to let the user know the current step (useful for longer running tasks).
-13. Add more models (The platform lacks for example in statistical models. Classic ML oder DL models like a Convolutional Autoencoder or a LSTM Autoencoder could also be added).
-14. Save intermediate results during auto run. This allows to save some results even when a longer running process crashes.
+1. The network architecture of the `TCN AE` requires the sequence length/window size to be divisible by 4. This might be fixed in the future.
+2. Optimize the threshold calcucation (in file computeBestFScoreThreshold.m). It can be slow, especially for larger datasets, as it checks the F-Score for every single unique anomaly score value of the used time series (either anomalous validation set or test set). An upper bound of threshold values to check could be implemented to counter this issue.
+3. The optimization windows don't support categorical hyperparameters at this point.
+4. Parallel training on gpu was never tested properly/failed (It worked on cpu or with a few models on gpu; otherwise memory error). Most importand related files: (trainDNN_parallel.m and getOptionsForParallel.m).
+5. The simulink detection doesn't implement the different data preparation methods and scoring functions for the different deep-learning models, which makes it non-functional in many cases. The functionality of using a univariate model on multivariate datasets, where a separate model is trained for each channel of the dataset, must be implemented aswell. This feature already exists in the normal detection mode (It can be enabled by setting the `isMultivariate` field to `false` for a model).
+6. The step-size for the detection process is always set to 1 and can't be adjusted.
+7. The forecast horizon for DL models is always set to 1 and can't be adjusted.
+8. The CNN (DeppAnT) and ResNet model both use a sequenceInputLayer, which requires the use of a sequenceFolding and a sequenceUnfoldingLayer for the 2d convolutional layers. Maybe use an imageInputLayer instead? This isn't really an issue as the endresult is the same, but this might be cleaner.
+9. Dropout layers in some DL models might need to be replaced by spatial dropout layers, which don't exist in MATLAB by default and would have to be implemented by hand.
+10. Check on startup of the platform whether all required folders are on the matlab path to avoid errors later on.
+11. Output more information to the MATLAB command window (e.g. for the training, detection and threshold calculation steps) to let the user know the current step (useful for longer running tasks).
+12. Add more models (The platform lacks for example in statistical models. Classic ML oder DL models like a Convolutional Autoencoder or a LSTM Autoencoder could also be added).
+13. Save intermediate results during auto run. This allows to save some results even when a longer running process crashes.
+14. On some datasets, the training of some DL models can occasionally get stuck. The reasons for this might be further investigated in the future.
 
 **NOTE** The entire platform is quite large at this point and not all functions, data manipulation and app interaction steps could be tested in every way. New errors can always occur and be fixed in the future.
