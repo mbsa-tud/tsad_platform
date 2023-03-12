@@ -384,11 +384,11 @@ It's value must be one of: `1`, `2`, `3`. The number controls the shape of the d
 
 **requiresPirorTraining**
 If this is set to **false**, the model is trained on the data from the **train** folder. If it is set to **true**, the model doesn't get trained on data from the train folder prior to testing.
-**NOTE** If this field is set to true, you must also set the `calcThresholdsOn` field below.
+**NOTE** If this field is set to true, you can also set the `calcThresholdsOn` field below.
 
 **calcThresholdsOn**
-Only required if the `requiresPriorTraining` field is set to true.
-Its value can be either `"anomalous-validation-data"` or `"training-data"`. This determines what dataset to use to calculate the static threholds. If the selected option is `"anoamlous-validation-data"`, but no anomalous validation data is available, the thresholds will be calculated on the test set directly after running the detection.
+This field is optional and only has an effect if the `requiresPriorTraining` field is set to true.
+Its value can be either `"anomalous-validation-data"` or `"training-data"`. This determines what dataset to use to calculate the static threholds. If the selected option is `"anoamlous-validation-data"`, but no anomalous validation data is available, the thresholds will be calculated during testing. If you dont't specify this field or set its value to anything else than the two options, the thresholds are always set during testing and not during training.
 
 **isMultivariate**
 This field is only required for classic ML and statistical models which use the standard data preparation functions provided by the platform.
