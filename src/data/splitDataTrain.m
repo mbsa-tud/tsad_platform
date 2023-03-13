@@ -1,7 +1,8 @@
 function [XTrain, YTrain, XVal, YVal] = splitDataTrain(data, windowSize, stepSize, ratioTrainVal, modelType, dataType)
 %SPLITDATATRAIN
 %
-% Splits the data for training using a sliding sliding window
+% Splits the data for training using a sliding window defined by the
+% windowSize and stepSize
 
 XTrain = [];
 YTrain = [];
@@ -10,7 +11,7 @@ numChannels = size(data{1, 1}, 2);
 
 if strcmp(modelType, 'reconstructive')
     for dataIdx = 1:size(data, 1)
-        numWindows = ceil((size(data{dataIdx, 1}, 1) - windowSize + 1) / stepSize);
+        numWindows = floor((size(data{dataIdx, 1}, 1) - windowSize + 1) / stepSize);
         
         if dataType == 1
             flattenedWindowsSize = windowSize * numChannels;
@@ -36,7 +37,7 @@ if strcmp(modelType, 'reconstructive')
     end
 elseif strcmp(modelType, 'predictive')
     for dataIdx = 1:size(data, 1)
-        numWindows = ceil((size(data{dataIdx, 1}, 1) - windowSize) / stepSize);
+        numWindows = floor((size(data{dataIdx, 1}, 1) - windowSize) / stepSize);
         
         if dataType == 1
             flattenedWindowsSize = windowSize * numChannels;
