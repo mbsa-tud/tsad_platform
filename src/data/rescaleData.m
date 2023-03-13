@@ -6,29 +6,29 @@ function rescaledData = rescaleData(data, maximum, minimum)
 
 numChannels = size(data{1, 1}, 2);
 
-for j = 1:numChannels
-    if maximum(j) == minimum(j)
+for channelIdx = 1:numChannels
+    if maximum(channelIdx) == minimum(channelIdx)
         % If data is just a flat line, set mean to 0
-        for i = 1:size(data, 1)
+        for dataIdx = 1:size(data, 1)
             % rescale
-            newData = data{i, 1}(:, j);
-            newData = newData - minimum(j);
+            newData = data{dataIdx, 1}(:, channelIdx);
+            newData = newData - minimum(channelIdx);
     	    
             % clipping
             newData(newData > 5) = 5;
             newData(newData < -4) = -4;
-            data{i, 1}(:, j) = newData;
+            data{dataIdx, 1}(:, channelIdx) = newData;
         end
     else
-        for i = 1:size(data, 1)
+        for dataIdx = 1:size(data, 1)
             % rescale
-            newData = data{i, 1}(:, j);
-            newData = (newData - minimum(j)) / (maximum(j) - minimum(j));
+            newData = data{dataIdx, 1}(:, channelIdx);
+            newData = (newData - minimum(channelIdx)) / (maximum(channelIdx) - minimum(channelIdx));
 
             % clipping
             newData(newData > 5) = 5;
             newData(newData < -4) = -4;
-            data{i, 1}(:, j) = newData;
+            data{dataIdx, 1}(:, channelIdx) = newData;
         end
     end
 end
