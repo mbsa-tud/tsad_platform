@@ -10,15 +10,15 @@ for j = 1:numChannels
     if sigma(j) == 0
         % If data is a flat line, set mean to 0
         for i = 1:size(data, 1)
-            newData = data{i, 1};
-            newData(:, j) = newData(:, j) - mu(j);
-            data{i, 1} = newData;
+            newData = data{i, 1}(:, j);
+            newData = newData - mu(j);
+            data{i, 1}(:, j) = newData;
         end
     else
         for i = 1:size(data, 1)
-            newData = data{i, 1};
-            newData(:, j) = (newData(:, j) - mu(j)) / sigma(j);
-            data{i, 1} = newData;
+            newData = data{i, 1}(:, j);
+            newData = (newData - mu(j)) / sigma(j);
+            data{i, 1}(:, j) = newData;
         end
     end
 end

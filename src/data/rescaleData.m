@@ -10,15 +10,25 @@ for j = 1:numChannels
     if maximum(j) == minimum(j)
         % If data is just a flat line, set mean to 0
         for i = 1:size(data, 1)
-            newData = data{i, 1};
-            newData(:, j) = newData(:, j) - minimum(j);
-            data{i, 1} = newData;
+            % rescale
+            newData = data{i, 1}(:, j);
+            newData = newData - minimum(j);
+    	    
+            % clipping
+            newData(newData > 5) = 5;
+            newData(newData < -4) = -4;
+            data{i, 1}(:, j) = newData;
         end
     else
         for i = 1:size(data, 1)
-            newData = data{i, 1};
-            newData(:, j) = (newData(:, j) - minimum(j)) / (maximum(j) - minimum(j));
-            data{i, 1} = newData;
+            % rescale
+            newData = data{i, 1}(:, j);
+            newData = (newData - minimum(j)) / (maximum(j) - minimum(j));
+
+            % clipping
+            newData(newData > 5) = 5;
+            newData(newData < -4) = -4;
+            data{i, 1}(:, j) = newData;
         end
     end
 end
