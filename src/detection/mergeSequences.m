@@ -1,7 +1,7 @@
 function mergedData = mergeSequences(data, windowSize)
 reshapedData = flip(data');
 
-newSequenceLength = size(reshapedData, 2) - windowSize;
+newSequenceLength = size(reshapedData, 2) - windowSize + 1;
 
 mergedData = zeros(newSequenceLength, 1);
 for i = 1:newSequenceLength

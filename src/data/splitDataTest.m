@@ -4,19 +4,14 @@ function [XTest, YTest, labelsTest] = splitDataTest(data, labels, windowSize, mo
 % Splits the data for testing using the sliding window
 
 numChannels = size(data{1, 1}, 2);
-numWindows = round((size(data{1, 1}, 1) - windowSize));
 
 if strcmp(modelType, 'reconstructive')
+    numWindows = size(data{1, 1}, 1) - windowSize + 1;
+
     if numWindows < windowSize
         error("Window size is too big for the time series. Must be less than a third the length of the time series");
     end
-elseif strcmp(modelType, 'predictive')
-    if numWindows < 1
-        error("Window size is too big for the time series. Must be less than half the length of the time series");
-    end
-end
 
-if strcmp(modelType, 'reconstructive')
     % XTest
     if dataType == 1
         flattenedWindowsSize = windowSize * numChannels;
@@ -35,9 +30,15 @@ if strcmp(modelType, 'reconstructive')
     end
 
     % YTest and labels
-    YTest = data{1, 1}(windowSize:(end - windowSize - 1), :);
-    labelsTest = logical(labels{1, 1}(windowSize:(end - windowSize - 1), 1));
+    YTest = data{1, 1}(windowSize:(end - windowSize + 1), :);
+    labelsTest = logical(labels{1, 1}(windowSize:(end - windowSize + 1), 1));
 elseif strcmp(modelType, 'predictive')
+    numWindows = size(data{1, 1}, 1) - windowSize;
+
+    if numWindows < 1
+        error("Window size is too big for the time series. Must be less than half the length of the time series");
+    end
+    
     % XTest
     if dataType == 1
         flattenedWindowsSize = windowSize * numChannels;
