@@ -1,22 +1,22 @@
-function [Mdl, MdlInfo] = trainDNN_wrapper(options, XTrain, YTrain, XVal, YVal, trainingPlots, trainParallel)
-%TRAINDNN
-%
-% Train DL models
+function [Mdl, MdlInfo] = trainDNN_wrapper(modelOptions, XTrain, YTrain, XVal, YVal, trainingPlots, trainParallel)
+%TRAINDNN_WRAPPER Wrapper function for training DNN models
 
-if options.isMultivariate
-    [Mdl, MdlInfo] = trainDNN(options, XTrain{1, 1}, YTrain{1, 1}, XVal{1, 1}, YVal{1, 1}, trainingPlots);
+if modelOptions.isMultivariate
+    % Train single model on entire data
+    [Mdl, MdlInfo] = trainDNN(modelOptions, XTrain{1, 1}, YTrain{1, 1}, XVal{1, 1}, YVal{1, 1}, trainingPlots);
     Mdl = {Mdl};
     MdlInfo = {MdlInfo};
 else
-    numChannels = size(XTrain, 2);
-
     % Train the same model for each channel seperately
     % if trainParallel is set to true, training is done in
     % parallel
+    
+    numChannels = size(XTrain, 2);
+
     if trainParallel
         models = [];
         for i = 1:numChannels
-            modelInfo.options = options;
+            modelInfo.modelOptions = modelOptions;
             models = [models modelInfo];
         end
         [Mdl, MdlInfo] = trainDNN_Parallel(models, XTrain, YTrain, XVal, YVal, true);
@@ -25,7 +25,7 @@ else
         MdlInfo = cell(numChannels, 1);
 
         for i = 1:numChannels
-            [Mdl{i, 1}, MdlInfo{i, 1}] = trainDNN(options, XTrain{1, i}, YTrain{1, i}, XVal{1, i}, YVal{1, i}, trainingPlots);
+            [Mdl{i, 1}, MdlInfo{i, 1}] = trainDNN(modelOptions, XTrain{1, i}, YTrain{1, i}, XVal{1, i}, YVal{1, i}, trainingPlots);
         end
     end
 end

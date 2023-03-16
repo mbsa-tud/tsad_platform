@@ -1,7 +1,7 @@
-function thr = calcStaticThreshold(anomalyScores, labels, threshold, model)
-%CALCSTATICTHRESHOLD
-%
-% Calculates the static threshold specified in the threshold parameter
+function thr = calcStaticThreshold(anomalyScores, labels, threshold, modelName)
+%CALCSTATICTHRESHOLD Calculates the static threshold on the testing data
+%   Compute the static threshold using the anomaly scores after running
+%   test on the test data
 
 if ~isempty(labels)
     numAnoms = sum(labels == 1);
@@ -46,8 +46,8 @@ switch threshold
     case "pointFive"
         thr = 0.5;
     case "custom"
-        switch model
-            case "Your model"
+        switch modelName
+            case "Your model name"
 			% Add your custom threshold here
             otherwise
                 thr = 0.5;
@@ -58,6 +58,6 @@ switch threshold
 end
 
 if isnan(thr)
-    warning("(file: src/thresholds/calcStaticThreshold.m): Threshold %s was calculated to be NaN for %s.\n", threshold, model);
+    warning("(file: src/thresholds/calcStaticThreshold.m): Threshold %s was calculated to be NaN for %s.\n", threshold, modelName);
 end
 end

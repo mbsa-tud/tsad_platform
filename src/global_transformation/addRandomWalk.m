@@ -1,7 +1,6 @@
 function augmentedData = addRandomWalk(rawData, maximum, minimum, level)
-%ADDRANDOMWALK
-%
-% Add random walk noise to the data
+%ADDRANDOMWALK Add random walk noise to the data
+
 level=level/10;
 numChannels = size(rawData{1, 1}, 2);
 

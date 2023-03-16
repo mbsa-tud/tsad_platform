@@ -1,11 +1,11 @@
-function score = opt_fun(options, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, threshold, dynamicThresholdSettings, cmpScore, optVars, trainingPlots, trainParallel, exportLogData)
-%OPT_FUN
-%
-% Objective function for the bayesian optimization
+function score = opt_fun(modelOptions, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, threshold, dynamicThresholdSettings, cmpScore, optVars, trainingPlots, trainParallel, exportLogData)
+%OPT_FUN Objective function for the bayesian optimization
+%   The objective function runs the training and testing pipeline and
+%   returns the specified metric (/score)
 
-options = adaptModelOptions(options, optVars);
+modelOptions = adaptModelOptions(modelOptions, optVars);
 
-scoresCell = trainAndEvaluateModel(options, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, threshold, dynamicThresholdSettings, trainingPlots, trainParallel);
+scoresCell = trainAndEvaluateModel(modelOptions, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, threshold, dynamicThresholdSettings, trainingPlots, trainParallel);
 
 
 numOfMetrics = size(scoresCell{1, 1}, 1);
@@ -56,13 +56,13 @@ end
 
 score = 1 - avgScore;
 
-% Export results and current options
+% Export results and current modelOptions
 if exportLogData
     logPath = fullfile(pwd, 'Optimization_Logdata');
     if ~exist(logPath, 'dir')
         mkdir(logPath);
     end
-    logPath = fullfile(logPath, sprintf('Logs_%s_%s', replace(cmpScore, ' ', '_'), options.id));
+    logPath = fullfile(logPath, sprintf('Logs_%s_%s', replace(cmpScore, ' ', '_'), modelOptions.id));
     if ~exist(logPath, 'dir')
         mkdir(logPath);
     end

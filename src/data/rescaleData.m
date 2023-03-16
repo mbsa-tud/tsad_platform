@@ -1,7 +1,5 @@
 function rescaledData = rescaleData(data, maximum, minimum)
-%RESCALEDATA
-%
-% Rescales the data using the parameters maximum and minimum
+%RESCALEDATA Rescales the data to the range: [0, 1]
 
 
 numChannels = size(data{1, 1}, 2);
@@ -14,7 +12,7 @@ for channelIdx = 1:numChannels
             newData = data{dataIdx, 1}(:, channelIdx);
             newData = newData - minimum(channelIdx);
     	    
-            % clipping
+            % clipping (this only has an effect for testing data)
             newData(newData > 5) = 5;
             newData(newData < -4) = -4;
             data{dataIdx, 1}(:, channelIdx) = newData;
@@ -25,7 +23,7 @@ for channelIdx = 1:numChannels
             newData = data{dataIdx, 1}(:, channelIdx);
             newData = (newData - minimum(channelIdx)) / (maximum(channelIdx) - minimum(channelIdx));
 
-            % clipping
+            % clipping (this only has an effect for testing data)
             newData(newData > 5) = 5;
             newData(newData < -4) = -4;
             data{dataIdx, 1}(:, channelIdx) = newData;

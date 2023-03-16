@@ -1,24 +1,24 @@
-function [anomalyScores, compTime] = detectWithS(options, Mdl, XTest, YTest, labels, getCompTime)
-%DETECTWITHS
-%
-% Runs the detection for statistical models and returns anomaly Scores
+function [anomalyScores, compTime] = detectWithS(modelOptions, Mdl, XTest, YTest, labels, getCompTime)
+%DETECTWITHS Runs the detection for statistical models
+
 compTime = NaN;
 
 % Detect with model
-switch options.model
+switch modelOptions.name
+    case 'Your model name'
     case 'Grubbs test'
-        anomalyScores = grubbs_test(XTest, options.hyperparameters.alpha.value);
+        anomalyScores = grubbs_test(XTest, modelOptions.hyperparameters.alpha.value);
 
-        if options.useSubsequences
+        if modelOptions.useSubsequences
             % Merge overlapping scores
-            anomalyScores = mergeOverlappingAnomalyScores(options, anomalyScores);
+            anomalyScores = mergeOverlappingAnomalyScores(modelOptions, anomalyScores);
         end
     case 'OD_wpca'
-        [~, anomalyScores, ~] = OD_wpca(XTest, options.hyperparameters.ratioOversample.value);
+        [~, anomalyScores, ~] = OD_wpca(XTest, modelOptions.hyperparameters.ratioOversample.value);
 
-        if options.useSubsequences
+        if modelOptions.useSubsequences
             % Merge overlapping scores
-            anomalyScores = mergeOverlappingAnomalyScores(options, anomalyScores);
+            anomalyScores = mergeOverlappingAnomalyScores(modelOptions, anomalyScores);
         end
 end
 end

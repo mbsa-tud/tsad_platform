@@ -1,5 +1,9 @@
-function id = getThresholdId(thr)
-switch thr
+function id = getThresholdId(label)
+%GETTHRESHOLDID convert threshold label to correspondig id
+%   This is the inverse function to the getThresholdLabels function. It
+%   converts a single label to the correct id
+
+switch label
     case "Best F1 Score (point-wise)"
         id = "bestFscorePointwise";
     case "Best F1 Score (event-wise)"

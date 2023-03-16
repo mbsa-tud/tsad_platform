@@ -1,8 +1,6 @@
 function [XTrain, YTrain, XVal, YVal] = splitDataTrain(data, windowSize, stepSize, ratioTrainVal, modelType, dataType)
-%SPLITDATATRAIN
-%
-% Splits the data for training using a sliding window defined by the
-% windowSize and stepSize
+%SPLITDATATRAIN Splits the data for training using a sliding window defined
+%by the window size and step size
 
 XTrain = [];
 YTrain = [];

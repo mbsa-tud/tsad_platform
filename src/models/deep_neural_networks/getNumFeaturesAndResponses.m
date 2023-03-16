@@ -1,4 +1,7 @@
 function [numFeatures, numResponses] = getNumFeaturesAndResponses(XTrain, YTrain, modelType, dataType)
+%GETNUMFEATURESANDRESPONSES Gets the number of features and responses for
+%the different data types for DNN models
+
 if strcmp(modelType, 'reconstructive')
     if dataType == 1
         numFeatures = size(XTrain, 2);

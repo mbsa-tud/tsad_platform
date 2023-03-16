@@ -1,7 +1,7 @@
 function standardizedData = standardizeData(data, mu, sigma)
-%STANDARDIZEDATA
-%
-% Standardizes the data to have a mean of 0 and std of 1
+%STANDARDIZEDATA Standardizes the data
+%   transforms the data to set the mean to 0 and the standard deviation to
+%   1
 
 
 numChannels = size(data{1, 1}, 2);

@@ -1,7 +1,7 @@
 function thr = computeBestFscoreThreshold(anomalyScores, labels, type)
-%COMPUTEBESTFSCORETHRESHOLD
-%
-% This function computes the best F score thresholds
+%COMPUTEBESTFSCORETHRESHOLD Comput the best F-Score threshold
+%   Computes either the point-wise, event-wise, point-adjusted
+%   or composite best F-Score threshold
 
 beta = 1;
 

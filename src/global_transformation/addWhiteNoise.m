@@ -1,7 +1,6 @@
 function augmentedData = addWhiteNoise(data, maximum, minimum, level)
-%WHITENOISE
-%
-% Adds white noise to the data using maximum and minimum parameters and a specified noise level
+%WHITENOISE Adds white noise to the data using maximum and minimum
+%parameters and a specified noise level
 
 numChannels = size(data{1, 1}, 2);
 

@@ -1,9 +1,7 @@
 function [anomalyScores, compTime] = detectWithModel(trainedModel, XTest, YTest, labels, getCompTime)
-%DETECTWITH
-%
-% Runs the detection and returns anomaly Scores
+%DETECTWITHMODEL Wrapper function for running a single detection
 
-if trainedModel.options.isMultivariate
+if trainedModel.modelOptions.isMultivariate
     % For multivariate models
     
     if isfield(trainedModel, "Mdl")
@@ -16,13 +14,13 @@ if trainedModel.options.isMultivariate
         Mdl_tmp = [];
     end
 
-    switch trainedModel.options.type
+    switch trainedModel.modelOptions.type
         case 'DNN'
-            [anomalyScores, compTime] = detectWithDNN(trainedModel.options, Mdl_tmp, XTest{1, 1}, YTest{1, 1}, labels, getCompTime);
+            [anomalyScores, compTime] = detectWithDNN(trainedModel.modelOptions, Mdl_tmp, XTest{1, 1}, YTest{1, 1}, labels, getCompTime);
         case 'CML'
-            [anomalyScores, compTime] = detectWithCML(trainedModel.options, Mdl_tmp, XTest{1, 1}, YTest{1, 1}, labels, getCompTime);
+            [anomalyScores, compTime] = detectWithCML(trainedModel.modelOptions, Mdl_tmp, XTest{1, 1}, YTest{1, 1}, labels, getCompTime);
         case 'S'
-            [anomalyScores, compTime] = detectWithS(trainedModel.options, Mdl_tmp, XTest{1, 1}, YTest{1, 1}, labels, getCompTime);
+            [anomalyScores, compTime] = detectWithS(trainedModel.modelOptions, Mdl_tmp, XTest{1, 1}, YTest{1, 1}, labels, getCompTime);
     end
 else
     % For univariate models which are trained separately for each channel
@@ -41,17 +39,17 @@ else
             Mdl_tmp = [];
         end
         
-        switch trainedModel.options.type
+        switch trainedModel.modelOptions.type
             case 'DNN'
-                [anomalyScores_tmp, compTime_tmp]  = detectWithDNN(trainedModel.options, Mdl_tmp, XTest{1, i}, YTest{1, i}, labels, getCompTime);
+                [anomalyScores_tmp, compTime_tmp]  = detectWithDNN(trainedModel.modelOptions, Mdl_tmp, XTest{1, i}, YTest{1, i}, labels, getCompTime);
                 anomalyScores = [anomalyScores, anomalyScores_tmp];
                 compTimes = [compTimes, compTime_tmp];
             case 'CML'
-                [anomalyScores_tmp, compTime_tmp]  = detectWithCML(trainedModel.options, Mdl_tmp, XTest{1, i}, YTest{1, i}, labels, getCompTime);
+                [anomalyScores_tmp, compTime_tmp]  = detectWithCML(trainedModel.modelOptions, Mdl_tmp, XTest{1, i}, YTest{1, i}, labels, getCompTime);
                 anomalyScores = [anomalyScores, anomalyScores_tmp];
                 compTimes = [compTimes, compTime_tmp];
             case 'S'
-                [anomalyScores_tmp, compTime_tmp]  = detectWithS(trainedModel.options, Mdl_tmp, XTest{1, i}, YTest{1, i}, labels, getCompTime);
+                [anomalyScores_tmp, compTime_tmp]  = detectWithS(trainedModel.modelOptions, Mdl_tmp, XTest{1, i}, YTest{1, i}, labels, getCompTime);
                 anomalyScores = [anomalyScores, anomalyScores_tmp];
                 compTimes = [compTimes, compTime_tmp];
         end
@@ -59,6 +57,8 @@ else
     
     if getCompTime
         compTime = sum(compTimes);
+    else
+        compTime = NaN;
     end
 end
 end

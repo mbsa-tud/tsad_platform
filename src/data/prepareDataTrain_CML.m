@@ -1,18 +1,16 @@
-function [XTrain, YTrain] = prepareDataTrain_CML(options, data, labels)
-%PREPAREDATATRAIN_CML
-%
-% Prepares the training data for classic ML models
+function [XTrain, YTrain] = prepareDataTrain_CML(modelOptions, data, labels)
+%PREPAREDATATRAIN_CML Prepares the training data for classic ML models
 
-switch options.model
-    case 'Your model'
+switch modelOptions.name
+    case 'Your model name'
     otherwise
         YTrain = [];
         
-        if options.useSubsequences
+        if modelOptions.useSubsequences
             [XTrain, ~, ~, ~] = splitDataTrain(data, ...
-                options.hyperparameters.windowSize.value,  ...
-                options.hyperparameters.stepSize.value,  ...
-                0, 'reconstructive', options.dataType);
+                modelOptions.hyperparameters.windowSize.value,  ...
+                modelOptions.hyperparameters.stepSize.value,  ...
+                0, 'reconstructive', modelOptions.dataType);
         else
             XTrain = cell2mat(data);
         end

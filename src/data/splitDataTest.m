@@ -1,7 +1,6 @@
 function [XTest, YTest, labelsTest] = splitDataTest(data, labels, windowSize, modelType, dataType)
-%SPLITDATATEST
-%
-% Splits the data for testing using the sliding window
+%SPLITDATATEST Splits the data for testing using a sliding window defined
+%by the window size
 
 numChannels = size(data{1, 1}, 2);
 

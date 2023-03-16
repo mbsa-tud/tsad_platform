@@ -1,4 +1,8 @@
 function labels = getThresholdLabels(ids)
+%GETTHRESHOLDLABELS convert threshold identifiers to correspondig labels
+%   This is the inverse function to the getThresholdId function. It
+%   converts all ids to the labels which are nicer to display.
+
 numIds = numel(ids);
 labels = strings(1, numIds);
 

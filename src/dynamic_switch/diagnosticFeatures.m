@@ -1,7 +1,5 @@
 function features = diagnosticFeatures(inputData)
-%DIAGNOSTICFEATURES
-% 
-% computes features of time series data
+%DIAGNOSTICFEATURES Computes statistical features of time series data
 
 features = [];
 

@@ -1,7 +1,6 @@
 function [dataTest, labelsTest, filesTest, dataTestVal, labelsTestVal, filesTestVal] = splitTestVal(dataTest, labelsTest, filesTest, ratio)
-% SPLITTESTVAL 
-% 
-% Split testing data into testing set and test-validation set
+%SPLITTESTVAL Splits testing data into testing set and test-validation set
+%(used for calculating static thresholds)
 
 if ratio == 0
     dataTestVal = [];

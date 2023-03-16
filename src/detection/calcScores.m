@@ -1,7 +1,5 @@
 function [scoresPointwise, scoresEventwise, scoresPointAdjusted, scoresComposite] = calcScores(labels_pred, labels)
-%CALCSCORES
-%
-% Calculates the different metrics
+%CALCSCORES Calculates the different metrics
 
 % Pointwise (weighted) scores
 try

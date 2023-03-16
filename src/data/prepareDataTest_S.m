@@ -1,15 +1,13 @@
-function [XTest, YTest, labelsTest] = prepareDataTest_S(options, data, labels)
-%PREPAREDATATEST_S
-%
-% Prepares the testing data for statistical models
+function [XTest, YTest, labelsTest] = prepareDataTest_S(modelOptions, data, labels)
+%PREPAREDATATEST_S Prepares the testing data for statistical models
 
-switch options.model
-    case 'Your model'
+switch modelOptions.name
+    case 'Your model name'
     otherwise
-        if options.useSubsequences
+        if modelOptions.useSubsequences
             [XTest, YTest, labelsTest] = splitDataTest(data, labels, ...
-                options.hyperparameters.windowSize.value, ...
-                'reconstructive', options.dataType);
+                modelOptions.hyperparameters.windowSize.value, ...
+                'reconstructive', modelOptions.dataType);
         else
             XTest = cell2mat(data);
             YTest = XTest;

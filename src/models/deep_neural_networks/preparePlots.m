@@ -1,7 +1,5 @@
 function [f, handles] = preparePlots(netLabels)
-%PREPAREPLOTS
-%
-% Creates a figure to display training progress information.
+%PREPAREPLOTS prepares plots for parallel training
 
 numNets = length(netLabels);
 colors = lines(numNets);

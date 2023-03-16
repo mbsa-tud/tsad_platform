@@ -1,10 +1,8 @@
-function Mdl = trainS(options, XTrain, YTrain)
-%TRAINS
-%
-% Train the statistical models here
+function Mdl = trainS(modelOptions, XTrain, YTrain)
+%TRAINS_wrapper Trains statistical models
 
-switch options.model
-    case 'Your Model'
+switch modelOptions.name
+    case 'Your model name'
     otherwise
         Mdl = [];
 end

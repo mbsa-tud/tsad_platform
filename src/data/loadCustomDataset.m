@@ -1,8 +1,6 @@
 function [trainingData, timestampsTraining, labelsTraining, filesTraining, ...
                 testingData, timestampsTesting, labelsTesting, filesTesting, channelNames] = loadCustomDataset(datasetPath)
-%LOADCUSTOMDATASET
-%
-% Loads the custom dataset from CSV files.
+%LOADCUSTOMDATASET Loads the custom dataset from CSV files.
 
 trainingData = [];
 testingData = [];

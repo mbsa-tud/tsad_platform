@@ -1,9 +1,9 @@
 {
     "DNN_Models": [
         {
-            "options": {
+            "modelOptions": {
                 "type": "DNN",
-                "model": "FC AE",
+                "name": "FC AE",
                 "modelType": "reconstructive",
                 "dataType": 1,
                 "requiresPriorTraining": true,
@@ -47,9 +47,9 @@
             }
         },
         {
-            "options": {
+            "modelOptions": {
                 "type": "DNN",
-                "model": "LSTM (reconstruction)",
+                "name": "LSTM (reconstruction)",
                 "modelType": "reconstructive",
                 "dataType": 2,
                 "requiresPriorTraining": true,
@@ -93,9 +93,9 @@
             }
         },
         {
-            "options": {
+            "modelOptions": {
                 "type": "DNN",
-                "model": "Hybrid CNN-LSTM (reconstruction)",
+                "name": "Hybrid CNN-LSTM (reconstruction)",
                 "modelType": "reconstructive",
                 "dataType": 2,
                 "requiresPriorTraining": true,
@@ -143,9 +143,9 @@
             }
         },
         {
-            "options": {
+            "modelOptions": {
                 "type": "DNN",
-                "model": "TCN AE",
+                "name": "TCN AE",
                 "modelType": "reconstructive",
                 "calcThresholdsOn": "anomalous-validation-data",
                 "dataType": 2,
@@ -189,9 +189,9 @@
             }
         },
         {
-            "options": {
+            "modelOptions": {
                 "type": "DNN",
-                "model": "LSTM",
+                "name": "LSTM",
                 "modelType": "predictive",
                 "dataType": 2,
                 "requiresPriorTraining": true,
@@ -235,9 +235,9 @@
             }
         },
         {
-            "options": {
+            "modelOptions": {
                 "type": "DNN",
-                "model": "Hybrid CNN-LSTM",
+                "name": "Hybrid CNN-LSTM",
                 "modelType": "predictive",
                 "dataType": 2,
                 "requiresPriorTraining": true,
@@ -285,9 +285,9 @@
             }
         },
         {
-            "options": {
+            "modelOptions": {
                 "type": "DNN",
-                "model": "GRU",
+                "name": "GRU",
                 "modelType": "predictive",
                 "dataType": 2,
                 "requiresPriorTraining": true,
@@ -331,9 +331,9 @@
             }
         },
         {
-            "options": {
+            "modelOptions": {
                 "type": "DNN",
-                "model": "CNN (DeepAnT)",
+                "name": "CNN (DeepAnT)",
                 "modelType": "predictive",
                 "dataType": 3,
                 "requiresPriorTraining": true,
@@ -377,9 +377,9 @@
             }
         },
         {
-            "options": {
+            "modelOptions": {
                 "type": "DNN",
-                "model": "ResNet",
+                "name": "ResNet",
                 "modelType": "predictive",
                 "dataType": 3,
                 "requiresPriorTraining": true,
@@ -423,9 +423,9 @@
             }
         },
         {
-            "options": {
+            "modelOptions": {
                 "type": "DNN",
-                "model": "MLP",
+                "name": "MLP",
                 "modelType": "predictive",
                 "dataType": 1,
                 "requiresPriorTraining": true,
@@ -471,9 +471,9 @@
     ],
     "CML_Models": [
         {
-            "options": {
+            "modelOptions": {
                 "type": "CML",
-                "model": "iForest",
+                "name": "iForest",
                 "dataType": 1,
                 "requiresPriorTraining": true,
                 "calcThresholdsOn": "anomalous-validation-data",
@@ -493,9 +493,9 @@
             }
         },
         {
-            "options": {
+            "modelOptions": {
                 "type": "CML",
-                "model": "OC-SVM",
+                "name": "OC-SVM",
                 "dataType": 1,
                 "requiresPriorTraining": true,
                 "calcThresholdsOn": "anomalous-validation-data",
@@ -511,9 +511,9 @@
             }
         },
         {
-            "options": {
+            "modelOptions": {
                 "type": "CML",
-                "model": "ABOD",
+                "name": "ABOD",
                 "dataType": 1,
                 "requiresPriorTraining": false,
                 "isMultivariate": true,
@@ -524,26 +524,9 @@
             }
         },
         {
-            "options": {
+            "modelOptions": {
                 "type": "CML",
-                "model": "LOF",
-                "dataType": 1,
-                "requiresPriorTraining": false,
-                "isMultivariate": true,
-                "outputsLabels": false,
-                "useSubsequences": false,
-                "hyperparameters": {
-                    "k": {
-                        "value": 10,
-                        "type": "integer"
-                    }
-                }
-            }
-        },
-        {
-            "options": {
-                "type": "CML",
-                "model": "LDOF",
+                "name": "LOF",
                 "dataType": 1,
                 "requiresPriorTraining": false,
                 "isMultivariate": true,
@@ -558,9 +541,26 @@
             }
         },
         {
-            "options": {
+            "modelOptions": {
                 "type": "CML",
-                "model": "Merlin",
+                "name": "LDOF",
+                "dataType": 1,
+                "requiresPriorTraining": false,
+                "isMultivariate": true,
+                "outputsLabels": false,
+                "useSubsequences": false,
+                "hyperparameters": {
+                    "k": {
+                        "value": 10,
+                        "type": "integer"
+                    }
+                }
+            }
+        },
+        {
+            "modelOptions": {
+                "type": "CML",
+                "name": "Merlin",
                 "requiresPriorTraining": false,
                 "isMultivariate": false,
                 "outputsLabels": true,
@@ -584,9 +584,9 @@
     ],
     "S_Models": [
         {
-            "options": {
+            "modelOptions": {
                 "type": "S",
-                "model": "Grubbs test",
+                "name": "Grubbs test",
                 "dataType": 1,
                 "requiresPriorTraining": false,
                 "isMultivariate": true,
@@ -601,9 +601,9 @@
             }
         },
         {
-            "options": {
+            "modelOptions": {
                 "type": "S",
-                "model": "OD_wpca",
+                "name": "OD_wpca",
                 "dataType": 1,
                 "requiresPriorTraining": false,
                 "isMultivariate": true,

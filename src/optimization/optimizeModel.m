@@ -1,7 +1,6 @@
-function results = optimizeModel(optVars, models, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, thresholds, dynamicThresholdSettings, cmpScore, iterations, trainingPlots, trainParallel, exportLogData)
-%OPTIMIZEMODEL
-%
-% Main optimization function which calls the bayesopt() function
+function results = optimizeModel(optVars, model, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, thresholds, dynamicThresholdSettings, cmpScore, iterations, trainingPlots, trainParallel, exportLogData)
+%OPTIMIZEMODEL Runs the byesian optimization for a model
+%   Sets the optVars, defines the opt_fun and calls the bayesopt function
 
 optVariables = [];
 optVarNames = fieldnames(optVars);
@@ -10,7 +9,7 @@ for i = 1:length(optVarNames)
         optVars.(optVarNames{i}).value, 'Type', optVars.(optVarNames{i}).type)];
 end
 
-fun = @(x)opt_fun(models, ...
+fun = @(x)opt_fun(model, ...
     dataTrain, ...
     labelsTrain, ...
     dataValTest, ...

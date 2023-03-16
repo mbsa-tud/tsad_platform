@@ -1,8 +1,6 @@
 function bestModels = findBestModels(trainedModels, dataTest, labelsTest, filesTest, threshold, dynamicThresholdSettings, cmpMetric)
-%FINDBESTMODELS
-%
-% Labels the test dataset according to what model is best using the
-% cmpMetric as the comparison metric
+%FINDBESTMODELS Labels the test dataset according to what model is best
+%using the cmpMetric as the measure of performance
 
 allScores = evaluateAllModels(trainedModels, dataTest, labelsTest, filesTest, threshold, dynamicThresholdSettings);
 allModelIds = fieldnames(trainedModels);
@@ -43,6 +41,6 @@ for i = 1:length(scores_all)
     [~, idx] = max(scores_all{i, 1}(score_idx, :));
     
     bestModels.(filesTest(i)).id = allModelIds{idx};
-    bestModels.(filesTest(i)).label = trainedModels.(allModelIds{idx}).options.label;
+    bestModels.(filesTest(i)).label = trainedModels.(allModelIds{idx}).modelOptions.label;
 end
 end

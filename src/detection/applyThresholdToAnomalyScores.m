@@ -1,10 +1,9 @@
 function [predictedLabels, threshold] = applyThresholdToAnomalyScores(trainedModel, anomalyScores, labels, threshold, dynamicThresholdSettings)
-%CALCSTATICTHRESHOLDPREDICTION
-%
-% Converts anomaly scores to binary detection using the static threshold
+%APPLYTHRESHOLDTOANOMALYSCORES Transform anomaly scores to binary labels by
+%applying a threshold
 
-if isfield(trainedModel, "staticThreshold") && isfield(trainedModel.staticThreshold, threshold)
-    threshold = trainedModel.staticThreshold.(threshold);
+if isfield(trainedModel, "staticThresholds") && isfield(trainedModel.staticThresholds, threshold)
+    threshold = trainedModel.staticThresholds.(threshold);
 
     predictedLabels = any(anomalyScores > threshold, 2);
     % predictedLabels = combineAnomsAndStatic(anomalyScores, predictedLabels);
@@ -37,7 +36,7 @@ else
     else
         % Other static thresholds
         fprintf("Calculating static threshold (%s) on test set\n", threshold);
-        threshold = calcStaticThreshold(anomalyScores, labels, threshold, trainedModel.options.model);
+        threshold = calcStaticThreshold(anomalyScores, labels, threshold, trainedModel.modelOptions.name);
 
         predictedLabels = any(anomalyScores > threshold, 2);
         % predictedLabels = combineAnomsAndStatic(anomalyScores, predictedLabels);

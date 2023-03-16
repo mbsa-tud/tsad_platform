@@ -1,7 +1,7 @@
 function [anomalyScores, compTimeOut] = detectWith(trainedModel, XTest, YTest, labels, getCompTime)
-%DETECTWITH
-%
-% Runs the detection and returns anomaly Scores
+%DETECTWITH Main detection wrapper function
+%   Runs the detection applys a scoring function and returns anomaly scores
+%   and computational time
 
 if ~exist('getCompTime', 'var')
     getCompTime = false;
@@ -15,14 +15,14 @@ if nargout == 2
 end
 
 % Bypass scoring function for models which output labels
-if trainedModel.options.outputsLabels
+if trainedModel.modelOptions.outputsLabels
     anomalyScores = any(anomalyScores, 2);
     return;
 end
 
 % Apply optional scoring function
-if isfield(trainedModel.options, 'hyperparameters')
-    if isfield(trainedModel.options.hyperparameters, 'scoringFunction')
+if isfield(trainedModel.modelOptions, 'hyperparameters')
+    if isfield(trainedModel.modelOptions.hyperparameters, 'scoringFunction')
         anomalyScores = applyScoringFunction(trainedModel, anomalyScores);
     end
 end

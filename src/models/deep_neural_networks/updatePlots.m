@@ -1,8 +1,5 @@
 function updatePlots(handles, data)
-%UPDATEPLOTS
-%
-% Updates the plots in handles, created by PREPAREPLOTS, with
-% training progress information.
+%UPDATEPLOTS Updates plots for parallel training
 
 info = data.info;
 if info.State == "iteration"

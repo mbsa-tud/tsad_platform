@@ -1,7 +1,6 @@
-function [data, labels, files, dataSwitch, labelsSwitch, filesSwitch] = splitDatasetForSwitch(data, labels, files, ratio)
-% SPLITTESTVAL 
-% 
-% Split testing data into testing set and test-validation set
+function [data, labels, files, dataSwitch, labelsSwitch, filesSwitch] = splitDatasetForDynamicSwitch(data, labels, files, ratio)
+%SPLITDATASETFORDYNAMICSWITCH Splits a multiple-test-file dataset into a
+%test set and a test set for the dynamic switch mechanism
 
 if size(data, 1) > 1
     idx = 1:size(data, 1);

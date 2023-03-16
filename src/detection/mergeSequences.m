@@ -1,4 +1,6 @@
 function mergedData = mergeSequences(data, windowSize)
+%MERGESEQUENCES Get median value for all overlapping values for each
+%observation of the time series
 reshapedData = flip(data');
 
 newSequenceLength = size(reshapedData, 2) - windowSize + 1;

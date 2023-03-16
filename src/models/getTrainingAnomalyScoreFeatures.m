@@ -1,5 +1,9 @@
 function [trainingAnomalyScores, trainingAnomalyScoreFeatures] = getTrainingAnomalyScoreFeatures(trainedModel, X, Y)
-switch trainedModel.options.model
+%GETTRAININGANOMALYSCOREFEATURES Get the raw anomaly scores and their
+%statistical features for the training data
+
+
+switch trainedModel.modelOptions.name
     case 'Your model'
     otherwise
         trainingAnomalyScores = [];

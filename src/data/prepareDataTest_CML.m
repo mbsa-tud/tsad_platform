@@ -1,15 +1,13 @@
-function [XTest, YTest, labelsTest] = prepareDataTest_CML(options, data, labels)
-%PREPAREDATATEST_CML
-%
-% Prepares the testing data for classic ML models
+function [XTest, YTest, labelsTest] = prepareDataTest_CML(modelOptions, data, labels)
+%PREPAREDATATEST_CML Prepares the testing data for classic ML models
 
-switch options.model
-    case 'Your model'
+switch modelOptions.name
+    case 'Your model name'
     otherwise
-        if options.useSubsequences
+        if modelOptions.useSubsequences
             [XTest, YTest, labelsTest] = splitDataTest(data, labels, ...
-                options.hyperparameters.windowSize.value, ...
-                'reconstructive', options.dataType);
+                modelOptions.hyperparameters.windowSize.value, ...
+                'reconstructive', modelOptions.dataType);
         else
             XTest = cell2mat(data);
             YTest = XTest;

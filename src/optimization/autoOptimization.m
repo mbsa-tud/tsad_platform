@@ -1,23 +1,23 @@
 function bestOptions = autoOptimization(models, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, configOptFileName, cmpScore, threshold, dynamicThresholdSettings, iterations, trainingPlots, trainParallel, exportLogdata)
-%AUTOOPTIMIZATION
-%
-% Runs the auto-optimization for all selected models
+%AUTOOPTIMIZATION Runs the auto optimization for the models
+%   Main wrapper function to run the bayesian optimization for all selected
+%   models
 
 bestOptions_DNN = [];
 bestOptions_CML = [];
 bestOptions_S = [];
 
 for i = 1:length(models)
-    options = models(i).options;
+    modelOptions = models(i).modelOptions;
     % Load hyperparameters to be optimized
-    optVars = getOptimizationVariables(models(i).options.model, configOptFileName);
+    optVars = getOptimizationVariables(models(i).modelOptions.name, configOptFileName);
     
-    % Check for each optVar if it matches a hyperparameter in the options struct
-    if isfield(options, 'hyperparameters')
+    % Check for each optVar if it matches a hyperparameter in the modelOptions struct
+    if isfield(modelOptions, 'hyperparameters')
         varNames = fieldnames(optVars);
         for j = 1:length(varNames)
             flag = false;
-            if isfield(options.hyperparameters, varNames{j})
+            if isfield(modelOptions.hyperparameters, varNames{j})
                 flag = true;
             end
 
@@ -29,10 +29,10 @@ for i = 1:length(models)
 
     
     % If no hyperparameters are available for the model, save default
-    % options
-    if isempty(optVars) || ~isfield(options, 'hyperparameters')
-        bestOptions_tmp.options = options;
-        switch options.type
+    % modelOptions
+    if isempty(optVars) || ~isfield(modelOptions, 'hyperparameters')
+        bestOptions_tmp.modelOptions = modelOptions;
+        switch modelOptions.type
             case 'DNN'
                 bestOptions_DNN = [bestOptions_DNN; bestOptions_tmp];
             case 'CML'
@@ -44,15 +44,15 @@ for i = 1:length(models)
     end
     
     % Optimization
-    results = optimizeModel(optVars, options, dataTrain, ...
+    results = optimizeModel(optVars, modelOptions, dataTrain, ...
                             labelsTrain, dataValTest, labelsValTest, ...
                             dataTest, labelsTest, threshold, dynamicThresholdSettings, ...
                             cmpScore, iterations, trainingPlots, trainParallel, exportLogdata);
 
     optimumVars = results.XAtMinObjective;
     
-    bestOptions_tmp.options = adaptModelOptions(options, optimumVars);
-    switch options.type
+    bestOptions_tmp.modelOptions = adaptModelOptions(modelOptions, optimumVars);
+    switch modelOptions.type
         case 'DNN'
             bestOptions_DNN = [bestOptions_DNN; bestOptions_tmp];
         case 'CML'

@@ -1,24 +1,24 @@
 function trainedModels_DNN = trainModels_DNN_Parallel(models, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds, closeOnFinished)
-%TRAINMODELS_DNN_PARALLEL
-%
-% Trains all DL models in parallel and calculates the thresholds
+%TRAINMODELS_DNN_PARALLEL Trains DNN models in parallel and calculates static
+%thresholds
 
 numNetworks = length(models);
 
+% Prepare training data
 XTrainCell = cell(1, numNetworks);
 YTrainCell = cell(1, numNetworks);
 XValCell = cell(1, numNetworks);
 YValCell = cell(1, numNetworks);
 
 for i = 1:numNetworks
-    options = models(i).options;
+    modelOptions = models(i).modelOptions;
     
-    if options.requiresPriorTraining
+    if modelOptions.requiresPriorTraining
         if isempty(dataTrain)
-            error("The %s model requires prior training, but the dataset doesn't contain training data (train folder).", options.model);
+            error("The %s model requires prior training, but the dataset doesn't contain training data (train folder).", modelOptions.label);
         end
         
-        [XTrain, YTrain, XVal, YVal] = prepareDataTrain(options, dataTrain, labelsTrain);
+        [XTrain, YTrain, XVal, YVal] = prepareDataTrain(modelOptions, dataTrain, labelsTrain);
     else
         error("One of the selected models for parallel training doesn't require prior training.");
     end
@@ -29,25 +29,29 @@ for i = 1:numNetworks
     YValCell{i} = YVal{1, 1};
 end
 
+% Train model
 [Mdl, MdlInfo] = trainDNN_Parallel(models, XTrainCell, YTrainCell, XValCell, YValCell, closeOnFinished);
 
 for i = 1:numel(models)
-    options = models(i).options;
-    trainedModel.options = options;
+    modelOptions = models(i).modelOptions;
+
+    trainedModel = [];
+    trainedModel.modelOptions = modelOptions;
 
     % Save dimensionality of data
     trainedModel.dimensionality = size(dataTrain{1, 1}, 2);
 
     trainedModel.Mdl = Mdl{i};
     trainedModel.MdlInfo = MdlInfo{i};
-
-    if ~options.outputsLabels
+    
+    % Get static thresholds
+    if ~modelOptions.outputsLabels
         XTrainTestCell = cell(size(dataTrain, 1), 1);
         YTrainTestCell = cell(size(dataTrain, 1), 1);
         labelsTrainTest = [];
     
         for j = 1:size(dataTrain, 1)
-            [XTrainTestCell{j, 1}, YTrainTestCell{j, 1}, labelsTrainTest_tmp] = prepareDataTest(options, dataTrain(j, :), labelsTrain(j, :));
+            [XTrainTestCell{j, 1}, YTrainTestCell{j, 1}, labelsTrainTest_tmp] = prepareDataTest(modelOptions, dataTrain(j, :), labelsTrain(j, :));
             labelsTrainTest = [labelsTrainTest; labelsTrainTest_tmp];
         end
 
@@ -55,15 +59,15 @@ for i = 1:numel(models)
 
         [trainedModel.trainingAnomalyScoresRaw, trainedModel.trainingAnomalyScoreFeatures] = getTrainingAnomalyScoreFeatures(trainedModel, XTrainTestCell, YTrainTestCell);
         
-        if isfield(options, "calcThresholdsOn")
-            if strcmp(options.calcThresholdsOn, "anomalous-validation-data")
-                trainedModel.staticThreshold = getStaticThresholds(trainedModel, dataValTest, labelsValTest, thresholds, "anomalous-validation-data");
-            elseif strcmp(options.calcThresholdsOn, "training-data")
-                trainedModel.staticThreshold = getStaticThresholds(trainedModel, [], [], thresholds, "training-data");
+        if isfield(modelOptions, "calcThresholdsOn")
+            if strcmp(modelOptions.calcThresholdsOn, "anomalous-validation-data")
+                trainedModel.staticThresholds = getStaticThresholds(trainedModel, dataValTest, labelsValTest, thresholds, "anomalous-validation-data");
+            elseif strcmp(modelOptions.calcThresholdsOn, "training-data")
+                trainedModel.staticThresholds = getStaticThresholds(trainedModel, [], [], thresholds, "training-data");
             end
         end
     end
 
-    trainedModels_DNN.(options.id) = trainedModel;
+    trainedModels_DNN.(modelOptions.id) = trainedModel;
 end
 end                              

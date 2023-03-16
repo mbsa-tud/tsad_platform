@@ -1,11 +1,10 @@
-function layers = getLayers(options, numFeatures, numResponses)
-%GETLAYERS
-%
-% Returns the layers for the DL model specified in the options parameter
+function layers = getLayers(modelOptions, numFeatures, numResponses)
+%GETLAYERS Gets the layers for the DNN model specified in the modelOptions parameter
 
-switch options.model
+switch modelOptions.name
+    case 'Your model name'
     case 'FC AE'
-        neurons = options.hyperparameters.neurons.value;
+        neurons = modelOptions.hyperparameters.neurons.value;
         layers = [featureInputLayer(numFeatures, Name='Input')
             fullyConnectedLayer(neurons, Name=strcat('Encode: Fully connected with ', num2str(neurons), ' neurons'))
             reluLayer()
@@ -22,46 +21,46 @@ switch options.model
         layers = layerGraph(layers);
     case 'LSTM (reconstruction)'
         layers = [
-            sequenceInputLayer(numFeatures, MinLength=options.hyperparameters.windowSize.value)
-            lstmLayer(options.hyperparameters.hiddenUnits.value)
+            sequenceInputLayer(numFeatures, MinLength=modelOptions.hyperparameters.windowSize.value)
+            lstmLayer(modelOptions.hyperparameters.hiddenUnits.value)
             dropoutLayer(0.3)
-            lstmLayer(options.hyperparameters.hiddenUnits.value)
+            lstmLayer(modelOptions.hyperparameters.hiddenUnits.value)
             fullyConnectedLayer(numResponses)
             regressionLayer];
         layers = layerGraph(layers);
     case 'Hybrid CNN-LSTM (reconstruction)'
         layers = [...
-            sequenceInputLayer(numFeatures, MinLength=options.hyperparameters.windowSize.value)
-            convolution1dLayer(5, options.hyperparameters.filter.value, Padding='same', WeightsInitializer='he', DilationFactor=1)
+            sequenceInputLayer(numFeatures, MinLength=modelOptions.hyperparameters.windowSize.value)
+            convolution1dLayer(5, modelOptions.hyperparameters.filter.value, Padding='same', WeightsInitializer='he', DilationFactor=1)
             batchNormalizationLayer()
             reluLayer()
-            convolution1dLayer(5, options.hyperparameters.filter.value, Padding='same', Weightsinitializer='he', DilationFactor=1)
+            convolution1dLayer(5, modelOptions.hyperparameters.filter.value, Padding='same', Weightsinitializer='he', DilationFactor=1)
             reluLayer()
-            lstmLayer(options.hyperparameters.hiddenUnits.value, RecurrentWeightsInitializer='He', InputWeightsInitializer='He')
+            lstmLayer(modelOptions.hyperparameters.hiddenUnits.value, RecurrentWeightsInitializer='He', InputWeightsInitializer='He')
             dropoutLayer(0.25)
-            lstmLayer(options.hyperparameters.hiddenUnits.value, RecurrentWeightsInitializer='He', InputWeightsInitializer='He')
+            lstmLayer(modelOptions.hyperparameters.hiddenUnits.value, RecurrentWeightsInitializer='He', InputWeightsInitializer='He')
             fullyConnectedLayer(numResponses)
             regressionLayer()];
         layers = layerGraph(layers);
     case 'TCN AE'
-        if mod(options.hyperparameters.windowSize.value, 4) ~= 0
+        if mod(modelOptions.hyperparameters.windowSize.value, 4) ~= 0
             error("Window size must be divisible by 4 for the TCN AE.");
         end
         layers = [
-            sequenceInputLayer(numFeatures, Name='Input', MinLength=options.hyperparameters.windowSize.value, Name='Input')
+            sequenceInputLayer(numFeatures, Name='Input', MinLength=modelOptions.hyperparameters.windowSize.value, Name='Input')
 
-            convolution1dLayer(5, options.hyperparameters.filter.value, Stride=1, Padding='causal', WeightsInitializer='he', DilationFactor=1)
+            convolution1dLayer(5, modelOptions.hyperparameters.filter.value, Stride=1, Padding='causal', WeightsInitializer='he', DilationFactor=1)
             layerNormalizationLayer()
             reluLayer()
-            convolution1dLayer(5, options.hyperparameters.filter.value, Stride=1, Padding='causal', WeightsInitializer='he', DilationFactor=1)
+            convolution1dLayer(5, modelOptions.hyperparameters.filter.value, Stride=1, Padding='causal', WeightsInitializer='he', DilationFactor=1)
             layerNormalizationLayer()
             reluLayer()
             additionLayer(2, Name='Add_1')
 
-            convolution1dLayer(5, options.hyperparameters.filter.value, Stride=1, Padding='causal', WeightsInitializer='he', DilationFactor=2)
+            convolution1dLayer(5, modelOptions.hyperparameters.filter.value, Stride=1, Padding='causal', WeightsInitializer='he', DilationFactor=2)
             layerNormalizationLayer()
             reluLayer()
-            convolution1dLayer(5, options.hyperparameters.filter.value, Stride=1, Padding='causal', WeightsInitializer='he', DilationFactor=2)
+            convolution1dLayer(5, modelOptions.hyperparameters.filter.value, Stride=1, Padding='causal', WeightsInitializer='he', DilationFactor=2)
             layerNormalizationLayer()
             reluLayer()
             additionLayer(2, Name='Add_2')
@@ -75,18 +74,18 @@ switch options.model
 
 
 
-            convolution1dLayer(5, options.hyperparameters.filter.value, Stride=1, Padding='causal', WeightsInitializer='he', DilationFactor=2)
+            convolution1dLayer(5, modelOptions.hyperparameters.filter.value, Stride=1, Padding='causal', WeightsInitializer='he', DilationFactor=2)
             layerNormalizationLayer()
             reluLayer()
-            convolution1dLayer(5, options.hyperparameters.filter.value, Stride=1, Padding='causal', WeightsInitializer='he', DilationFactor=2)
+            convolution1dLayer(5, modelOptions.hyperparameters.filter.value, Stride=1, Padding='causal', WeightsInitializer='he', DilationFactor=2)
             layerNormalizationLayer()
             reluLayer()
             additionLayer(2, Name='Add_3')
 
-            convolution1dLayer(5, options.hyperparameters.filter.value, Stride=1, Padding='causal', WeightsInitializer='he', DilationFactor=1)
+            convolution1dLayer(5, modelOptions.hyperparameters.filter.value, Stride=1, Padding='causal', WeightsInitializer='he', DilationFactor=1)
             layerNormalizationLayer()
             reluLayer()
-            convolution1dLayer(5, options.hyperparameters.filter.value, Stride=1, Padding='causal', WeightsInitializer='he', DilationFactor=1)
+            convolution1dLayer(5, modelOptions.hyperparameters.filter.value, Stride=1, Padding='causal', WeightsInitializer='he', DilationFactor=1)
             layerNormalizationLayer()
             reluLayer()
             additionLayer(2, Name='Add_4')
@@ -96,10 +95,10 @@ switch options.model
             regressionLayer(Name='Output')
             ];
         layers = layerGraph(layers);
-        layers = addLayers(layers, convolution1dLayer(1, options.hyperparameters.filter.value, Stride=1, Name='Conv_skip_1'));
-        layers = addLayers(layers, convolution1dLayer(1, options.hyperparameters.filter.value, Stride=1, Name='Conv_skip_2'));
-        layers = addLayers(layers, convolution1dLayer(1, options.hyperparameters.filter.value, Stride=1, Name='Conv_skip_3'));
-        layers = addLayers(layers, convolution1dLayer(1, options.hyperparameters.filter.value, Stride=1, Name='Conv_skip_4'));
+        layers = addLayers(layers, convolution1dLayer(1, modelOptions.hyperparameters.filter.value, Stride=1, Name='Conv_skip_1'));
+        layers = addLayers(layers, convolution1dLayer(1, modelOptions.hyperparameters.filter.value, Stride=1, Name='Conv_skip_2'));
+        layers = addLayers(layers, convolution1dLayer(1, modelOptions.hyperparameters.filter.value, Stride=1, Name='Conv_skip_3'));
+        layers = addLayers(layers, convolution1dLayer(1, modelOptions.hyperparameters.filter.value, Stride=1, Name='Conv_skip_4'));
         layers = connectLayers(layers, "Input", "Conv_skip_1");
         layers = connectLayers(layers, "Conv_skip_1", "Add_1/in2");
         layers = connectLayers(layers, "Add_1", "Conv_skip_2");
@@ -112,10 +111,10 @@ switch options.model
         outputMode = 'last';
 
         layers = [
-            sequenceInputLayer(numFeatures, MinLength=options.hyperparameters.windowSize.value)
-            lstmLayer(options.hyperparameters.hiddenUnits.value)
+            sequenceInputLayer(numFeatures, MinLength=modelOptions.hyperparameters.windowSize.value)
+            lstmLayer(modelOptions.hyperparameters.hiddenUnits.value)
             dropoutLayer(0.3)
-            lstmLayer(options.hyperparameters.hiddenUnits.value, OutputMode=outputMode)
+            lstmLayer(modelOptions.hyperparameters.hiddenUnits.value, OutputMode=outputMode)
             fullyConnectedLayer(numResponses)
             regressionLayer];
         layers = layerGraph(layers);
@@ -123,15 +122,15 @@ switch options.model
         outputMode = 'last';
 
         layers = [...
-            sequenceInputLayer(numFeatures, MinLength=options.hyperparameters.windowSize.value, Name='Input')
-            convolution1dLayer(5, options.hyperparameters.filter.value, Padding='same', WeightsInitializer='he', DilationFactor=1)
+            sequenceInputLayer(numFeatures, MinLength=modelOptions.hyperparameters.windowSize.value, Name='Input')
+            convolution1dLayer(5, modelOptions.hyperparameters.filter.value, Padding='same', WeightsInitializer='he', DilationFactor=1)
             batchNormalizationLayer()
             reluLayer()
-            convolution1dLayer(5, options.hyperparameters.filter.value, Padding='same', WeightsInitializer='he', DilationFactor=1)
+            convolution1dLayer(5, modelOptions.hyperparameters.filter.value, Padding='same', WeightsInitializer='he', DilationFactor=1)
             reluLayer()
-            lstmLayer(options.hyperparameters.hiddenUnits.value, RecurrentWeightsInitializer='He', InputWeightsInitializer='He')
+            lstmLayer(modelOptions.hyperparameters.hiddenUnits.value, RecurrentWeightsInitializer='He', InputWeightsInitializer='He')
             dropoutLayer(0.25)
-            lstmLayer(options.hyperparameters.hiddenUnits.value, RecurrentWeightsInitializer='He', InputWeightsInitializer='He', OutputMode=outputMode)
+            lstmLayer(modelOptions.hyperparameters.hiddenUnits.value, RecurrentWeightsInitializer='He', InputWeightsInitializer='He', OutputMode=outputMode)
             fullyConnectedLayer(numResponses)
             regressionLayer()];
         layers = layerGraph(layers);
@@ -139,25 +138,25 @@ switch options.model
         outputMode = 'last';
 
         layers = [
-            sequenceInputLayer(numFeatures, MinLength=options.hyperparameters.windowSize.value)
-            gruLayer(options.hyperparameters.hiddenUnits.value)
+            sequenceInputLayer(numFeatures, MinLength=modelOptions.hyperparameters.windowSize.value)
+            gruLayer(modelOptions.hyperparameters.hiddenUnits.value)
             dropoutLayer(0.3)
-            gruLayer(options.hyperparameters.hiddenUnits.value, OutputMode=outputMode)
+            gruLayer(modelOptions.hyperparameters.hiddenUnits.value, OutputMode=outputMode)
             fullyConnectedLayer(numResponses)
             regressionLayer];
         layers = layerGraph(layers);
     case 'CNN (DeepAnT)'
         layers = [
-            sequenceInputLayer([options.hyperparameters.windowSize.value numFeatures], Name='Input')
+            sequenceInputLayer([modelOptions.hyperparameters.windowSize.value numFeatures], Name='Input')
             sequenceFoldingLayer(Name='Fold')
 
-            convolution1dLayer(5, options.hyperparameters.filter.value, Stride=1, Padding='same', WeightsInitializer='he')
+            convolution1dLayer(5, modelOptions.hyperparameters.filter.value, Stride=1, Padding='same', WeightsInitializer='he')
             reluLayer()
             maxPooling1dLayer(3, Padding='same', Name='Maxpool1')
-            convolution1dLayer(5, options.hyperparameters.filter.value * 2, Stride=1, Padding='same', WeightsInitializer='he')
+            convolution1dLayer(5, modelOptions.hyperparameters.filter.value * 2, Stride=1, Padding='same', WeightsInitializer='he')
             reluLayer()
             maxPooling1dLayer(3, Padding='same', Name='Maxpool2')
-            convolution1dLayer(5, options.hyperparameters.filter.value * 4, Stride=1, Padding='same', WeightsInitializer='he')
+            convolution1dLayer(5, modelOptions.hyperparameters.filter.value * 4, Stride=1, Padding='same', WeightsInitializer='he')
             reluLayer()
             maxPooling1dLayer(3, Padding='same', Name='Maxpool3')
 
@@ -172,16 +171,16 @@ switch options.model
         layers = connectLayers(layers, 'Fold/miniBatchSize', 'Unfold/miniBatchSize');
     case 'ResNet'
         layers = [
-            sequenceInputLayer([options.hyperparameters.windowSize.value numFeatures], Name='Input')
+            sequenceInputLayer([modelOptions.hyperparameters.windowSize.value numFeatures], Name='Input')
             sequenceFoldingLayer(Name='Fold')
 
-            convolution1dLayer(5, options.hyperparameters.filter.value, Stride=1, Padding='same', WeightsInitializer='he')
+            convolution1dLayer(5, modelOptions.hyperparameters.filter.value, Stride=1, Padding='same', WeightsInitializer='he')
             reluLayer(Name='ReLU 1')
 
-            convolution1dLayer(5, options.hyperparameters.filter.value, Stride=1, Padding='same', WeightsInitializer='he')
+            convolution1dLayer(5, modelOptions.hyperparameters.filter.value, Stride=1, Padding='same', WeightsInitializer='he')
             batchNormalizationLayer()
             reluLayer()
-            convolution1dLayer(5, options.hyperparameters.filter.value, Stride=1, Padding='same', WeightsInitializer='he')
+            convolution1dLayer(5, modelOptions.hyperparameters.filter.value, Stride=1, Padding='same', WeightsInitializer='he')
             batchNormalizationLayer()
             additionLayer(2, Name='Add')
             reluLayer()                        
@@ -199,11 +198,11 @@ switch options.model
     case 'MLP'
         layers = [
             featureInputLayer(numFeatures, Name='Input')
-            fullyConnectedLayer(options.hyperparameters.neurons.value)
+            fullyConnectedLayer(modelOptions.hyperparameters.neurons.value)
             reluLayer()
-            fullyConnectedLayer(floor(options.hyperparameters.neurons.value / 2))
+            fullyConnectedLayer(floor(modelOptions.hyperparameters.neurons.value / 2))
             reluLayer()
-            fullyConnectedLayer(floor(options.hyperparameters.neurons.value / 4))
+            fullyConnectedLayer(floor(modelOptions.hyperparameters.neurons.value / 4))
             reluLayer()
             fullyConnectedLayer(numResponses)
             regressionLayer(Name='Output')

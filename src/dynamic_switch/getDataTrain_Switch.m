@@ -1,8 +1,5 @@
 function [XTrain, labelName] = getDataTrain_Switch(data, labels, files)
-%GETDATATRAIN_SWITCH
-%
-% Prepares the training data for the dynamic switch ba extracting the time
-% series features
+%GETDATATRAIN_SWITCH Prepares the training data for the dynamic switch
 
 labelName = 'best_model';
 

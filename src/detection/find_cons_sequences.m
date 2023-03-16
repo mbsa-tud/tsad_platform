@@ -1,7 +1,5 @@
 function seq = find_cons_sequences(A)
-%FINDCONSSEQUENCES
-%
-% Finds consecutive sequences of anomalies
+%FIND_CONS_SEQUENCES Finds consecutive sequences of anomalies
 
 A(end+1)=2;   % adds new endpoint to very end of A so code picks up end of last group of consecutive values
 I_1=find(diff(A)~=1);  % finds where sequences of consecutive numbers end

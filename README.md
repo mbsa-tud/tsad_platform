@@ -312,17 +312,17 @@ To use this function, proceed as follows:
 
 ## Extending the platform
 
-### The "options" struct
+### The "modelOptions" struct
 
-The platform recognizes a model/algorithm by its configuration. This configuration is stored in a struct with a single key called **"options"**.
+The platform recognizes a model/algorithm by its configuration. This configuration is stored in a struct with a single key called **"modelOptions"**.
 The value of this key contains all relevant information. When adding a configured model to one of the lists of models on the [Training](#training-and-optimization) panel, the **ItemsData** property of that list (which is a struct array in this platform) gets extended by such a struct.
 
 The following figure shows an example for the fully-connected autoencoder (FC AE):
 
 ```json
-"options": {
+"modelOptions": {
     "type": "DNN",
-    "model": "FC AE",
+    "name": "FC AE",
     "modelType": "reconstructive",
     "dataType": 1,
     "requiresPriorTraining": true,
@@ -362,13 +362,13 @@ The following figure shows an example for the fully-connected autoencoder (FC AE
 }
 ```
 
-Fields of the **options** struct:
+Fields of the **modelOptions** struct:
 
 **type**
 The type of the model/algorithm. Must be one of: `"DNN"`, `"CML"`, `"S"`
 
-**model**
-The identifier for the model. This is used by the platform to recognize the model. It should only contain **letters** and the following characters: `-` `(` `)`.
+**name**
+The unique name of the model. This is used by the platform to recognize the model. It should only contain **letters** and the following characters: `-` `(` `)`.
 
 **modelType**
 This field is only required for DL models. Its value must be one of: `"predictive"`, `"reconstructive"`. It indicates whether the model produces prediction or reconstruction errors.
@@ -403,7 +403,7 @@ This field is only required for classic ML and statistical models which use the 
 If it is set to `true`, the dataset will be split into overlapping subsequences (See field **dataType** above), otherwise the data is used directly.
 
 **hyperparameters**
-This field can contains all configurable hyperparameters for your model/algorithm. If you want to add a hyperparameter, specify its name as a new key within this field. It must contain two keys: **value** and **type**. The type is only required for the optimization algorithm of the platform. It must be one of: `"integer"`, `"real"`, `"categorical"`. Look at the example [above](#the-options-struct) for reference.
+This field can contains all configurable hyperparameters for your model/algorithm. If you want to add a hyperparameter, specify its name as a new key within this field. It must contain two keys: **value** and **type**. The type is only required for the optimization algorithm of the platform. It must be one of: `"integer"`, `"real"`, `"categorical"`. Look at the example [above](#the-modeloptions-struct) for reference.
 
 You can then use these hyperparameters in the data preparation, model training and detection functions to modify your model.
 See Chapter [adding models](#adding-models) for some examples.
@@ -429,12 +429,12 @@ The file `tsad_platform > config > tsad_platform_config_all.json` contains the J
 {
     "DNN_Models": [
         {
-            "options": {
+            "modelOptions": {
 
             }
         },
         {
-            "options": {
+            "modelOptions": {
 
             }
 
@@ -466,11 +466,11 @@ It's recommended to implement the deep-learning models using functions from MATL
 1. **Define the layers**: Go to the folder `tsad_platform > src > models > deep_neural_networks` and open the file `getLayers.m`. Add a new option in the main *switch* statement for the name of your model:
 
     ```matlab
-    switch options.model
+    switch modelOptions.model
         % Add your model here
         case 'Your model name'
             % Get hyperparameters from options
-            neurons = options.hyperparameters.neurons.value;
+            neurons = modelOptions.hyperparameters.neurons.value;
 
             % Define layers
             layers = [featureInputLayer(numFeatures)
@@ -482,62 +482,62 @@ It's recommended to implement the deep-learning models using functions from MATL
             layers = layerGraph(layers);
     ```
 
-2. **Define training options**: Go to the folder `tsad_platform > src > models > deep_neural_networks` and open the file `getOptions.m`. Add a new option in the main *switch* statement for the name of your model. If you don't add your model here, default training options will be used. Look at the example for more information:
+2. **Define training options**: Go to the folder `tsad_platform > src > models > deep_neural_networks` and open the file `getTrainOptions.m`. Add a new option in the main *switch* statement for the name of your model. If you don't add your model here, default training options will be used. Look at the example for more information:
 
     ```matlab
-    switch options.model
+    switch modelOptions.model
      % Add your model here
         case 'Your model name'
             % Define different options depending on whether validation data is available
-            if options.hyperparameters.ratioTrainVal.value == 0
+            if modelOptions.hyperparameters.ratioTrainVal.value == 0
                 trainOptions = trainingOptions('adam', ...
                     'Plots', plots, ...
-                    'MaxEpochs', options.hyperparameters.epochs.value, ...
-                    'MiniBatchSize', options.hyperparameters.minibatchSize.value, ...
+                    'MaxEpochs', modelOptions.hyperparameters.epochs.value, ...
+                    'MiniBatchSize', modelOptions.hyperparameters.minibatchSize.value, ...
                     'GradientThreshold', 1, ...
-                    'InitialLearnRate', options.hyperparameters.learningRate.value, ...
+                    'InitialLearnRate', modelOptions.hyperparameters.learningRate.value, ...
                     'Shuffle', 'every-epoch',...
                     'ExecutionEnvironment', device);
             else
                 trainOptions = trainingOptions('adam', ...
                     'Plots', plots, ...
-                    'MaxEpochs', options.hyperparameters.epochs.value, ...
-                    'MiniBatchSize', options.hyperparameters.minibatchSize.value, ...
+                    'MaxEpochs', modelOptions.hyperparameters.epochs.value, ...
+                    'MiniBatchSize', modelOptions.hyperparameters.minibatchSize.value, ...
                     'GradientThreshold', 1, ...
-                    'InitialLearnRate', options.hyperparameters.learningRate.value, ...
+                    'InitialLearnRate', modelOptions.hyperparameters.learningRate.value, ...
                     'Shuffle', 'every-epoch', ...
                     'ExecutionEnvironment', device, ...
                     'ValidationData', {XVal, YVal}, ...
-                    'ValidationFrequency', floor(numWindows / (3 * options.hyperparameters.minibatchSize.value)));
+                    'ValidationFrequency', floor(numWindows / (3 * modelOptions.hyperparameters.minibatchSize.value)));
             end
     ```
 
-    If you want **parallel training** to be available for your model, open the file `getOptionsForParallel.m`. Add a new option in the main *switch* statement for the name of your model. These options slightly differ from the ones above. Make sure to always add the `OutputFcn` parameter as shown below:
+    If you want **parallel training** to be available for your model, open the file `getTrainOptionsForParallel.m`. Add a new option in the main *switch* statement for the name of your model. These options slightly differ from the ones above. Make sure to always add the `OutputFcn` parameter as shown below:
 
     ```matlab
-    switch options.model
+    switch modelOptions.model
         % Add your model here
         case 'Your model name'
             % Similar as before but with the 'OutputFcn' parameter added and no `Plots` parameter
-            if options.hyperparameters.ratioTrainVal.value == 0
+            if modelOptions.hyperparameters.ratioTrainVal.value == 0
                 trainOptions = trainingOptions('adam', ...
-                    'MaxEpochs', options.hyperparameters.epochs.value, ...
-                    'MiniBatchSize', options.hyperparameters.minibatchSize.value, ...
+                    'MaxEpochs', modelOptions.hyperparameters.epochs.value, ...
+                    'MiniBatchSize', modelOptions.hyperparameters.minibatchSize.value, ...
                     'GradientThreshold', 1, ...
-                    'InitialLearnRate', options.hyperparameters.learningRate.value, ...
+                    'InitialLearnRate', modelOptions.hyperparameters.learningRate.value, ...
                     'Shuffle', 'every-epoch', ...
                     'ExecutionEnvironment', device, ...
                     'OutputFcn', @(info) send(dataqueue, struct('experimentNumber', idx, 'info', info)));
             else
                 trainOptions = trainingOptions('adam', ...
-                    'MaxEpochs', options.hyperparameters.epochs.value, ...
-                    'MiniBatchSize', options.hyperparameters.minibatchSize.value, ...
+                    'MaxEpochs', modelOptions.hyperparameters.epochs.value, ...
+                    'MiniBatchSize', modelOptions.hyperparameters.minibatchSize.value, ...
                     'GradientThreshold', 1, ...
-                    'InitialLearnRate', options.hyperparameters.learningRate.value, ...
+                    'InitialLearnRate', modelOptions.hyperparameters.learningRate.value, ...
                     'Shuffle', 'every-epoch', ...
                     'ExecutionEnvironment', device, ...
                     'ValidationData', {XVal, YVal}, ...
-                    'ValidationFrequency', floor(numWindows / (3 * options.hyperparameters.minibatchSize.value)), ...
+                    'ValidationFrequency', floor(numWindows / (3 * modelOptions.hyperparameters.minibatchSize.value)), ...
                     'OutputFcn', @(info) send(dataqueue, struct('experimentNumber', idx, 'info', info)));
             end
     ```
@@ -547,7 +547,7 @@ If you want to add a network **without using the MATLAB deep-learning Toolbox**,
 1. **Add the training function call for you network**: Go to the folder `tsad_platform > src > models > deep_neural_networks` and open the file `trainDNN.m`. Add your model name within the main *switch* statement, then call your training function and save the trained network in the `Mdl` vairable. The `MdlInfo` variable is optional and can be left empty:
 
     ```matlab
-    switch options.model
+    switch modelOptions.model
         % Add your model here
         case 'Your model name'
             Mdl = yourTrainFunction(XTrain, YTrain, XVal, YVal);
@@ -557,9 +557,9 @@ If you want to add a network **without using the MATLAB deep-learning Toolbox**,
 2. **Add the detection call for your network**: Go to the folder `tsad_platform > src > detection` and open the file `detectWithDNN.m`. Add your model name within the main *switch* statement, then add your detection function call. Make sure to return anomaly scores (`anomalyScores`) and optionally the computational time (`compTimeOut`) of your model:
 
     ```matlab
-    switch options.model
+    switch modelOptions.model
         % Add your model here
-        case 'Your model'
+        case 'Your model name'
             anomalyScores = detectWithYourModel(Mdl, XTest);
 
             % The compTimeOut variable should contain the computation time for a single subsequence. Set it to NaN if you don't need it to be computed
@@ -574,7 +574,7 @@ The process for adding these algorithms will only be explained for classic machi
  Go to the folder `tsad_platform > src > models > classic_machine_learning` and open the file `trainCML.m` (`trainS.m` within the `statistical` folder for statistical models). To train your model, add your model name to the main *switch* statement, then call your training function and save the trained model in the `Mdl` variable:
 
     ```matlab
-    switch options.model
+    switch modelOptions.model
         % Add your model here
         case 'Your model name'
             Mdl = trainYourModel(XTrain);
@@ -583,9 +583,9 @@ The process for adding these algorithms will only be explained for classic machi
 2. **Add the detection function call**: Go to the folder `tsad_platform > src > detection` and open the file `detectWithCML.m` (`detectWithS.m` for statistical models). Add your model name within the main *switch* statement, then add your detection function call. Make sure to return anomaly scores and store them in the `anomalyScores` vairable:
 
     ```matlab
-    switch options.model
+    switch modelOptions.model
         % Add your model here
-        case 'Your model'
+        case 'Your model name'
             anomalyScores = detectWithYourModel(Mdl, XTest);
     ```
 
@@ -631,8 +631,8 @@ To add a custom static threshold, open the file `tsad_platform > src > threshold
 
 ```matlab
 case "custom"
-        switch model
-            case "Your model"
+        switch modelName
+            case "Your model name"
                 % Add your custom threshold here
             otherwise
                 thr = 0.5;

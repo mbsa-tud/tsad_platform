@@ -1,7 +1,6 @@
 function finalTable =  evaluateAllForDataset(datasetPath, models, useFraction, preprocMethod, ratioTestVal, thresholds, dynamicThresholdSettings, trainingPlots, trainParallel)
-%EVALUATEALLFORDATASET
-%
-% Encapsulates the training and testing for all models for a dataset
+%EVALUATEALLFORDATASET Main function for training and testing all specified
+%models on an entire dataset
 
 fprintf('\n ----------------------------- \n');
 fprintf('###  Evaluating all models  ###');
@@ -84,13 +83,13 @@ models_S = models.models_S;
 allTestFiles = [];
 allModelNames = "Metric";
 for i = 1:length(models_DNN)
-    allModelNames = [allModelNames models_DNN(i).options.label];
+    allModelNames = [allModelNames models_DNN(i).modelOptions.label];
 end
 for i = 1:length(models_CML)
-    allModelNames = [allModelNames models_CML(i).options.label];
+    allModelNames = [allModelNames models_CML(i).modelOptions.label];
 end
 for i = 1:length(models_S)
-    allModelNames = [allModelNames models_S(i).options.label];
+    allModelNames = [allModelNames models_S(i).modelOptions.label];
 end
 
 
@@ -190,7 +189,8 @@ for thr_idx = 1:length(scoreMatrix)
     std_tmp = array2table(stdScores);
     stdTable = [scoreNames std_tmp];
     stdTable.Properties.VariableNames = allModelNames;
-
+    
+    % Write to files
     writetable(maxTable, fileName_Max);
     writetable(minTable, fileName_Min);
     writetable(avgTable, fileName_Avg);

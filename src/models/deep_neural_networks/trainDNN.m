@@ -1,15 +1,13 @@
-function [Mdl, MdlInfo] = trainDNN(options, XTrain, YTrain, XVal, YVal, trainingPlots)
-%TRAINDNN
-%
-% Train DL models
+function [Mdl, MdlInfo] = trainDNN(modelOptions, XTrain, YTrain, XVal, YVal, trainingPlots)
+%TRAINDNN Trains DNN models
 
-switch options.model
-    case 'Your model'
+switch modelOptions.name
+    case 'Your model name'
     otherwise
-        [numFeatures, numResponses] = getNumFeaturesAndResponses(XTrain, YTrain, options.modelType, options.dataType);
+        [numFeatures, numResponses] = getNumFeaturesAndResponses(XTrain, YTrain, modelOptions.modelType, modelOptions.dataType);
 
-        layers = getLayers(options, numFeatures, numResponses);
-        trainOptions = getOptions(options, XVal, YVal, size(XTrain, 1), trainingPlots);
+        layers = getLayers(modelOptions, numFeatures, numResponses);
+        trainOptions = getTrainOptions(modelOptions, XVal, YVal, size(XTrain, 1), trainingPlots);
         
         [Mdl, MdlInfo] = trainNetwork(XTrain, YTrain, layers, trainOptions);
 end

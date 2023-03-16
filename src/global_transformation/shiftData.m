@@ -1,7 +1,5 @@
 function augmentedData = shiftData(rawData, maximum, minimum, level)
-%SHIFTDATA
-%
-% Shift the data by (maximum - minimum) * level
+%SHIFTDATA Shift the data by (maximum - minimum) * level
 
 numChannels = size(rawData{1, 1}, 2);
 

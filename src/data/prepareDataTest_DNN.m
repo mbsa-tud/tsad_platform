@@ -1,13 +1,11 @@
-function [XTest, YTest, labelsTest] = prepareDataTest_DNN(options, data, labels)
-%PREPAREDATATEST_DNN
-%
-% Prepares the testing data for DL models
+function [XTest, YTest, labelsTest] = prepareDataTest_DNN(modelOptions, data, labels)
+%PREPAREDATATEST_DNN Prepares the testing data for DNN models
 
-switch options.model
-    case 'Your model'
+switch modelOptions.name
+    case 'Your model name'
     otherwise
         [XTest, YTest, labelsTest] = splitDataTest(data, labels, ...
-            options.hyperparameters.windowSize.value, options.modelType, ...
-            options.dataType);
+            modelOptions.hyperparameters.windowSize.value, modelOptions.modelType, ...
+            modelOptions.dataType);
 end
 end

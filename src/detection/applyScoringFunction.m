@@ -1,12 +1,10 @@
 function anomalyScores = applyScoringFunction(trainedModel, anomalyScores)
-%DETECTWITH
-%
-% Runs the detection and returns anomaly Scores
+%APPLYSCORINGFUNCTION Applys a scoring function to the anomaly scores
 
 % Apply scoring function
 numChannels = size(anomalyScores, 2);
 
-switch trainedModel.options.hyperparameters.scoringFunction.value
+switch trainedModel.modelOptions.hyperparameters.scoringFunction.value
     case 'channelwise-errors'
         if numChannels > 1
             for i = 1:numChannels

@@ -1,7 +1,5 @@
 function [preprocessedTrainingData, preprocessedTestingData, preprocParams] = preprocessData(rawTrainingData, rawTestingData, method, usePrevious, paramsPrevious)
-% PREPROCESSDATA
-%
-% Preprocessed the data
+% PREPROCESSDATA Preprocesses the data with the specified method
 
 preprocessedTrainingData  = [];
 preprocessedTestingData = [];

@@ -1,7 +1,5 @@
 function augmentedData = attenuateExtremum(rawData,maximums,minimums,level)
-%ATTENUATEEXTREMUM
-%
-% Attenuate the extremum of the data
+%ATTENUATEEXTREMUM Attenuate the extremum of the data
 moyenne=0;
 level=level/100;
 for i = 1:size(rawData, 1)

@@ -1,7 +1,5 @@
 function [augmentedTrainingData, augmentedTestingData] = augmentationData(rawTrainingData, rawTestingData, choice_aug,intensity,trained)
-% AUGMENTATIONDATA
-%
-% Augmented the data
+% AUGMENTATIONDATA Augment the data
 
 augmentedTrainingData = rawTrainingData;
 augmentedTestingData = [];

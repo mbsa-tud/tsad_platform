@@ -1,10 +1,10 @@
-function [anomalyScores, compTime] = detectWithCML(options, Mdl, XTest, YTest, labels, getCompTime)
-%DETECTWITHCML
-%
-% Runs the detection for classic ML models and returns anomaly Scores
+function [anomalyScores, compTime] = detectWithCML(modelOptions, Mdl, XTest, YTest, labels, getCompTime)
+%DETECTWITHCML Runs the detection for classic ML models
+
 compTime = NaN;
 
-switch options.model
+switch modelOptions.name
+    case 'Your model name'
     case 'iForest'
         % iForest supports outlier and novelty detection.
         if isempty(Mdl)
@@ -15,14 +15,14 @@ switch options.model
                 contaminationFraction = 0;
             end
 
-            [~, ~, anomalyScores] = iforest(XTest, contaminationFraction=contaminationFraction, NumLearners=options.hyperparameters.numLearners.value, NumObservationsPerLearner=options.hyperparameters.numObservationsPerLearner.value);
+            [~, ~, anomalyScores] = iforest(XTest, contaminationFraction=contaminationFraction, NumLearners=modelOptions.hyperparameters.numLearners.value, NumObservationsPerLearner=modelOptions.hyperparameters.numObservationsPerLearner.value);
         else
             [~, anomalyScores] = isanomaly(Mdl, XTest);
         end
 
-        if options.useSubsequences
+        if modelOptions.useSubsequences
             % Merge overlapping scores
-            anomalyScores = mergeOverlappingAnomalyScores(options, anomalyScores);
+            anomalyScores = mergeOverlappingAnomalyScores(modelOptions, anomalyScores);
         end
     case 'OC-SVM'
         % OC-SVM support outlier and novelty detection.
@@ -34,35 +34,35 @@ switch options.model
                 contaminationFraction = 0;
             end
 
-            Mdl = fitcsvm(XTest, ones(size(XTest, 1), 1), OutlierFraction=contaminationFraction, KernelFunction=string(options.hyperparameters.kernelFunction.value), KernelScale="auto");
+            Mdl = fitcsvm(XTest, ones(size(XTest, 1), 1), OutlierFraction=contaminationFraction, KernelFunction=string(modelOptions.hyperparameters.kernelFunction.value), KernelScale="auto");
         end
         [~, anomalyScores] = predict(Mdl, XTest);
 
-        if options.useSubsequences
+        if modelOptions.useSubsequences
             % Merge overlapping scores
-            anomalyScores = mergeOverlappingAnomalyScores(options, anomalyScores);
+            anomalyScores = mergeOverlappingAnomalyScores(modelOptions, anomalyScores);
         end
         anomalyScores = anomalyScores < 0;
     case 'ABOD'
         [~, anomalyScores] = ABOD(XTest);
 
-        if options.useSubsequences
+        if modelOptions.useSubsequences
             % Merge overlapping scores
-            anomalyScores = mergeOverlappingAnomalyScores(options, anomalyScores);
+            anomalyScores = mergeOverlappingAnomalyScores(modelOptions, anomalyScores);
         end
     case 'LOF'
-        [~, anomalyScores] = LOF(XTest, options.hyperparameters.k.value);
+        [~, anomalyScores] = LOF(XTest, modelOptions.hyperparameters.k.value);
 
-        if options.useSubsequences
+        if modelOptions.useSubsequences
             % Merge overlapping scores
-            anomalyScores = mergeOverlappingAnomalyScores(options, anomalyScores);
+            anomalyScores = mergeOverlappingAnomalyScores(modelOptions, anomalyScores);
         end
     case 'LDOF'
-        anomalyScores = LDOF(XTest, options.hyperparameters.k.value);
+        anomalyScores = LDOF(XTest, modelOptions.hyperparameters.k.value);
 
-        if options.useSubsequences
+        if modelOptions.useSubsequences
             % Merge overlapping scores
-            anomalyScores = mergeOverlappingAnomalyScores(options, anomalyScores);
+            anomalyScores = mergeOverlappingAnomalyScores(modelOptions, anomalyScores);
         end
     case 'Merlin'
         numAnoms = 0;
@@ -85,25 +85,25 @@ switch options.model
             numAnoms = 1;
         end
 
-        if options.hyperparameters.minL.value < options.hyperparameters.maxL.value
-            [~, indices, ~] = run_MERLIN(XTest,  options.hyperparameters.minL.value, ...
-                options.hyperparameters.maxL.value, numAnoms);
+        if modelOptions.hyperparameters.minL.value < modelOptions.hyperparameters.maxL.value
+            [~, indices, ~] = run_MERLIN(XTest,  modelOptions.hyperparameters.minL.value, ...
+                modelOptions.hyperparameters.maxL.value, numAnoms);
             indices = sort(indices, 2);
             
-            if strcmp(options.hyperparameters.mode.value, "median")
+            if strcmp(modelOptions.hyperparameters.mode.value, "median")
                 anomalyScores = zeros(size(XTest, 1), 1);
                 
                 % Get average locations of top k discords
                 for i = 1:numAnoms
                     avg_disc_loc = floor(median(indices(:, i)));
-                    anomalyScores(avg_disc_loc:(avg_disc_loc + floor((options.hyperparameters.minL.value + options.hyperparameters.maxL.value) / 2))) = 1;
+                    anomalyScores(avg_disc_loc:(avg_disc_loc + floor((modelOptions.hyperparameters.minL.value + modelOptions.hyperparameters.maxL.value) / 2))) = 1;
                 end
-            elseif strcmp(options.hyperparameters.mode.value, "merged")
+            elseif strcmp(modelOptions.hyperparameters.mode.value, "merged")
                 % Alternativeley label all found anomalies of all lengths and merge afterwards
 	            anomalyScores = zeros(size(XTest, 1), size(indices, 1));
                 for i = 1:size(indices, 1)
                     for j = 1:numAnoms
-                        anomalyScores(indices(i, j):(indices(i, j) + options.hyperparameters.minL.value - 2 + i)) = 1;
+                        anomalyScores(indices(i, j):(indices(i, j) + modelOptions.hyperparameters.minL.value - 2 + i)) = 1;
                     end
                 end
                 anomalyScores = any(anomalyScores, 2);

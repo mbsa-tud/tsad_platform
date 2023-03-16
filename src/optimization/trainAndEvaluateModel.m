@@ -1,13 +1,13 @@
-function scoresCell = trainAndEvaluateModel(options, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, threshold, dynamicThresholdSettings, trainingPlots, trainParallel)
-%FITANDEVALUATEMODEL_CML
-%
-% Trains and tests the selected model configured in the options parameter
+function scoresCell = trainAndEvaluateModel(modelOptions, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, threshold, dynamicThresholdSettings, trainingPlots, trainParallel)
+%TRAINANDEVALUATEMODEL Train and test a model and return scores
+%   This function does the entire pipeline for a single model from training
+%   to caluclating a threshold and running tests. It returns all scores.
 
 scoresCell = cell(size(dataTest, 1), 1);
 
-model.options = options;
+model.modelOptions = modelOptions;
 
-switch options.type
+switch modelOptions.type
     case 'DNN'
         trainedModel = trainModels_DNN_Consecutive(model, dataTrain, ...
                                                 labelsTrain, dataValTest, ...
@@ -22,7 +22,7 @@ switch options.type
 end
 
 for dataIdx = 1:size(dataTest, 1)
-    fullScores = detectAndEvaluateWith(trainedModel.(options.id), dataTest(dataIdx, 1), labelsTest(dataIdx, 1), threshold, dynamicThresholdSettings);
+    fullScores = detectAndEvaluateWith(trainedModel.(modelOptions.id), dataTest(dataIdx, 1), labelsTest(dataIdx, 1), threshold, dynamicThresholdSettings);
 
     scoresCell{dataIdx, 1} = fullScores;
 end

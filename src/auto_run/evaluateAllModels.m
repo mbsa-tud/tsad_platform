@@ -1,12 +1,11 @@
-function tmpScores = evaluateAllModels(trainedModels, dataTest, labelsTest, filesTest, thresholds, dynamicThresholdSettings)
-% EVALUATEALLMODELS
-% 
-% Tests all models on a the data within the dataTest argument
+function finalScores = evaluateAllModels(trainedModels, dataTest, labelsTest, filesTest, thresholds, dynamicThresholdSettings)
+% EVALUATEALLMODELS Tests all specified trained models on the test data and
+% returns the scores
 
 
-tmpScores = cell(length(thresholds), 1);
-for tmpIdx = 1:length(tmpScores)
-    tmpScores{tmpIdx, 1} = cell(length(filesTest), 1);
+finalScores = cell(length(thresholds), 1);
+for tmpIdx = 1:length(finalScores)
+    finalScores{tmpIdx, 1} = cell(length(filesTest), 1);
 end
 
 
@@ -18,17 +17,17 @@ if ~isempty(trainedModels)
     for modelIdx = 1:length(fields)
         trainedModel = trainedModels.(fields{modelIdx});
         
-        fprintf("Detecting with: %s\n", trainedModel.options.label);
+        fprintf("Detecting with: %s\n", trainedModel.modelOptions.label);
 
         % For all test files
         for dataIdx = 1:length(filesTest)
-            [XTest, YTest, labels] = prepareDataTest(trainedModel.options, dataTest(dataIdx, 1), labelsTest(dataIdx, 1));
+            [XTest, YTest, labels] = prepareDataTest(trainedModel.modelOptions, dataTest(dataIdx, 1), labelsTest(dataIdx, 1));
                 
             anomalyScores = detectWith(trainedModel, XTest, YTest, labels);
             
             % For all thresholds in the thresholds variable
             for thrIdx = 1:length(thresholds)
-                if ~trainedModel.options.outputsLabels
+                if ~trainedModel.modelOptions.outputsLabels
                     [predictedLabels, ~] = applyThresholdToAnomalyScores(trainedModel, anomalyScores, labels, thresholds(thrIdx), dynamicThresholdSettings);
                 else
                     predictedLabels = anomalyScores;
@@ -52,9 +51,9 @@ if ~isempty(trainedModels)
                                 scoresEventwise(2); ...
                                 scoresPointAdjusted(2)];
         
-                tmp = tmpScores{thrIdx, 1};
+                tmp = finalScores{thrIdx, 1};
                 tmp{dataIdx, 1} = [tmp{dataIdx, 1}, fullScores];
-                tmpScores{thrIdx, 1} = tmp;
+                finalScores{thrIdx, 1} = tmp;
             end
         end
     end
