@@ -314,13 +314,13 @@ To use this function, proceed as follows:
 
 ### The "modelOptions" struct
 
-The platform recognizes a model/algorithm by its configuration. This configuration is stored in a struct with a single key called **"modelOptions"**.
+The platform recognizes a model/algorithm by its configuration. This configuration is stored in a struct with a single key called **`modelOptions`**.
 The value of this key contains all relevant information. When adding a configured model to one of the lists of models on the [Training](#training-and-optimization) panel, the **ItemsData** property of that list (which is a struct array in this platform) gets extended by such a struct.
 
 The following figure shows an example for the fully-connected autoencoder (FC AE):
 
 ```json
-"modelOptions": {
+`modelOptions`: {
     "type": "DNN",
     "name": "FC AE",
     "modelType": "reconstructive",
@@ -423,7 +423,7 @@ For the channel-wise scores, a common threshold gets applied accross all channel
 
 ### Configuration file
 
-The file `tsad_platform > config > tsad_platform_config_all.json` contains the JSON representation of a MATLAB struct with separate fields for DNN, CML and statistical models. Each field's value is a struct array with individual "options" structs, as presented before. This file is used for loading the default configuration of models on the [Training](#training-and-optimization) panel using the `Add All` buttons:
+The file `tsad_platform > config > tsad_platform_config_all.json` contains the JSON representation of a MATLAB struct with separate fields for DNN, CML and statistical models. Each field's value is a struct array with individual `modelOptions` structs, as presented before. This file is used for loading the default configuration of models on the [Training](#training-and-optimization) panel using the `Add All` buttons:
 
 ```json
 {
@@ -453,7 +453,7 @@ The file `tsad_platform > config > tsad_platform_config_all.json` contains the J
 
 To add more models to the platform (deep-learning, classic machine learning and statistical), proceed as follows:
 
-1. Define the `options` struct mentioned before. You can create a `.json` file (use the `tsad_platform_config_all.json` file as reference or add your model to this file directly) as mentioned above to be able to load your model into the platform. Alternativeley, edit on of the following files: `ModelSelection_DNN.mlapp`, `ModelSelection_CML.mlapp`, `ModelSelection_S.mlapp`. Use other examples in those files as a guideline on how to add your model.
+1. Define the `modelOptions` struct mentioned before. You can create a `.json` file (use the `tsad_platform_config_all.json` file as reference or add your model to this file directly) as mentioned above to be able to load your model into the platform. Alternativeley, edit on of the following files: `ModelSelection_DNN.mlapp`, `ModelSelection_CML.mlapp`, `ModelSelection_S.mlapp`. Use other examples in those files as a guideline on how to add your model.
 2. Add the training and detection function calls to the source code of the platform. See [below](#add-deep-learning-anomaly-detection-models) for a detailed explanation.
 3. (optional) Enable optimization for your model: [Enable optimization](#optional-enable-optimization-for-your-model).
 4. (optional) If you require the data to be transformed in another way as provided by the platform, see [below](#optional-data-preparation) for more information.
@@ -461,12 +461,12 @@ To add more models to the platform (deep-learning, classic machine learning and 
 
 #### Add deep-learning anomaly detection models
 
-It's recommended to implement the deep-learning models using functions from MATLAB's deep-learning Toolbox and using the data preparation methods provided by the platform (this data preparation mode is enabled by default and nothing needs to be done other than adding the `dataType` field to the `options` struct (see above)). To add a new DL model, follow these steps:
+It's recommended to implement the deep-learning models using functions from MATLAB's deep-learning Toolbox and using the data preparation methods provided by the platform (this data preparation mode is enabled by default and nothing needs to be done other than adding the `dataType` field to the `modelOptions` struct (see above)). To add a new DL model, follow these steps:
 
 1. **Define the layers**: Go to the folder `tsad_platform > src > models > deep_neural_networks` and open the file `getLayers.m`. Add a new option in the main *switch* statement for the name of your model:
 
     ```matlab
-    switch modelOptions.model
+    switch modelOptions.name
         % Add your model here
         case 'Your model name'
             % Get hyperparameters from options
@@ -485,7 +485,7 @@ It's recommended to implement the deep-learning models using functions from MATL
 2. **Define training options**: Go to the folder `tsad_platform > src > models > deep_neural_networks` and open the file `getTrainOptions.m`. Add a new option in the main *switch* statement for the name of your model. If you don't add your model here, default training options will be used. Look at the example for more information:
 
     ```matlab
-    switch modelOptions.model
+    switch modelOptions.name
      % Add your model here
         case 'Your model name'
             % Define different options depending on whether validation data is available
@@ -515,7 +515,7 @@ It's recommended to implement the deep-learning models using functions from MATL
     If you want **parallel training** to be available for your model, open the file `getTrainOptionsForParallel.m`. Add a new option in the main *switch* statement for the name of your model. These options slightly differ from the ones above. Make sure to always add the `OutputFcn` parameter as shown below:
 
     ```matlab
-    switch modelOptions.model
+    switch modelOptions.name
         % Add your model here
         case 'Your model name'
             % Similar as before but with the 'OutputFcn' parameter added and no `Plots` parameter
@@ -547,7 +547,7 @@ If you want to add a network **without using the MATLAB deep-learning Toolbox**,
 1. **Add the training function call for you network**: Go to the folder `tsad_platform > src > models > deep_neural_networks` and open the file `trainDNN.m`. Add your model name within the main *switch* statement, then call your training function and save the trained network in the `Mdl` vairable. The `MdlInfo` variable is optional and can be left empty:
 
     ```matlab
-    switch modelOptions.model
+    switch modelOptions.name
         % Add your model here
         case 'Your model name'
             Mdl = yourTrainFunction(XTrain, YTrain, XVal, YVal);
@@ -557,7 +557,7 @@ If you want to add a network **without using the MATLAB deep-learning Toolbox**,
 2. **Add the detection call for your network**: Go to the folder `tsad_platform > src > detection` and open the file `detectWithDNN.m`. Add your model name within the main *switch* statement, then add your detection function call. Make sure to return anomaly scores (`anomalyScores`) and optionally the computational time (`compTimeOut`) of your model:
 
     ```matlab
-    switch modelOptions.model
+    switch modelOptions.name
         % Add your model here
         case 'Your model name'
             anomalyScores = detectWithYourModel(Mdl, XTest);
@@ -570,11 +570,11 @@ If you want to add a network **without using the MATLAB deep-learning Toolbox**,
 
 The process for adding these algorithms will only be explained for classic machine learning models, as it is the same for statistical models. Only the files differ which need to be modified. What file to use for what type of algorithm will be mentioned.
 
-1. **Add the training function call**: This step is only required if your model requires prior training (if so, you **MUST** set the `requiresPriorTraining` field within the `options` struct to **true**, otherwise your model will never be trained).
+1. **Add the training function call**: This step is only required if your model requires prior training (if so, you **MUST** set the `requiresPriorTraining` field within the `modelOptions` struct to **true**, otherwise your model will never be trained).
  Go to the folder `tsad_platform > src > models > classic_machine_learning` and open the file `trainCML.m` (`trainS.m` within the `statistical` folder for statistical models). To train your model, add your model name to the main *switch* statement, then call your training function and save the trained model in the `Mdl` variable:
 
     ```matlab
-    switch modelOptions.model
+    switch modelOptions.name
         % Add your model here
         case 'Your model name'
             Mdl = trainYourModel(XTrain);
@@ -583,7 +583,7 @@ The process for adding these algorithms will only be explained for classic machi
 2. **Add the detection function call**: Go to the folder `tsad_platform > src > detection` and open the file `detectWithCML.m` (`detectWithS.m` for statistical models). Add your model name within the main *switch* statement, then add your detection function call. Make sure to return anomaly scores and store them in the `anomalyScores` vairable:
 
     ```matlab
-    switch modelOptions.model
+    switch modelOptions.name
         % Add your model here
         case 'Your model name'
             anomalyScores = detectWithYourModel(Mdl, XTest);
@@ -592,7 +592,7 @@ The process for adding these algorithms will only be explained for classic machi
 #### (Optional) Enable optimization for your model
 
 To enable the built-in optimization for your model, open the file `tsad_platform > config > tsad_platform_config_optimization.json`.
-Add your model name as a new key. Then name the hyperparameters you want to optimize as new keys within this new field. Only hyperparameters which are defined in the `hyperparameters` field of the `options` struct of your model can be optimized. See the following example for the `FC AE` for reference:
+Add your model name as a new key. Then name the hyperparameters you want to optimize as new keys within this new field. Only hyperparameters which are defined in the `hyperparameters` field of the `modelOptions` struct of your model can be optimized. See the following example for the `FC AE` for reference:
 
 ```json
 {
