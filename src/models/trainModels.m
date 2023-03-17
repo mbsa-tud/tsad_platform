@@ -1,7 +1,7 @@
-function trainedModels_CML = trainModels_CML(models, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds)
-%TRAINMODELS_CML Trains the classic ML models and calculates the static thresholds
+function trainedModels = trainModels(models, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds, trainingPlots, trainParallel)
+%TRAINMODELS Main wrapper function for training models and calculating static thresholds
 
-for i = 1:length(models)    
+for i = 1:length(models)
     modelOptions = models(i).modelOptions;
 
     trainedModel = [];
@@ -18,8 +18,17 @@ for i = 1:length(models)
         trainedModel.dimensionality = size(dataTrain{1, 1}, 2);
         
         % Train model
-        [XTrain, YTrain] = prepareDataTrain(modelOptions, dataTrain, labelsTrain);
-        trainedModel.Mdl = trainCML_wrapper(modelOptions, XTrain, YTrain);
+        switch modelOptions.type
+            case 'DNN'
+                [XTrain, YTrain, XVal, YVal] = prepareDataTrain(modelOptions, dataTrain, labelsTrain);
+                [trainedModel.Mdl, trainedModel.MdlInfo] = trainDNN_wrapper(modelOptions, XTrain, YTrain, XVal, YVal, trainingPlots, trainParallel);
+            case 'CML'
+                [XTrain, YTrain] = prepareDataTrain(modelOptions, dataTrain, labelsTrain);
+                trainedModel.Mdl = trainCML_wrapper(modelOptions, XTrain, YTrain);
+            case 'S'
+                [XTrain, YTrain] = prepareDataTrain(modelOptions, dataTrain, labelsTrain);
+                trainedModel.Mdl = trainS_wrapper(modelOptions, XTrain, YTrain);
+        end
         
         % Get static thresholds
         if ~modelOptions.outputsLabels
@@ -31,7 +40,7 @@ for i = 1:length(models)
                 [XTrainTestCell{j, 1}, YTrainTestCell{j, 1}, labelsTrainTest_tmp] = prepareDataTest(modelOptions, dataTrain(j, :), labelsTrain(j, :));
                 labelsTrainTest = [labelsTrainTest; labelsTrainTest_tmp];
             end
-
+            
             trainedModel.trainingLabels = labelsTrainTest;
 
             [trainedModel.trainingAnomalyScoresRaw, trainedModel.trainingAnomalyScoreFeatures] = getTrainingAnomalyScoreFeatures(trainedModel, XTrainTestCell, YTrainTestCell);
@@ -46,6 +55,6 @@ for i = 1:length(models)
         end
     end
 
-    trainedModels_CML.(models(i).modelOptions.id) = trainedModel;
+    trainedModels.(modelOptions.id) = trainedModel;
 end
 end

@@ -75,7 +75,7 @@ switch method
             else
                 if isempty(preprocParams.mu)    
                     fullData = [];
-                    for i = 1:size(app.rawTestingData, 1)
+                    for i = 1:size(rawTestingData, 1)
                         fullData = [fullData; rawTestingData{i, 1}];
                     end
                     [~, preprocParams.mu, preprocParams.sigma] = zscore(fullData, 0, 1);

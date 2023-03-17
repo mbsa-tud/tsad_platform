@@ -1,4 +1,4 @@
-function trainedModels_DNN = trainModels_DNN_Parallel(models, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds, closeOnFinished)
+function trainedModels_DNN = trainModels_DNN_Parallel(models, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds, trainingPlots, closeOnFinished)
 %TRAINMODELS_DNN_PARALLEL Trains DNN models in parallel and calculates static
 %thresholds
 
@@ -30,7 +30,7 @@ for i = 1:numNetworks
 end
 
 % Train model
-[Mdl, MdlInfo] = trainDNN_Parallel(models, XTrainCell, YTrainCell, XValCell, YValCell, closeOnFinished);
+[Mdl, MdlInfo] = trainDNN_Parallel(models, XTrainCell, YTrainCell, XValCell, YValCell, trainingPlots, closeOnFinished);
 
 for i = 1:numel(models)
     modelOptions = models(i).modelOptions;
@@ -41,8 +41,8 @@ for i = 1:numel(models)
     % Save dimensionality of data
     trainedModel.dimensionality = size(dataTrain{1, 1}, 2);
 
-    trainedModel.Mdl = Mdl{i};
-    trainedModel.MdlInfo = MdlInfo{i};
+    trainedModel.Mdl = Mdl(i);
+    trainedModel.MdlInfo = MdlInfo(i);
     
     % Get static thresholds
     if ~modelOptions.outputsLabels

@@ -19,7 +19,7 @@ else
             modelInfo.modelOptions = modelOptions;
             models = [models modelInfo];
         end
-        [Mdl, MdlInfo] = trainDNN_Parallel(models, XTrain, YTrain, XVal, YVal, true);
+        [Mdl, MdlInfo] = trainDNN_Parallel(models, XTrain, YTrain, XVal, YVal, trainingPlots, false);
     else
         Mdl = cell(numChannels, 1);
         MdlInfo = cell(numChannels, 1);

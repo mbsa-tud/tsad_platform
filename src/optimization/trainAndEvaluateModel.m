@@ -7,20 +7,13 @@ scoresCell = cell(size(dataTest, 1), 1);
 
 model.modelOptions = modelOptions;
 
-switch modelOptions.type
-    case 'DNN'
-        trainedModel = trainModels_DNN_Consecutive(model, dataTrain, ...
-                                                labelsTrain, dataValTest, ...
-                                                labelsValTest, threshold, ...
-                                                trainingPlots, trainParallel);
-    case 'CML'
-        trainedModel = trainModels_CML(model, dataTrain, labelsTrain, ...
-                                                dataValTest, labelsValTest, threshold);
-    case 'S'
-        trainedModel = trainModels_S(model, dataTrain, labelsTrain, ...
-                                        dataValTest, labelsValTest, threshold);
-end
+% Train model
+trainedModel = trainModels(model, dataTrain, ...
+                            labelsTrain, dataValTest, ...
+                            labelsValTest, threshold, ...
+                            trainingPlots, trainParallel);
 
+% Run detection
 for dataIdx = 1:size(dataTest, 1)
     fullScores = detectAndEvaluateWith(trainedModel.(modelOptions.id), dataTest(dataIdx, 1), labelsTest(dataIdx, 1), threshold, dynamicThresholdSettings);
 
