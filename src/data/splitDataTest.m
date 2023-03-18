@@ -29,8 +29,8 @@ if strcmp(modelType, 'reconstructive')
     end
 
     % YTest and labels
-    YTest = data{1, 1}(windowSize:(end - windowSize + 1), :);
-    labelsTest = logical(labels{1, 1}(windowSize:(end - windowSize + 1), 1));
+    YTest = data{1, 1};
+    labelsTest = logical(labels{1, 1});
 elseif strcmp(modelType, 'predictive')
     numWindows = size(data{1, 1}, 1) - windowSize;
 

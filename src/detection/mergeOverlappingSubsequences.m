@@ -7,7 +7,7 @@ dataType = modelOptions.dataType;
 
 if dataType == 1
     numChannels = round(size(prediction, 2) / windowSize);
-    reshapedPrediction = zeros((size(prediction, 1) - windowSize + 1), numChannels);
+    reshapedPrediction = zeros((size(prediction, 1) + windowSize - 1), numChannels);
     
     for h = 1:numChannels
         data = zeros(size(prediction, 1), windowSize);
@@ -19,7 +19,7 @@ if dataType == 1
     end
 elseif dataType == 2
     numChannels = size(prediction{1, 1}, 1);
-    reshapedPrediction = zeros((size(prediction, 1) - windowSize + 1), numChannels);
+    reshapedPrediction = zeros((size(prediction, 1) + windowSize - 1), numChannels);
     
     for h = 1:numChannels
         data = zeros(size(prediction, 1), size(prediction{1, 1}, 2));
