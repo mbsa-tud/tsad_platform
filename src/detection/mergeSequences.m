@@ -12,6 +12,6 @@ for i = 1:middleSectionLength
     mergedData(i + windowSize - 1, 1) = median(diag(reshapedData(:, i:(i + windowSize - 1))));
 end
 for i = 1:(windowSize - 1)
-    mergedData(i, 1) = median(diag(reshapedData((i + 1):end, 1:(windowSize - i))));
-    mergedData(middleSectionLength + windowSize - 1 + i) = median(diag(reshapedData(1:(end - i), (middleSectionLength + windowSize - 1 + i):end)));
+    mergedData(windowSize - i, 1) = median(diag(reshapedData((i + 1):end, 1:(windowSize - i))));
+    mergedData(middleSectionLength + windowSize - 1 + i) = median(diag(reshapedData(1:(end - i), (middleSectionLength + i):end)));
 end
