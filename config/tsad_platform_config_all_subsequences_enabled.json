@@ -609,17 +609,13 @@
                 "name": "Grubbs test",
                 "dataType": 1,
                 "requiresPriorTraining": false,
-                "isMultivariate": true,
+                "isMultivariate": false,
                 "outputsLabels": true,
-                "useSubsequences": true,
+                "useSubsequences": false,
                 "hyperparameters": {
                     "alpha": {
                         "value": 0.5,
                         "type": "real"
-                    },
-                    "windowSize": {
-                        "value": 100,
-                        "type": "integer"
                     }
                 }
             }

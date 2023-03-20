@@ -8,6 +8,6 @@ switch modelOptions.name
         windowSize = modelOptions.hyperparameters.windowSize.value;
         anomalyScores = repmat(anomalyScores, 1, windowSize);
 
-        reshapedAnomalyScores = mergeSequences(anomalyScores, windowSize);
+        reshapedAnomalyScores = mergeSequences(anomalyScores, windowSize, modelOptions.outputsLabels);
 end
 end

@@ -1,4 +1,4 @@
-function score = opt_fun(modelOptions, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, threshold, dynamicThresholdSettings, cmpScore, optVars, trainingPlots, trainParallel, exportLogData)
+function score = opt_fun(modelOptions, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, threshold, dynamicThresholdSettings, selectedMetric, optVars, trainingPlots, trainParallel, exportLogData)
 %OPT_FUN Objective function for the bayesian optimization
 %   The objective function runs the training and testing pipeline and
 %   returns the specified metric (/score)
@@ -23,37 +23,9 @@ for i = 1:numOfMetrics
     avgScores(i, 1) = mean(scores);
 end
 
-switch cmpScore
-    case 'F1 Score (point-wise)'
-        avgScore = avgScores(1, 1);
-    case 'F1 Score (event-wise)'
-        avgScore = avgScores(2, 1);
-    case 'F1 Score (point-adjusted)'
-        avgScore = avgScores(3, 1);
-    case 'F1 Score (composite)'
-        avgScore = avgScores(4, 1);
-    case 'F0.5 Score (point-wise)'
-        avgScore = avgScores(5, 1);
-    case 'F0.5 Score (event-wise)'
-        avgScore = avgScores(6, 1);
-    case 'F0.5 Score (point-adjusted)'
-        avgScore = avgScores(7, 1);
-    case 'F0.5 Score (composite)'
-        avgScore = avgScores(8, 1);
-    case 'Precision (point-wise)'
-        avgScore = avgScores(9, 1);
-    case 'Precision (event-wise)'
-        avgScore = avgScores(10, 1);
-    case 'Precision (point-adjusted)'
-        avgScore = avgScores(11, 1);
-    case 'Recall (point-wise)'
-        avgScore = avgScores(12, 1);
-    case 'Recall (event-wise)'
-        avgScore = avgScores(13, 1);
-    case 'Recall (point-adjusted)'
-        avgScore = avgScores(14, 1);
-end
-
+% Get specified score
+[~, scoreIdx] = ismember(selectedMetric, METRIC_NAMES);
+avgScore = avgScores(scoreIdx, 1);
 score = 1 - avgScore;
 
 % Export results and current modelOptions
@@ -62,7 +34,7 @@ if exportLogData
     if ~exist(logPath, 'dir')
         mkdir(logPath);
     end
-    logPath = fullfile(logPath, sprintf('Logs_%s_%s', replace(cmpScore, ' ', '_'), modelOptions.id));
+    logPath = fullfile(logPath, sprintf('Logs_%s_%s', replace(selectedMetric, ' ', '_'), modelOptions.id));
     if ~exist(logPath, 'dir')
         mkdir(logPath);
     end
@@ -71,20 +43,7 @@ if exportLogData
     oldVarNames = optVars.Properties.VariableNames;
     optVars = [optVars, array2table(avgScores')];
     optVars.Properties.VariableNames = [oldVarNames, ...
-                                        "F1 Score (point-wise)", ...
-                                        "F1 Score (event-wise)", ...
-                                        "F1 Score (point-adjusted)", ...
-                                        "F1 Score (composite)", ...
-                                        "F0.5 Score (point-wise)", ...
-                                        "F0.5 Score (event-wise)", ...
-                                        "F0.5 Score (point-adjusted)", ...
-                                        "F0.5 Score (composite)", ...
-                                        "Precision (point-wise)", ...
-                                        "Precision (event-wise)", ...
-                                        "Precision (point-adjusted)", ...
-                                        "Recall (point-wise)", ...
-                                        "Recall (event-wise)", ...
-                                        "Recall (point-adjusted)"];
+                                        METRIC_NAMES];
     writetable(optVars, expPath);
 end
 end

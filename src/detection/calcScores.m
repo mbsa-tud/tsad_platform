@@ -1,9 +1,10 @@
-function [scoresPointwise, scoresEventwise, scoresPointAdjusted, scoresComposite] = calcScores(labels_pred, labels)
+function scores = calcScores(anomalyScores, predictedLabels, labels, justLabels)
 %CALCSCORES Calculates the different metrics
+% justLabels is true if the model outpus labels instead of anomaly scores
 
 % Pointwise (weighted) scores
 try
-    confmat = confusionmat(logical(labels), logical(labels_pred));
+    confmat = confusionmat(logical(labels), logical(predictedLabels));
     tp_p = confmat(2, 2);
     fp_p = confmat(1, 2);
     fn_p = confmat(2, 1);
@@ -19,7 +20,7 @@ end
 
 % Eventwise (unweighted) scores
 try
-    [fp_e, fn_e, tp_e] = overlap_seg(labels, labels_pred);
+    [fp_e, fn_e, tp_e] = overlap_seg(labels, predictedLabels);
     pre_e = tp_e / (tp_e + fp_e);
     rec_e = tp_e / (tp_e + fn_e);
     f1_score_e = 2 * pre_e * rec_e / (pre_e + rec_e);
@@ -31,12 +32,12 @@ catch ME
 end
 
 % Point-adjusted scores
-anomsPointAdjusted = labels_pred;
+anomsPointAdjusted = predictedLabels;
 
 sequences = find_cons_sequences(find(labels == 1));
 
 for i = 1:size(sequences, 1)
-    if any(labels_pred(sequences{i, 1}, 1))
+    if any(predictedLabels(sequences{i, 1}, 1))
         anomsPointAdjusted(sequences{i, 1}, 1) = 1;
     end
 end
@@ -65,8 +66,29 @@ catch ME
     scoresComposite = [NaN; NaN];
 end
 
-scoresPointwise = round(scoresPointwise, 4);
-scoresEventwise = round(scoresEventwise, 4);
-scoresPointAdjusted = round(scoresPointAdjusted, 4);
-scoresComposite = round(scoresComposite, 4);
+if justLabels
+    AUC = NaN;
+else
+    if size(anomalyScores, 2) > 1
+        AUC = NaN;
+    else
+        AUC = rocmetrics(labels, [gnegate(anomalyScores) anomalyScores], [0, 1]).AUC(1);
+    end
+end
+
+scores = [scoresPointwise(3); ...
+            scoresEventwise(3); ...
+            scoresPointAdjusted(3); ...
+            scoresComposite(1); ...
+            scoresPointwise(4); ...
+            scoresEventwise(4); ...
+            scoresPointAdjusted(4); ...
+            scoresComposite(2); ...
+            scoresPointwise(1); ...
+            scoresEventwise(1); ...
+            scoresPointAdjusted(1); ...
+            scoresPointwise(2); ...
+            scoresEventwise(2); ...
+            scoresPointAdjusted(2); ...
+            AUC];
 end

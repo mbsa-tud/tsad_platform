@@ -15,7 +15,7 @@ if dataType == 1
             data(j, :) = prediction(j, ((h - 1) * windowSize + 1):((h - 1) * windowSize + windowSize));
         end
     
-        reshapedPrediction(:, h) = mergeSequences(data, windowSize);
+        reshapedPrediction(:, h) = mergeSequences(data, windowSize, modelOptions.outputsLabels);
     end
 elseif dataType == 2
     numChannels = size(prediction{1, 1}, 1);
@@ -27,7 +27,7 @@ elseif dataType == 2
             data(j, :) = prediction{j, 1}(h, :);
         end
     
-        reshapedPrediction(:, h) = mergeSequences(data, windowSize);
+        reshapedPrediction(:, h) = mergeSequences(data, windowSize, modelOptions.outputsLabels);
     end
 end
 end
