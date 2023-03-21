@@ -1,5 +1,5 @@
-function [anomalyScores, compTimeOut] = detectWith(trainedModel, XTest, YTest, labels, getCompTime)
-%DETECTWITH Main detection wrapper function
+function [anomalyScores, compTimeOut] = detectionWrapper(trainedModel, XTest, YTest, labels, getCompTime)
+%DETECTIONWRAPPER Main detection wrapper function
 %   Runs the detection applys a scoring function and returns anomaly scores
 %   and computational time
 

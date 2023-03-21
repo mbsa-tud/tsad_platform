@@ -2,9 +2,9 @@ function finalTable =  GT_evaluateAllForDataset(datasetPath, models, useFraction
 %GT_EVALUATEALLFORDATASET Main function for training and testing all specified
 %model on the augmented dataset
 
-fprintf('\n ----------------------------- \n');
-fprintf('###  Evaluating all models  ###');
-fprintf('\n ----------------------------- \n');
+fprintf('\n --------------------------------------------- \n');
+fprintf('###  Evaluating all models on augmented data ###');
+fprintf('\n --------------------------------------------- \n');
 
 % Variable initialization
 scoreNames = table(METRIC_NAMES);

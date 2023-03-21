@@ -31,7 +31,7 @@ if strcmp(type, "anomalous-validation-data")
             labelsValTest = [];
     
             for i = 1:size(XValTestCell, 1)
-                anomalyScores_tmp = detectWith(trainedModel, XValTestCell{i, 1}, YValTestCell{i, 1}, labelsValTestCell{i, 1});
+                anomalyScores_tmp = detectionWrapper(trainedModel, XValTestCell{i, 1}, YValTestCell{i, 1}, labelsValTestCell{i, 1});
                 anomalyScoresValTest = [anomalyScoresValTest; anomalyScores_tmp];
                 labelsValTest = [labelsValTest; labelsValTestCell{i, 1}];
             end

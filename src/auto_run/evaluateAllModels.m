@@ -1,6 +1,6 @@
 function finalScores = evaluateAllModels(trainedModels, dataTest, labelsTest, filesTest, thresholds, dynamicThresholdSettings)
-% EVALUATEALLMODELS Tests all specified trained models on the test data and
-% returns the scores
+% EVALUATEALLMODELS Tests all specified trained models on the test data for
+% all selected thresholds and returns the scores
 
 
 finalScores = cell(length(thresholds), 1);
@@ -23,7 +23,7 @@ if ~isempty(trainedModels)
         for dataIdx = 1:length(filesTest)
             [XTest, YTest, labels] = prepareDataTest(trainedModel.modelOptions, dataTest(dataIdx, 1), labelsTest(dataIdx, 1));
                 
-            anomalyScores = detectWith(trainedModel, XTest, YTest, labels);
+            anomalyScores = detectionWrapper(trainedModel, XTest, YTest, labels);
             
             % For all thresholds in the thresholds variable
             for thrIdx = 1:length(thresholds)

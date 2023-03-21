@@ -5,7 +5,7 @@ fprintf("Detecting with: %s\n", trainedModel.modelOptions.label);
 
 [XTest, YTest, labels] = prepareDataTest(trainedModel.modelOptions, dataTest, labelsTest);
     
-anomalyScores = detectWith(trainedModel, XTest, YTest, labels);
+anomalyScores = detectionWrapper(trainedModel, XTest, YTest, labels);
 
 if ~trainedModel.modelOptions.outputsLabels
     [predictedLabels, ~] = applyThresholdToAnomalyScores(trainedModel, anomalyScores, labels, threshold, dynamicThresholdSettings);
