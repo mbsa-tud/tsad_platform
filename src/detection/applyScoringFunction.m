@@ -20,20 +20,20 @@ switch trainedModel.modelOptions.hyperparameters.scoringFunction.value
         end
     case 'gauss'
         anomalyScores = -log(1 - mvncdf(anomalyScores, trainedModel.trainingAnomalyScoreFeatures.mu, trainedModel.trainingAnomalyScoreFeatures.covar));
-        anomalyScores(isinf(anomalyScores)) = 0; % Does this make sense?
+        anomalyScores(isinf(anomalyScores)) = 100; % Cap scores
     case 'aggregated-gauss'
         for i = 1:numChannels
             anomalyScores(:, i) = -log(1 - cdf('Normal', anomalyScores(:, i), ...
                 trainedModel.trainingAnomalyScoreFeatures.mu(i), sqrt(trainedModel.trainingAnomalyScoreFeatures.covar(i, i))));
         end
-        anomalyScores(isinf(anomalyScores)) = 0; % Does this make sense?
+        anomalyScores(isinf(anomalyScores)) = 100; % Cap scores
         anomalyScores = sum(anomalyScores, 2);
     case 'channelwise-gauss'
         for i = 1:numChannels
             anomalyScores(:, i) = -log(1 - cdf('Normal', anomalyScores(:, i), ...
                 trainedModel.trainingAnomalyScoreFeatures.mu(i), sqrt(trainedModel.trainingAnomalyScoreFeatures.covar(i, i))));
         end
-        anomalyScores(isinf(anomalyScores)) = 0; % Does this make sense?
+        anomalyScores(isinf(anomalyScores)) = 100; % Cap scores
     otherwise
         % Do nothing
 end
