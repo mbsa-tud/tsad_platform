@@ -12,10 +12,7 @@ scoreNames.Properties.VariableNames = "Metric";
 
 % Create folders for results
 % Structure: Dataset_Sweep_Results -> datasetName -> thresholdName -> all_results, 
-%                                                                     Max_Scores.csv,
-%                                                                     Min_Scores.csv,
-%                                                                     Avg_Scores.csv,
-%                                                                     Std_Scores.csv
+%                                                                     Average_Scores.csv
 datasetOutputFolder = fullfile(pwd, 'Auto_Run_Results');
 if ~exist(datasetOutputFolder, 'dir')
     mkdir(datasetOutputFolder);
@@ -117,9 +114,6 @@ for thr_idx = 1:length(scoreMatrix)
     numOfMetrics = size(scoreMatrix_tmp{1, 1}, 1);
 
     avgScores = zeros(numOfMetrics, numOfModels);
-    stdScores = zeros(numOfMetrics, numOfModels);
-    minScores = zeros(numOfMetrics, numOfModels);
-    maxScores = zeros(numOfMetrics, numOfModels);
     
     for i = 1:numOfModels
         for j = 1:numOfMetrics
@@ -131,14 +125,8 @@ for thr_idx = 1:length(scoreMatrix)
                 end
                 scores(k, 1) = tmp(j, i);
             end
-            minScore = min(scores);
-            maxScore = max(scores);
             avgScore = mean(scores);
-            stdScore = std(scores);
             avgScores(j, i) = avgScore;
-            stdScores(j, i) = stdScore;
-            minScores(j, i) = minScore;
-            maxScores(j, i) = maxScore;
         end
     end
     
@@ -158,31 +146,16 @@ for thr_idx = 1:length(scoreMatrix)
         writetable(scoreTable, all_results_filename);
     end
     
-    fileName_Max = fullfile(outputFolder, sprintf('Max_Scores__%s.csv', datestr(now,'mm-dd-yyyy_HH-MM')));
-    fileName_Min = fullfile(outputFolder, sprintf('Min_Scores__%s.csv', datestr(now,'mm-dd-yyyy_HH-MM')));
-    fileName_Avg = fullfile(outputFolder, sprintf('Avg_Scores__%s.csv', datestr(now,'mm-dd-yyyy_HH-MM')));
-    fileName_Std = fullfile(outputFolder, sprintf('Std_Scores__%s.csv', datestr(now,'mm-dd-yyyy_HH-MM')));
-    
+    fileName_Avg = fullfile(outputFolder, sprintf('Average_Scores__%s.csv', datestr(now,'mm-dd-yyyy_HH-MM')));    
 
-    max_tmp = array2table(maxScores);
-    maxTable = [scoreNames max_tmp];
-    maxTable.Properties.VariableNames = allModelNames;
-    min_tmp = array2table(minScores);
-    minTable = [scoreNames min_tmp];
-    minTable.Properties.VariableNames = allModelNames;
     avg_tmp = array2table(avgScores);
     avgTable = [scoreNames avg_tmp];
     avgTable.Properties.VariableNames = allModelNames;
-    std_tmp = array2table(stdScores);
-    stdTable = [scoreNames std_tmp];
-    stdTable.Properties.VariableNames = allModelNames;
     
     % Write to files
-    writetable(maxTable, fileName_Max);
-    writetable(minTable, fileName_Min);
     writetable(avgTable, fileName_Avg);
-    writetable(stdTable, fileName_Std);
-
+    
+    % Return scores for first threshold to display in platform
     if thr_idx == 1
         finalTable = avgTable;
     end
