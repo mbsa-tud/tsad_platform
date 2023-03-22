@@ -461,7 +461,7 @@ To add more models to the platform (deep-learning, classic machine learning and 
 
 It's recommended to implement the deep-learning models using functions from MATLAB's deep-learning Toolbox and using the data preparation methods provided by the platform (this data preparation mode is enabled by default and nothing needs to be done other than adding the `dataType` field to the `modelOptions` struct (see above)). To add a new DL model, follow these steps:
 
-1. **Define the layers**: Go to the folder `tsad_platform > src > models > deep_neural_networks` and open the file `getLayers.m`. Add a new option in the main *switch* statement for the name of your model:
+1. **Define the layers**: Go to the folder `tsad_platform > src > models_and_training > deep_learning` and open the file `getLayers.m`. Add a new option in the main *switch* statement for the name of your model:
 
     ```matlab
     switch modelOptions.name
@@ -480,7 +480,7 @@ It's recommended to implement the deep-learning models using functions from MATL
             layers = layerGraph(layers);
     ```
 
-2. **Define training options**: Go to the folder `tsad_platform > src > models > deep_neural_networks` and open the file `getTrainOptions.m`. Add a new option in the main *switch* statement for the name of your model. If you don't add your model here, default training options will be used. Look at the example for more information:
+2. **Define training options**: Go to the folder `tsad_platform > src > models_and_training > deep_learning` and open the file `getTrainOptions.m`. Add a new option in the main *switch* statement for the name of your model. If you don't add your model here, default training options will be used. Look at the example for more information:
 
     ```matlab
     switch modelOptions.name
@@ -565,7 +565,7 @@ It's recommended to implement the deep-learning models using functions from MATL
 
 If you want to add a network **without using the MATLAB deep-learning Toolbox**, proceed as follows:
 
-1. **Add the training function call for you network**: Go to the folder `tsad_platform > src > models > deep_neural_networks` and open the file `trainDNN.m`. Add your model name within the main *switch* statement, then call your training function and save the trained network in the `Mdl` vairable. The `MdlInfo` variable is optional and can be left empty:
+1. **Add the training function call for you network**: Go to the folder `tsad_platform > src > models_and_training > deep_learning` and open the file `trainDNN.m`. Add your model name within the main *switch* statement, then call your training function and save the trained network in the `Mdl` vairable. The `MdlInfo` variable is optional and can be left empty:
 
     ```matlab
     switch modelOptions.name
@@ -592,7 +592,7 @@ If you want to add a network **without using the MATLAB deep-learning Toolbox**,
 The process for adding these algorithms will only be explained for classic machine learning models, as it is the same for statistical models. Only the files differ which need to be modified. What file to use for what type of algorithm will be mentioned.
 
 1. **Add the training function call**: This step is only required if your model requires prior training (if so, you **MUST** set the `requiresPriorTraining` field within the `modelOptions` struct to **true**, otherwise your model will never be trained).
- Go to the folder `tsad_platform > src > models > classic_machine_learning` and open the file `trainCML.m` (`trainS.m` within the `statistical` folder for statistical models). To train your model, add your model name to the main *switch* statement, then call your training function and save the trained model in the `Mdl` variable:
+ Go to the folder `tsad_platform > src > models_and_training > classic_machine_learning` and open the file `trainCML.m` (`trainS.m` within the `statistical` folder for statistical models). To train your model, add your model name to the main *switch* statement, then call your training function and save the trained model in the `Mdl` variable:
 
     ```matlab
     switch modelOptions.name
