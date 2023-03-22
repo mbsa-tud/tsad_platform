@@ -389,15 +389,13 @@ This field is optional and only has an effect if the `requiresPriorTraining` fie
 Its value can be either `"anomalous-validation-data"` or `"training-data"`. This determines what dataset to use to calculate the static threholds. If the selected option is `"anoamlous-validation-data"`, but no anomalous validation data is available, the thresholds will be calculated during testing. If you dont't specify this field or set its value to anything else than the two options, the thresholds are always set during testing and not during training.
 
 **isMultivariate**
-This field is only required for classic ML and statistical models which use the standard data preparation functions provided by the platform.
 It's value can be `true` or `false`. See field **dataType** above for more information on the effect on the data preparation. **(If it is set to `false` but the loaded dataset is multivariate, a separate model will be trained for each channel of the dataset.)**
 
 **outputsLabels**
-If your anomaly detection method doesn't output anomaly scores, but binary labes for each observation within the time series, set this field to `true` to bypass all thresholding methods. Otherwise it must be set to `false`.
+If your anomaly detection method doesn't output anomaly scores, but binary labes for each observation of the time series, set this field to `true` to bypass all thresholding methods. Otherwise it must be set to `false`.
 
 **useSubsequences**
 This field is only required for classic ML and statistical models which use the standard data preparation functions provided by the platform.
-
 If it is set to `true`, the dataset will be split into overlapping subsequences (See field **dataType** above), otherwise the data is used directly.
 
 **hyperparameters**
