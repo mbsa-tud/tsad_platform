@@ -23,7 +23,7 @@
             "type": "integer"
         },
         "windowSize": {
-            "value": [10, 400],
+            "value": [10, 123],
             "type": "integer"
         }
     },
