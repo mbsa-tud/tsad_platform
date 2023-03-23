@@ -29,7 +29,7 @@ trainingFiles = dir(fullfile(dataTrainPath, '*.csv'));
 testingFiles = dir(fullfile(dataTestPath, '*.csv'));
 
 if numel(trainingFiles) == 0 && numel(testingFiles) == 0                
-    return;
+    error("Invalid dataset");
 end
 
 numOfTrainingFiles = numel(trainingFiles);
