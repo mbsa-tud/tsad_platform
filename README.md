@@ -117,7 +117,7 @@ A dataset can be loaded on the `Data` panel:
 
 The **format** of a dataset must be as such:
 
-* It contains a folder called `test` (mandatory) and a folder called `train` (optional for methods not requiring prior training).
+* It contains at least one of the following folders: a `train` folder containing training data and a `test` folder containing testing data.
 * Each folder contains an arbitrary amount of **CSV** files with the following format:
 
 | timestamp | value1 | value2 | is_anomaly |
