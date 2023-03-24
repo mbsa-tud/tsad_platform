@@ -65,8 +65,8 @@ To select thresholds, proceed as follows:
 
     <img src="media/final_threshold_selection.png" alt="Threshold selection settings" title="Threshold selection settings" width=260/>
 
-2. Select the desired thresholds (1).
-3. Click `Save` (2) to save the new selection.
+2. Select the desired thresholds.
+3. Click `Save` to save the new selection.
 
 The thresholds are set as follows:
 
