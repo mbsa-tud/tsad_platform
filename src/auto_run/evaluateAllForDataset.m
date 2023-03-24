@@ -27,10 +27,10 @@ end
 
 thresholdSubfolders = strings(length(thresholds), 1);
 
-for i = 1:length(thresholds)
-    thresholdSubfolders(i) = fullfile(datasetOutputFolder, thresholds(i));
-    if ~exist(thresholdSubfolders(i), 'dir')
-        mkdir(thresholdSubfolders(i));
+for thr_idx = 1:length(thresholds)
+    thresholdSubfolders(thr_idx) = fullfile(datasetOutputFolder, thresholds(thr_idx));
+    if ~exist(thresholdSubfolders(thr_idx), 'dir')
+        mkdir(thresholdSubfolders(thr_idx));
     end
 end
 
@@ -66,25 +66,25 @@ models_S = models.models_S;
 
 allTestFiles = [];
 allModelNames = "Metric";
-for i = 1:length(models_DNN)
-    allModelNames = [allModelNames models_DNN(i).modelOptions.label];
+for model_idx = 1:length(models_DNN)
+    allModelNames = [allModelNames models_DNN(model_idx).modelOptions.label];
 end
-for i = 1:length(models_CML)
-    allModelNames = [allModelNames models_CML(i).modelOptions.label];
+for model_idx = 1:length(models_CML)
+    allModelNames = [allModelNames models_CML(model_idx).modelOptions.label];
 end
-for i = 1:length(models_S)
-    allModelNames = [allModelNames models_S(i).modelOptions.label];
+for model_idx = 1:length(models_S)
+    allModelNames = [allModelNames models_S(model_idx).modelOptions.label];
 end
 
 
 
 
 % Evaluate each model for every dataset
-for i = 1:length(indices)    
+for dataset_idx = 1:length(indices)    
     if isMultiEntity
-        fprintf('\n\nEvaluating subset %d/%d \n\n', i, length(indices));
-        fprintf('%s\n\n', subFolders(indices(i)).name);
-        dataPath = fullfile(datasetPath, subFolders(indices(i)).name);
+        fprintf('\n\nEvaluating subset %d/%d \n\n', dataset_idx, length(indices));
+        fprintf('%s\n\n', subFolders(indices(dataset_idx)).name);
+        dataPath = fullfile(datasetPath, subFolders(indices(dataset_idx)).name);
     else
         dataPath = datasetPath;
     end
@@ -95,8 +95,8 @@ for i = 1:length(indices)
 
     allTestFiles = [allTestFiles testFileNames];
 
-    for thrIdx = 1:length(thresholds)
-        scoreMatrix{thrIdx, 1} = [scoreMatrix{thrIdx, 1}; tmpScores{thrIdx, 1}];
+    for thr_idx = 1:length(thresholds)
+        scoreMatrix{thr_idx, 1} = [scoreMatrix{thr_idx, 1}; tmpScores{thr_idx, 1}];
     end
     fprintf('\n ----------------------------- \n');
 end
@@ -115,18 +115,18 @@ for thr_idx = 1:length(scoreMatrix)
 
     avgScores = zeros(numOfMetrics, numOfModels);
     
-    for i = 1:numOfModels
-        for j = 1:numOfMetrics
+    for model_idx = 1:numOfModels
+        for metric_idx = 1:numOfMetrics
             scores = zeros(numOfScoreMatrices, 1);
-            for k = 1:numOfScoreMatrices
-                tmp = scoreMatrix_tmp{k, 1};
-                if isnan(tmp(j, i))
-                    tmp(j, i) = 0;
+            for data_idx = 1:numOfScoreMatrices
+                tmp = scoreMatrix_tmp{data_idx, 1};
+                if isnan(tmp(metric_idx, model_idx))
+                    tmp(metric_idx, model_idx) = 0;
                 end
-                scores(k, 1) = tmp(j, i);
+                scores(data_idx, 1) = tmp(metric_idx, model_idx);
             end
             avgScore = mean(scores);
-            avgScores(j, i) = avgScore;
+            avgScores(metric_idx, model_idx) = avgScore;
         end
     end
     
@@ -138,9 +138,9 @@ for thr_idx = 1:length(scoreMatrix)
         mkdir(all_results_folder);
     end
     
-    for i = 1:length(scoreMatrix_tmp)
-        all_results_filename = fullfile(all_results_folder, sprintf('%s_%s.csv', allTestFiles(i), datestr(now,'mm-dd-yyyy_HH-MM')));
-        scoreTable_tmp = array2table(scoreMatrix_tmp{i, 1});
+    for data_idx = 1:numOfScoreMatrices
+        all_results_filename = fullfile(all_results_folder, sprintf('%s_%s.csv', allTestFiles(data_idx), datestr(now,'mm-dd-yyyy_HH-MM')));
+        scoreTable_tmp = array2table(scoreMatrix_tmp{data_idx, 1});
         scoreTable = [scoreNames scoreTable_tmp];
         scoreTable.Properties.VariableNames = allModelNames;
         writetable(scoreTable, all_results_filename);

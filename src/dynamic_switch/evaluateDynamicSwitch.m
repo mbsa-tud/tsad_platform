@@ -7,8 +7,8 @@ trainedModelsFields = fieldnames(trainedModels);
 numOfModels = numel(trainedModelsFields);
 allModelNames = strings(numOfModels, 1);
 
-for i = 1:numOfModels
-    allModelNames(i) = trainedModels.(trainedModelsFields{i}).modelOptions.label;
+for model_idx = 1:numOfModels
+    allModelNames(model_idx) = trainedModels.(trainedModelsFields{model_idx}).modelOptions.label;
 end
 
 fullScores_Switch = cell(numOfTestingFiles, 1);
@@ -16,28 +16,28 @@ fullScores = cell(numOfModels, 1);
 
 selectedModels = strings(numOfTestingFiles, 1);
 
-for fileIdx = 1:numOfTestingFiles    
+for data_idx = 1:numOfTestingFiles    
     % select data
-    XTest_switch = diagnosticFeatures(dataTestSwitch{fileIdx, 1});
+    XTest_switch = diagnosticFeatures(dataTestSwitch{data_idx, 1});
 
     % classifier chooses model
     pred = string(classify(classifier, XTest_switch));
     selectedModel = trainedModels.(pred);
     
-    selectedModels(fileIdx, 1) = trainedModels.(pred).modelOptions.label;
-    fprintf("\n### Dynamic switch chose model %s for file No.%d ###\n\n", trainedModels.(pred).modelOptions.label, fileIdx);
+    selectedModels(data_idx, 1) = trainedModels.(pred).modelOptions.label;
+    fprintf("\n### Dynamic switch chose model %s for file No.%d ###\n\n", trainedModels.(pred).modelOptions.label, data_idx);
     
-    fullScores_Switch{fileIdx, 1} = detectAndEvaluateWith(selectedModel, dataTestSwitch(fileIdx, 1), labelsTestSwitch(fileIdx, 1), threshold, dynamicThresholdSettings);
-    for j = 1:numOfModels
-        fullScores{j, 1}{fileIdx, 1} = detectAndEvaluateWith(trainedModels.(trainedModelsFields{j}),  dataTestSwitch(fileIdx, 1), labelsTestSwitch(fileIdx, 1), threshold, dynamicThresholdSettings);
+    fullScores_Switch{data_idx, 1} = detectAndEvaluateWith(selectedModel, dataTestSwitch(data_idx, 1), labelsTestSwitch(data_idx, 1), threshold, dynamicThresholdSettings);
+    for model_idx = 1:numOfModels
+        fullScores{model_idx, 1}{data_idx, 1} = detectAndEvaluateWith(trainedModels.(trainedModelsFields{model_idx}),  dataTestSwitch(data_idx, 1), labelsTestSwitch(data_idx, 1), threshold, dynamicThresholdSettings);
     end
 end
 
 
 averages = calcAverageScores(fullScores_Switch);
 
-for fileIdx = 1:numOfModels
-    averages = [averages calcAverageScores(fullScores{fileIdx, 1})];
+for model_idx = 1:numOfModels
+    averages = [averages calcAverageScores(fullScores{model_idx, 1})];
 end
 
 scoreNames = table(METRIC_NAMES);

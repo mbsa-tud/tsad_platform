@@ -14,9 +14,9 @@ trainedModel = trainModels(model, dataTrain, ...
                             trainingPlots, trainParallel);
 
 % Run detection
-for dataIdx = 1:size(dataTest, 1)
-    fullScores = detectAndEvaluateWith(trainedModel.(modelOptions.id), dataTest(dataIdx, 1), labelsTest(dataIdx, 1), threshold, dynamicThresholdSettings);
+for data_idx = 1:size(dataTest, 1)
+    fullScores = detectAndEvaluateWith(trainedModel.(modelOptions.id), dataTest(data_idx, 1), labelsTest(data_idx, 1), threshold, dynamicThresholdSettings);
 
-    scoresCell{dataIdx, 1} = fullScores;
+    scoresCell{data_idx, 1} = fullScores;
 end
 end

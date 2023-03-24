@@ -4,9 +4,9 @@ function results = optimizeModel(optVars, model, dataTrain, labelsTrain, dataVal
 
 optVariables = [];
 optVarNames = fieldnames(optVars);
-for i = 1:length(optVarNames)
-    optVariables = [optVariables optimizableVariable(optVarNames{i}, ...
-        optVars.(optVarNames{i}).value, 'Type', optVars.(optVarNames{i}).type)];
+for opt_idx = 1:length(optVarNames)
+    optVariables = [optVariables optimizableVariable(optVarNames{opt_idx}, ...
+        optVars.(optVarNames{opt_idx}).value, 'Type', optVars.(optVarNames{opt_idx}).type)];
 end
 
 fun = @(x)opt_fun(model, ...

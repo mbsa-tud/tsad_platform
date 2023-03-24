@@ -3,21 +3,23 @@ function features = diagnosticFeatures(inputData)
 
 features = [];
 
-for i = 1:size(inputData, 2)
+for channel_idx = 1:size(inputData, 2)
     % For every channel of the dataset compute the same features
     try
+        data = inputData(:, channel_idx);
+
         % Compute signal features
-        ClearanceFactor = max(abs(inputData))/(mean(sqrt(abs(inputData)))^2);
-        CrestFactor = peak2rms(inputData);
-        ImpulseFactor = max(abs(inputData))/mean(abs(inputData));
-        Kurtosis = kurtosis(inputData);
-        Mean = mean(inputData,'omitnan');
-        PeakValue = max(abs(inputData));
-        SINAD = sinad(inputData);
-        SNR = snr(inputData);
-        ShapeFactor = rms(inputData,'omitnan')/mean(abs(inputData),'omitnan');
-        Skewness = skewness(inputData);
-        Std = std(inputData,'omitnan');
+        ClearanceFactor = max(abs(data))/(mean(sqrt(abs(data)))^2);
+        CrestFactor = peak2rms(data);
+        ImpulseFactor = max(abs(data))/mean(abs(data));
+        Kurtosis = kurtosis(data);
+        Mean = mean(data,'omitnan');
+        PeakValue = max(abs(data));
+        SINAD = sinad(data);
+        SNR = snr(data);
+        ShapeFactor = rms(data,'omitnan')/mean(abs(data),'omitnan');
+        Skewness = skewness(data);
+        Std = std(data,'omitnan');
     
         % Concatenate signal features.
         features = [features, ClearanceFactor, ...

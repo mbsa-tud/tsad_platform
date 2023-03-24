@@ -9,25 +9,25 @@ if dataType == 1
     numChannels = round(size(prediction, 2) / windowSize);
     reshapedPrediction = zeros((size(prediction, 1) + windowSize - 1), numChannels);
     
-    for h = 1:numChannels
+    for channel_idx = 1:numChannels
         data = zeros(size(prediction, 1), windowSize);
-        for j = 1:size(prediction, 1)
-            data(j, :) = prediction(j, ((h - 1) * windowSize + 1):((h - 1) * windowSize + windowSize));
+        for i = 1:size(prediction, 1)
+            data(i, :) = prediction(i, ((channel_idx - 1) * windowSize + 1):((channel_idx - 1) * windowSize + windowSize));
         end
     
-        reshapedPrediction(:, h) = mergeSequences(data, windowSize);
+        reshapedPrediction(:, channel_idx) = mergeSequences(data, windowSize);
     end
 elseif dataType == 2
     numChannels = size(prediction{1, 1}, 1);
     reshapedPrediction = zeros((size(prediction, 1) + windowSize - 1), numChannels);
     
-    for h = 1:numChannels
+    for channel_idx = 1:numChannels
         data = zeros(size(prediction, 1), size(prediction{1, 1}, 2));
-        for j = 1:size(prediction, 1)
-            data(j, :) = prediction{j, 1}(h, :);
+        for i = 1:size(prediction, 1)
+            data(i, :) = prediction{i, 1}(channel_idx, :);
         end
     
-        reshapedPrediction(:, h) = mergeSequences(data, windowSize);
+        reshapedPrediction(:, channel_idx) = mergeSequences(data, windowSize);
     end
 end
 end

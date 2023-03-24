@@ -1,7 +1,7 @@
 function [Mdl, MdlInfo] = trainDNN_Parallel(models, XTrainCell, YTrainCell, XValCell, YValCell, trainingPlots, closeOnFinished)
 %TRAINDNN_PARALLEL Trains DNN models parallel
 
-numNetworks = length(models);
+numModels = length(models);
 
 if ~isempty(gcp('nocreate'))
     delete(gcp('nocreate'));
@@ -15,23 +15,23 @@ else
     dataqueue = [];
 end
 
-layersCell = cell(1, numNetworks);
-trainOptionsCell = cell(1, numNetworks);
-modelLabels = strings(1, numNetworks);
+layersCell = cell(1, numModels);
+trainOptionsCell = cell(1, numModels);
+modelLabels = strings(1, numModels);
 
-for i = 1:numNetworks
-    modelOptions = models(i).modelOptions;
-    modelLabels(i) = modelOptions.label;
+for model_idx = 1:numModels
+    modelOptions = models(model_idx).modelOptions;
+    modelLabels(model_idx) = modelOptions.label;
 
-    XTrain = XTrainCell{i};
-    YTrain = YTrainCell{i};
-    XVal = XValCell{i};
-    YVal = YValCell{i};
+    XTrain = XTrainCell{model_idx};
+    YTrain = YTrainCell{model_idx};
+    XVal = XValCell{model_idx};
+    YVal = YValCell{model_idx};
     
     [numFeatures, numResponses] = getNumFeaturesAndResponses(XTrain, YTrain, modelOptions.modelType, modelOptions.dataType);
 
-    layersCell{i} = getLayers(modelOptions, numFeatures, numResponses);
-    trainOptionsCell{i} = getTrainOptionsForParallel(modelOptions, XVal, YVal, size(XTrain, 1), dataqueue, i, trainingPlots);
+    layersCell{model_idx} = getLayers(modelOptions, numFeatures, numResponses);
+    trainOptionsCell{model_idx} = getTrainOptionsForParallel(modelOptions, XVal, YVal, size(XTrain, 1), dataqueue, model_idx, trainingPlots);
 end
 
 if strcmp(trainingPlots, 'training-progress')
@@ -41,8 +41,8 @@ end
 
 trainingFuture(1:numel(layersCell)) = parallel.FevalFuture;
 
-for i=1:numel(layersCell)
-    trainingFuture(i) = parfeval(@trainNetwork, 2, XTrainCell{i}, YTrainCell{i}, layersCell{i}, trainOptionsCell{i});
+for model_idx = 1:numel(layersCell)
+    trainingFuture(model_idx) = parfeval(@trainNetwork, 2, XTrainCell{model_idx}, YTrainCell{model_idx}, layersCell{model_idx}, trainOptionsCell{model_idx});
 end
 
 [Mdl, MdlInfo] = fetchOutputs(trainingFuture, 'UniformOutput', false);

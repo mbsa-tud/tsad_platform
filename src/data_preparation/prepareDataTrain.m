@@ -28,37 +28,37 @@ else
             XVal = cell(1, numChannels);
             YVal = cell(1, numChannels);
         
-            for i = 1:numChannels
+            for channel_idx = 1:numChannels
                 data_tmp = cell(size(data));
                 for j = 1:size(data, 1)
-                    data_tmp{j, 1} = data{j, 1}(:, i);
+                    data_tmp{j, 1} = data{j, 1}(:, channel_idx);
                 end
         
-                [XTrain{1, i}, YTrain{1, i}, XVal{1, i}, YVal{1, i}] = prepareDataTrain_DNN(modelOptions, data_tmp, labels);
+                [XTrain{1, channel_idx}, YTrain{1, channel_idx}, XVal{1, channel_idx}, YVal{1, channel_idx}] = prepareDataTrain_DNN(modelOptions, data_tmp, labels);
             end
         case 'CML'
             XTrain = cell(1, numChannels);
             YTrain = cell(1, numChannels);
         
-            for i = 1:numChannels
+            for channel_idx = 1:numChannels
                 data_tmp = cell(size(data));
                 for j = 1:size(data, 1)
-                    data_tmp{j, 1} = data{j, 1}(:, i);
+                    data_tmp{j, 1} = data{j, 1}(:, channel_idx);
                 end
         
-                [XTrain{1, i}, YTrain{1, i}] = prepareDataTrain_CML(modelOptions, data_tmp, labels);
+                [XTrain{1, channel_idx}, YTrain{1, channel_idx}] = prepareDataTrain_CML(modelOptions, data_tmp, labels);
             end
         case 'S'
             XTrain = cell(1, numChannels);
             YTrain = cell(1, numChannels);
             
-            for i = 1:numChannels
+            for channel_idx = 1:numChannels
                 data_tmp = cell(size(data));
                 for j = 1:size(data, 1)
-                    data_tmp{j, 1} = data{j, 1}(:, i);
+                    data_tmp{j, 1} = data{j, 1}(:, channel_idx);
                 end
         
-                [XTrain{1, i}, YTrain{1, i}] = prepareDataTrain_S(modelOptions, data_tmp, labels);
+                [XTrain{1, channel_idx}, YTrain{1, channel_idx}] = prepareDataTrain_S(modelOptions, data_tmp, labels);
             end
     end
 end

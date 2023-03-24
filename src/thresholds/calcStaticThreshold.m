@@ -26,10 +26,10 @@ switch threshold
 
             currentMinDistance = numel(labels);
             thr = NaN;
-            for i = 1:numThresholdCandidates
-                distance = abs(numAnoms - sum(any(anomalyScores > thresholdCandidates(i), 2)));
+            for cand_idx = 1:numThresholdCandidates
+                distance = abs(numAnoms - sum(any(anomalyScores > thresholdCandidates(cand_idx), 2)));
                 if distance < currentMinDistance
-                    thr = thresholdCandidates(i);
+                    thr = thresholdCandidates(cand_idx);
                     if distance == 0
                         break;
                     end

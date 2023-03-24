@@ -7,22 +7,22 @@ bestOptions_DNN = [];
 bestOptions_CML = [];
 bestOptions_S = [];
 
-for i = 1:length(models)
-    modelOptions = models(i).modelOptions;
+for model_idx = 1:length(models)
+    modelOptions = models(model_idx).modelOptions;
     % Load hyperparameters to be optimized
-    optVars = getOptimizationVariables(models(i).modelOptions.name, configOptFileName);
+    optVars = getOptimizationVariables(models(model_idx).modelOptions.name, configOptFileName);
     
     % Check for each optVar if it matches a hyperparameter in the modelOptions struct
     if isfield(modelOptions, 'hyperparameters')
         varNames = fieldnames(optVars);
-        for j = 1:length(varNames)
+        for var_idx = 1:length(varNames)
             flag = false;
-            if isfield(modelOptions.hyperparameters, varNames{j})
+            if isfield(modelOptions.hyperparameters, varNames{var_idx})
                 flag = true;
             end
 
             if ~flag
-                optVars = rmfield(optVars, varNames{j});
+                optVars = rmfield(optVars, varNames{var_idx});
             end
         end
     end

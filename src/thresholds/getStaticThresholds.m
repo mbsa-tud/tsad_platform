@@ -17,8 +17,8 @@ if strcmp(type, "anomalous-validation-data")
         numAnoms = 0;
         numTimeSteps = 0;
     
-        for i = 1:size(data, 1)
-            [XValTestCell{i, 1}, YValTestCell{i, 1}, labelsValTestCell{i, 1}] = prepareDataTest(trainedModel.modelOptions, data(i, :), labels(i, :));
+        for data_idx = 1:size(data, 1)
+            [XValTestCell{data_idx, 1}, YValTestCell{data_idx, 1}, labelsValTestCell{data_idx, 1}] = prepareDataTest(trainedModel.modelOptions, data(data_idx, :), labels(data_idx, :));
     
             numAnoms = numAnoms + sum(labelsValTestCell{end} == 1);
             numTimeSteps = numTimeSteps + size(labelsValTestCell{end}, 1);
@@ -30,10 +30,10 @@ if strcmp(type, "anomalous-validation-data")
             anomalyScoresValTest = [];
             labelsValTest = [];
     
-            for i = 1:size(XValTestCell, 1)
-                anomalyScores_tmp = detectionWrapper(trainedModel, XValTestCell{i, 1}, YValTestCell{i, 1}, labelsValTestCell{i, 1});
+            for data_idx = 1:size(XValTestCell, 1)
+                anomalyScores_tmp = detectionWrapper(trainedModel, XValTestCell{data_idx, 1}, YValTestCell{data_idx, 1}, labelsValTestCell{data_idx, 1});
                 anomalyScoresValTest = [anomalyScoresValTest; anomalyScores_tmp];
-                labelsValTest = [labelsValTest; labelsValTestCell{i, 1}];
+                labelsValTest = [labelsValTest; labelsValTestCell{data_idx, 1}];
             end
     
     
@@ -88,6 +88,7 @@ elseif strcmp(type, "training-data")
 
     if ~isequal(sum(trainedModel.trainingLabels), 0)
         if isfield(trainedModel, "trainingAnomalyScoresRaw")
+            % Apply optional scoring function to raw scores
             if isfield(trainedModel.modelOptions, 'hyperparameters') && isfield(trainedModel.modelOptions.hyperparameters, 'scoringFunction')
                 anomalyScoresTrain = applyScoringFunction(trainedModel, trainedModel.trainingAnomalyScoresRaw);
             else

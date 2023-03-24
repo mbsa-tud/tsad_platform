@@ -47,38 +47,38 @@ if numOfTestingFiles > 0
     filesTesting = strings(numOfTestingFiles, 1);
 end
     
-for i = 1:numOfTrainingFiles
-    file = fullfile(dataTrainPath, trainingFiles(i).name);
+for data_idx = 1:numOfTrainingFiles
+    file = fullfile(dataTrainPath, trainingFiles(data_idx).name);
     data = readtable(file);
 
-    name = strsplit(trainingFiles(i).name, '.');
-    filesTraining(i, 1) = name(1);
-    trainingData{i, 1} = data{:, 2:(end - 1)};
-    labelsTraining{i, 1} = logical(data{:, end});                
+    name = strsplit(trainingFiles(data_idx).name, '.');
+    filesTraining(data_idx, 1) = name(1);
+    trainingData{data_idx, 1} = data{:, 2:(end - 1)};
+    labelsTraining{data_idx, 1} = logical(data{:, end});                
 
     try
-        timestampsTraining{i, 1} = datetime(data{:, 1});
+        timestampsTraining{data_idx, 1} = datetime(data{:, 1});
     catch
-        timestampsTraining{i, 1} = data{:, 1};
+        timestampsTraining{data_idx, 1} = data{:, 1};
     end
 
     channelNames = string(data.Properties.VariableNames(2:(end - 1)));
 end
 
 
-for i = 1:numOfTestingFiles
-    file = fullfile(dataTestPath, testingFiles(i).name);
+for data_idx = 1:numOfTestingFiles
+    file = fullfile(dataTestPath, testingFiles(data_idx).name);
     data = readtable(file);
 
-    name = strsplit(testingFiles(i).name, '.');
-    filesTesting(i, 1) = name(1);
-    testingData{i, 1} = data{:, 2:(end - 1)};
-    labelsTesting{i, 1} = logical(data{:, end});
+    name = strsplit(testingFiles(data_idx).name, '.');
+    filesTesting(data_idx, 1) = name(1);
+    testingData{data_idx, 1} = data{:, 2:(end - 1)};
+    labelsTesting{data_idx, 1} = logical(data{:, end});
 
     try
-        timestampsTesting{i, 1} = datetime(data{:, 1});
+        timestampsTesting{data_idx, 1} = datetime(data{:, 1});
     catch
-        timestampsTesting{i, 1} = data{:, 1};
+        timestampsTesting{data_idx, 1} = data{:, 1};
     end
 
     channelNames = string(data.Properties.VariableNames(2:(end - 1)));

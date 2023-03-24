@@ -1,8 +1,8 @@
 function trainedModels = trainModels(models, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds, trainingPlots, trainParallel)
 %TRAINMODELS Main wrapper function for training models and calculating static thresholds
 
-for i = 1:length(models)
-    modelOptions = models(i).modelOptions;
+for model_idx = 1:length(models)
+    modelOptions = models(model_idx).modelOptions;
 
     trainedModel = [];
     trainedModel.modelOptions = modelOptions;
@@ -36,8 +36,8 @@ for i = 1:length(models)
             YTrainTestCell = cell(size(dataTrain, 1), 1);
             labelsTrainTest = [];
         
-            for j = 1:size(dataTrain, 1)
-                [XTrainTestCell{j, 1}, YTrainTestCell{j, 1}, labelsTrainTest_tmp] = prepareDataTest(modelOptions, dataTrain(j, :), labelsTrain(j, :));
+            for data_idx = 1:size(dataTrain, 1)
+                [XTrainTestCell{data_idx, 1}, YTrainTestCell{data_idx, 1}, labelsTrainTest_tmp] = prepareDataTest(modelOptions, dataTrain(data_idx, :), labelsTrain(data_idx, :));
                 labelsTrainTest = [labelsTrainTest; labelsTrainTest_tmp];
             end
             

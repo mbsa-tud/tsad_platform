@@ -28,10 +28,10 @@ else
 
     anomalyScores = [];
     compTimes = [];
-    for i = 1:numChannels
+    for channel_idx = 1:numChannels
         if isfield(trainedModel, "Mdl")
             if ~isempty(trainedModel.Mdl)
-                Mdl_tmp = trainedModel.Mdl{i, 1};
+                Mdl_tmp = trainedModel.Mdl{channel_idx, 1};
             else
                 Mdl_tmp = [];
             end
@@ -41,15 +41,15 @@ else
         
         switch trainedModel.modelOptions.type
             case 'DNN'
-                [anomalyScores_tmp, compTime_tmp]  = detectWithDNN(trainedModel.modelOptions, Mdl_tmp, XTest{1, i}, YTest{1, i}, labels, getCompTime);
+                [anomalyScores_tmp, compTime_tmp]  = detectWithDNN(trainedModel.modelOptions, Mdl_tmp, XTest{1, channel_idx}, YTest{1, channel_idx}, labels, getCompTime);
                 anomalyScores = [anomalyScores, anomalyScores_tmp];
                 compTimes = [compTimes, compTime_tmp];
             case 'CML'
-                [anomalyScores_tmp, compTime_tmp]  = detectWithCML(trainedModel.modelOptions, Mdl_tmp, XTest{1, i}, YTest{1, i}, labels, getCompTime);
+                [anomalyScores_tmp, compTime_tmp]  = detectWithCML(trainedModel.modelOptions, Mdl_tmp, XTest{1, channel_idx}, YTest{1, channel_idx}, labels, getCompTime);
                 anomalyScores = [anomalyScores, anomalyScores_tmp];
                 compTimes = [compTimes, compTime_tmp];
             case 'S'
-                [anomalyScores_tmp, compTime_tmp]  = detectWithS(trainedModel.modelOptions, Mdl_tmp, XTest{1, i}, YTest{1, i}, labels, getCompTime);
+                [anomalyScores_tmp, compTime_tmp]  = detectWithS(trainedModel.modelOptions, Mdl_tmp, XTest{1, channel_idx}, YTest{1, channel_idx}, labels, getCompTime);
                 anomalyScores = [anomalyScores, anomalyScores_tmp];
                 compTimes = [compTimes, compTime_tmp];
         end

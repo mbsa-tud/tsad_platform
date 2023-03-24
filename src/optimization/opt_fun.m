@@ -12,20 +12,20 @@ numOfMetrics = size(scoresCell{1, 1}, 1);
 numOfScoreMatrices = size(scoresCell, 1);
 
 avgScores = zeros(numOfMetrics, 1);
-for i = 1:numOfMetrics
+for metric_idx = 1:numOfMetrics
     scores = zeros(numOfScoreMatrices, 1);
-    for dataIdx = 1:numOfScoreMatrices
-        scores(dataIdx, 1) = scoresCell{dataIdx, 1}(i, 1);
-        if isnan(scores(dataIdx, 1))
-            scores(dataIdx, 1) = 0;
+    for data_idx = 1:numOfScoreMatrices
+        scores(data_idx, 1) = scoresCell{data_idx, 1}(metric_idx, 1);
+        if isnan(scores(data_idx, 1))
+            scores(data_idx, 1) = 0;
         end
     end
-    avgScores(i, 1) = mean(scores);
+    avgScores(metric_idx, 1) = mean(scores);
 end
 
 % Get specified score
-[~, scoreIdx] = ismember(selectedMetric, METRIC_NAMES);
-avgScore = avgScores(scoreIdx, 1);
+[~, score_idx] = ismember(selectedMetric, METRIC_NAMES);
+avgScore = avgScores(score_idx, 1);
 score = 1 - avgScore;
 
 % Export results and current modelOptions

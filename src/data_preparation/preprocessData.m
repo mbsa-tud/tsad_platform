@@ -22,9 +22,9 @@ switch method
     
                 maxima = zeros(numFiles, numChannels);
                 minima = zeros(numFiles, numChannels);
-                for i = 1:numFiles
-                    maxima(i, :) =  max(rawTrainingData{i, 1}, [], 1);
-                    minima(i, :) =  min(rawTrainingData{i, 1}, [], 1);
+                for data_idx = 1:numFiles
+                    maxima(data_idx, :) =  max(rawTrainingData{data_idx, 1}, [], 1);
+                    minima(data_idx, :) =  min(rawTrainingData{data_idx, 1}, [], 1);
                 end
                 preprocParams.maximum = max(maxima, [], 1);
                 preprocParams.minimum = min(minima, [], 1);
@@ -43,9 +43,9 @@ switch method
     
                     maxima = zeros(numFiles, numChannels);
                     minima = zeros(numFiles, numChannels);
-                    for i = 1:numFiles
-                        maxima(i, :) =  max(rawTestingData{i, 1}, [], 1);
-                        minima(i, :) =  min(rawTestingData{i, 1}, [], 1);
+                    for data_idx = 1:numFiles
+                        maxima(data_idx, :) =  max(rawTestingData{data_idx, 1}, [], 1);
+                        minima(data_idx, :) =  min(rawTestingData{data_idx, 1}, [], 1);
                     end
                     preprocParams.maximum = max(maxima, [], 1);
                     preprocParams.minimum = min(minima, [], 1);
@@ -60,8 +60,8 @@ switch method
                 preprocParams.sigma = paramsPrevious.sigma;
             else                
                 fullData = [];
-                for i = 1:size(rawTrainingData, 1)
-                    fullData = [fullData; rawTrainingData{i, 1}];
+                for data_idx = 1:size(rawTrainingData, 1)
+                    fullData = [fullData; rawTrainingData{data_idx, 1}];
                 end
                 [~, preprocParams.mu, preprocParams.sigma] = zscore(fullData, 0, 1);
             end
@@ -75,8 +75,8 @@ switch method
             else
                 if isempty(preprocParams.mu)    
                     fullData = [];
-                    for i = 1:size(rawTestingData, 1)
-                        fullData = [fullData; rawTestingData{i, 1}];
+                    for data_idx = 1:size(rawTestingData, 1)
+                        fullData = [fullData; rawTestingData{data_idx, 1}];
                     end
                     [~, preprocParams.mu, preprocParams.sigma] = zscore(fullData, 0, 1);
                 end

@@ -2,16 +2,16 @@ function trainedModels_DNN = trainModels_DNN_Parallel(models, dataTrain, labelsT
 %TRAINMODELS_DNN_PARALLEL Trains DNN models in parallel and calculates static
 %thresholds
 
-numNetworks = length(models);
+numModels = length(models);
 
 % Prepare training data
-XTrainCell = cell(1, numNetworks);
-YTrainCell = cell(1, numNetworks);
-XValCell = cell(1, numNetworks);
-YValCell = cell(1, numNetworks);
+XTrainCell = cell(1, numModels);
+YTrainCell = cell(1, numModels);
+XValCell = cell(1, numModels);
+YValCell = cell(1, numModels);
 
-for i = 1:numNetworks
-    modelOptions = models(i).modelOptions;
+for model_idx = 1:numModels
+    modelOptions = models(model_idx).modelOptions;
     
     if modelOptions.requiresPriorTraining
         if isempty(dataTrain)
@@ -23,17 +23,17 @@ for i = 1:numNetworks
         error("One of the selected models for parallel training doesn't require prior training.");
     end
 
-    XTrainCell{i} = XTrain{1, 1};
-    YTrainCell{i} = YTrain{1, 1};
-    XValCell{i} = XVal{1, 1};
-    YValCell{i} = YVal{1, 1};
+    XTrainCell{model_idx} = XTrain{1, 1};
+    YTrainCell{model_idx} = YTrain{1, 1};
+    XValCell{model_idx} = XVal{1, 1};
+    YValCell{model_idx} = YVal{1, 1};
 end
 
 % Train model
 [Mdl, MdlInfo] = trainDNN_Parallel(models, XTrainCell, YTrainCell, XValCell, YValCell, trainingPlots, closeOnFinished);
 
-for i = 1:numel(models)
-    modelOptions = models(i).modelOptions;
+for model_idx = 1:numel(models)
+    modelOptions = models(model_idx).modelOptions;
 
     trainedModel = [];
     trainedModel.modelOptions = modelOptions;
@@ -41,8 +41,8 @@ for i = 1:numel(models)
     % Save dimensionality of data
     trainedModel.dimensionality = size(dataTrain{1, 1}, 2);
 
-    trainedModel.Mdl = Mdl(i);
-    trainedModel.MdlInfo = MdlInfo(i);
+    trainedModel.Mdl = Mdl(model_idx);
+    trainedModel.MdlInfo = MdlInfo(model_idx);
     
     % Get static thresholds
     if ~modelOptions.outputsLabels
@@ -50,8 +50,8 @@ for i = 1:numel(models)
         YTrainTestCell = cell(size(dataTrain, 1), 1);
         labelsTrainTest = [];
     
-        for j = 1:size(dataTrain, 1)
-            [XTrainTestCell{j, 1}, YTrainTestCell{j, 1}, labelsTrainTest_tmp] = prepareDataTest(modelOptions, dataTrain(j, :), labelsTrain(j, :));
+        for data_idx = 1:size(dataTrain, 1)
+            [XTrainTestCell{data_idx, 1}, YTrainTestCell{data_idx, 1}, labelsTrainTest_tmp] = prepareDataTest(modelOptions, dataTrain(data_idx, :), labelsTrain(data_idx, :));
             labelsTrainTest = [labelsTrainTest; labelsTrainTest_tmp];
         end
 

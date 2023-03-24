@@ -11,10 +11,10 @@ switch modelOptions.name
         if getCompTime
             iterations = min(1000, size(XTest, 1));
             times = zeros(iterations, 1);
-            for k = 1:iterations
+            for i = 1:iterations
                 tStart = cputime;
-                predict(Mdl, XTest(k, :));
-                times(k, 1) = cputime - tStart;
+                predict(Mdl, XTest(i, :));
+                times(i, 1) = cputime - tStart;
             end
             compTime = mean(times(~(times == 0)));
         end

@@ -15,7 +15,7 @@ else
 
     if trainParallel
         models = [];
-        for i = 1:numChannels
+        for channel_idx = 1:numChannels
             modelInfo.modelOptions = modelOptions;
             models = [models modelInfo];
         end
@@ -24,8 +24,8 @@ else
         Mdl = cell(numChannels, 1);
         MdlInfo = cell(numChannels, 1);
 
-        for i = 1:numChannels
-            [Mdl{i, 1}, MdlInfo{i, 1}] = trainDNN(modelOptions, XTrain{1, i}, YTrain{1, i}, XVal{1, i}, YVal{1, i}, trainingPlots);
+        for channel_idx = 1:numChannels
+            [Mdl{channel_idx, 1}, MdlInfo{channel_idx, 1}] = trainDNN(modelOptions, XTrain{1, channel_idx}, YTrain{1, channel_idx}, XVal{1, channel_idx}, YVal{1, channel_idx}, trainingPlots);
         end
     end
 end

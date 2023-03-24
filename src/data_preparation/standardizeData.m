@@ -6,19 +6,19 @@ function standardizedData = standardizeData(data, mu, sigma)
 
 numChannels = size(data{1, 1}, 2);
 
-for channelIdx = 1:numChannels
-    if sigma(channelIdx) == 0
+for channel_idx = 1:numChannels
+    if sigma(channel_idx) == 0
         % If data is a flat line, set mean to 0
-        for dataIdx = 1:size(data, 1)
-            newData = data{dataIdx, 1}(:, channelIdx);
-            newData = newData - mu(channelIdx);
-            data{dataIdx, 1}(:, channelIdx) = newData;
+        for data_idx = 1:size(data, 1)
+            newData = data{data_idx, 1}(:, channel_idx);
+            newData = newData - mu(channel_idx);
+            data{data_idx, 1}(:, channel_idx) = newData;
         end
     else
-        for dataIdx = 1:size(data, 1)
-            newData = data{dataIdx, 1}(:, channelIdx);
-            newData = (newData - mu(channelIdx)) / sigma(channelIdx);
-            data{dataIdx, 1}(:, channelIdx) = newData;
+        for data_idx = 1:size(data, 1)
+            newData = data{data_idx, 1}(:, channel_idx);
+            newData = (newData - mu(channel_idx)) / sigma(channel_idx);
+            data{data_idx, 1}(:, channel_idx) = newData;
         end
     end
 end

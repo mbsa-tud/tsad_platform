@@ -12,8 +12,8 @@ else
 
     Mdl = cell(numChannels, 1);
 
-    for i = 1:numChannels
-        Mdl{i, 1} = trainS(modelOptions, XTrain{1, i}, YTrain{1, i});
+    for channel_idx = 1:numChannels
+        Mdl{channel_idx, 1} = trainS(modelOptions, XTrain{1, channel_idx}, YTrain{1, channel_idx});
     end
 end
 end
