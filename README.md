@@ -147,19 +147,20 @@ The processed data can be observed in the plots on the right (5).
 
 Three preprocessing methods can be selected (1). These **don't** apply to the [Auto Run](#auto-run) functions, but to everything else:
 
-* **Raw Data**: Unprocessed data.
-* **Standardize**: Set mean = 0 and standard deviation = 1.
 * **Rescale [0, 1]**: Set maximum = 1 and minimum = 0.
+* **Standardize**: Set mean = 0 and standard deviation = 1.
+* **Raw Data**: Unprocessed data.
+
 
 **NOTE** The data in the `test` folder gets processed with the same parameters as for the `train` data (with the exception if no train data is used). All channels of multivariate datasets are preprocessed independently.
 
 ### Data augmentation
 
-You can further choose to transform your data in various ways (4)
+You can further choose to transform your data in various ways (4).
 
 ### Data preparation for Dynamic Switch
 
-If the dataset is **univariate** and includes multiple files for testing, you can split the test set to use some of the files for testing the [Dynamic Switch](#dynamic-switch) mechanism.
+If the dataset  includes multiple files for testing, you can split the test set to use some of the files for testing the [Dynamic Switch](#dynamic-switch) mechanism.
 To enable this, do the following:
 
 1. Check the `Split Test Set for Dynamic Switch` checkbox (2).
@@ -187,7 +188,7 @@ To do so, proceed as follows:
 
 There are **three** ways to load a configuration of models (These are not trained yet, it's only the configuration that gets loaded):
 
-* Click `Add` (2) on top of one of the three lists to add either a **deep-learning**, **Classic Machine Learning** or **Statistical** anomaly detection model. This opens a **new window**, allowing you to select a model and configure its parameters. Once configured, click `Add to Model Selection` to add the selected model to the list of models.
+* Click `Add` (2) on top of one of the three lists to add either a **Deep-Learning**, **classic Machine-Learning** or **Statistical** anomaly detection method. This opens a **new window**, allowing you to select a model and configure its parameters. Once configured, click `Add to Model Selection` to add the selected model to the list of models.
 * Click `Add All` (2) to add a default configuration of all models.
 * You can select multiple models from all lists and click `Export Config for Selection` to store a configuration file on your computer.
 This allows you to load a previous configuration of models at another time using the `Load from File` button (1).
@@ -246,7 +247,7 @@ To **run a detection**, proceed as follows:
 4. Once the detection is finished, the following results are are displayed in the windows below:
     * **Plots** (4) of the anomaly scores and detected anoamlies for the last model the detection was run for.
     * A **Table** (5) storing all scores for all models and the computational time of deep-learning models (time to make predictions for one subsequence)
-    * A **Computation time** plot (6) showing the computational time of the models on the x-axis and the obtained scores on the y-axis.
+    * A **Computation time** plot (6) showing the  average computational time of the models for a single subsequence on the x-axis and the obtained scores on the y-axis.
     Using the `Metric Selection` button, one can choose what metrics should be displayed within the plot.
 
 You can select another threshold or reconfigure the dynamic threshold. This will update the scores for the currently shown model in the **Plots** section (4). To run it again for all models, click the `All Models` button (2) again.
@@ -280,7 +281,7 @@ The dynamic switch mechanism (model selection mechanism) can be trained and test
 
 The usage of the dynamic switch mechanism **requires** the following things:
 
-* **Correct dataset**: A **Univariate** dataset with **multiple anomalous files** for testing. The `Split Test Set for Dynamic Switch` checkbox on the [Preprocessing](#preprocessing-and-splitting-the-dataset) panel must be checked. The testing data for the dynamic switch can be observed in section (6).
+* **Correct dataset**: A dataset with **multiple anomalous files** for testing. The `Split Test Set for Dynamic Switch` checkbox on the [Preprocessing](#preprocessing-and-splitting-the-dataset) panel must be checked. The testing data for the dynamic switch can be observed in section (6).
 * **Trained models**: Either configure and train models on the [Training](#training-and-optimization) panel or load trained models on the [Detection](#detection) panel.
 
 To **train and test the dynamic switch**, proceed as follows:
@@ -302,13 +303,13 @@ This tool to automatically train and test models on single- or multi-entity data
 To use this function, proceed as follows:
 
 1. Select the thresholds in the [Settings](#settings) of the platform
-2. (optional) If the dynmaic threshold was selected, configure it in the [Settings](#settings).
+2. (optional) If the dynamic threshold was selected, configure it in the [Settings](#settings).
 3. Configure/load models on the [Training](#training-and-optimization) panel.
 4. Select a dataset on the [Auto Run](#auto-run) panel by clicking the `Browse` (1) button.
 5. Configure the data preparation (2).
-8. Configure training options for DL models (3).
-10. Click `Run Evaluation` (4) to start the process. You can observe more details about the current state in the MATLAB command window.
-11. Once it's done, all results are stored in a folder called *Auto_Run_Results* within the current MATLAB folder. The average scores for each model are displayed in the table (5).
+6. Configure training options for DL models (3).
+7. Click `Run Evaluation` (4) to start the process. You can observe more details about the current state in the MATLAB command window.
+8. Once it's done, all results are stored in a folder called *Auto_Run_Results* within the current MATLAB folder (This folder includes subfolders for the results for each selected threshold). The average scores for each model for the first threshold are displayed in the table (5).
 
 ---
 
@@ -671,12 +672,11 @@ case "custom"
 5. The simulink detection doesn't implement the different data preparation methods and scoring functions for the different deep-learning models, which makes it non-functional in many cases. The functionality of using a univariate model on multivariate datasets, where a separate model is trained for each channel of the dataset, must be implemented aswell. This feature already exists in the normal detection mode (It can be enabled by setting the `isMultivariate` field to `false` for a model).
 6. The step-size for the detection process is always set to 1 and can't be adjusted.
 7. The forecast horizon for DL models is always set to 1 and can't be adjusted.
-8. The CNN (DeppAnT) and ResNet model both use a sequenceInputLayer, which requires the use of a sequenceFolding and a sequenceUnfoldingLayer for the 2d convolutional layers. Maybe use an imageInputLayer instead? This isn't really an issue as the endresult is the same, but this might be cleaner.
-9. Dropout layers in some DL models might need to be replaced by spatial dropout layers, which don't exist in MATLAB by default and would have to be implemented by hand.
-10. Check on startup of the platform whether all required folders are on the matlab path to avoid errors later on.
-11. Output more information to the MATLAB command window (e.g. for the training, detection and threshold calculation steps) to let the user know the current step (useful for longer running tasks).
-12. Add more models (The platform lacks for example in statistical models. Classic ML oder DL models like a Convolutional Autoencoder or a LSTM Autoencoder could also be added).
-13. Save intermediate results during auto run. This allows to save some results even when a longer running process crashes.
-14. On some datasets, the training of some DL models can occasionally get stuck. The reasons for this might be further investigated in the future.
+8. Dropout layers in some DL models might need to be replaced by spatial dropout layers, which don't exist in MATLAB by default and would have to be implemented by hand.
+9. Check on startup of the platform whether all required folders are on the matlab path to avoid errors later on.
+10. Output more information to the MATLAB command window (e.g. for the training, detection and threshold calculation steps) to let the user know the current step (useful for longer running tasks).
+11. Add more models (The platform lacks for example in statistical models. Classic ML oder DL models like a Convolutional Autoencoder or a LSTM Autoencoder could also be added).
+12. Save intermediate results during auto run. This allows to save some results even when a longer running process crashes.
+13. On some datasets, the training of some DL models can occasionally get stuck. The reasons for this might be further investigated in the future.
 
 **NOTE** The entire platform is quite large at this point and not all functions, data manipulation and app interaction steps could be tested in every way. New errors can always occur and be fixed in the future.
