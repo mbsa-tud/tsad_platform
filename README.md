@@ -217,14 +217,14 @@ Before training **deep-learning** models, you can configure the training process
 
 To optimize models, do the following:
 
-1. Select the models within the lists and click `Optimize Selection` or just click `Optimize All` (5) to open a **new window**. The `Optimize All` button (6) at the bottom of the panel can be used to optimize all configured models of all types.
+1. Select the models within the lists and click `Optimize Selection` or just click `Optimize All` (5) to open a **new window**. (The `Optimize All` button (6) at the bottom of the panel can be used to optimize all configured models of all types)
 
     <img src="media/final_optimization_window.png" alt="Optimization window" title="Optimization window" width=200/>
 
 2. (optional) Click `Open Optimization Config` to edit the optimization config `.json` file. This file defines the ranges of hyperparameters to optimize. Just look at examples in the file on how to edit this file.
 3. Configure the optimization process by selecting a `Score`, a `Threshold` and check the `Training Plots` checkbox if you want to show plots for deep-learning models.
 4. Click the `Run Optimization` button to optimize all models.
-5. Once it's done, the optimized models will appear on the [Detection Panel](#detection).
+5. Once it's done, the optimized models will appear on the [Detection](#detection) and [Simulink Detection](#simulink-detection) panels.
 
 ---
 
@@ -239,7 +239,7 @@ The offline anomaly detection using the models trained earlier (see [Training an
 * All trained models appear in the **list of trained models**.
 * These are **ranked** according to their detection performance. The metric used for ranking can be manually selected from the dropdown menu at the top of the list.
 * Models can be selected within the list and **saved** by clicking the `Save selected Models` button.
-* Trained models can be **loaded** directly into the platform via the `Import trained Models` button.
+* These trained models can be **loaded** directly into the platform via the `Import trained Models` button.
 
 ### Detection section
 
@@ -247,14 +247,14 @@ To **run a detection**, proceed as follows:
 
 1. Select a file from the `Select faulty Data` dropdown menu (3).
 2. Select a threshold from the `Threshold` dropdown menu (3). If you select the **dynamic** threshold, you can additionally configure its parameters (3).
-3. Select models from the **list of trained models** and click `Selected Models` or click `All Models` (2) to start the detection process.
+3. Select models from the **list of trained models** and click Run Deteciton for `Selected Models` or `All Models` (2) to start the detection process.
 4. Once the detection is finished, the following results are are displayed in the windows below:
     * **Plots** (4) of the anomaly scores and detected anoamlies for the last model the detection was run for.
     * A **Table** (5) storing all scores for all models and the computational time of deep-learning models (time to make predictions for one subsequence)
     * A **Computation time** plot (6) showing the  average computational time of the models for a single subsequence on the x-axis and the obtained scores on the y-axis.
-    Using the `Metric Selection` button, one can choose what metrics should be displayed within the plot.
+    Using the `Metric Selection` button, one can choose what metrics should be displayed within this plot.
 
-You can select another threshold or reconfigure the dynamic threshold. This will update the scores for the currently shown model in the **Plots** section (4). To run it again for all models, click the `All Models` button (2) again.
+You can select another threshold or reconfigure the dynamic threshold. This will update the scores for the currently shown model in the **Plots** section (4). To run the detection again for all models using the new threshold (and/or new data file if another one was selected), click the `All Models` button (2) again.
 
 **NOTE** If you want to observe the detection of another model, just click on it in the list of trained models (1). If you already ran the detection for that model, the scores and plots will be displayed directly. Otherwise run the detection for the selected model (2) again.
 
@@ -285,7 +285,8 @@ The dynamic switch mechanism (model selection mechanism) can be trained and test
 
 The usage of the dynamic switch mechanism **requires** the following things:
 
-* **Correct dataset**: A dataset with **multiple anomalous files** for testing. The `Split Test Set for Dynamic Switch` checkbox on the [Preprocessing](#preprocessing-and-splitting-the-dataset) panel must be checked. The testing data for the dynamic switch can be observed in section (6).
+* **Correct dataset**: A dataset with **multiple anomalous files** for testing. 
+* The **Split Test Set for Dynamic Switch** checkbox on the [Preprocessing](#preprocessing-and-splitting-the-dataset) panel must be checked. The testing data for the dynamic switch can be observed in section (6).
 * **Trained models**: Either configure and train models on the [Training](#training-and-optimization) panel or load trained models on the [Detection](#detection) panel.
 
 To **train and test the dynamic switch**, proceed as follows:
@@ -300,7 +301,7 @@ To **train and test the dynamic switch**, proceed as follows:
 
 ## Auto run
 
-This tool to automatically train and test models on single- or multi-entity datasets is available on the `Auto Run` panel:
+Automatically train and test models on single- or multi-entity datasets on the `Auto Run` panel:
 
 <img src="media/final_auto_run_panel.png" alt="Auto Run panel" title="Auto Run panel" width=900/>
 
@@ -308,10 +309,10 @@ To use this function, proceed as follows:
 
 1. Select the thresholds in the [Settings](#settings) of the platform
 2. (optional) If the dynamic threshold was selected, configure it in the [Settings](#settings).
-3. Configure/load models on the [Training](#training-and-optimization) panel.
+3. Configure/load models on the [Training](#training-and-optimization) panel (don't train them yet).
 4. Select a dataset on the [Auto Run](#auto-run) panel by clicking the `Browse` (1) button.
 5. Configure the data preparation (2).
-6. Configure training options for DL models (3).
+6. Configure training options for deep-learning models (3).
 7. Click `Run Evaluation` (4) to start the process. You can observe more details about the current state in the MATLAB command window.
 8. Once it's done, all results are stored in a folder called *Auto_Run_Results* within the current MATLAB folder (This folder includes subfolders for the results for each selected threshold). The average scores for each model for the first threshold are displayed in the table (5).
 
@@ -372,17 +373,17 @@ The following figure shows an example for the fully-connected autoencoder (FC AE
 Fields of the **modelOptions** struct:
 
 **type**
-The type of the model/algorithm. Must be one of: `"DNN"`, `"CML"`, `"S"`
+The type of the model/algorithm. Must be one of: `"DNN"`, `"CML"`, `"S"` (meaning `Deep Neural Network`, `Classic Machine Learning` and `Statistical` respectively.)
 
 **name**
 The unique name of the model. This is used by the platform to recognize the model. It should only contain **letters** and the following characters: `-` `(` `)`.
 
 **modelType**
-This field is only required for DL models. Its value must be one of: `"predictive"`, `"reconstructive"`. It indicates whether the model produces prediction or reconstruction errors.
+This field is only required for deep-learning models. Its value must be one of: `"predictive"`, `"reconstructive"`. It indicates whether the model produces prediction or reconstruction errors.
 
 **dataType**
 This field is only required if your model uses the data preparation function provided by the platform.
-It's value must be one of: `1`, `2`, `3`. The number controls the shape of the data. The data is always split into subsequences of equal length using a sliding window. For the three different numbers, the data will be shaped as such:
+Its value must be one of: `1`, `2`, `3`. The number controls the shape of the data. The data is always split into subsequences of equal length using a sliding window. For the three different numbers, the data will be shaped as such:
 | Data type | Univariate model | Multivariate model |
 |-|-|-|
 | **1** | `1 x D` cell array with `D` being the number of channels. For each channel a separate model of the same type will be trained. Each cell contains a `N x w` matrix with `w` being the window-size and `N` being the number of observations.| `1 x 1` cell array containing a `N x (w * d)` matrix with `N` being the number of observations, `w` the window size and `d` the number of channels. |
