@@ -107,30 +107,16 @@ end
 fprintf('\nCalculating max, min, average and standard deviation of scores\n\n')
 for thr_idx = 1:length(scoreMatrix)
     scoreMatrix_tmp = scoreMatrix{thr_idx, 1};
-    
-    % Combine results into max, min, avg and std tables
-    numOfScoreMatrices = length(scoreMatrix_tmp);
+
+    numOfTestingFiles = length(scoreMatrix_tmp);
     numOfModels = size(scoreMatrix_tmp{1, 1}, 2);
     numOfMetrics = size(scoreMatrix_tmp{1, 1}, 1);
-
-    avgScores = zeros(numOfMetrics, numOfModels);
     
+    % Calc average scores
+    avgScores = zeros(numOfMetrics, numOfModels);    
     for model_idx = 1:numOfModels
-        for metric_idx = 1:numOfMetrics
-            scores = zeros(numOfScoreMatrices, 1);
-            for data_idx = 1:numOfScoreMatrices
-                tmp = scoreMatrix_tmp{data_idx, 1};
-                if isnan(tmp(metric_idx, model_idx))
-                    scores(data_idx, 1) = 0;
-                else
-                    scores(data_idx, 1) = tmp(metric_idx, model_idx);
-                end
-            end
-            avgScore = mean(scores);
-            avgScores(metric_idx, model_idx) = avgScore;
-        end
+        avgScores(:, model_idx) = calcAverageScores(scoreMatrix_tmp);
     end
-    
     
     outputFolder = thresholdSubfolders(thr_idx);
 
@@ -139,7 +125,7 @@ for thr_idx = 1:length(scoreMatrix)
         mkdir(all_results_folder);
     end
     
-    for data_idx = 1:numOfScoreMatrices
+    for data_idx = 1:numOfTestingFiles
         all_results_filename = fullfile(all_results_folder, sprintf('%s_%s.csv', allTestFiles(data_idx), datestr(now,'mm-dd-yyyy_HH-MM')));
         scoreTable_tmp = array2table(scoreMatrix_tmp{data_idx, 1});
         scoreTable = [scoreNames scoreTable_tmp];

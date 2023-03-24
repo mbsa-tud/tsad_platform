@@ -10,7 +10,7 @@ for metric_idx = 1:numOfMetrics
     for data_idx = 1:numOfTestingFiles
         tmp = fullScores{data_idx, 1};
         if isnan(tmp(metric_idx, 1))
-            scores(data_idx, 1) = 0;
+            scores(data_idx, 1) = 0; % Treat NaN as 0 for averaging
         else
             scores(data_idx, 1) = tmp(metric_idx, 1);
         end

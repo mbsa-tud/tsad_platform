@@ -72,7 +72,11 @@ else
     if size(anomalyScores, 2) > 1
         AUC = NaN;
     else
-        AUC = rocmetrics(labels, [gnegate(anomalyScores) anomalyScores], [0, 1]).AUC(1);
+        try
+            AUC = rocmetrics(labels, [gnegate(anomalyScores) anomalyScores], [0, 1]).AUC(1);
+        catch
+            AUC = NaN;
+        end
     end
 end
 
