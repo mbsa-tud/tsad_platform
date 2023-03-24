@@ -13,7 +13,7 @@ A platform for time series anomaly detection.
     * `Econometrics Toolbox`
     * `Predictive Maintenance Toolbox`
     * `Statistics and Machine Learning Toolbox`
-    * `deep-learning Toolbox`
+    * `Deep Learning Toolbox`
 3. Add the `tsad_platform` folder (the main folder of this repository) to the MATLAB path (without subfolders).
 4. Add the `src` folder within the `tsad_platform` folder to the MATLAB path (with subfolders).
 5. Add the `config` folder within the `tsad_platform` folder to the MATLAB path.
@@ -35,18 +35,22 @@ In the [Settings](#settings) you can control the following things:
 * [Dynamic Threshold](#dynamic-threshold): The default configuration for the dynamic threshold.
 * [Optimization](#optimization-logging): Whether to export logdata during an optimization process.
 
-**Manually train and test models:**
+The platform offers **two different modes** to test time series anomaly detection methods. The workflows are as such:
+
+**MODE 1: Manually train and test models:**
 
 1. Import a dataset on the [Data](#importing-a-dataset) panel.
 2. Split and process the dataset on the [Preprocessing](#preprocessing-and-splitting-the-dataset) panel.
 3. Configure, train and optimize models on the [Training](#training-and-optimization) panel.
 4. Test the models on the [Detection](#detection) and [Simulink Detection](#simulink-detection) panels.
-5. (optional) Configure, train and test the dynamic switch mechanism on the [Dynamic Switch](#dynamic-switch) panel (only possible for univariate datasets with multiple files for testing).
+5. (optional) Configure, train and test the dynamic switch mechanism on the [Dynamic Switch](#dynamic-switch) panel (only possible for datasets with multiple files for testing).
 
-**Automatically train and test models on single- or multi-entity datasets:**
+**MODE 2: Automatically train and test models on single- or multi-entity datasets:**
 
 1. Configure models on the [Training](#training-and-optimization) panel.
 2. Configure and start the auto-run function on the [Auto Run](#auto-run) panel.
+
+Further details can be found below.
 
 ---
 
@@ -57,7 +61,7 @@ You can find the platform settings in the top left corner.
 ### Threshold selection
 
 The selection of thresholds controls which thresholds are calculated by the platform.
-Only the selected ones are used during the auto-evaluation on the `Auto Run` panel.
+Only the selected ones are used during the auto-evaluation on the `Auto Run` panel (Mode 2).
 
 To select thresholds, proceed as follows:
 
@@ -68,7 +72,7 @@ To select thresholds, proceed as follows:
 2. Select the desired thresholds.
 3. Click `Save` to save the new selection.
 
-The thresholds are set as follows:
+The thresholds are used to convert anomaly scores produced by an anomaly detection model/algorithm into binary labels and are set as follows:
 
 | Threshold | Description |
 |-|-|
@@ -79,7 +83,7 @@ The thresholds are set as follows:
 | Max Train Anomaly Score | The maximum value of the anomaly score when running the detection on the training data |
 | 0.5 | 0.5 |
 | Dynamic | Unsupervised dynamic threshold. See [Dynamic threshold](#dynamic-threshold) |
-| Custom | Integrate custom threshold. If none is specified, it's value is set to 0.5 (See [Add custom threshold](#optional-custom-threshold)) |
+| Custom | Can be implemented individually for a specific model. If none is specified, its value is set to 0.5 (See [Add custom threshold](#optional-custom-threshold)) |
 
 ### Dynamic threshold
 
