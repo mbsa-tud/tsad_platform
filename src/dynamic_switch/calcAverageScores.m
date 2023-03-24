@@ -10,9 +10,10 @@ for metric_idx = 1:numOfMetrics
     for data_idx = 1:numOfTestingFiles
         tmp = fullScores{data_idx, 1};
         if isnan(tmp(metric_idx, 1))
-            tmp(metric_idx, 1) = 0;
+            scores(data_idx, 1) = 0;
+        else
+            scores(data_idx, 1) = tmp(metric_idx, 1);
         end
-        scores(data_idx, 1) = tmp(metric_idx, 1);
     end
     avgScore = mean(scores);
     if avgScore == 0

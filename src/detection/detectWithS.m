@@ -1,6 +1,8 @@
 function [anomalyScores, compTime] = detectWithS(modelOptions, Mdl, XTest, YTest, labels, getCompTime)
 %DETECTWITHS Runs the detection for statistical models
 
+% Comptime measure the computation time for a single subsequence. Might be
+% unavailable for some models
 compTime = NaN;
 
 % Detect with model

@@ -1,6 +1,8 @@
 function [anomalyScores, compTime] = detectWithCML(modelOptions, Mdl, XTest, YTest, labels, getCompTime)
 %DETECTWITHCML Runs the detection for classic ML models
 
+% Comptime measure the computation time for a single subsequence. Might be
+% unavailable for some models
 compTime = NaN;
 
 switch modelOptions.name

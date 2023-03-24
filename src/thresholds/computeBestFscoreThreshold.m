@@ -10,7 +10,8 @@ for cand_idx = 1:numThresholdCandidates
     predictedLabels(:, cand_idx) = any(anomalyScores > thresholdCandidates(cand_idx), 2);
 end
 
-Fscore = [];
+F1Scores = [];
+
 switch type
     case 'point-wise'
         for cand_idx = 1:numThresholdCandidates
@@ -18,9 +19,9 @@ switch type
             try
                 pre_p = confmat(2, 2) / (confmat(2, 2) + confmat(1, 2));
                 rec_p = confmat(2, 2) / (confmat(2, 2) + confmat(2, 1));
-                Fscore(cand_idx) = 2 * (pre_p * rec_p) / (pre_p + rec_p);
+                F1Scores(cand_idx) = 2 * (pre_p * rec_p) / (pre_p + rec_p);
             catch
-                Fscore(cand_idx) = NaN;
+                F1Scores(cand_idx) = NaN;
             end
         end
     case 'event-wise'   
@@ -29,9 +30,9 @@ switch type
                 [fp_e, fn_e, tp_e] = overlap_seg(labels, predictedLabels(:, cand_idx));
                 pre_e = tp_e / (tp_e + fp_e);
                 rec_e = tp_e / (tp_e + fn_e);
-                Fscore(cand_idx) = 2 * pre_e * rec_e / (pre_e + rec_e);
+                F1Scores(cand_idx) = 2 * pre_e * rec_e / (pre_e + rec_e);
             catch ME
-                Fscore(cand_idx) = NaN;
+                F1Scores(cand_idx) = NaN;
             end
         end
     case 'point-adjusted'
@@ -53,9 +54,9 @@ switch type
                 fn_a = confmat(2, 1);
                 pre_a = tp_a / (tp_a + fp_a);
                 rec_a = tp_a / (tp_a + fn_a);
-                Fscore(cand_idx) = 2 * pre_a * rec_a / (pre_a + rec_a);
+                F1Scores(cand_idx) = 2 * pre_a * rec_a / (pre_a + rec_a);
             catch ME
-                Fscore(cand_idx) = NaN;
+                F1Scores(cand_idx) = NaN;
             end
         end
     case 'composite'
@@ -77,20 +78,20 @@ switch type
             try
                 pre_p = confmat(2, 2) / (confmat(2, 2) + confmat(1, 2));
                 rec_e = tp_e / (tp_e + fn_e);
-                Fscore(cand_idx) = 2 * pre_p * rec_e / (pre_p + rec_e);
+                F1Scores(cand_idx) = 2 * pre_p * rec_e / (pre_p + rec_e);
             catch ME
-                Fscore(cand_idx) = NaN;
+                F1Scores(cand_idx) = NaN;
             end
         end
 end
 
-if isempty(Fscore) || ~any(Fscore)
+if isempty(F1Scores) || ~any(F1Scores)
     thr = NaN;
     return;
 end
 
-maxFScore = max(Fscore);
-thr_idx = find(Fscore == maxFScore, 1);
+maxFScore = max(F1Scores);
+thr_idx = find(F1Scores == maxFScore, 1);
 
 thr = thresholdCandidates(thr_idx);
 end

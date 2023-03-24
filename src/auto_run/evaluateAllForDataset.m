@@ -121,9 +121,10 @@ for thr_idx = 1:length(scoreMatrix)
             for data_idx = 1:numOfScoreMatrices
                 tmp = scoreMatrix_tmp{data_idx, 1};
                 if isnan(tmp(metric_idx, model_idx))
-                    tmp(metric_idx, model_idx) = 0;
+                    scores(data_idx, 1) = 0;
+                else
+                    scores(data_idx, 1) = tmp(metric_idx, model_idx);
                 end
-                scores(data_idx, 1) = tmp(metric_idx, model_idx);
             end
             avgScore = mean(scores);
             avgScores(metric_idx, model_idx) = avgScore;
