@@ -587,7 +587,6 @@
             "modelOptions": {
                 "type": "S",
                 "name": "Grubbs test",
-                "dataType": 1,
                 "requiresPriorTraining": false,
                 "isMultivariate": false,
                 "outputsLabels": true,

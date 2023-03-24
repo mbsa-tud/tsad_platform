@@ -382,7 +382,7 @@ The unique name of the model. This is used by the platform to recognize the mode
 This field is only required for deep-learning models. Its value must be one of: `"predictive"`, `"reconstructive"`. It indicates whether the model produces prediction or reconstruction errors.
 
 **dataType**
-This field is only required if your model uses the data preparation function provided by the platform.
+This field is only required if your model uses the data preparation function provided by the platform and the **useSubsequences** field is set to true.
 Its value must be one of: `1`, `2`, `3`. The number controls the shape of the data. The data is always split into subsequences of equal length using a sliding window. For the three different numbers, the data will be shaped as such:
 | Data type | Univariate model | Multivariate model |
 |-|-|-|
