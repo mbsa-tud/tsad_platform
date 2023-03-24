@@ -7,21 +7,7 @@ modelOptions = adaptModelOptions(modelOptions, optVars);
 
 scoresCell = trainAndEvaluateModel(modelOptions, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, threshold, dynamicThresholdSettings, trainingPlots, trainParallel);
 
-
-numOfMetrics = size(scoresCell{1, 1}, 1);
-numOfScoreMatrices = size(scoresCell, 1);
-
-avgScores = zeros(numOfMetrics, 1);
-for metric_idx = 1:numOfMetrics
-    scores = zeros(numOfScoreMatrices, 1);
-    for data_idx = 1:numOfScoreMatrices
-        scores(data_idx, 1) = scoresCell{data_idx, 1}(metric_idx, 1);
-        if isnan(scores(data_idx, 1))
-            scores(data_idx, 1) = 0;
-        end
-    end
-    avgScores(metric_idx, 1) = mean(scores);
-end
+avgScores = calcAverageScores(scoresCell);
 
 % Get specified score
 [~, score_idx] = ismember(selectedMetric, METRIC_NAMES);

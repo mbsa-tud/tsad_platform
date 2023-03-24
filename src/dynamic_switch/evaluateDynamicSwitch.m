@@ -12,7 +12,7 @@ for model_idx = 1:numOfModels
 end
 
 fullScores_Switch = cell(numOfTestingFiles, 1);
-fullScores = cell(numOfModels, 1);
+fullScores = cell(numOfTestingFiles, 1);
 
 selectedModels = strings(numOfTestingFiles, 1);
 
@@ -29,16 +29,13 @@ for data_idx = 1:numOfTestingFiles
     
     fullScores_Switch{data_idx, 1} = detectAndEvaluateWith(selectedModel, dataTestSwitch(data_idx, 1), labelsTestSwitch(data_idx, 1), threshold, dynamicThresholdSettings);
     for model_idx = 1:numOfModels
-        fullScores{model_idx, 1}{data_idx, 1} = detectAndEvaluateWith(trainedModels.(trainedModelsFields{model_idx}),  dataTestSwitch(data_idx, 1), labelsTestSwitch(data_idx, 1), threshold, dynamicThresholdSettings);
+        fullScores{data_idx, 1} = [fullScores{data_idx, 1}, detectAndEvaluateWith(trainedModels.(trainedModelsFields{model_idx}),  dataTestSwitch(data_idx, 1), labelsTestSwitch(data_idx, 1), threshold, dynamicThresholdSettings)];
     end
 end
 
 
 averages = calcAverageScores(fullScores_Switch);
-
-for model_idx = 1:numOfModels
-    averages = [averages calcAverageScores(fullScores{model_idx, 1})];
-end
+averages = [averages calcAverageScores(fullScores)];
 
 scoreNames = table(METRIC_NAMES);
 scoreNames.Properties.VariableNames = "Metric";

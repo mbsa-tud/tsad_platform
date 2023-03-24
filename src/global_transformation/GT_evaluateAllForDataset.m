@@ -109,15 +109,9 @@ for thr_idx = 1:length(scoreMatrix)
     scoreMatrix_tmp = scoreMatrix{thr_idx, 1};
     
     numOfTestingFiles = length(scoreMatrix_tmp);
-    numOfModels = size(scoreMatrix_tmp{1, 1}, 2);
-    numOfMetrics = size(scoreMatrix_tmp{1, 1}, 1);
 
     % Calc average scores
-    avgScores = zeros(numOfMetrics, numOfModels);    
-    for model_idx = 1:numOfModels
-        avgScores(:, model_idx) = calcAverageScores(scoreMatrix_tmp);
-    end
-    
+    avgScores = calcAverageScores(scoreMatrix_tmp);    
     
     outputFolder = thresholdSubfolders(thr_idx);
 
