@@ -115,6 +115,8 @@ A dataset can be loaded on the `Data` panel:
 1. On the `Data` panel, click `Browse` (1) to select a folder from the computer or enter a path manually.
 2. Click `Load Data` (2) to import the selected dataset.
 
+You can view the loaded data (4) and see its statistical features (3).
+
 The **format** of a dataset must be as such:
 
 * It contains at least one of the following folders: a `train` folder containing training data and a `test` folder containing testing data.
@@ -140,6 +142,7 @@ The dataset can be split and processed on the `Preprocessing` panel:
 
 <img src="media/final_preprocessing_panel.png" alt="Preprocessing panel" title="Preprocessing panel" width=900/>
 
+The processed data can be observed in the plots on the right (5).
 ### Preprocessing method selection
 
 Three preprocessing methods can be selected (1). These **don't** apply to the [Auto Run](#auto-run) functions, but to everything else:
@@ -149,6 +152,10 @@ Three preprocessing methods can be selected (1). These **don't** apply to the [A
 * **Rescale [0, 1]**: Set maximum = 1 and minimum = 0.
 
 **NOTE** The data in the `test` folder gets processed with the same parameters as for the `train` data (with the exception if no train data is used). All channels of multivariate datasets are preprocessed independently.
+
+### Data augmentation
+
+You can further choose to transform your data in various ways (4)
 
 ### Data preparation for Dynamic Switch
 
@@ -180,11 +187,11 @@ To do so, proceed as follows:
 
 There are **three** ways to load a configuration of models (These are not trained yet, it's only the configuration that gets loaded):
 
-* Click `Add` (1) on top of one of the three lists to add either a **deep-learning**, **Classic Machine Learning** or **Statistical** anomaly detection model. This opens a **new window**, allowing you to select a model and configure its parameters. Once configured, click `Add to Model Selection` to add the selected model to the list of models.
-* Click `Add All` (1) to add a default configuration of all models.
-* You can select multiple models from all lists and click `Export Config for Selection` (2) to store a configuration file on your computer.
-This allows you to load a previous configuration of models at another time using the `Load from File` (2) button.
-* To show the hyperparameters of a model, select it in the list, right-click and select `Show Model Parameters`. This wil show all parameters of the selected model on the right side of the window.
+* Click `Add` (2) on top of one of the three lists to add either a **deep-learning**, **Classic Machine Learning** or **Statistical** anomaly detection model. This opens a **new window**, allowing you to select a model and configure its parameters. Once configured, click `Add to Model Selection` to add the selected model to the list of models.
+* Click `Add All` (2) to add a default configuration of all models.
+* You can select multiple models from all lists and click `Export Config for Selection` to store a configuration file on your computer.
+This allows you to load a previous configuration of models at another time using the `Load from File` button (1).
+* To show the hyperparameters of a model, select it in the list, right-click and select `Show Model Parameters`. This wil show all parameters of the selected model on the right side of the window (7).
 
 ### Train models
 
@@ -214,8 +221,6 @@ To optimize models, do the following:
 4. Click the `Run Optimization` button to optimize all models.
 5. Once it's done, the optimized models will appear on the [Detection Panel](#detection).
 
-**NOTE** You need to train the optimized models before they're available on the [Detection](#detection) and [Simulink detection](#simulink-detection) panels.
-
 ---
 
 ## Detection
@@ -235,16 +240,18 @@ The offline anomaly detection using the models trained earlier (see [Training an
 
 To **run a detection**, proceed as follows:
 
-1. Select a file from the `Select faulty Data` dropdown menu (2).
-2. Select a threshold from the `Threshold` dropdown menu (2). If you select the **dynamic** threshold, you can additionally configure its parameters (2).
-3. Select models from the **list of trained models** and click `Selected Models` or click `All Models` (3) to start the detection process.
+1. Select a file from the `Select faulty Data` dropdown menu (3).
+2. Select a threshold from the `Threshold` dropdown menu (3). If you select the **dynamic** threshold, you can additionally configure its parameters (3).
+3. Select models from the **list of trained models** and click `Selected Models` or click `All Models` (2) to start the detection process.
 4. Once the detection is finished, the following results are are displayed in the windows below:
     * **Plots** (4) of the anomaly scores and detected anoamlies for the last model the detection was run for.
     * A **Table** (5) storing all scores for all models and the computational time of deep-learning models (time to make predictions for one subsequence)
     * A **Computation time** plot (6) showing the computational time of the models on the x-axis and the obtained scores on the y-axis.
     Using the `Metric Selection` button, one can choose what metrics should be displayed within the plot.
 
-You can select another threshold or reconfigure the dynamic threshold. This will update the scores for the currently shown model in the **Plots** section (4). To run it again for all models, click the `All Models` button (3) again.
+You can select another threshold or reconfigure the dynamic threshold. This will update the scores for the currently shown model in the **Plots** section (4). To run it again for all models, click the `All Models` button (2) again.
+
+**NOTE** If you want to observe the detection of another model, just click on it in the list of trained models (1). If you already ran the detection for that model, the scores and plots will be displayed directly. Otherwise run the detection for the selected model (2) again.
 
 ---
 
@@ -273,7 +280,7 @@ The dynamic switch mechanism (model selection mechanism) can be trained and test
 
 The usage of the dynamic switch mechanism **requires** the following things:
 
-* **Correct dataset**: A **Univariate** dataset with **multiple anomalous files** for testing. The `Split Test Set for Dynamic Switch` checkbox on the [Preprocessing](#preprocessing-and-splitting-the-dataset) panel must be checked.
+* **Correct dataset**: A **Univariate** dataset with **multiple anomalous files** for testing. The `Split Test Set for Dynamic Switch` checkbox on the [Preprocessing](#preprocessing-and-splitting-the-dataset) panel must be checked. The testing data for the dynamic switch can be observed in section (6).
 * **Trained models**: Either configure and train models on the [Training](#training-and-optimization) panel or load trained models on the [Detection](#detection) panel.
 
 To **train and test the dynamic switch**, proceed as follows:
@@ -282,7 +289,7 @@ To **train and test the dynamic switch**, proceed as follows:
 2. Select a threshold from the `Threshold` dropdown menu (2). This threshold will be used for all models.
 3. Click the `Auto-label Dataset` button (3). This runs the detection for all models on all files of the test dataset (without the files for testing the dynamic switch).
 4. Click the `Train Classifier` button (4) to train the deep calssification network. It learns to connect time series features with the correct labels determined in step 3.
-5. Click the `Run Evaluations` button (5) to test the dynamic switch. All results including the scores obtained by all individual models will be displayed in the table.
+5. Click the `Run Evaluations` button (5) to test the dynamic switch. All results including the scores obtained by all individual models will be displayed in the table (8). In section (7) you can see the best models for the training data of the dynamic switch and the predictions it made for the testing data.
 
 ---
 
@@ -298,13 +305,10 @@ To use this function, proceed as follows:
 2. (optional) If the dynmaic threshold was selected, configure it in the [Settings](#settings).
 3. Configure/load models on the [Training](#training-and-optimization) panel.
 4. Select a dataset on the [Auto Run](#auto-run) panel by clicking the `Browse` (1) button.
-5. Select a `Preprocessing Method` from the drop down menu (2).
-6. Check the `Use anomalous Validtaion Set` checkbox (3) if you want to extract an anomalous validation set from the test set. Specifiy the `Ratio` to determine its size.
-7. Enter a value for the `Fraction of Dataset to Use` field (4). This only determines how many subsets of a multi-entity dataset should be tested.
-8. Check the `Train Parallel` checkbox (5) to enable parallel training of deep-learning models.
-9. Check the `Training Plots` checkbox (6) to enable plots during training of deep-learning models.
-10. Click `Run Evaluation` (7) to start the process. You can observe more details about the current state in the MATLAB command window.
-11. Once it's done, all results are stored in a folder called *Auto_Run_Results* within the current MATLAB folder.
+5. Configure the data preparation (2).
+8. Configure training options for DL models (3).
+10. Click `Run Evaluation` (4) to start the process. You can observe more details about the current state in the MATLAB command window.
+11. Once it's done, all results are stored in a folder called *Auto_Run_Results* within the current MATLAB folder. The average scores for each model are displayed in the table (5).
 
 ---
 
@@ -318,7 +322,7 @@ The value of this key contains all relevant information. When adding a configure
 The following figure shows an example for the fully-connected autoencoder (FC AE):
 
 ```json
-`modelOptions`: {
+"modelOptions": {
     "type": "DNN",
     "name": "FC AE",
     "modelType": "reconstructive",
