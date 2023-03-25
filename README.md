@@ -194,7 +194,7 @@ There are **three** ways to load a configuration of models (These are not traine
 
 * Click `Add` (2) on top of one of the three lists to add either a **Deep-Learning**, **classic Machine-Learning** or **Statistical** anomaly detection method. This opens a **new window**, allowing you to select a model and configure its parameters. Once configured, click `Add to Model Selection` to add the selected model to the list of models.
 * Click `Add All` (2) to add a default configuration of all models.
-* You can select multiple models from all lists and click `Export Config for Selection` to store a configuration file on your computer.
+* You can select multiple models from all lists and click `Export Config` to store a configuration file on your computer.
 This allows you to load a previous configuration of models at another time using the `Load from File` button (1).
 * To show the hyperparameters of a model, select it in the list, right-click and select `Show Model Parameters`. This wil show all parameters of the selected model on the right side of the window (7).
 
@@ -238,7 +238,7 @@ The offline anomaly detection using the models trained earlier (see [Training an
 
 * All trained models appear in the **list of trained models**.
 * These are **ranked** according to their detection performance. The metric used for ranking can be manually selected from the dropdown menu at the top of the list.
-* Models can be selected within the list and **saved** by clicking the `Save selected Models` button.
+* Models can be exported by clicking the `Export trained Models` button.
 * These trained models can be **loaded** directly into the platform via the `Import trained Models` button.
 
 ### Detection section

@@ -17,17 +17,12 @@ switch method
                 preprocParams.maximum = paramsPrevious.maximum;
                 preprocParams.minimum = paramsPrevious.minimum;
             else
-                numFiles = size(rawTrainingData, 1);
-                numChannels = size(rawTrainingData{1, 1}, 2);
-    
-                maxima = zeros(numFiles, numChannels);
-                minima = zeros(numFiles, numChannels);
-                for data_idx = 1:numFiles
-                    maxima(data_idx, :) =  max(rawTrainingData{data_idx, 1}, [], 1);
-                    minima(data_idx, :) =  min(rawTrainingData{data_idx, 1}, [], 1);
+                fullData = [];
+                for data_idx = 1:size(rawTrainingData, 1)
+                    fullData = [fullData; rawTrainingData{data_idx, 1}];
                 end
-                preprocParams.maximum = max(maxima, [], 1);
-                preprocParams.minimum = min(minima, [], 1);
+                preprocParams.maximum = max(fullData);
+                preprocParams.minimum = min(fullData);
             end
 
             preprocessedTrainingData = rescaleData(rawTrainingData, preprocParams.maximum, preprocParams.minimum);
@@ -38,19 +33,15 @@ switch method
                 preprocParams.minimum = paramsPrevious.minimum;
             else
                 if isempty(preprocParams.maximum)
-                    numFiles = size(rawTestingData, 1);
-                    numChannels = size(rawTestingData{1, 1}, 2);
-    
-                    maxima = zeros(numFiles, numChannels);
-                    minima = zeros(numFiles, numChannels);
-                    for data_idx = 1:numFiles
-                        maxima(data_idx, :) =  max(rawTestingData{data_idx, 1}, [], 1);
-                        minima(data_idx, :) =  min(rawTestingData{data_idx, 1}, [], 1);
+                    fullData = [];
+                    for data_idx = 1:size(rawTestingData, 1)
+                        fullData = [fullData; rawTestingData{data_idx, 1}];
                     end
-                    preprocParams.maximum = max(maxima, [], 1);
-                    preprocParams.minimum = min(minima, [], 1);
+                    preprocParams.maximum = max(fullData);
+                    preprocParams.minimum = min(fullData);
                 end
             end
+            
             preprocessedTestingData = rescaleData(rawTestingData, preprocParams.maximum, preprocParams.minimum);
         end
     case 'Standardize'

@@ -1,10 +1,8 @@
-function [augmentedTrainingData, augmentedTestingData] = augmentationData(rawTrainingData, rawTestingData, choice_aug,intensity,trained)
+function [augmentedTrainingData, augmentedTestingData] = augmentationData(rawTrainingData, rawTestingData, choice_aug, intensity, trained)
 % AUGMENTATIONDATA Augment the data
 
 augmentedTrainingData = rawTrainingData;
 augmentedTestingData = [];
-maximum =[];
-minimum =[];
 method = choice_aug;
 level = intensity;
 
@@ -12,57 +10,46 @@ level = intensity;
 
 
 if ~isempty(rawTestingData)
-    numFiles = size(rawTestingData, 1);
-    numChannels = size(rawTestingData{1, 1}, 2);
-
-    maxima = zeros(numFiles, numChannels);
-    minima = zeros(numFiles, numChannels);
-    for data_idx = 1:numFiles
-        maxima(data_idx, :) =  max(rawTestingData{data_idx, 1}, [], 1);
-        minima(data_idx, :) =  min(rawTestingData{data_idx, 1}, [], 1);
+    fullData = [];
+    for data_idx = 1:size(rawTestingData, 1)
+        fullData = [fullData; rawTestingData{data_idx, 1}];
     end
-    maximum = max(maxima, [], 1);
-    minimum = min(minima, [], 1);
+    maximum = max(fullData);
+    minimum = min(fullData);
+    mu = mean(fullData);
 
     switch method
         case 'white noise'
-            augmentedTestingData = addWhiteNoise(rawTestingData,  maximum, minimum,level);
+            augmentedTestingData = addWhiteNoise(rawTestingData, maximum, minimum, level);
         case 'random walk'
-            augmentedTestingData = addRandomWalk(rawTestingData,  maximum,minimum,level);
+            augmentedTestingData = addRandomWalk(rawTestingData, maximum, minimum, level);
         case 'global shift'
-            augmentedTestingData = shiftData(rawTestingData,maximum, minimum,level);
+            augmentedTestingData = shiftData(rawTestingData, maximum, minimum, level);
         case 'attenuate extremum'
-            augmentedTestingData = attenuateExtremum(rawTestingData,maximum,minimum,level);
-
+            augmentedTestingData = attenuateExtremum(rawTestingData, mu, level);
     end
-
 end
 
 
 if trained
     if ~isempty(rawTrainingData)
-        numFiles = size(rawTrainingData, 1);
-        numChannels = size(rawTrainingData{1, 1}, 2);
-
-        maxima = zeros(numFiles, numChannels);
-        minima = zeros(numFiles, numChannels);
-        for data_idx = 1:numFiles
-            maxima(data_idx, :) =  max(rawTrainingData{data_idx, 1}, [], 1);
-            minima(data_idx, :) =  min(rawTrainingData{data_idx, 1}, [], 1);
+        fullData = [];
+        for data_idx = 1:size(rawTrainingData, 1)
+            fullData = [fullData; rawTrainingData{data_idx, 1}];
         end
-        maximum = max(maxima, [], 1);
-        minimum = min(minima, [], 1);
+        maximum = max(fullData);
+        minimum = min(fullData);
+        mu = mean(fullData);
 
         switch method
             case 'white noise'
-                augmentedTrainingData = addWhiteNoise(rawTrainingData,  maximum, minimum,level);
+                augmentedTrainingData = addWhiteNoise(rawTrainingData, maximum, minimum, level);
             case 'random walk'
-                augmentedTrainingData = addRandomWalk(rawTrainingData,  maximum,minimum,level);
+                augmentedTrainingData = addRandomWalk(rawTrainingData, maximum, minimum, level);
             case 'global shift'
-                augmentedTrainingData = shiftData(rawTrainingData,maximum, minimum,level);
+                augmentedTrainingData = shiftData(rawTrainingData, maximum, minimum, level);
             case 'attenuate extremum'
-                augmentedTrainingData = attenuateExtremum(rawTrainingData,maximum,minimum,level);
-
+                augmentedTrainingData = attenuateExtremum(rawTrainingData, mu, level);
         end
     end
 end

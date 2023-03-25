@@ -1,18 +1,18 @@
-function augmentedData = attenuateExtremum(rawData, maximum, minimum, level)
+function augmentedData = attenuateExtremum(rawData, mu, level)
 %ATTENUATEEXTREMUM Attenuate the extremum of the data
 
-level=level/100;
+numChannels = size(rawData{1, 1}, 2);
 
-for data_idx = 1:size(rawData, 1)
-    currentData = rawData{data_idx, 1};
-    moyenne=mean(currentData);
-    
-    for j = 1:size(currentData, 1)
-        if ~(level==0)        
-            currentData(j) = currentData(j)*exp(- (currentData(j)-moyenne)*level);
+level = level/100;
+
+if ~(level == 0)
+    for data_idx = 1:size(rawData, 1)
+        newData = rawData{data_idx, 1};
+        for channel_idx = 1:numChannels
+            newData(:, channel_idx) = newData(:, channel_idx) .* exp(-(newData(:, channel_idx) - mu(channel_idx)) * level);
         end
+        rawData{data_idx, 1} = newData;
     end
-    rawData{data_idx, 1} = currentData;
 end
 
 augmentedData = rawData;
