@@ -4,15 +4,15 @@ function augmentedData = addRandomWalk(rawData, maximum, minimum, level)
 level=level/10;
 numChannels = size(rawData{1, 1}, 2);
 
-for i = 1:size(rawData, 1)
-    currentData = rawData{i, 1};
-    for j = 1:numChannels
+for data_idx = 1:size(rawData, 1)
+    currentData = rawData{data_idx, 1};
+    for channel_idx = 1:numChannels
         % Generate random walk noise scaled by the amplitude of the signal
-        noise = cumsum(randn(size(currentData, 1), 1) * level/50 * (maximum(j) - minimum(j)));
+        noise = cumsum(randn(size(currentData, 1), 1) * level/50 * (maximum(channel_idx) - minimum(channel_idx)));
         % Add noise to current channel
-        currentData(:, j) = currentData(:, j) + noise;
+        currentData(:, channel_idx) = currentData(:, channel_idx) + noise;
     end
-    rawData{i, 1} = currentData;
+    rawData{data_idx, 1} = currentData;
 end
 
 augmentedData = rawData;

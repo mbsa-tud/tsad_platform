@@ -370,46 +370,57 @@ The following figure shows an example for the fully-connected autoencoder (FC AE
 }
 ```
 
-Fields of the **modelOptions** struct:
+Fields of the **modelOptions** struct (and if they're required or not):
 
-**type**
+#### type
+**- mandatory -**
 The type of the model/algorithm. Must be one of: `"DNN"`, `"CML"`, `"S"` (meaning `Deep Neural Network`, `Classic Machine Learning` and `Statistical` respectively.)
 
-**name**
+#### name
+**- mandatory -**
 The unique name of the model. This is used by the platform to recognize the model. It should only contain **letters** and the following characters: `-` `(` `)`.
 
-**modelType**
-This field is only required for deep-learning models. Its value must be one of: `"predictive"`, `"reconstructive"`. It indicates whether the model produces prediction or reconstruction errors.
+#### modelType
+**- optional -**
+This field is only required for deep-learning models using the standard deep-learning functions probided by the platform. Its value must be one of: `"predictive"`, `"reconstructive"`. It indicates whether the model produces prediction or reconstruction errors.
 
-**dataType**
-This field is only required if your model uses the data preparation function provided by the platform and the **useSubsequences** field is set to true.
-Its value must be one of: `1`, `2`, `3`. The number controls the shape of the data. The data is always split into subsequences of equal length using a sliding window. For the three different numbers, the data will be shaped as such:
+#### dataType
+**- optional -**
+This field is only required if your model uses the data preparation function provided by the platform (and for classic ML and Statistical models the [useSubsequences](#usesubsequences) field is set to true).
+Its value must be one of: `1`, `2`, `3`. The number controls the shape of the data. The data is always split into subsequences of equal length using a sliding window. The window-size (and step-size for training if your model requires prior training) must be defined in the [hyperparameters](#hyperparameters) field (see below). Look at the file `config > tsad_platform_config_all.json` for reference.
+For the three different numbers, the data will be shaped as such:
 | Data type | Univariate model | Multivariate model |
 |-|-|-|
 | **1** | `1 x D` cell array with `D` being the number of channels. For each channel a separate model of the same type will be trained. Each cell contains a `N x w` matrix with `w` being the window-size and `N` being the number of observations.| `1 x 1` cell array containing a `N x (w * d)` matrix with `N` being the number of observations, `w` the window size and `d` the number of channels. |
-| **2** | `1 x D` cell array with `D` being the number of channels. For each channel a separate model of the same type will be trained. Each cell contains a `N x 1` cell array with `N` being the number of observations. Each cell is a matrix of size `1 x w` with `w` being the window-size. **Note: For predictive dl models, the YTrain data is no cell array** | `1 x 1` cell array containing a `N x 1` cell array with `N` being the number of observations. Each cell contains a matrix of size `d x w` with `d` being the number of channels and `w` being the window size. |
-| **3** | `1 x D` cell array with `D` being the number of channels. For each channel a separate model of the same type will be trained. Each cell contains a `N x 1` cell array with `N` being the number of observations. Each cell is a matrix of size `w x 1` with `w` being the window-size. **Note: For predictive dl models, the YTrain data is a cell array, unlike for dataType 2** | `1 x 1` cell array containing a `N x 1` cell array with `N` being the number of observations. Each cell contains a matrix of size `w x d` with `d` being the number of channels and `w` being the window size. |
+| **2** | `1 x D` cell array with `D` being the number of channels. For each channel a separate model of the same type will be trained. Each cell contains a `N x 1` cell array with `N` being the number of observations. Each cell is a matrix of size `1 x w` with `w` being the window-size. **NOTE: For predictive dl models, the YTrain data is no cell array** | `1 x 1` cell array containing a `N x 1` cell array with `N` being the number of observations. Each cell contains a matrix of size `d x w` with `d` being the number of channels and `w` being the window size. |
+| **3** | `1 x D` cell array with `D` being the number of channels. For each channel a separate model of the same type will be trained. Each cell contains a `N x 1` cell array with `N` being the number of observations. Each cell is a matrix of size `w x 1` with `w` being the window-size. **NOTE: For predictive dl models, the YTrain data is a cell array, unlike for dataType 2** | `1 x 1` cell array containing a `N x 1` cell array with `N` being the number of observations. Each cell contains a matrix of size `w x d` with `d` being the number of channels and `w` being the window size. |
 
-**requiresPirorTraining**
+#### requiresPriorTraining
+**- mandatory -**
 If this is set to **false**, the model is trained on the data from the **train** folder. If it is set to **true**, the model doesn't get trained on data from the train folder prior to testing.
-**NOTE** If this field is set to true, you can also set the `calcThresholdsOn` field below.
+**NOTE** If this field is set to true, you can also set the [calcThresholdsOn](#calcthresholdson) field below.
 
-**calcThresholdsOn**
-This field is optional and only has an effect if the `requiresPriorTraining` field is set to true.
-Its value can be either `"anomalous-validation-data"` or `"training-data"`. This determines what dataset to use to calculate the static threholds. If the selected option is `"anoamlous-validation-data"`, but no anomalous validation data is available, the thresholds will be calculated during testing. If you dont't specify this field or set its value to anything else than the two options, the thresholds are always set during testing and not during training.
+#### calcThresholdsOn
+**- optional -**
+This field is optional and only has an effect if the [requiresPriorTraining]() field is set to true.
+Its value can be either `"anomalous-validation-data"` or `"training-data"`. This determines what dataset to use to calculate the static threholds. If the selected option is `"anoamlous-validation-data"`, but no anomalous validation data is available, the thresholds will be calculated during testing. If you don't specify this field or set its value to anything except the two options, the thresholds are always set during testing and not during training.
 
-**isMultivariate**
-It's value can be `true` or `false`. See field **dataType** above for more information on the effect on the data preparation. **(If it is set to `false` but the loaded dataset is multivariate, a separate model will be trained for each channel of the dataset.)**
+#### isMultivariate
+**- mandatory -**
+Its value can be `true` or `false` according to the dimensionality of your model. See field [dataType](#datatype) above for more information on the effect on the data preparation. **If it is set to `false` but the loaded dataset is multivariate, a separate model will be trained for each channel of the dataset.**
 
-**outputsLabels**
+#### outputsLabels
+**- mandatory -**
 If your anomaly detection method doesn't output anomaly scores, but binary labes for each observation of the time series, set this field to `true` to bypass all thresholding methods. Otherwise it must be set to `false`.
 
-**useSubsequences**
+#### useSubsequences
+**- optional -**
 This field is only required for classic ML and statistical models which use the standard data preparation functions provided by the platform.
-If it is set to `true`, the dataset will be split into overlapping subsequences (See field **dataType** above), otherwise the data is used directly.
+If it is set to `true`, the dataset will be split into overlapping subsequences (See field [dataType](#datatype) above), otherwise the data is used directly.
 
-**hyperparameters**
-This field can contains all configurable hyperparameters for your model/algorithm. If you want to add a hyperparameter, specify its name as a new key within this field. It must contain two keys: **value** and **type**. The type is only required for the optimization algorithm of the platform. It must be one of: `"integer"`, `"real"`, `"categorical"`. Look at the example [above](#the-modeloptions-struct) for reference.
+#### hyperparameters
+**- optional -**
+This field can contain all configurable hyperparameters for your model/algorithm. If you want to add a hyperparameter, specify its name as a new key within this field. It must contain two keys: **value** and **type**. The type is only required for the optimization algorithm of the platform. It must be one of: `"integer"`, `"real"`, `"categorical"`. Look at the example [above](#the-modeloptions-struct) for reference.
 
 You can then use these hyperparameters in the data preparation, model training and detection functions to modify your model.
 See Chapter [adding models](#adding-models) for some examples.
@@ -459,15 +470,18 @@ The file `tsad_platform > config > tsad_platform_config_all.json` contains the J
 
 To add more models to the platform (deep-learning, classic machine learning and statistical), proceed as follows:
 
-1. Define the `modelOptions` struct mentioned before. You can create a `.json` file (use the `tsad_platform_config_all.json` file as reference or add your model to this file directly) as mentioned above to be able to load your model into the platform. Alternativeley, edit on of the following files: `ModelSelection_DNN.mlapp`, `ModelSelection_CML.mlapp`, `ModelSelection_S.mlapp`. Use other examples in those files as a guideline on how to add your model.
+1. Define the `modelOptions` struct mentioned before. You can create a `.json` file (use the `tsad_platform_config_all.json` file as reference or add your model to this file directly) as mentioned above to be able to load your model into the platform. Alternativeley, edit on of the following files within the `src > pupup_apps` folder: `ModelSelection_DNN.mlapp`, `ModelSelection_CML.mlapp`, `ModelSelection_S.mlapp`. Use other examples in those files as a guideline on how to add your model.
 2. Add the training and detection function calls to the source code of the platform. See [below](#add-deep-learning-anomaly-detection-models) for a detailed explanation.
 3. (optional) Enable optimization for your model: [Enable optimization](#optional-enable-optimization-for-your-model).
 4. (optional) If you require the data to be transformed in another way as provided by the platform, see [below](#optional-data-preparation) for more information.
 5. (optional) Add a custom threshold: [Add custom threshold](#optional-custom-threshold).
 
+**NOTE** The process for deep-learning and classic machine-learning (and statistical) models slightly differs.
+See [Add deep-learning anomaly detection models](#add-deep-learning-anomaly-detection-models) and [Add classic machine learning or statistical anomaly detection algorithms](#add-classic-machine-learning-or-statistical-anomaly-detection-algorithms) for more information.
+
 #### Add deep-learning anomaly detection models
 
-It's recommended to implement the deep-learning models using functions from MATLAB's deep-learning Toolbox and using the data preparation methods provided by the platform (this data preparation mode is enabled by default and nothing needs to be done other than adding the `dataType` field to the `modelOptions` struct (see above)). To add a new DL model, follow these steps:
+It's recommended to implement the deep-learning models using functions from MATLAB's Deep Learning Toolbox and using the data preparation methods provided by the platform (this data preparation mode is enabled by default and nothing needs to be done other than adding the `dataType` field to the `modelOptions` struct (see [above](#the-modeloptions-struct))). To add a new DL model, follow these steps:
 
 1. **Define the layers**: Go to the folder `tsad_platform > src > models_and_training > deep_learning` and open the file `getLayers.m`. Add a new option in the main *switch* statement for the name of your model:
 
@@ -480,7 +494,7 @@ It's recommended to implement the deep-learning models using functions from MATL
 
             % Define layers
             layers = [featureInputLayer(numFeatures)
-                fullyConnectedLayer(neurons))
+                fullyConnectedLayer(neurons)
                 reluLayer()
                 fullyConnectedLayer(numResponses)
                 regressionLayer()];
@@ -571,7 +585,7 @@ It's recommended to implement the deep-learning models using functions from MATL
             end
     ```
 
-If you want to add a network **without using the MATLAB deep-learning Toolbox**, proceed as follows:
+**Optional** You can also add all the training and detection function call for your network manually. In that case you don't have to add your model to the files mentioned above. To do so proceed as follows:
 
 1. **Add the training function call for you network**: Go to the folder `tsad_platform > src > models_and_training > deep_learning` and open the file `trainDNN.m`. Add your model name within the main *switch* statement, then call your training function and save the trained network in the `Mdl` vairable. The `MdlInfo` variable is optional and can be left empty:
 
@@ -583,7 +597,7 @@ If you want to add a network **without using the MATLAB deep-learning Toolbox**,
             MdlInfo = [];
     ```
 
-2. **Add the detection call for your network**: Go to the folder `tsad_platform > src > detection` and open the file `detectWithDNN.m`. Add your model name within the main *switch* statement, then add your detection function call. Make sure to return anomaly scores (`anomalyScores`) and optionally the computational time (`compTimeOut`) of your model:
+2. **Add the detection call for your network**: Go to the folder `tsad_platform > src > detection` and open the file `detectWithDNN.m`. Add your model name within the main *switch* statement, then add your detection function call. Make sure to return anomaly scores (`anomalyScores`) and optionally the computational time (`compTime`, Should be for a single subsequence) of your model:
 
     ```matlab
     switch modelOptions.name
@@ -591,8 +605,8 @@ If you want to add a network **without using the MATLAB deep-learning Toolbox**,
         case 'Your model name'
             anomalyScores = detectWithYourModel(Mdl, XTest);
 
-            % The compTimeOut variable should contain the computation time for a single subsequence. Set it to NaN if you don't need it to be computed
-            compTimeOut = NaN;
+            % The compTime variable should contain the computation time for a single subsequence. Set it to NaN if you don't need it to be computed
+            compTime = NaN;
     ```
 
 #### Add classic machine learning or statistical anomaly detection algorithms
@@ -609,13 +623,16 @@ The process for adding these algorithms will only be explained for classic machi
             Mdl = trainYourModel(XTrain);
     ```
 
-2. **Add the detection function call**: Go to the folder `tsad_platform > src > detection` and open the file `detectWithCML.m` (`detectWithS.m` for statistical models). Add your model name within the main *switch* statement, then add your detection function call. Make sure to return anomaly scores and store them in the `anomalyScores` vairable:
+2. **Add the detection function call**: Go to the folder `tsad_platform > src > detection` and open the file `detectWithCML.m` (`detectWithS.m` for statistical models). Add your model name within the main *switch* statement, then add your detection function call. Make sure to return anomaly scores (`anomalyScores`) and optionally the computational time (`compTime`, Should be for a single subsequence) of your model:
 
     ```matlab
     switch modelOptions.name
         % Add your model here
         case 'Your model name'
             anomalyScores = detectWithYourModel(Mdl, XTest);
+
+            % The compTime variable should contain the computation time for a single subsequence. Set it to NaN if you don't need it to be computed
+            compTime = NaN;
     ```
 
 #### (Optional) Enable optimization for your model
@@ -646,7 +663,7 @@ The `type` must be one of `"integer"`, `"real"`, `"categorical"`.
 
 #### (Optional) Data preparation
 
-To prepare the data your own way, you can add your model to the main *switch* statements in the following files within the `tsad_platform > src > data` folder:
+To prepare the data your own way, you can add your model name to the main *switch* statements in the following files within the `tsad_platform > src > data` folder:
 
 * **For deep neural networks**: `prepareDataTrain_DNN.m`, `prepareDataTest_DNN.m`.
 * **For classic machine learning methods**: `prepareDataTrain_CML.m`, `prepareDataTest_CML.m`.
@@ -672,16 +689,14 @@ case "custom"
 
 1. The network architecture of the `TCN AE` requires the sequence length/window size to be divisible by 4. This might be fixed in the future.
 2. Optimize the threshold calcucation (in file computeBestFScoreThreshold.m). It can be slow, especially for larger datasets, as it checks the F-Score for every single unique anomaly score value of the used time series (either anomalous validation set or test set). An upper bound of threshold values to check could be implemented to counter this issue.
-3. The optimization windows don't support categorical hyperparameters at this point.
-4. Parallel training on gpu was never tested properly/failed (It worked on cpu or with a few models on gpu; otherwise memory error). Most importand related files: (trainDNN_parallel.m and getOptionsForParallel.m).
-5. The simulink detection doesn't implement the different data preparation methods and scoring functions for the different deep-learning models, which makes it non-functional in many cases. The functionality of using a univariate model on multivariate datasets, where a separate model is trained for each channel of the dataset, must be implemented aswell. This feature already exists in the normal detection mode (It can be enabled by setting the `isMultivariate` field to `false` for a model).
-6. The step-size for the detection process is always set to 1 and can't be adjusted.
-7. The forecast horizon for DL models is always set to 1 and can't be adjusted.
-8. Dropout layers in some DL models might need to be replaced by spatial dropout layers, which don't exist in MATLAB by default and would have to be implemented by hand.
-9. Check on startup of the platform whether all required folders are on the matlab path to avoid errors later on.
-10. Output more information to the MATLAB command window (e.g. for the training, detection and threshold calculation steps) to let the user know the current step (useful for longer running tasks).
-11. Add more models (The platform lacks for example in statistical models. Classic ML oder DL models like a Convolutional Autoencoder or a LSTM Autoencoder could also be added).
-12. Save intermediate results during auto run. This allows to save some results even when a longer running process crashes.
-13. On some datasets, the training of some DL models can occasionally get stuck. The reasons for this might be further investigated in the future.
+3. Parallel training on gpu was never tested in detail (It worked on cpu or with a few models on gpu; otherwise memory error). Most importand related files: (trainDNN_parallel.m and getTrainOptionsForParallel.m).
+4. The simulink detection doesn't implement the different data preparation methods and scoring functions for the different deep-learning models, which makes it non-functional in many cases. The functionality of using a univariate model on multivariate datasets, where a separate model is trained for each channel of the dataset, must be implemented aswell. This feature already exists in the normal detection mode (It can be enabled by setting the `isMultivariate` field to `false` for a model).
+5. (Maybe irrelevant?) The step-size for the detection process is always set to 1 and can't be adjusted.
+6. (Maybe irrelevant?) The forecast horizon for DL models is always set to 1 and can't be adjusted.
+7. Network architectures of DL models could be checked in more detail or updated.
+8. Check on startup of the platform whether all required folders are on the matlab path to avoid errors later on.
+10. Add more models (The platform lacks for example in statistical models. Classic ML oder DL models like a Convolutional Autoencoder or a LSTM Autoencoder could also be added).
+11. Save intermediate results during auto run. This allows to save some results even when a longer running process crashes.
+12. On some datasets, the training of some DL models can occasionally get stuck. The reasons for this might be further investigated in the future.
 
 **NOTE** The entire platform is quite large at this point and not all functions, data manipulation and app interaction steps could be tested in every way. New errors can always occur and be fixed in the future.

@@ -17,9 +17,9 @@ if ~isempty(rawTestingData)
 
     maxima = zeros(numFiles, numChannels);
     minima = zeros(numFiles, numChannels);
-    for i = 1:numFiles
-        maxima(i, :) =  max(rawTestingData{i, 1}, [], 1);
-        minima(i, :) =  min(rawTestingData{i, 1}, [], 1);
+    for data_idx = 1:numFiles
+        maxima(data_idx, :) =  max(rawTestingData{data_idx, 1}, [], 1);
+        minima(data_idx, :) =  min(rawTestingData{data_idx, 1}, [], 1);
     end
     maximum = max(maxima, [], 1);
     minimum = min(minima, [], 1);
@@ -46,9 +46,9 @@ if trained
 
         maxima = zeros(numFiles, numChannels);
         minima = zeros(numFiles, numChannels);
-        for i = 1:numFiles
-            maxima(i, :) =  max(rawTrainingData{i, 1}, [], 1);
-            minima(i, :) =  min(rawTrainingData{i, 1}, [], 1);
+        for data_idx = 1:numFiles
+            maxima(data_idx, :) =  max(rawTrainingData{data_idx, 1}, [], 1);
+            minima(data_idx, :) =  min(rawTrainingData{data_idx, 1}, [], 1);
         end
         maximum = max(maxima, [], 1);
         minimum = min(minima, [], 1);
