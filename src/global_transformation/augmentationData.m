@@ -24,7 +24,7 @@ if ~isempty(rawTestingData)
         case 'random walk'
             augmentedTestingData = addRandomWalk(rawTestingData, maximum, minimum, level);
         case 'global shift'
-            augmentedTestingData = shiftData(rawTestingData, maximum, minimum, level);
+            augmentedTestingData = shiftData(rawTestingData, maximum, level);
         case 'attenuate extremum'
             augmentedTestingData = attenuateExtremum(rawTestingData, mu, level);
     end
@@ -47,7 +47,7 @@ if trained
             case 'random walk'
                 augmentedTrainingData = addRandomWalk(rawTrainingData, maximum, minimum, level);
             case 'global shift'
-                augmentedTrainingData = shiftData(rawTrainingData, maximum, minimum, level);
+                augmentedTrainingData = shiftData(rawTrainingData, maximum, level);
             case 'attenuate extremum'
                 augmentedTrainingData = attenuateExtremum(rawTrainingData, mu, level);
         end
