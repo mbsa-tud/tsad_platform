@@ -21,14 +21,14 @@ switch modelOptions.name
 
           
         if strcmp(modelOptions.modelType, 'reconstructive')
-            if ~isfield(modelOptions, "hyperparameters") || ~isfield(modelOptions.hyperparameters, "reconstructionScoreType")
-                error("You must specify the reconstructionScoreType field in the hyperparameters of reconstructive models");
+            if ~isfield(modelOptions, "hyperparameters") || ~isfield(modelOptions.hyperparameters, "reconstructionErrorType")
+                error("You must specify the reconstructionErrorType field in the hyperparameters of reconstructive models");
             end
 
-            switch modelOptions.hyperparameters.reconstructionScoreType.value
+            switch modelOptions.hyperparameters.reconstructionErrorType.value
                 case "median point-wise values"
                     % calculate median predicted value for each time step and then calculate the errors for the entire time series
-                    prediction = mergeOverlappingSubsequences(modelOptions, prediction);
+                    prediction = mergeOverlappingSubsequences(modelOptions, prediction, @median);
                     anomalyScores = abs(prediction - YTest);
                 case "median point-wise errors"
                     % calulate the point-wise errors for each subsequence and then calculate the median error for each time step
@@ -41,8 +41,8 @@ switch modelOptions.name
                         end
                     end
                             
-                    anomalyScores = mergeOverlappingSubsequences(modelOptions, anomalyScores);
-                case "median subsequence errors"
+                    anomalyScores = mergeOverlappingSubsequences(modelOptions, anomalyScores, @median);
+                case "mean subsequence errors"
                     % calulate the MSE for each subsequence and channel and
                     % then calculate the median error for each time step
                     % and channel
@@ -68,9 +68,9 @@ switch modelOptions.name
                         end            
                     end
 
-                    anomalyScores = mergeOverlappingSubsequences(modelOptions, anomalyScores);
+                    anomalyScores = mergeOverlappingSubsequences(modelOptions, anomalyScores, @mean);
                 otherwise
-                    error("Unknown reconstructionScoreType");
+                    error("Unknown reconstructionErrorType");
             end
         elseif strcmp(modelOptions.modelType, 'predictive')
             if iscell(prediction)

@@ -39,7 +39,7 @@
                         "value": 0,
                         "type": "real"
                     },
-                    "reconstructionScoreType": {
+                    "reconstructionErrorType": {
                         "value": "median point-wise values",
                         "type": "categorical"
                     },
@@ -89,7 +89,7 @@
                         "value": 0,
                         "type": "real"
                     },
-                    "reconstructionScoreType": {
+                    "reconstructionErrorType": {
                         "value": "median point-wise values",
                         "type": "categorical"
                     },
@@ -143,7 +143,7 @@
                         "value": 0,
                         "type": "real"
                     },
-                    "reconstructionScoreType": {
+                    "reconstructionErrorType": {
                         "value": "median point-wise values",
                         "type": "categorical"
                     },
@@ -193,7 +193,7 @@
                         "value": 0,
                         "type": "real"
                     },
-                    "reconstructionScoreType": {
+                    "reconstructionErrorType": {
                         "value": "median point-wise values",
                         "type": "categorical"
                     },
@@ -638,7 +638,7 @@
         {
             "modelOptions": {
                 "type": "S",
-                "name": "OD_wpca",
+                "name": "over-sampling PCA",
                 "dataType": 1,
                 "requiresPriorTraining": false,
                 "isMultivariate": true,

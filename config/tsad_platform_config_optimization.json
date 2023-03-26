@@ -185,13 +185,13 @@
             "type": "integer"
         }
     },
-    "OD_wpca": {
+    "over-sampling PCA": {
         "ratioOversample": {
             "value": [0, 1],
             "type": "real"
         },
         "windowSize": {
-            "value": [10, 400],
+            "value": [10, 123],
             "type": "integer"
         }
     },

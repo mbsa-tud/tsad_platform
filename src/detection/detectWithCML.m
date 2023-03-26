@@ -24,7 +24,7 @@ switch modelOptions.name
 
         if modelOptions.useSubsequences
             % Merge overlapping scores
-            anomalyScores = mergeOverlappingAnomalyScores(modelOptions, anomalyScores);
+            anomalyScores = mergeOverlappingAnomalyScores(modelOptions, anomalyScores, @mean);
         end
     case 'OC-SVM'
         % OC-SVM support outlier and novelty detection.
@@ -42,7 +42,7 @@ switch modelOptions.name
 
         if modelOptions.useSubsequences
             % Merge overlapping scores
-            anomalyScores = mergeOverlappingAnomalyScores(modelOptions, anomalyScores);
+            anomalyScores = mergeOverlappingAnomalyScores(modelOptions, anomalyScores, @mean);
         end
         anomalyScores = anomalyScores < 0;
     case 'ABOD'
@@ -50,21 +50,21 @@ switch modelOptions.name
 
         if modelOptions.useSubsequences
             % Merge overlapping scores
-            anomalyScores = mergeOverlappingAnomalyScores(modelOptions, anomalyScores);
+            anomalyScores = mergeOverlappingAnomalyScores(modelOptions, anomalyScores, @mean);
         end
     case 'LOF'
         [~, anomalyScores] = LOF(XTest, modelOptions.hyperparameters.k.value);
 
         if modelOptions.useSubsequences
             % Merge overlapping scores
-            anomalyScores = mergeOverlappingAnomalyScores(modelOptions, anomalyScores);
+            anomalyScores = mergeOverlappingAnomalyScores(modelOptions, anomalyScores, @mean);
         end
     case 'LDOF'
         anomalyScores = LDOF(XTest, modelOptions.hyperparameters.k.value);
 
         if modelOptions.useSubsequences
             % Merge overlapping scores
-            anomalyScores = mergeOverlappingAnomalyScores(modelOptions, anomalyScores);
+            anomalyScores = mergeOverlappingAnomalyScores(modelOptions, anomalyScores, @mean);
         end
     case 'Merlin'
         numAnoms = 0;

@@ -10,12 +10,12 @@ switch modelOptions.name
     case 'Your model name'
     case 'Grubbs test'
         anomalyScores = grubbs_test(XTest, modelOptions.hyperparameters.alpha.value);
-    case 'OD_wpca'
+    case 'over-sampling PCA'
         [~, anomalyScores, ~] = OD_wpca(XTest, modelOptions.hyperparameters.ratioOversample.value);
 
         if modelOptions.useSubsequences
             % Merge overlapping scores
-            anomalyScores = mergeOverlappingAnomalyScores(modelOptions, anomalyScores);
+            anomalyScores = mergeOverlappingAnomalyScores(modelOptions, anomalyScores, @mean);
         end
 end
 end
