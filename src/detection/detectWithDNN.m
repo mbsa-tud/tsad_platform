@@ -31,7 +31,7 @@ switch modelOptions.name
                     prediction = mergeOverlappingSubsequences(modelOptions, prediction);
                     anomalyScores = abs(prediction - YTest);
                 case "median point-wise errors"
-                    % calulate the point-wise errors for each subsequence and then calculate the median (/mean?) error for each time step
+                    % calulate the point-wise errors for each subsequence and then calculate the median error for each time step
                     if modelOptions.dataType == 1
                         anomalyScores = abs(prediction - XTest);
                     elseif modelOptions.dataType == 2
@@ -41,6 +41,33 @@ switch modelOptions.name
                         end
                     end
                             
+                    anomalyScores = mergeOverlappingSubsequences(modelOptions, anomalyScores);
+                case "median subsequence errors"
+                    % calulate the MSE for each subsequence and channel and
+                    % then calculate the median error for each time step
+                    % and channel
+                    windowSize = modelOptions.hyperparameters.windowSize.value;
+                    if modelOptions.dataType == 1
+                        anomalyScores = abs(prediction - XTest);
+                        numChannels = round(size(anomalyScores, 2) / windowSize);                        
+                        for channel_idx = 1:numChannels
+                            for i = 1:size(prediction, 1)
+                                anomalyScores(i, ((channel_idx - 1) * windowSize + 1):((channel_idx - 1) * windowSize + windowSize)) = ...
+                                    mean(anomalyScores(i, ((channel_idx - 1) * windowSize + 1):((channel_idx - 1) * windowSize + windowSize)));
+                            end
+                        end
+                    elseif modelOptions.dataType == 2
+                        numChannels = size(prediction{1, 1}, 1);
+                        anomalyScores = prediction;
+                        for i = 1:size(prediction, 1)
+                            anomalyScores{i, 1} = abs(prediction{i, 1} - XTest{i, 1});
+
+                            for channel_idx = 1:numChannels                            
+                                anomalyScores{i, 1}(channel_idx, :) = mean(anomalyScores{i, 1}(channel_idx, :));
+                            end
+                        end            
+                    end
+
                     anomalyScores = mergeOverlappingSubsequences(modelOptions, anomalyScores);
                 otherwise
                     error("Unknown reconstructionScoreType");
