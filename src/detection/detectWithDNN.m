@@ -21,25 +21,30 @@ switch modelOptions.name
 
           
         if strcmp(modelOptions.modelType, 'reconstructive')
-         % DEV NOTE: There are two versions two do this. Which one is
-         % better?
-         % 1. (currently used version) calculate median predicted value for each time step and then calculate the errors for the entire time series
+            if ~isfield(modelOptions, "hyperparameters") || ~isfield(modelOptions.hyperparameters, "reconstructionScoreType")
+                error("You must specify the reconstructionScoreType field in the hyperparameters of reconstructive models");
+            end
 
-            prediction = mergeOverlappingSubsequences(modelOptions, prediction);
-            anomalyScores = abs(prediction - YTest);
-
-         % 2.calulate the errors for each subsequence and then calculate the median (/mean?) error for each time step
-            
-%             if modelOptions.dataType == 1
-%                 anomalyScores = abs(prediction - XTest);
-%             elseif modelOptions.dataType == 2
-%                 anomalyScores = cell(size(prediction, 1), 1);
-%                 for i = 1:size(prediction, 1)
-%                     anomalyScores{i, 1} = abs(prediction{i, 1} - XTest{i, 1});
-%                 end
-%             end
-%                     
-%             anomalyScores = mergeOverlappingSubsequences(modelOptions, anomalyScores);
+            switch modelOptions.hyperparameters.reconstructionScoreType.value
+                case "median point-wise values"
+                    % calculate median predicted value for each time step and then calculate the errors for the entire time series
+                    prediction = mergeOverlappingSubsequences(modelOptions, prediction);
+                    anomalyScores = abs(prediction - YTest);
+                case "median point-wise errors"
+                    % calulate the point-wise errors for each subsequence and then calculate the median (/mean?) error for each time step
+                    if modelOptions.dataType == 1
+                        anomalyScores = abs(prediction - XTest);
+                    elseif modelOptions.dataType == 2
+                        anomalyScores = cell(size(prediction, 1), 1);
+                        for i = 1:size(prediction, 1)
+                            anomalyScores{i, 1} = abs(prediction{i, 1} - XTest{i, 1});
+                        end
+                    end
+                            
+                    anomalyScores = mergeOverlappingSubsequences(modelOptions, anomalyScores);
+                otherwise
+                    error("Unknown reconstructionScoreType");
+            end
         elseif strcmp(modelOptions.modelType, 'predictive')
             if iscell(prediction)
                 pred_tmp = zeros(size(prediction, 1), size(prediction{1, 1}, 1));

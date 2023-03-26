@@ -39,6 +39,10 @@
                         "value": 0,
                         "type": "real"
                     },
+                    "reconstructionScoreType": {
+                        "value": "median point-wise values",
+                        "type": "categorical"
+                    },
                     "scoringFunction": {
                         "value": "aggregated-errors",
                         "type": "categorical"
@@ -84,6 +88,10 @@
                      "ratioTrainVal": {
                         "value": 0,
                         "type": "real"
+                    },
+                    "reconstructionScoreType": {
+                        "value": "median point-wise values",
+                        "type": "categorical"
                     },
                     "scoringFunction": {
                         "value": "aggregated-errors",
@@ -135,6 +143,10 @@
                         "value": 0,
                         "type": "real"
                     },
+                    "reconstructionScoreType": {
+                        "value": "median point-wise values",
+                        "type": "categorical"
+                    },
                     "scoringFunction": {
                         "value": "aggregated-errors",
                         "type": "categorical"
@@ -180,6 +192,10 @@
                      "ratioTrainVal": {
                         "value": 0,
                         "type": "real"
+                    },
+                    "reconstructionScoreType": {
+                        "value": "median point-wise values",
+                        "type": "categorical"
                     },
                     "scoringFunction": {
                         "value": "aggregated-errors",
