@@ -73,7 +73,7 @@ else
         AUC = NaN;
     else
         try
-            AUC = rocmetrics(labels, [gnegate(anomalyScores) anomalyScores], [0, 1]).AUC(1);
+            [~, ~, ~, AUC] = perfcurve(labels, anomalyScores, 1);
         catch
             AUC = NaN;
         end
