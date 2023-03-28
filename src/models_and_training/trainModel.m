@@ -16,7 +16,7 @@ trainedModel.dimensionality = size(dataTrain{1, 1}, 2);
 
 % Train model
 switch modelOptions.type
-    case 'DL'
+    case 'deep-learning'
         [XTrain, YTrain, XVal, YVal] = prepareDataTrain(modelOptions, dataTrain, labelsTrain);
         [trainedModel.Mdl, trainedModel.MdlInfo] = trainWrapper_DL(modelOptions, XTrain, YTrain, XVal, YVal, trainingPlots);
     otherwise

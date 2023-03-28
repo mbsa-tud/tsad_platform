@@ -15,7 +15,7 @@ if trainedModel.modelOptions.isMultivariate
     end
 
     switch trainedModel.modelOptions.type
-        case 'DL'
+        case 'deep-learning'
             [anomalyScores, compTime] = detectWith_DL(trainedModel.modelOptions, Mdl_tmp, XTest{1, 1}, YTest{1, 1}, labels, getCompTime);
         otherwise
             [anomalyScores, compTime] = detectWith_Other(trainedModel.modelOptions, Mdl_tmp, XTest{1, 1}, YTest{1, 1}, labels, getCompTime);
@@ -38,7 +38,7 @@ else
         end
         
         switch trainedModel.modelOptions.type
-            case 'DL'
+            case 'deep-learning'
                 [anomalyScores_tmp, compTime_tmp]  = detectWith_DL(trainedModel.modelOptions, Mdl_tmp, XTest{1, channel_idx}, YTest{1, channel_idx}, labels, getCompTime);
                 anomalyScores = [anomalyScores, anomalyScores_tmp];
                 compTimes = [compTimes, compTime_tmp];

@@ -3,7 +3,7 @@ function [XTrain, YTrain, XVal, YVal] = prepareDataTrain(modelOptions, data, lab
 
 if modelOptions.isMultivariate
     switch modelOptions.type
-        case 'DL'
+        case 'deep-learning'
             [XTrain, YTrain, XVal, YVal] = prepareDataTrain_DL(modelOptions, data, labels);
             XTrain = {XTrain};
             YTrain = {YTrain};
@@ -18,7 +18,7 @@ else
     numChannels = size(data{1, 1}, 2);
 
     switch modelOptions.type
-        case 'DL'
+        case 'deep-learning'
             XTrain = cell(1, numChannels);
             YTrain = cell(1, numChannels);
             XVal = cell(1, numChannels);
