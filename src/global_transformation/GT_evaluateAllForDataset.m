@@ -1,4 +1,4 @@
-function finalTable =  GT_evaluateAllForDataset(datasetPath, models, useFraction, preprocMethod, ratioTestVal, thresholds, dynamicThresholdSettings, trainingPlots, trainParallel,augmentationChoice,intensity,trained)
+function finalTable =  GT_evaluateAllForDataset(datasetPath, models, useFraction, preprocMethod, ratioTestVal, thresholds, dynamicThresholdSettings, trainingPlots, parallelEnabled,augmentationChoice,intensity,trained)
 %GT_EVALUATEALLFORDATASET Main function for training and testing all specified
 %model on the augmented dataset
 
@@ -59,21 +59,12 @@ end
 % Initialize table for evaluation results
 scoreMatrix = cell(length(thresholds), 1);
 
-% Get all model names
-models_DNN = models.models_DNN;
-models_CML = models.models_CML;
-models_S = models.models_S;
-
 allTestFiles = [];
-allModelNames = "Metric";
-for model_idx = 1:length(models_DNN)
-    allModelNames = [allModelNames models_DNN(model_idx).modelOptions.label];
-end
-for model_idx = 1:length(models_CML)
-    allModelNames = [allModelNames models_CML(model_idx).modelOptions.label];
-end
-for model_idx = 1:length(models_S)
-    allModelNames = [allModelNames models_S(model_idx).modelOptions.label];
+
+% Get all model names
+finalTableVariableNames = "Metric";
+for model_idx = 1:length(models)
+    finalTableVariableNames = [finalTableVariableNames models(model_idx).modelOptions.label];
 end
 
 
@@ -90,8 +81,8 @@ for dataset_idx = 1:length(indices)
     end
     
     % Run evaluation
-    [tmpScores, testFileNames] = GT_trainAndEvaluateAllModels(dataPath, models_DNN, models_CML, models_S, ...
-        preprocMethod, ratioTestVal, thresholds, dynamicThresholdSettings, trainingPlots, trainParallel,augmentationChoice,intensity,trained);
+    [tmpScores, testFileNames] = GT_trainAndEvaluateAllModels(dataPath, models, ...
+        preprocMethod, ratioTestVal, thresholds, dynamicThresholdSettings, trainingPlots, parallelEnabled,augmentationChoice,intensity,trained);
 
     allTestFiles = [allTestFiles testFileNames];
 
@@ -124,7 +115,7 @@ for thr_idx = 1:length(scoreMatrix)
         all_results_filename = fullfile(all_results_folder, sprintf('%s_%s_augmented_data.csv', allTestFiles(data_idx), datestr(now,'mm-dd-yyyy_HH-MM')));
         scoreTable_tmp = array2table(scoreMatrix_tmp{data_idx, 1});
         scoreTable = [scoreNames scoreTable_tmp];
-        scoreTable.Properties.VariableNames = allModelNames;
+        scoreTable.Properties.VariableNames = finalTableVariableNames;
         writetable(scoreTable, all_results_filename);
     end
     
@@ -132,7 +123,7 @@ for thr_idx = 1:length(scoreMatrix)
     
     avg_tmp = array2table(avgScores);
     avgTable = [scoreNames avg_tmp];
-    avgTable.Properties.VariableNames = allModelNames;
+    avgTable.Properties.VariableNames = finalTableVariableNames;
     
     % Write to file
     writetable(avgTable, fileName_Avg);

@@ -1,4 +1,4 @@
-function [XTrain, YTrain, XVal, YVal] = prepareDataTrain_DNN(modelOptions, data, labels)
+function [XTrain, YTrain, XVal, YVal] = prepareDataTrain_DL(modelOptions, data, labels)
 %PREPAREDATATRAIN_DNN Prepares the training data for DNN models
 
 switch modelOptions.name

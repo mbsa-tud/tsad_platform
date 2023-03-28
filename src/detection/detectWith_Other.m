@@ -1,4 +1,4 @@
-function [anomalyScores, compTime] = detectWithCML(modelOptions, Mdl, XTest, YTest, labels, getCompTime)
+function [anomalyScores, compTime] = detectWith_Other(modelOptions, Mdl, XTest, YTest, labels, getCompTime)
 %DETECTWITHCML Runs the detection for classic ML models
 
 % Comptime measure the computation time for a single subsequence. Might be
@@ -115,5 +115,14 @@ switch modelOptions.name
             anomalyScores = zeros(size(XTest, 1), 1);
         end
         anomalyScores = double(anomalyScores);
+    case 'Grubbs test'
+        anomalyScores = grubbs_test(XTest, modelOptions.hyperparameters.alpha.value);
+    case 'over-sampling PCA'
+        [~, anomalyScores, ~] = OD_wpca(XTest, modelOptions.hyperparameters.ratioOversample.value);
+
+        if modelOptions.useSubsequences
+            % Merge overlapping scores
+            anomalyScores = mergeOverlappingAnomalyScores(modelOptions, anomalyScores, @mean);
+        end
 end
 end

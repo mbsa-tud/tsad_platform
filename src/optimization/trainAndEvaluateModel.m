@@ -1,4 +1,4 @@
-function scoresCell = trainAndEvaluateModel(modelOptions, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, threshold, dynamicThresholdSettings, trainingPlots, trainParallel)
+function scoresCell = trainAndEvaluateModel(modelOptions, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, threshold, dynamicThresholdSettings, trainingPlots, parallelEnabled)
 %TRAINANDEVALUATEMODEL Train and test a model and return scores
 %   This function does the entire pipeline for a single model from training
 %   to caluclating a threshold and running tests. It returns all scores.
@@ -8,10 +8,10 @@ scoresCell = cell(size(dataTest, 1), 1);
 model.modelOptions = modelOptions;
 
 % Train model
-trainedModel = trainModels(model, dataTrain, ...
+trainedModel = trainingWrapper(model, dataTrain, ...
                             labelsTrain, dataValTest, ...
                             labelsValTest, threshold, ...
-                            trainingPlots, trainParallel);
+                            trainingPlots, parallelEnabled);
 
 % Run detection
 for data_idx = 1:size(dataTest, 1)

@@ -1,5 +1,5 @@
-function [XTest, YTest, labelsTest] = prepareDataTest_S(modelOptions, data, labels)
-%PREPAREDATATEST_S Prepares the testing data for statistical models
+function [XTest, YTest, labelsTest] = prepareDataTest_Other(modelOptions, data, labels)
+%PREPAREDATATEST_CML Prepares the testing data for classic ML models
 
 switch modelOptions.name
     case 'Your model name'
@@ -15,4 +15,3 @@ switch modelOptions.name
         end
 end
 end
-

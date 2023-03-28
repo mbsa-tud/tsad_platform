@@ -1,4 +1,4 @@
-function [Mdl, MdlInfo] = trainDNN(modelOptions, XTrain, YTrain, XVal, YVal, trainingPlots)
+function [Mdl, MdlInfo] = train_DL(modelOptions, XTrain, YTrain, XVal, YVal, trainingPlots)
 %TRAINDNN Trains DNN models
 
 switch modelOptions.name

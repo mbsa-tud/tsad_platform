@@ -1,8 +1,8 @@
 {
-    "DNN_Models": [
+    "models": [
         {
             "modelOptions": {
-                "type": "DNN",
+                "type": "deep-learning",
                 "name": "FC AE",
                 "modelType": "reconstructive",
                 "dataType": 1,
@@ -52,7 +52,7 @@
         },
         {
             "modelOptions": {
-                "type": "DNN",
+                "type": "deep-learning",
                 "name": "LSTM (reconstruction)",
                 "modelType": "reconstructive",
                 "dataType": 2,
@@ -102,7 +102,7 @@
         },
         {
             "modelOptions": {
-                "type": "DNN",
+                "type": "deep-learning",
                 "name": "Hybrid CNN-LSTM (reconstruction)",
                 "modelType": "reconstructive",
                 "dataType": 2,
@@ -156,7 +156,7 @@
         },
         {
             "modelOptions": {
-                "type": "DNN",
+                "type": "deep-learning",
                 "name": "TCN AE",
                 "modelType": "reconstructive",
                 "dataType": 2,
@@ -206,7 +206,7 @@
         },
         {
             "modelOptions": {
-                "type": "DNN",
+                "type": "deep-learning",
                 "name": "LSTM",
                 "modelType": "predictive",
                 "dataType": 2,
@@ -252,7 +252,7 @@
         },
         {
             "modelOptions": {
-                "type": "DNN",
+                "type": "deep-learning",
                 "name": "Hybrid CNN-LSTM",
                 "modelType": "predictive",
                 "dataType": 2,
@@ -302,7 +302,7 @@
         },
         {
             "modelOptions": {
-                "type": "DNN",
+                "type": "deep-learning",
                 "name": "GRU",
                 "modelType": "predictive",
                 "dataType": 2,
@@ -348,7 +348,7 @@
         },
         {
             "modelOptions": {
-                "type": "DNN",
+                "type": "deep-learning",
                 "name": "CNN (DeepAnT)",
                 "modelType": "predictive",
                 "dataType": 3,
@@ -394,7 +394,7 @@
         },
         {
             "modelOptions": {
-                "type": "DNN",
+                "type": "deep-learning",
                 "name": "ResNet",
                 "modelType": "predictive",
                 "dataType": 3,
@@ -440,7 +440,7 @@
         },
         {
             "modelOptions": {
-                "type": "DNN",
+                "type": "deep-learning",
                 "name": "MLP",
                 "modelType": "predictive",
                 "dataType": 1,
@@ -483,12 +483,10 @@
                     }
                 }
             }
-        }
-    ],
-    "CML_Models": [
+        },
         {
             "modelOptions": {
-                "type": "CML",
+                "type": "classic-machine-learning",
                 "name": "iForest",
                 "dataType": 1,
                 "requiresPriorTraining": true,
@@ -514,7 +512,7 @@
         },
         {
             "modelOptions": {
-                "type": "CML",
+                "type": "classic-machine-learning",
                 "name": "OC-SVM",
                 "dataType": 1,
                 "requiresPriorTraining": true,
@@ -536,7 +534,7 @@
         },
         {
             "modelOptions": {
-                "type": "CML",
+                "type": "classic-machine-learning",
                 "name": "ABOD",
                 "dataType": 1,
                 "requiresPriorTraining": false,
@@ -553,7 +551,7 @@
         },
         {
             "modelOptions": {
-                "type": "CML",
+                "type": "classic-machine-learning",
                 "name": "LOF",
                 "dataType": 1,
                 "requiresPriorTraining": false,
@@ -574,7 +572,7 @@
         },
         {
             "modelOptions": {
-                "type": "CML",
+                "type": "classic-machine-learning",
                 "name": "LDOF",
                 "dataType": 1,
                 "requiresPriorTraining": false,
@@ -595,7 +593,7 @@
         },
         {
             "modelOptions": {
-                "type": "CML",
+                "type": "classic-machine-learning",
                 "name": "Merlin",
                 "requiresPriorTraining": false,
                 "isMultivariate": false,
@@ -616,12 +614,10 @@
                     }
                 }
             }
-        }
-    ],
-    "S_Models": [
+        },
         {
             "modelOptions": {
-                "type": "S",
+                "type": "statistics",
                 "name": "Grubbs test",
                 "requiresPriorTraining": false,
                 "isMultivariate": false,
@@ -637,7 +633,7 @@
         },
         {
             "modelOptions": {
-                "type": "S",
+                "type": "statistics",
                 "name": "over-sampling PCA",
                 "dataType": 1,
                 "requiresPriorTraining": false,

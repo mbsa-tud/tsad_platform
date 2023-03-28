@@ -1,6 +1,6 @@
-function [finalScores, filesTest] = GT_trainAndEvaluateAllModels(datasetPath, models_DNN, models_CML, models_S, ...
+function [finalScores, filesTest] = GT_trainAndEvaluateAllModels(datasetPath, models, ...
                                         preprocMethod, ratioTestVal, thresholds, dynamicThresholdSettings, trainingPlots, ...
-                                        trainParallel, augmentationChoice, intensity, trained)
+                                        parallelEnabled, augmentationChoice, intensity, trained)
 %GT_TRAINANDEVALUATEALLMODELS Trains all specified models on a single dataset
 %with data augmentation and returns all scores and testing file names
 
@@ -28,7 +28,7 @@ fprintf('\nPreprocessing data with method: %s\n\n', preprocMethod);
     dataTestVal, labelsTestVal, ~] = splitTestVal(dataTest, labelsTest, filesTest, ratioTestVal);
 
 % Train models
-trainedModels = trainAllModels(models_DNN, models_CML, models_S, dataTrain, labelsTrain, dataTestVal, labelsTestVal, thresholds, trainingPlots, trainParallel);
+trainedModels = trainAllModels(models, dataTrain, labelsTrain, dataTestVal, labelsTestVal, thresholds, trainingPlots, parallelEnabled);
 
 % Run detection and get scores
 finalScores = evaluateAllModels(trainedModels, dataTest, labelsTest, filesTest, thresholds, dynamicThresholdSettings);

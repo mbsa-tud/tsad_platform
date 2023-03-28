@@ -1,4 +1,4 @@
-function Mdl = trainCML(modelOptions, XTrain, YTrain)
+function Mdl = train_Other(modelOptions, XTrain, YTrain)
 %TRAINCML Trains the classic ML model specified in the modelOptions parameter
 
 switch modelOptions.name

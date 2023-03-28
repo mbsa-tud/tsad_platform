@@ -1,4 +1,4 @@
-function [XTrain, YTrain] = prepareDataTrain_CML(modelOptions, data, labels)
+function [XTrain, YTrain] = prepareDataTrain_Other(modelOptions, data, labels)
 %PREPAREDATATRAIN_CML Prepares the training data for classic ML models
 
 switch modelOptions.name

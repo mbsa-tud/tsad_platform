@@ -1,4 +1,4 @@
-function [anomalyScores, compTime] = detectWithDNN(modelOptions, Mdl, XTest, YTest, labels, getCompTime)
+function [anomalyScores, compTime] = detectWith_DL(modelOptions, Mdl, XTest, YTest, labels, getCompTime)
 %DETECTWITHDNN Runs the detection for DL models and returns anomaly Scores
 
 compTime = NaN;

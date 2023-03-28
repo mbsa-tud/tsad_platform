@@ -1,4 +1,4 @@
-function [XTest, YTest, labelsTest] = prepareDataTest_DNN(modelOptions, data, labels)
+function [XTest, YTest, labelsTest] = prepareDataTest_DL(modelOptions, data, labels)
 %PREPAREDATATEST_DNN Prepares the testing data for DNN models
 
 switch modelOptions.name

@@ -3,18 +3,14 @@ function [XTrain, YTrain, XVal, YVal] = prepareDataTrain(modelOptions, data, lab
 
 if modelOptions.isMultivariate
     switch modelOptions.type
-        case 'DNN'
-            [XTrain, YTrain, XVal, YVal] = prepareDataTrain_DNN(modelOptions, data, labels);
+        case 'DL'
+            [XTrain, YTrain, XVal, YVal] = prepareDataTrain_DL(modelOptions, data, labels);
             XTrain = {XTrain};
             YTrain = {YTrain};
             XVal = {XVal};
             YVal = {YVal};
-        case 'CML'
-            [XTrain, YTrain] = prepareDataTrain_CML(modelOptions, data, labels);
-            XTrain = {XTrain};
-            YTrain = {YTrain};
-        case 'S'
-            [XTrain, YTrain] = prepareDataTrain_S(modelOptions, data, labels);
+        otherwise
+            [XTrain, YTrain] = prepareDataTrain_Other(modelOptions, data, labels);
             XTrain = {XTrain};
             YTrain = {YTrain};
     end
@@ -22,7 +18,7 @@ else
     numChannels = size(data{1, 1}, 2);
 
     switch modelOptions.type
-        case 'DNN'
+        case 'DL'
             XTrain = cell(1, numChannels);
             YTrain = cell(1, numChannels);
             XVal = cell(1, numChannels);
@@ -34,9 +30,9 @@ else
                     data_tmp{j, 1} = data{j, 1}(:, channel_idx);
                 end
         
-                [XTrain{1, channel_idx}, YTrain{1, channel_idx}, XVal{1, channel_idx}, YVal{1, channel_idx}] = prepareDataTrain_DNN(modelOptions, data_tmp, labels);
+                [XTrain{1, channel_idx}, YTrain{1, channel_idx}, XVal{1, channel_idx}, YVal{1, channel_idx}] = prepareDataTrain_DL(modelOptions, data_tmp, labels);
             end
-        case 'CML'
+        otherwise
             XTrain = cell(1, numChannels);
             YTrain = cell(1, numChannels);
         
@@ -46,19 +42,7 @@ else
                     data_tmp{j, 1} = data{j, 1}(:, channel_idx);
                 end
         
-                [XTrain{1, channel_idx}, YTrain{1, channel_idx}] = prepareDataTrain_CML(modelOptions, data_tmp, labels);
-            end
-        case 'S'
-            XTrain = cell(1, numChannels);
-            YTrain = cell(1, numChannels);
-            
-            for channel_idx = 1:numChannels
-                data_tmp = cell(size(data));
-                for j = 1:size(data, 1)
-                    data_tmp{j, 1} = data{j, 1}(:, channel_idx);
-                end
-        
-                [XTrain{1, channel_idx}, YTrain{1, channel_idx}] = prepareDataTrain_S(modelOptions, data_tmp, labels);
+                [XTrain{1, channel_idx}, YTrain{1, channel_idx}] = prepareDataTrain_Other(modelOptions, data_tmp, labels);
             end
     end
 end

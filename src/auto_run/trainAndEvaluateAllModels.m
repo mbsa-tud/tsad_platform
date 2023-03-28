@@ -1,5 +1,5 @@
-function [finalScores, filesTest] = trainAndEvaluateAllModels(datasetPath, models_DNN, models_CML, models_S, ...
-                                        preprocMethod, ratioTestVal, thresholds, dynamicThresholdSettings, trainingPlots, trainParallel)
+function [finalScores, filesTest] = trainAndEvaluateAllModels(datasetPath, models, ...
+                                        preprocMethod, ratioTestVal, thresholds, dynamicThresholdSettings, trainingPlots, parallelEnabled)
 %TRAINANDEVALUATEALLMODELS Trains all specified models on a single dataset
 %and returns all scores and testing file names
 
@@ -25,7 +25,7 @@ fprintf('\nPreprocessing data with method: %s\n', preprocMethod);
     dataTestVal, labelsTestVal, ~] = splitTestVal(dataTest, labelsTest, filesTest, ratioTestVal);
 
 % Train all models
-trainedModels = trainAllModels(models_DNN, models_CML, models_S, dataTrain, labelsTrain, dataTestVal, labelsTestVal, thresholds, trainingPlots, trainParallel);
+trainedModels = trainAllModels(models, dataTrain, labelsTrain, dataTestVal, labelsTestVal, thresholds, trainingPlots, parallelEnabled);
 
 % Run detection and get scores
 finalScores = evaluateAllModels(trainedModels, dataTest, labelsTest, filesTest, thresholds, dynamicThresholdSettings);

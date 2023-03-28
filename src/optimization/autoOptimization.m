@@ -1,11 +1,9 @@
-function bestOptions = autoOptimization(models, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, configOptFileName, cmpScore, threshold, dynamicThresholdSettings, iterations, trainingPlots, trainParallel, exportLogdata)
+function optimizedModelOptions = autoOptimization(models, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, configOptFileName, cmpScore, threshold, dynamicThresholdSettings, iterations, trainingPlots, parallelEnabled)
 %AUTOOPTIMIZATION Runs the auto optimization for the models
 %   Main wrapper function to run the bayesian optimization for all selected
 %   models
 
-bestOptions_DNN = [];
-bestOptions_CML = [];
-bestOptions_S = [];
+optimizedModelOptions = [];
 
 for model_idx = 1:length(models)
     modelOptions = models(model_idx).modelOptions;
@@ -31,15 +29,8 @@ for model_idx = 1:length(models)
     % If no hyperparameters are available for the model, save default
     % modelOptions
     if isempty(optVars) || ~isfield(modelOptions, 'hyperparameters')
-        bestOptions_tmp.modelOptions = modelOptions;
-        switch modelOptions.type
-            case 'DNN'
-                bestOptions_DNN = [bestOptions_DNN; bestOptions_tmp];
-            case 'CML'
-                bestOptions_CML = [bestOptions_CML; bestOptions_tmp];
-            case 'S'
-                bestOptions_S = [bestOptions_S; bestOptions_tmp];
-        end
+        tmp.modelOptions = modelOptions;
+        optimizedModelOptions = [optimizedModelOptions; tmp];
         continue;
     end
     
@@ -47,28 +38,11 @@ for model_idx = 1:length(models)
     results = optimizeModel(optVars, modelOptions, dataTrain, ...
                             labelsTrain, dataValTest, labelsValTest, ...
                             dataTest, labelsTest, threshold, dynamicThresholdSettings, ...
-                            cmpScore, iterations, trainingPlots, trainParallel, exportLogdata);
+                            cmpScore, iterations, trainingPlots, parallelEnabled);
 
     optimumVars = results.XAtMinObjective;
     
-    bestOptions_tmp.modelOptions = adaptModelOptions(modelOptions, optimumVars);
-    switch modelOptions.type
-        case 'DNN'
-            bestOptions_DNN = [bestOptions_DNN; bestOptions_tmp];
-        case 'CML'
-            bestOptions_CML = [bestOptions_CML; bestOptions_tmp];
-        case 'S'
-            bestOptions_S = [bestOptions_S; bestOptions_tmp];
-    end
-end
-
-if ~isempty(bestOptions_DNN)
-    bestOptions.DNN_Models = bestOptions_DNN;
-end
-if ~isempty(bestOptions_CML)
-    bestOptions.CML_Models = bestOptions_CML;
-end
-if ~isempty(bestOptions_S)
-    bestOptions.S_Models = bestOptions_S;
+    tmp.modelOptions = adaptModelOptions(modelOptions, optimumVars);
+    optimizedModelOptions = [optimizedModelOptions; tmp];
 end
 end
