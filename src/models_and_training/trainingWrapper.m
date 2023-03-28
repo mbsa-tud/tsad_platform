@@ -4,11 +4,11 @@ function trainedModels = trainingWrapper(models, dataTrain, labelsTrain, dataVal
 trainedModelsCell = cell(length(models), 1);
 if parallelEnabled
     parfor model_idx = 1:length(models)
-        trainedModelsCell{model_idx, 1} = trainModel(models(model_idx).modelOptions, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds, trainingPlots);
+        trainedModelsCell{model_idx, 1} = trainModel(models(model_idx).modelOptions, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds, trainingPlots, false);
     end
 else
     for model_idx = 1:length(models)
-        trainedModelsCell{model_idx, 1} = trainModel(models(model_idx).modelOptions, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds, trainingPlots);
+        trainedModelsCell{model_idx, 1} = trainModel(models(model_idx).modelOptions, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds, trainingPlots, true);
     end
 end
 

@@ -33,17 +33,16 @@ In the [Settings](#settings) you can control the following things:
 
 * [Threshold Selection](#threshold-selection): What thresholds to enable within the platform.
 * [Dynamic Threshold](#dynamic-threshold): The default configuration for the dynamic threshold.
-* [Optimization](#optimization-logging): Whether to export logdata during an optimization process.
+* [Enable/Disable Parallel Mode](#parallel-mode): Whether to train parallel.
 
 The platform offers **two different modes** to test time series anomaly detection methods. The workflows are as such:
 
 **MODE 1: Manually train and test models:**
 
-1. Import a dataset on the [Data](#importing-a-dataset) panel.
-2. Split and process the dataset on the [Preprocessing](#preprocessing-and-splitting-the-dataset) panel.
-3. Configure, train and optimize models on the [Training](#training-and-optimization) panel.
-4. Test the models on the [Detection](#detection) and [Simulink Detection](#simulink-detection) panels.
-5. (optional) Configure, train and test the dynamic switch mechanism on the [Dynamic Switch](#dynamic-switch) panel (only possible for datasets with multiple files for testing).
+1. Import and process a dataset on the [Dataset](#importing-a-dataset) panel.
+2. Configure, train and optimize models on the [Training](#training-and-optimization) panel.
+3. Test the models on the [Detection](#detection) and [Simulink Detection](#simulink-detection) panels.
+4. (optional) Configure, train and test the dynamic switch mechanism on the [Dynamic Switch](#dynamic-switch) panel (only possible for datasets with multiple files for testing).
 
 **MODE 2: Automatically train and test models on single- or multi-entity datasets:**
 

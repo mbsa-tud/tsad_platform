@@ -1,4 +1,4 @@
-function [Mdl, MdlInfo] = train_DL(modelOptions, XTrain, YTrain, XVal, YVal, trainingPlots)
+function [Mdl, MdlInfo] = train_DL(modelOptions, XTrain, YTrain, XVal, YVal, trainingPlots, verbose)
 %TRAINDNN Trains DNN models
 
 switch modelOptions.name
@@ -7,7 +7,7 @@ switch modelOptions.name
         [numFeatures, numResponses] = getNumFeaturesAndResponses(XTrain, YTrain, modelOptions.modelType, modelOptions.dataType);
 
         layers = getLayers(modelOptions, numFeatures, numResponses);
-        trainOptions = getTrainOptions(modelOptions, XVal, YVal, size(XTrain, 1), trainingPlots);
+        trainOptions = getTrainOptions(modelOptions, XVal, YVal, size(XTrain, 1), trainingPlots, verbose);
         
         [Mdl, MdlInfo] = trainNetwork(XTrain, YTrain, layers, trainOptions);
 end
