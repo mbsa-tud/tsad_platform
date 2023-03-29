@@ -1,11 +1,11 @@
-function score = opt_fun(modelOptions, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, threshold, dynamicThresholdSettings, selectedMetric, optVars, trainingPlots, parallelEnabled)
+function score = opt_fun(modelOptions, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, threshold, dynamicThresholdSettings, selectedMetric, optVars, trainingPlots)
 %OPT_FUN Objective function for the bayesian optimization
 %   The objective function runs the training and testing pipeline and
 %   returns the specified metric (/score)
 
 modelOptions = adaptModelOptions(modelOptions, optVars);
 
-scoresCell = trainAndEvaluateModel(modelOptions, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, threshold, dynamicThresholdSettings, trainingPlots, parallelEnabled);
+scoresCell = trainAndEvaluateModel(modelOptions, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, threshold, dynamicThresholdSettings, trainingPlots, false);
 
 avgScores = calcAverageScores(scoresCell);
 
