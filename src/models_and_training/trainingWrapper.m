@@ -15,4 +15,9 @@ end
 for model_idx = 1:length(models)
     trainedModels.(trainedModelsCell{model_idx, 1}.modelOptions.id) = trainedModelsCell{model_idx, 1};
 end
+
+% Delete parallel pool
+if ~isempty(gcp('nocreate'))
+    delete(gcp('nocreate'));
+end
 end

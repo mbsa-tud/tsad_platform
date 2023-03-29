@@ -39,7 +39,7 @@ The platform offers **two different modes** to test time series anomaly detectio
 
 **MODE 1: Manually train and test models:**
 
-1. Import and process a dataset on the [Dataset](#importing-a-dataset) panel.
+1. Import and process a dataset on the [Dataset Preparation](#dataset-preparation) panel.
 2. Configure, train and optimize models on the [Training](#training-and-optimization) panel.
 3. Test the models on the [Detection](#detection) and [Simulink Detection](#simulink-detection) panels.
 4. (optional) Configure, train and test the dynamic switch mechanism on the [Dynamic Switch](#dynamic-switch) panel (only possible for datasets with multiple files for testing).
@@ -95,27 +95,21 @@ These options control the default parameters for the dynmaic threshold, which ca
 2. Configure the parameters (1).
 3. Click `Save` (2) to save the new parameters.
 
-### Optimization logging
+### Enable/Disable Parallel Mode
 
-During an optimization, the platform has the ability to export all scores for each iteration of the optimization process to a folder called `Optimization_Logdata` within the current MATLAB folder.
-To enable this feature, proceed as follows:
-
-1. Click `Settings > Optimization` to open the optimization settings window.
-
-    <img src="media/final_settings_optimization_logdata.png" alt="Optimization logging settings" title="Optimization logging settings" width=160/>
-
-2. Check the `Export Logdata` checkbox (1).
-3. Click `Save` (2) to save your changes.
+To enable/disable parallel training, click on `Settings` and then `Enable Parallel Mode` (or `Disable Parallel Mode` if it's already active).
 
 ---
 
-## Importing a dataset
+## Dataset preparation
 
-A dataset can be loaded on the `Data` panel:
+### Loading a dataset
+
+A dataset can be loaded and processed on the `Dataset Preparation` panel:
 
 <img src="media/final_data_panel.png" alt="Data panel" title="Data panel" width=900/>
 
-1. On the `Data` panel, click `Browse` (1) to select a folder from the computer or enter a path manually.
+1. On the `Dataset Preparation` panel, click `Browse` (1) to select a folder from the computer or enter a path manually.
 2. Click `Load Data` (2) to import the selected dataset.
 
 You can view the loaded data (4) and see its statistical features (3).
@@ -139,14 +133,12 @@ The **format** of a dataset must be as such:
 
 ---
 
-## Preprocessing and splitting the dataset
+### Preprocessing and splitting the dataset
 
-The dataset can be split and processed on the `Preprocessing` panel:
-
-<img src="media/final_preprocessing_panel.png" alt="Preprocessing panel" title="Preprocessing panel" width=900/>
+The dataset can be further processed and split into subsets.
 
 The processed data can be observed in the plots on the right (5).
-### Preprocessing method selection
+#### Preprocessing method selection
 
 Three preprocessing methods can be selected (1). These **don't** apply to the [Auto Run](#auto-run) functions, but to everything else:
 
@@ -157,11 +149,11 @@ Three preprocessing methods can be selected (1). These **don't** apply to the [A
 
 **NOTE** The data in the `test` folder gets processed with the same parameters as for the `train` data (with the exception if no train data is used). All channels of multivariate datasets are preprocessed independently.
 
-### Data augmentation
+#### Data augmentation
 
 You can further choose to transform your data in various ways (4).
 
-### Data preparation for Dynamic Switch
+#### Data preparation for Dynamic Switch
 
 If the dataset  includes multiple files for testing, you can split the test set to use some of the files for testing the [Dynamic Switch](#dynamic-switch) mechanism.
 To enable this, do the following:
@@ -169,7 +161,7 @@ To enable this, do the following:
 1. Check the `Split Test Set for Dynamic Switch` checkbox (2).
 2. Enter a value for the `Ratio` to determine its size.
 
-### Use of anomalous validation set
+#### Use of anomalous validation set
 
 An anomalous validation set can be used to calculate the static thresholds prior to testing the models. If it's not available or doesn't contain any anomalies, most of the static thresholds will be calculated last during testing.
 To enable the anomalous validation set, do the following:
@@ -191,9 +183,9 @@ To do so, proceed as follows:
 
 There are **three** ways to load a configuration of models (These are not trained yet, it's only the configuration that gets loaded):
 
-* Click `Add` (2) on top of one of the three lists to add either a **Deep-Learning**, **classic Machine-Learning** or **Statistical** anomaly detection method. This opens a **new window**, allowing you to select a model and configure its parameters. Once configured, click `Add to Model Selection` to add the selected model to the list of models.
-* Click `Add All` (2) to add a default configuration of all models.
-* You can select multiple models from all lists and click `Export Config` to store a configuration file on your computer.
+* Click `Quick Load all Models` (2) to load a default configuration of all implemented models. 
+* Click `Add Model Manually` to configure models by hand. This opens a **new window**, allowing you to select a model and configure its parameters. Once configured, click `Add to Model Selection` to add the selected model to the list of models.
+* You can click `Export Config` to store a configuration file for the configured models on your computer.
 This allows you to load a previous configuration of models at another time using the `Load from File` button (1).
 * To show the hyperparameters of a model, select it in the list, right-click and select `Show Model Parameters`. This wil show all parameters of the selected model on the right side of the window (7).
 
@@ -201,22 +193,19 @@ This allows you to load a previous configuration of models at another time using
 
 To train models, do the following:
 
-* Click `Train All` (4) to train all configured models within the respective list.
-* Click `Train Selection` (4) to train all manually selected models within the respective list (Click on models to select them).
-* Click `Train All` (6) at the bottom to train all configured models of all types.
+* Click `Train All` (4) to train all configured models.
+* Click `Train Selection` (4) to train all manually selected models (Click on models to select them).
 
 **NOTE** All models **must** be trained to make them available on the [Detection](#detection) and [Simulink Detection](#simulink-detection) panels. If they don't require prior training, this step is still required (In this case it only adds the model to the list of trained models on the `Detection` panel)
 
-Before training **deep-learning** models, you can configure the training process as follows:
-
-* Check the `Parallel` (3) checkbox to enable parallel training of deep-learning models.
-* Check the `Training Plots` (3) checkbox to enable graphical training plots.
+Before training, you can configure the training process as follows:
+* Check the `Training Plots` (3) checkbox to enable graphical training plots (Currently only for deep-learning models).
 
 ### Optimize models
 
 To optimize models, do the following:
 
-1. Select the models within the lists and click `Optimize Selection` or just click `Optimize All` (5) to open a **new window**. (The `Optimize All` button (6) at the bottom of the panel can be used to optimize all configured models of all types)
+1. Select the models within the list and click `Optimize Selection` or just click `Optimize All` (5) to open a **new window**.
 
     <img src="media/final_optimization_window.png" alt="Optimization window" title="Optimization window" width=200/>
 
@@ -229,7 +218,7 @@ To optimize models, do the following:
 
 ## Detection
 
-The offline anomaly detection using the models trained earlier (see [Training and optimization](#training-and-optimization)) is available on the `Detection` panel:
+The anomaly detection using the models trained earlier (see [Training and optimization](#training-and-optimization)) is available on the `Detection` panel:
 
 <img src="media/final_detection_panel.png" alt="Detection panel" title="Detection panel" width=900/>
 
@@ -246,16 +235,16 @@ To **run a detection**, proceed as follows:
 
 1. Select a file from the `Select faulty Data` dropdown menu (3).
 2. Select a threshold from the `Threshold` dropdown menu (3). If you select the **dynamic** threshold, you can additionally configure its parameters (3).
-3. Select models from the **list of trained models** and click Run Deteciton for `Selected Models` or `All Models` (2) to start the detection process.
+3. Select models from the **list of trained models** and click `Run for selected Models` or `Run for all Models` (2) to start the detection process.
 4. Once the detection is finished, the following results are are displayed in the windows below:
     * **Plots** (4) of the anomaly scores and detected anoamlies for the last model the detection was run for.
     * A **Table** (5) storing all scores for all models and the computational time of deep-learning models (time to make predictions for one subsequence)
     * A **Computation time** plot (6) showing the  average computational time of the models for a single subsequence on the x-axis and the obtained scores on the y-axis.
     Using the `Metric Selection` button, one can choose what metrics should be displayed within this plot.
 
-You can select another threshold or reconfigure the dynamic threshold. This will update the scores for the currently shown model in the **Plots** section (4). To run the detection again for all models using the new threshold (and/or new data file if another one was selected), click the `All Models` button (2) again.
+You can select another threshold or reconfigure the dynamic threshold. This will update the scores for the currently shown model in the **Plots** section (4). To run the detection again for all models using the new threshold (and/or new data file if another one was selected), click the `Run for all Models` button (2) again.
 
-**NOTE** If you want to observe the detection of another model, just click on it in the list of trained models (1). If you already ran the detection for that model, the scores and plots will be displayed directly. Otherwise run the detection for the selected model (2) again.
+**NOTE** If you want to observe the detection of another model, just right-click on it in the list of trained models (1) and select `Show Detection`. If you already ran the detection for that model, the scores and plots will be displayed directly. Otherwise run the detection for the selected model (2) again.
 
 ---
 
@@ -328,7 +317,7 @@ The following figure shows an example for the fully-connected autoencoder (FC AE
 
 ```json
 "modelOptions": {
-    "type": "DNN",
+    "type": "deep-learning",
     "name": "FC AE",
     "modelType": "reconstructive",
     "dataType": 1,
@@ -373,7 +362,7 @@ Fields of the **modelOptions** struct (and if they're required or not):
 
 #### type
 **- mandatory -**
-The type of the model/algorithm. Must be one of: `"DNN"`, `"CML"`, `"S"` (meaning `Deep Neural Network`, `Classic Machine Learning` and `Statistical` respectively.)
+The type of the model/algorithm. Must be one of: `"deep-learning"`, `"classic-machine-learning"`, `"statistics"`
 
 #### name
 **- mandatory -**
@@ -414,7 +403,7 @@ If your anomaly detection method doesn't output anomaly scores, but binary labes
 
 #### useSubsequences
 **- optional -**
-This field is only required for classic ML and statistical models which use the standard data preparation functions provided by the platform.
+This field is only required for **non** deep-learning models which use the standard data preparation functions provided by the platform.
 If it is set to `true`, the dataset will be split into overlapping subsequences (See field [dataType](#datatype) above), otherwise the data is used directly.
 
 #### hyperparameters
@@ -439,11 +428,11 @@ For the channel-wise scores, a common threshold gets applied accross all channel
 
 ### Configuration file
 
-The file `tsad_platform > config > tsad_platform_config_all.json` contains the JSON representation of a MATLAB struct with separate fields for DNN, CML and statistical models. Each field's value is a struct array with individual `modelOptions` structs, as presented before. This file is used for loading the default configuration of models on the [Training](#training-and-optimization) panel using the `Add All` buttons:
+The file `tsad_platform > config > tsad_platform_config_all.json` contains the JSON representation of a MATLAB struct with a single field called models. Its value is a struct array with individual `modelOptions` structs, as presented before. This file is used for loading the default configuration of models on the [Training](#training-and-optimization) panel using the `Add All` buttons:
 
 ```json
 {
-    "DNN_Models": [
+    "models": [
         {
             "modelOptions": {
 
@@ -455,12 +444,6 @@ The file `tsad_platform > config > tsad_platform_config_all.json` contains the J
             }
 
         }
-    ],
-    "CML_Models": [
-
-    ],
-    "S_Models": [
-
     ]
 }
 ```
@@ -469,14 +452,14 @@ The file `tsad_platform > config > tsad_platform_config_all.json` contains the J
 
 To add more models to the platform (deep-learning, classic machine learning and statistical), proceed as follows:
 
-1. Define the `modelOptions` struct mentioned before. You can create a `.json` file (use the `tsad_platform_config_all.json` file as reference or add your model to this file directly) as mentioned above to be able to load your model into the platform. Alternativeley, edit on of the following files within the `src > pupup_apps` folder: `ModelSelection_DNN.mlapp`, `ModelSelection_CML.mlapp`, `ModelSelection_S.mlapp`. Use other examples in those files as a guideline on how to add your model.
+1. Define the `modelOptions` struct mentioned before. You can create a `.json` file (use the `tsad_platform_config_all.json` file as reference or add your model to this file directly) as mentioned above to be able to load your model into the platform. Alternativeley, edit the `ModelSelection.mlapp` file within the `src > pupup_apps` folder. Use other examples in those files as a guideline on how to add your model.
 2. Add the training and detection function calls to the source code of the platform. See [below](#add-deep-learning-anomaly-detection-models) for a detailed explanation.
 3. (optional) Enable optimization for your model: [Enable optimization](#optional-enable-optimization-for-your-model).
 4. (optional) If you require the data to be transformed in another way as provided by the platform, see [below](#optional-data-preparation) for more information.
 5. (optional) Add a custom threshold: [Add custom threshold](#optional-custom-threshold).
 
-**NOTE** The process for deep-learning and classic machine-learning (and statistical) models slightly differs.
-See [Add deep-learning anomaly detection models](#add-deep-learning-anomaly-detection-models) and [Add classic machine learning or statistical anomaly detection algorithms](#add-classic-machine-learning-or-statistical-anomaly-detection-algorithms) for more information.
+**NOTE** The process for deep-learning and other models (E.g. classic machine-learning (and statistical) models) slightly differs.
+See [Add deep-learning anomaly detection models](#add-deep-learning-anomaly-detection-models) and [Add other models](#add-other models) for more information.
 
 #### Add deep-learning anomaly detection models
 
@@ -531,62 +514,9 @@ It's recommended to implement the deep-learning models using functions from MATL
             end
     ```
 
-    If you want **parallel training** to be available for your model, open the file `getTrainOptionsForParallel.m`. Add a new option in the main *switch* statement for the name of your model. These options slightly differ from the ones above. Make sure to add the `OutputFcn` parameter as shown below:
-
-    ```matlab
-    switch modelOptions.name
-        % Add your model here
-        case 'Your model name'
-            % Similar as before but with the 'OutputFcn' parameter added if trainingPlots is set to 'training-progress' and no 'Plots' field
-            switch trainingPlots
-                case 'training-progress'
-                    if modelOptions.hyperparameters.ratioTrainVal.value == 0
-                        trainOptions = trainingOptions('adam', ...
-                            'MaxEpochs', modelOptions.hyperparameters.epochs.value, ...
-                            'MiniBatchSize', modelOptions.hyperparameters.minibatchSize.value, ...
-                            'GradientThreshold', 1, ...
-                            'InitialLearnRate', modelOptions.hyperparameters.learningRate.value, ...
-                            'Shuffle', 'every-epoch', ...
-                            'ExecutionEnvironment', device, ...
-                            'OutputFcn', @(info) send(dataqueue, struct('experimentNumber', idx, 'info', info)));
-                    else
-                        trainOptions = trainingOptions('adam', ...
-                            'MaxEpochs', modelOptions.hyperparameters.epochs.value, ...
-                            'MiniBatchSize', modelOptions.hyperparameters.minibatchSize.value, ...
-                            'GradientThreshold', 1, ...
-                            'InitialLearnRate', modelOptions.hyperparameters.learningRate.value, ...
-                            'Shuffle', 'every-epoch', ...
-                            'ExecutionEnvironment', device, ...
-                            'ValidationData', {XVal, YVal}, ...
-                            'ValidationFrequency', floor(numWindows / (3 * modelOptions.hyperparameters.minibatchSize.value)), ...
-                            'OutputFcn', @(info) send(dataqueue, struct('experimentNumber', idx, 'info', info)));
-                    end
-                case 'none'
-                    if modelOptions.hyperparameters.ratioTrainVal.value == 0
-                        trainOptions = trainingOptions('adam', ...
-                            'MaxEpochs', modelOptions.hyperparameters.epochs.value, ...
-                            'MiniBatchSize', modelOptions.hyperparameters.minibatchSize.value, ...
-                            'GradientThreshold', 1, ...
-                            'InitialLearnRate', modelOptions.hyperparameters.learningRate.value, ...
-                            'Shuffle', 'every-epoch', ...
-                            'ExecutionEnvironment', device);
-                    else
-                        trainOptions = trainingOptions('adam', ...
-                            'MaxEpochs', modelOptions.hyperparameters.epochs.value, ...
-                            'MiniBatchSize', modelOptions.hyperparameters.minibatchSize.value, ...
-                            'GradientThreshold', 1, ...
-                            'InitialLearnRate', modelOptions.hyperparameters.learningRate.value, ...
-                            'Shuffle', 'every-epoch', ...
-                            'ExecutionEnvironment', device, ...
-                            'ValidationData', {XVal, YVal}, ...
-                            'ValidationFrequency', floor(numWindows / (3 * modelOptions.hyperparameters.minibatchSize.value)));
-                    end
-            end
-    ```
-
 **Optional** You can also add all the training and detection function call for your network manually. In that case you don't have to add your model to the files mentioned above. To do so proceed as follows:
 
-1. **Add the training function call for you network**: Go to the folder `tsad_platform > src > models_and_training > deep_learning` and open the file `trainDNN.m`. Add your model name within the main *switch* statement, then call your training function and save the trained network in the `Mdl` vairable. The `MdlInfo` variable is optional and can be left empty:
+1. **Add the training function call for you network**: Go to the folder `tsad_platform > src > models_and_training > deep_learning` and open the file `train_DL.m`. Add your model name within the main *switch* statement, then call your training function and save the trained network in the `Mdl` vairable. The `MdlInfo` variable is optional and can be left empty:
 
     ```matlab
     switch modelOptions.name
@@ -596,7 +526,7 @@ It's recommended to implement the deep-learning models using functions from MATL
             MdlInfo = [];
     ```
 
-2. **Add the detection call for your network**: Go to the folder `tsad_platform > src > detection` and open the file `detectWithDNN.m`. Add your model name within the main *switch* statement, then add your detection function call. Make sure to return anomaly scores (`anomalyScores`) and optionally the computational time (`compTime`, Should be for a single subsequence) of your model:
+2. **Add the detection call for your network**: Go to the folder `tsad_platform > src > detection` and open the file `detectWith_DL.m`. Add your model name within the main *switch* statement, then add your detection function call. Make sure to return anomaly scores (`anomalyScores`) and optionally the computational time (`compTime`, Should be for a single subsequence) of your model:
 
     ```matlab
     switch modelOptions.name
@@ -608,12 +538,12 @@ It's recommended to implement the deep-learning models using functions from MATL
             compTime = NaN;
     ```
 
-#### Add classic machine learning or statistical anomaly detection algorithms
+#### Add other models
 
-The process for adding these algorithms will only be explained for classic machine learning models, as it is the same for statistical models. Only the files differ which need to be modified. What file to use for what type of algorithm will be mentioned.
+The process for adding models other than deep-learning models is as follows:
 
 1. **Add the training function call**: This step is only required if your model requires prior training (if so, you **MUST** set the `requiresPriorTraining` field within the `modelOptions` struct to **true**, otherwise your model will never be trained).
- Go to the folder `tsad_platform > src > models_and_training > classic_machine_learning` and open the file `trainCML.m` (`trainS.m` within the `statistical` folder for statistical models). To train your model, add your model name to the main *switch* statement, then call your training function and save the trained model in the `Mdl` variable:
+ Go to the folder `tsad_platform > src > models_and_training > other` and open the file `train_Other.m`. To train your model, add your model name to the main *switch* statement, then call your training function and save the trained model in the `Mdl` variable:
 
     ```matlab
     switch modelOptions.name
@@ -622,7 +552,7 @@ The process for adding these algorithms will only be explained for classic machi
             Mdl = trainYourModel(XTrain);
     ```
 
-2. **Add the detection function call**: Go to the folder `tsad_platform > src > detection` and open the file `detectWithCML.m` (`detectWithS.m` for statistical models). Add your model name within the main *switch* statement, then add your detection function call. Make sure to return anomaly scores (`anomalyScores`) and optionally the computational time (`compTime`, Should be for a single subsequence) of your model:
+2. **Add the detection function call**: Go to the folder `tsad_platform > src > detection` and open the file `detectWith_Other.m`. Add your model name within the main *switch* statement, then add your detection function call. Make sure to return anomaly scores (`anomalyScores`) and optionally the computational time (`compTime`, Should be for a single subsequence) of your model:
 
     ```matlab
     switch modelOptions.name
@@ -662,7 +592,7 @@ The `type` must be one of `"integer"`, `"real"`, `"categorical"`.
 
 #### (Optional) Data preparation
 
-To prepare the data your own way, you can add your model name to the main *switch* statements in the following files within the `tsad_platform > src > data` folder:
+To prepare the data your own way, you can add your model name to the main *switch* statements in the following files within the `tsad_platform > src > data_preparation` folder:
 
 * **For deep neural networks**: `prepareDataTrain_DNN.m`, `prepareDataTest_DNN.m`.
 * **For classic machine learning methods**: `prepareDataTrain_CML.m`, `prepareDataTest_CML.m`.
@@ -688,14 +618,13 @@ case "custom"
 
 1. The network architecture of the `TCN AE` requires the sequence length/window size to be divisible by 4. This might be fixed in the future.
 2. Optimize the threshold calcucation (in file computeBestFScoreThreshold.m). It can be slow, especially for larger datasets, as it checks the F-Score for every single unique anomaly score value of the used time series (either anomalous validation set or test set). An upper bound of threshold values to check could be implemented to counter this issue.
-3. Parallel training on gpu was never tested in detail (It worked on cpu or with a few models on gpu; otherwise memory error). Most importand related files: (trainDNN_parallel.m and getTrainOptionsForParallel.m).
-4. The simulink detection doesn't implement the different data preparation methods and scoring functions for the different deep-learning models, which makes it non-functional in many cases. The functionality of using a univariate model on multivariate datasets, where a separate model is trained for each channel of the dataset, must be implemented aswell. This feature already exists in the normal detection mode (It can be enabled by setting the `isMultivariate` field to `false` for a model).
-5. (Maybe irrelevant?) The step-size for the detection process is always set to 1 and can't be adjusted.
-6. (Maybe irrelevant?) The forecast horizon for DL models is always set to 1 and can't be adjusted.
-7. Network architectures of DL models could be checked in more detail or updated.
-8. Check on startup of the platform whether all required folders are on the matlab path to avoid errors later on.
-10. Add more models (The platform lacks for example in statistical models. Classic ML oder DL models like a Convolutional Autoencoder or a LSTM Autoencoder could also be added).
-11. Save intermediate results during auto run. This allows to save some results even when a longer running process crashes.
-12. On some datasets, the training of some DL models can occasionally get stuck. The reasons for this might be further investigated in the future.
+3. The simulink detection doesn't implement the different data preparation methods and scoring functions for the different deep-learning models, which makes it non-functional in many cases. The functionality of using a univariate model on multivariate datasets, where a separate model is trained for each channel of the dataset, must be implemented aswell. This feature already exists in the normal detection mode (It can be enabled by setting the `isMultivariate` field to `false` for a model).
+4. (Maybe irrelevant?) The step-size for the detection process is always set to 1 and can't be adjusted.
+5. (Maybe irrelevant?) The forecast horizon for DL models is always set to 1 and can't be adjusted.
+6. Network architectures of DL models could be checked in more detail or updated.
+7. Check on startup of the platform whether all required folders are on the matlab path to avoid errors later on.
+8. Add more models (The platform lacks for example in statistical models. Classic ML oder DL models like a Convolutional Autoencoder or a LSTM Autoencoder could also be added).
+9. Save intermediate results during auto run. This allows to save some results even when a longer running process crashes.
+10. On some datasets, the training of some DL models can occasionally get stuck. The reasons for this might be further investigated in the future.
 
 **NOTE** The entire platform is quite large at this point and not all functions, data manipulation and app interaction steps could be tested in every way. New errors can always occur and be fixed in the future.
