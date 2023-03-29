@@ -17,7 +17,7 @@ dataPath = datasetPath;
 if ~isfolder(datasetPath)
     dataPath = fullfile(pwd, datasetPath);
     if ~isfolder(dataPath)
-        return;
+        error("Provided folder doesn't exist!");
     end
 end
 
@@ -29,7 +29,7 @@ trainingFiles = dir(fullfile(dataTrainPath, '*.csv'));
 testingFiles = dir(fullfile(dataTestPath, '*.csv'));
 
 if numel(trainingFiles) == 0 && numel(testingFiles) == 0                
-    error("Invalid dataset");
+    error("Invalid dataset. Check the platform manual for the correct format of a dataset");
 end
 
 numOfTrainingFiles = numel(trainingFiles);

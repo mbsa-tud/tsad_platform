@@ -107,7 +107,7 @@ To enable/disable parallel training, click on `Settings` and then `Enable Parall
 
 A dataset can be loaded and processed on the `Dataset Preparation` panel:
 
-<img src="media/final_data_panel.png" alt="Data panel" title="Data panel" width=900/>
+<img src="media/final_dataset_panel.png" alt="Data panel" title="Data panel" width=900/>
 
 1. On the `Dataset Preparation` panel, click `Browse` (1) to select a folder from the computer or enter a path manually.
 2. Click `Load Data` (2) to import the selected dataset.
