@@ -25,7 +25,7 @@ A platform for time series anomaly detection.
 
 ## Overview
 
-On the top of the platform you will find the `Settings` menu and siz different `Panels`:
+On the top of the platform you will find the `Settings` menu and six different `Panels`:
 
 <img src="media/final_panels.png" alt="Panels" title="Panels" width=600/>
 
