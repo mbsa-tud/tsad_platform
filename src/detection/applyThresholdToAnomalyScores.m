@@ -11,7 +11,7 @@ else
     if strcmp(threshold, 'dynamic')
         % Dynamic threshold
 
-        fprintf("Calculating dynamic threshold");
+        fprintf("Calculating dynamic threshold\n");
         padding = dynamicThresholdSettings.anomalyPadding;
         windowSize = max(1, floor(length(anomalyScores) * (dynamicThresholdSettings.windowSize / 100)));
         min_percent = dynamicThresholdSettings.minPercent;
