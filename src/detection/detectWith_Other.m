@@ -27,17 +27,6 @@ switch modelOptions.name
             anomalyScores = mergeOverlappingAnomalyScores(modelOptions, anomalyScores, @mean);
         end
     case 'OC-SVM'
-        % OC-SVM support outlier and novelty detection.
-        if isempty(Mdl)
-            if ~isempty(labels)
-                numOfAnoms = sum(labels == 1);
-                contaminationFraction = numOfAnoms / size(labels, 1);
-            else
-                contaminationFraction = 0;
-            end
-
-            Mdl = fitcsvm(XTest, ones(size(XTest, 1), 1), OutlierFraction=contaminationFraction, KernelFunction=string(modelOptions.hyperparameters.kernelFunction.value), KernelScale="auto");
-        end
         [~, anomalyScores] = predict(Mdl, XTest);
 
         if modelOptions.useSubsequences

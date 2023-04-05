@@ -512,7 +512,6 @@
                 "name": "OC-SVM",
                 "dataType": 1,
                 "requiresPriorTraining": true,
-                "calcThresholdsOn": "anomalous-validation-data",
                 "isMultivariate": true,
                 "outputsLabels": true,
                 "useSubsequences": false,
