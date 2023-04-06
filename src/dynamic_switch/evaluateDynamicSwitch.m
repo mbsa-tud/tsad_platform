@@ -2,21 +2,21 @@ function [finalTable, selectedModels] = evaluateDynamicSwitch(classifier, traine
 % EVALUATEDYNAMICSWITCH Tests the dynamic switch and compares it to the
 % performance of all individual models
 
-numOfTestingFiles = size(dataTestSwitch, 1);
-trainedModelsFields = fieldnames(trainedModels);
-numOfModels = numel(trainedModelsFields);
-allModelNames = strings(numOfModels, 1);
+numTestingFiles = size(dataTestSwitch, 1);
+trainedModelIds = fieldnames(trainedModels);
+numModels = numel(trainedModelIds);
+allModelNames = strings(numModels, 1);
 
-for model_idx = 1:numOfModels
-    allModelNames(model_idx) = trainedModels.(trainedModelsFields{model_idx}).modelOptions.label;
+for model_idx = 1:numModels
+    allModelNames(model_idx) = trainedModels.(trainedModelIds{model_idx}).modelOptions.label;
 end
 
-fullScores_Switch = cell(numOfTestingFiles, 1);
-fullScores = cell(numOfTestingFiles, 1);
+fullScores_Switch = cell(numTestingFiles, 1);
+fullScores = cell(numTestingFiles, 1);
 
-selectedModels = strings(numOfTestingFiles, 1);
+selectedModels = strings(numTestingFiles, 1);
 
-for data_idx = 1:numOfTestingFiles    
+for data_idx = 1:numTestingFiles    
     % select data
     XTest_switch = diagnosticFeatures(dataTestSwitch{data_idx, 1});
 
@@ -28,8 +28,8 @@ for data_idx = 1:numOfTestingFiles
     fprintf("\n### Dynamic switch chose model %s for file No.%d ###\n\n", trainedModels.(pred).modelOptions.label, data_idx);
     
     fullScores_Switch{data_idx, 1} = detectAndEvaluateWith(selectedModel, dataTestSwitch(data_idx, 1), labelsTestSwitch(data_idx, 1), threshold, dynamicThresholdSettings);
-    for model_idx = 1:numOfModels
-        fullScores{data_idx, 1} = [fullScores{data_idx, 1}, detectAndEvaluateWith(trainedModels.(trainedModelsFields{model_idx}),  dataTestSwitch(data_idx, 1), labelsTestSwitch(data_idx, 1), threshold, dynamicThresholdSettings)];
+    for model_idx = 1:numModels
+        fullScores{data_idx, 1} = [fullScores{data_idx, 1}, detectAndEvaluateWith(trainedModels.(trainedModelIds{model_idx}),  dataTestSwitch(data_idx, 1), labelsTestSwitch(data_idx, 1), threshold, dynamicThresholdSettings)];
     end
 end
 

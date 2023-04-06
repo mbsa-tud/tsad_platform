@@ -14,9 +14,10 @@ if ~isempty(models)
                                     thresholds, ...
                                     trainingPlots, ...
                                     parallelEnabled);
-    fields = fieldnames(trainedModels_tmp);
-    for f_idx = 1:length(fields)
-        trainedModels.(fields{f_idx}) = trainedModels_tmp.(fields{f_idx});
+
+    trainedModelIds = fieldnames(trainedModels_tmp);
+    for model_idx = 1:length(trainedModelIds)
+        trainedModels.(trainedModelIds{model_idx}) = trainedModels_tmp.(trainedModelIds{model_idx});
     end
 else
     error("No models found for training");
