@@ -3,16 +3,16 @@ function [XTrain, labelName] = getDataTrain_Switch(data, labels, files)
 
 labelName = 'best_model';
 
-fields = fieldnames(labels);
+labeledFiles = fieldnames(labels);
 
 XTrain = [];
 
-for data_idx = 1:numel(fields)
-    [~, file_idx] = ismember(fields{data_idx}, files);
+for labeledFile_idx = 1:numel(labeledFiles)
+    [~, file_idx] = ismember(labeledFiles{labeledFile_idx}, files);
 
     % Convert time series to feature vector
     XTrain_tmp = diagnosticFeatures(data{file_idx, 1});
-    XTrain_tmp.(labelName) = convertCharsToStrings(labels.(fields{data_idx}).id);
+    XTrain_tmp.(labelName) = convertCharsToStrings(labels.(labeledFiles{labeledFile_idx}).id);
     XTrain = [XTrain; XTrain_tmp];
 end
 

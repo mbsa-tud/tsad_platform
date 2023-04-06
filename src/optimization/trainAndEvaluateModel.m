@@ -13,7 +13,7 @@ trainedModel = trainingWrapper(model, dataTrain, ...
                             labelsValTest, threshold, ...
                             trainingPlots, parallelEnabled);
 
-% Run detection
+% Run detection for all test files
 for data_idx = 1:size(dataTest, 1)
     fullScores = detectAndEvaluateWith(trainedModel.(modelOptions.id), dataTest(data_idx, 1), labelsTest(data_idx, 1), threshold, dynamicThresholdSettings);
 

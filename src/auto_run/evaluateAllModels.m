@@ -12,10 +12,10 @@ end
 % Detection
 if ~isempty(trainedModels)
     fprintf('\nDetecting with models\n\n')
-    fields = fieldnames(trainedModels);
+    trainedModelIds = fieldnames(trainedModels);
 
-    for model_idx = 1:length(fields)
-        trainedModel = trainedModels.(fields{model_idx});
+    for model_idx = 1:length(trainedModelIds)
+        trainedModel = trainedModels.(trainedModelIds{model_idx});
         
         fprintf("Detecting with: %s\n", trainedModel.modelOptions.label);
 
