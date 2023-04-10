@@ -644,7 +644,7 @@ case "custom"
 5. (Maybe irrelevant?) The forecast horizon for deep-learning models is always set to 1 and can't be adjusted.
 6. Network architectures of deep-learning models could be checked in more detail or updated.
 7. Check on startup of the platform whether all required folders are on the matlab path to avoid errors later on.
-8. Add more models (The platform lacks for example in statistical models. Classic machine-learning oder deep-learning models like a Convolutional Autoencoder or a LSTM Autoencoder could also be added).
+8. Add more models (The platform lacks for example in statistical models. Classic machine-learning oder deep-learning models like a Convolutional Autoencoder or a LSTM Autoencoder could also be added. **Note** The implemented LSTM and Hybrid CNN-LSTM reconstruction models don't feature any dimensionality redutction).
 9. Save intermediate results during auto run. This allows to save some results even when a longer running process crashes.
 10. On some datasets, the training of some deep-learning models can occasionally get stuck. The reasons for this might be further investigated in the future (Maybe related to preprocessing, network architectures, dataset in general, etc.).
 
