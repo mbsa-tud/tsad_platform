@@ -52,9 +52,6 @@ if strcmp(type, "anomalous-validation-data")
             if ismember("topK", thresholds)
                 staticThresholds.topK = calcStaticThreshold(anomalyScoresValTest, labelsValTest, "topK", trainedModel.modelOptions.name);
             end
-            if ismember("meanStd", thresholds)
-                staticThresholds.meanStd = calcStaticThreshold(anomalyScoresValTest, labelsValTest, "meanStd", trainedModel.modelOptions.name);
-            end
         else
             warning("Warning! Anomalous validation set doesn't contain anomalies, possibly couldn't calculate some static thresholds.");
         end
@@ -111,9 +108,6 @@ elseif strcmp(type, "training-data")
             end
             if ismember("topK", thresholds)
                 staticThresholds.topK = calcStaticThreshold(anomalyScoresTrain, labelsTrain, "topK", trainedModel.modelOptions.name);
-            end
-            if ismember("meanStd", thresholds)
-                staticThresholds.meanStd = calcStaticThreshold(anomalyScoresTrain, labelsTrain, "meanStd", trainedModel.modelOptions.name);
             end
             if ismember("meanStdTrain", thresholds)
                 staticThresholds.meanStdTrain = mean(mean(anomalyScoresTrain)) + 4 * mean(std(anomalyScoresTrain));
