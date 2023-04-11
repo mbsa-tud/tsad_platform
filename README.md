@@ -39,15 +39,17 @@ The platform offers **two different modes** to test time series anomaly detectio
 
 **MODE 1: Manually train and test models:**
 
-1. Import and process a dataset on the [Dataset Preparation](#dataset-preparation) panel.
-2. Configure, train and optimize models on the [Training](#training-and-optimization) panel.
-3. Test the models on the [Detection](#detection) and [Simulink Detection](#simulink-detection) panels.
-4. (optional) Configure, train and test the dynamic switch mechanism on the [Dynamic Switch](#dynamic-switch) panel (only possible for datasets with multiple files for testing).
+1. Select/configure threshold in the platform [Settings](#settings)
+2. Import and process a dataset on the [Dataset Preparation](#dataset-preparation) panel.
+3. Configure, train and optimize models on the [Training](#training-and-optimization) panel.
+4. Test the models on the [Detection](#detection) and [Simulink Detection](#simulink-detection) panels.
+5. (optional) Configure, train and test the dynamic switch mechanism on the [Dynamic Switch](#dynamic-switch) panel (only possible for datasets with multiple files for testing).
 
 **MODE 2: Automatically train and test models on single- or multi-entity datasets:**
 
-1. Configure models on the [Training](#training-and-optimization) panel.
-2. Configure and start the auto-run function on the [Auto Run](#auto-run) panel.
+1. Select/configure thresholds in the platform [Settings](#settings)
+2. Configure models on the [Training](#training-and-optimization) panel.
+3. Configure and start the auto-run function on the [Auto Run](#auto-run) panel.
 
 Further details can be found below.
 
@@ -105,7 +107,7 @@ To enable/disable parallel training, click on `Settings` and then `Enable Parall
 
 A dataset can be loaded and processed on the `Dataset Preparation` panel:
 
-<img src="media/final_dataset_panel.png" alt="Data panel" title="Data panel" width=900/>
+<img src="media/final_dataset_panel.png" alt="Dataset preparation panel" title="Dataset preparation panel" width=900/>
 
 ### Loading a dataset (1)
 1. Click `Browse` to select a folder from your computer or enter a path manually.
@@ -183,8 +185,41 @@ To do so, proceed as follows:
 
 There are **three** ways to load a configuration of models (These are not trained yet, it's only the configuration that gets loaded):
 
-* Click `Quick Load all Models` to load a default configuration of all implemented models. 
-* Click `Add Model Manually` to configure models by hand. This opens a **new window**, allowing you to select a model and configure its parameters. Once configured, click `Add to Model Selection` to add the selected model to the list of models.
+* Click `Quick Load all Models` to load a default configuration of all implemented models. **NOTE** For non-deep-learning models, the data is **not** split into subsequences by default. If you want to enable subsequences, configure the modely manually (see following option).
+* Click `Add Models Manually` to configure models by hand. This opens a **new window**, allowing you to select a model and configure its parameters:
+
+<img src="media/final_model_selection.png" alt="Modelselection popup window" title="Modelselection pupup window" width=600/>
+
+To configure a model, proceed as follows:
+1. At the top (1) you can select the type of model you want to add: Deep Neural Networks or Others (classic machine-learning, statistical).
+2. Select the model from the drowpdown menu (2)
+3. **Some** models offer the option to configure the dimensionality with the `Is Multivariate` checkbox (3). If this is disabled but the loaded dataset is multivariate, a separate model will be trained for every channel of the data. Otherwise just a single model is used for all channels.
+4. **Some** models offer additional configuration options like `scoring functions` or `reconstruction error types` (4).
+
+The `scoring function` defines how anomaly scores are computed. Following scoring functions are currently available:
+
+| Scoring Function | Description |
+|-|-|
+| aggregated-errors | The mean training reconstruction/prediction error gets subtracted from the channel-wise errors (Only for multivariate datasets). Afterwards, the root-mean-square is taken across channels. For univariate datasets, the errors are used directly. |
+| channelwise-errors | The mean training reconstruction error gets subtracted from the channel-wise errors (Only for multivariate datasets). Nothing else is done. For univariate datasets, this is the same as the aggregated-errors scoring function. |
+| gauss | A multivariate gaussian distribution is fitted to the trainig errors and used to compute -log(1 - cdf) to get the anomaly scores. **The max supported number of channels in the dataset is 25** |
+| aggregated-gauss | The channelwise mean and standard deviation of the training error distribution is used to compute -log(1 - cdf) of the channel-wise errors to get channel-wise anomaly scores. Afterwards, the channelwise anomaly scores are added. |
+| channelwise-gauss | The channelwise mean and standard deviation of the training error distribution is used to compute -log(1 - cdf) of the channel-wise errors to get channel-wise anomaly scores. |
+
+**NOTE** For the channel-wise scores, a common threshold gets applied accross all channels during testing. A single observation only needs to be labeled as anomalous in one of the channels to be considered an anomaly.
+
+The `reconstruction error type` defines how the errors are computed for reconstructive deep-learning models. Following types are available:
+
+| Reconstruction Error Type | Description |
+|-|-|
+| median point-wise values | Calculates the median predicted value for each time step and then calculates the errors for the entire time series |
+| median point-wise errors | Calulates the point-wise errors for each subsequence and then calculates the median error for each time step |
+| mean subsequence errors | Calulates the MSE for each subsequence and channel and then calculates the mean error for each time step and channel |
+
+5. Configure model, data and training related hyperparameters (5)
+6. For some non-deep-learning models, you can choose wheter to split the data into subsequences by checking the `Use Subsequences` checkbox (6). **NOTE** Subsequences for non-deep-learning models are disabled by default.
+7. Once configured, click `Add to Model Selection` to add the selected model to the list of models. You can then repeat the previous steps and add as many models as you wish.
+
 * You can click `Export Config` to store a configuration file for the configured models on your computer.
 This allows you to load a previous configuration of models at another time using the `Load from File` button.
 * To show the hyperparameters of a model, select it in the list, right-click and select `Show Model Parameters`. This wil show all parameters of the selected model on the right side of the window (3).
@@ -438,17 +473,7 @@ See Chapter [adding models](#adding-models) for some examples.
 
 One hyperparamter that must be mentioned is the `scoringFunction`:
 It is optional for all models. Its value changes how the anomaly scores are defined. If your model defines its own scoring function, don't add this field to the hyperparameters.
-Currently available scoring functions are:
-
-| Name | Description |
-|-|-|
-| aggregated-errors | The mean training reconstruction/prediction error gets subtracted from the channel-wise errors (Only for multivariate datasets). Afterwards, the root-mean-square is taken across channels. For univariate datasets, the errors are used directly. |
-| channelwise-errors | The mean training reconstruction error gets subtracted from the channel-wise errors (Only for multivariate datasets). Nothing else is done. For univariate datasets, this is the same as the aggregated-errors scoring function. |
-| gauss | A multivariate gaussian distribution is fitted to the trainig errors and used to compute -log(1 - cdf) to get the anomaly scores. **The max supported number of channels in the dataset is 25** |
-| aggregated-gauss | The channelwise mean and standard deviation of the training error distribution is used to compute -log(1 - cdf) of the channel-wise errors to get channel-wise anomaly scores. Afterwards, the channelwise anomaly scores are added. |
-| channelwise-gauss | The channelwise mean and standard deviation of the training error distribution is used to compute -log(1 - cdf) of the channel-wise errors to get channel-wise anomaly scores. |
-
-**NOTE** For the channel-wise scores, a common threshold gets applied accross all channels during testing. A single observation only needs to be labeled as anomalous in one of the channels to be considered an anomaly.
+Currently available scoring functions can be found in section [Load/configure models](#loadconfigure-models-1).
 
 ### Configuration file
 

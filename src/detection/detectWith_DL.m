@@ -44,7 +44,7 @@ switch modelOptions.name
                     anomalyScores = mergeOverlappingSubsequences(modelOptions, anomalyScores, @median);
                 case "mean subsequence errors"
                     % calulate the MSE for each subsequence and channel and
-                    % then calculate the median error for each time step
+                    % then calculate the mean error for each time step
                     % and channel
                     windowSize = modelOptions.hyperparameters.windowSize.value;
                     if modelOptions.dataType == 1
