@@ -1,0 +1,140 @@
+{   
+    "Add your model name here": {
+        "add_the_hyperparameters_you_want_to_be_optimized_and_their_range_of_values": {
+            "value": [0, 0.9],
+            "type": "real"
+        },
+        "hyperparameter1": {
+            "value": [1, 1000],
+            "type": "integer"
+        },
+        "hyperparameter2": {
+            "value": [0, 0.9],
+            "type": "real"
+        },
+        "hyperparameter3": {
+            "value": ["option1", "option2", "option3"],
+            "type": "categorical"
+        }
+    },
+    "FC AE": {
+        "neurons": {
+            "value": [4, 128],
+            "type": "integer"
+        }
+    },
+    "LSTM (reconstruction)": {
+        "hiddenUnits": {
+            "value": [8, 128],
+            "type": "integer"
+        }
+    },
+    "Hybrid CNN-LSTM (reconstruction)": {
+        "hiddenUnits": {
+            "value": [8, 128],
+            "type": "integer"
+        },
+        "filter": {
+            "value": [8, 128],
+            "type": "integer"
+        }
+    },
+    "TCN AE": {
+        "filter": {
+            "value": [8, 128],
+            "type": "integer"
+        }
+    },
+    "LSTM": {
+        "hiddenUnits": {
+            "value": [8, 128],
+            "type": "integer"
+        }
+    },
+    "Hybrid CNN-LSTM": {
+        "hiddenUnits": {
+            "value": [8, 128],
+            "type": "integer"
+        },
+        "filter": {
+            "value": [8, 128],
+            "type": "integer"
+        }
+    },
+    "GRU": {
+        "hiddenUnits": {
+            "value": [8, 128],
+            "type": "integer"
+        }
+    },
+    "CNN (DeepAnT)": {
+        "filter": {
+            "value": [8, 64],
+            "type": "integer"
+        }
+    },
+    "ResNet": {
+        "filter": {
+            "value": [8, 256],
+            "type": "integer"
+        }
+    },
+    "MLP": {
+        "neurons": {
+            "value": [4, 128],
+            "type": "integer"
+        }
+    },
+    "iForest": {
+        "numLearners": {
+            "value": [10, 200],
+            "type": "integer"
+        },
+        "numObservationsPerLearner": {
+            "value": [32, 256],
+            "type": "integer"
+        }
+    },
+    "OC-SVM": {
+        "kernelFunction": {
+            "value": ["gaussian", "rbf", "linear", "polynomial"],
+            "type": "categorical"
+        }
+    },
+    "ABOD": {
+    },
+    "LOF": {
+        "k": {
+            "value": [10, 200],
+            "type": "integer"
+        }
+    },
+    "LDOF": {
+        "k": {
+            "value": [10, 200],
+            "type": "integer"
+        }
+    },
+    "Merlin": {
+        "minL": {
+            "value": [10, 20],
+            "type": "integer"
+        },
+        "maxL": {
+            "value": [11, 21],
+            "type": "integer"
+        }
+    },
+    "over-sampling PCA": {
+        "ratioOversample": {
+            "value": [0, 1],
+            "type": "real"
+        }
+    },
+    "Grubbs test": {
+        "alpha": {
+            "value": [0, 1],
+            "type": "real"
+        }
+    }
+}

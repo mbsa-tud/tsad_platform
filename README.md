@@ -203,6 +203,8 @@ To train models, do the following:
 Before training, you can configure the training process as follows:
 * Check the `Training Plots` checkbox to enable graphical training plots (currently only for deep-learning models).
 
+**USEFUL** You can update the scoring function and re-calculate the static thresholds without having to add train the entire model again. To do so, select models in the list, right-click and click `Change Scoring Function` to change the scoring function or `Update Static Thresholds` to calculate the static thresholds again.
+
 #### Optimize models
 
 To optimize models, do the following:
@@ -411,7 +413,7 @@ If this is set to **false**, the model is trained on the data from the **train**
 
 #### calcThresholdsOn
 **- optional -**
-This field is optional and only has an effect if the [requiresPriorTraining]() field is set to true.
+This field is optional and only has an effect if the [requiresPriorTraining]() field is set to true. If it is not specified, no static thresholds are computed in the training phase.
 Its value can be either `"anomalous-validation-data"` or `"training-data"`. This determines what dataset to use to calculate the static threholds. If the selected option is `"anoamlous-validation-data"`, but no anomalous validation data is available, the thresholds will be calculated during testing. If you don't specify this field or set its value to anything except the two options, the thresholds are always set during testing and not during training.
 
 #### isMultivariate
