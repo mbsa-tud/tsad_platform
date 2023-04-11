@@ -183,10 +183,18 @@ To do so, proceed as follows:
 
 ### Load/configure models (1)
 
-There are **three** ways to load a configuration of models (These are not trained yet, it's only the configuration that gets loaded):
+You can load a wide selection of deep-learning, classic machine-learning and statistical time series anomaly detection models to the list of models (these are not trained yet, it's only the configuration that gets loaded). 
+Once loaded, you can inspect the configuration of a model by selecting it in the list, right-clicking and selecting `Show Model Parameters`. This wil show all parameters of the selected model on the right side of the window (3).
 
-* Click `Quick Load all Models` to load a default configuration of all implemented models. **NOTE** For non-deep-learning models, the data is **not** split into subsequences by default. If you want to enable subsequences, configure the modely manually (see following option).
-* Click `Add Models Manually` to configure models by hand. This opens a **new window**, allowing you to select a model and configure its parameters:
+There are **three** ways to load a configuration of models:
+
+#### Method 1: Quick load models
+
+Click `Quick Load all Models` to load a default configuration of all implemented models. **NOTE** For non-deep-learning models, the data is **not** split into subsequences by default. If you want to enable subsequences for such models, configure the models manually (see [Method 2: Manually configure models](#method-2-manually-configure-models)).
+
+#### Method 2: Manually configure models
+
+Click `Add Models Manually` to configure models by hand. This opens a **new window**, allowing you to select a model and configure its parameters:
 
 <img src="media/final_model_selection.png" alt="Modelselection popup window" title="Modelselection pupup window" width=600/>
 
@@ -217,12 +225,12 @@ The `reconstruction error type` defines how the errors are computed for reconstr
 | mean subsequence errors | Calulates the MSE for each subsequence and channel and then calculates the mean error for each time step and channel |
 
 5. Configure model, data and training related hyperparameters (5)
-6. For some non-deep-learning models, you can choose wheter to split the data into subsequences by checking the `Use Subsequences` checkbox (6). **NOTE** Subsequences for non-deep-learning models are disabled by default.
+6. For some non-deep-learning models, you can choose wheter to split the data into subsequences by checking the `Use Subsequences` checkbox (6). **NOTE** Subsequences for non-deep-learning models are **disabled by default**.
 7. Once configured, click `Add to Model Selection` to add the selected model to the list of models. You can then repeat the previous steps and add as many models as you wish.
 
-* You can click `Export Config` to store a configuration file for the configured models on your computer.
+#### Method 3 - Exporting and importing a configuration
+You can click `Export Config` to store a configuration file for the configured models on your computer.
 This allows you to load a previous configuration of models at another time using the `Load from File` button.
-* To show the hyperparameters of a model, select it in the list, right-click and select `Show Model Parameters`. This wil show all parameters of the selected model on the right side of the window (3).
 
 ### Train and/or optimize models (2)
 
@@ -238,7 +246,7 @@ To train models, do the following:
 Before training, you can configure the training process as follows:
 * Check the `Training Plots` checkbox to enable graphical training plots (currently only for deep-learning models).
 
-**USEFUL** You can update the scoring function and re-calculate the static thresholds without having to add train the entire model again. To do so, select models in the list, right-click and click `Change Scoring Function` to change the scoring function or `Update Static Thresholds` to calculate the static thresholds again.
+**USEFUL** You can update the scoring function and re-calculate the static thresholds without having to train the entire model again. To do so, select models in the list, right-click and click `Change Scoring Function` to change the scoring function or `Update Static Thresholds` to calculate the static thresholds again.
 
 #### Optimize models
 
