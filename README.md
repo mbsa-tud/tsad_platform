@@ -18,8 +18,7 @@ A platform for evaluating time series anomaly detection methods.
 4. Add the `src` folder within the `tsad_platform` folder to the MATLAB path (with subfolders).
 5. Add the `config` folder within the `tsad_platform` folder to the MATLAB path.
 6. Open the `tsad_platform` folder with MATLAB.
-7. Open the `TSADPlatform.mlapp` file with MATLAB App Designer (double click on it).
-8. Click the `Run` icon on the top of the App Designer window to start the platform.
+7. Right-click the `TSADPlatform.mlapp` file and click `Run` to start the platform.
 
 ---
 
