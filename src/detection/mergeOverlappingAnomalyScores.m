@@ -5,7 +5,7 @@ function reshapedAnomalyScores = mergeOverlappingAnomalyScores(modelOptions, ano
 switch modelOptions.name
     case "Your model name"
     otherwise
-        windowSize = modelOptions.hyperparameters.windowSize.value;
+        windowSize = modelOptions.hyperparameters.windowSize;
         anomalyScores = repmat(anomalyScores, 1, windowSize);
 
         reshapedAnomalyScores = mergeSequences(anomalyScores, windowSize, averagingFunction);

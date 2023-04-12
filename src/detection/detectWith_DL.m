@@ -25,7 +25,7 @@ switch modelOptions.name
                 error("You must specify the reconstructionErrorType field in the hyperparameters of reconstructive models");
             end
 
-            switch modelOptions.hyperparameters.reconstructionErrorType.value
+            switch modelOptions.hyperparameters.reconstructionErrorType
                 case "median point-wise values"
                     % calculate median predicted value for each time step and then calculate the errors for the entire time series
                     prediction = mergeOverlappingSubsequences(modelOptions, prediction, @median);
@@ -46,7 +46,7 @@ switch modelOptions.name
                     % calulate the MSE for each subsequence and channel and
                     % then calculate the mean error for each time step
                     % and channel
-                    windowSize = modelOptions.hyperparameters.windowSize.value;
+                    windowSize = modelOptions.hyperparameters.windowSize;
                     if modelOptions.dataType == 1
                         anomalyScores = abs(prediction - XTest);
                         numChannels = round(size(anomalyScores, 2) / windowSize);                        

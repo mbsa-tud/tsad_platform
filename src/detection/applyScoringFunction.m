@@ -4,7 +4,7 @@ function anomalyScores = applyScoringFunction(trainedModel, anomalyScores)
 % Apply scoring function
 numChannels = size(anomalyScores, 2);
 
-switch trainedModel.modelOptions.hyperparameters.scoringFunction.value
+switch trainedModel.modelOptions.hyperparameters.scoringFunction
     case 'channelwise-errors'
         if numChannels > 1
             for channel_idx = 1:numChannels

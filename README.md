@@ -389,37 +389,18 @@ The following figure shows an example for the fully-connected autoencoder (FC AE
     "dataType": 1,
     "requiresPriorTraining": true,
     "calcThresholdsOn": "anomalous-validation-data",
-    "isMultivariate": false,
+    "isMultivariate": true,
     "outputsLabels": false,
     "hyperparameters": {
-        "neurons": {
-            "value": 32,
-            "type": "integer"
-        },
-        "windowSize": {
-            "value": 100,
-            "type": "integer"
-        },
-        "stepSize": {
-            "value": 1,
-            "type": "integer"
-        },
-        "epochs": {
-            "value": 50,
-            "type": "integer"
-        },
-        "minibatchSize": {
-            "value": 64,
-            "type": "integer"
-        },
-            "ratioTrainVal": {
-            "value": 1,
-            "type": "real"
-        },
-            "scoringFunction": {
-            "value": "aggregated-errors",
-            "type": "categorical"
-        }
+        "neurons": 32,
+        "windowSize": 100,
+        "stepSize": 1,
+        "epochs": 50,
+        "learningRate": 0.001,
+        "minibatchSize": 64,
+        "ratioTrainVal": 0,
+        "reconstructionErrorType": "median point-wise values",
+        "scoringFunction": "aggregated-errors"
     }
 }
 ```
@@ -474,8 +455,7 @@ If it is set to `true`, the dataset will be split into overlapping subsequences 
 
 #### hyperparameters
 **- optional -**
-This field can contain all configurable hyperparameters for your model/algorithm. If you want to add a hyperparameter, specify its name as a new key within this field. It must contain two keys: **value** and **type**. The type is only required for the optimization algorithm of the platform. It must be one of: `"integer"`, `"real"`, `"categorical"`. Look at the example [above](#the-modeloptions-struct) for reference.
-
+This field can contain all configurable hyperparameters for your model/algorithm. If you want to add a hyperparameter, specify its name as a new key within this field.
 You can then use these hyperparameters in the data preparation, model training and detection functions to modify your model.
 See Chapter [adding models](#adding-models) for some examples.
 
@@ -529,7 +509,7 @@ It's recommended to implement the deep-learning models using functions from MATL
         % Add your model here
         case 'Your model name'
             % Get hyperparameters from options
-            neurons = modelOptions.hyperparameters.neurons.value;
+            neurons = modelOptions.hyperparameters.neurons;
 
             % Define layers
             layers = [featureInputLayer(numFeatures)
@@ -548,26 +528,26 @@ It's recommended to implement the deep-learning models using functions from MATL
      % Add your model here
         case 'Your model name'
             % Define different options depending on whether validation data is available
-            if modelOptions.hyperparameters.ratioTrainVal.value == 0
+            if modelOptions.hyperparameters.ratioTrainVal == 0
                 trainOptions = trainingOptions('adam', ...
                     'Plots', plots, ...
-                    'MaxEpochs', modelOptions.hyperparameters.epochs.value, ...
-                    'MiniBatchSize', modelOptions.hyperparameters.minibatchSize.value, ...
+                    'MaxEpochs', modelOptions.hyperparameters.epochs, ...
+                    'MiniBatchSize', modelOptions.hyperparameters.minibatchSize, ...
                     'GradientThreshold', 1, ...
-                    'InitialLearnRate', modelOptions.hyperparameters.learningRate.value, ...
+                    'InitialLearnRate', modelOptions.hyperparameters.learningRate, ...
                     'Shuffle', 'every-epoch',...
                     'ExecutionEnvironment', device);
             else
                 trainOptions = trainingOptions('adam', ...
                     'Plots', plots, ...
-                    'MaxEpochs', modelOptions.hyperparameters.epochs.value, ...
-                    'MiniBatchSize', modelOptions.hyperparameters.minibatchSize.value, ...
+                    'MaxEpochs', modelOptions.hyperparameters.epochs, ...
+                    'MiniBatchSize', modelOptions.hyperparameters.minibatchSize, ...
                     'GradientThreshold', 1, ...
-                    'InitialLearnRate', modelOptions.hyperparameters.learningRate.value, ...
+                    'InitialLearnRate', modelOptions.hyperparameters.learningRate, ...
                     'Shuffle', 'every-epoch', ...
                     'ExecutionEnvironment', device, ...
                     'ValidationData', {XVal, YVal}, ...
-                    'ValidationFrequency', floor(numWindows / (3 * modelOptions.hyperparameters.minibatchSize.value)));
+                    'ValidationFrequency', floor(numWindows / (3 * modelOptions.hyperparameters.minibatchSize)));
             end
     ```
 
@@ -630,22 +610,23 @@ Add your model name as a new key. Then name the hyperparameters you want to opti
 {
     "FC AE": {
         "neurons": {
-            "value": [4, 128],
-            "type": "integer"
+            "value": ["8", "16", "32", "64", "128", "256"],
+            "type": "categorical"
         },
         "windowSize": {
-            "value": [10, 120],
-            "type": "integer"
+            "value": ["8", "16", "32", "64", "128", "256"],
+            "type": "categorical"
         }
     }
 }
 ```
+There are **two** different ways to add a hyperparameter to this file:
 
-The `value` must be an array with two values being the lower and upper bounds of the hyperparameter.
+##### 1 - Specify lower and upper bounds
+If you want to specify the lower and upper bounds for a hyperparameter, set the `type` to `"integer"` or `"real"`, depending on the type of your hyperparameter. In this case, the `value` must be an array with two values being the lower and upper bounds of the hyperparameter.
 
-For `categorical` hyperparameters, the value is an array of strings containing the possible values.
-
-The `type` must be one of `"integer"`, `"real"`, `"categorical"`.
+##### 2 - Specify discrete possible values
+If you want to limit the possible values for a hyperparameter during optimization, set the `type` to `"categorical"`. In this case the `value` is an array of strings containing the possible values. For numerical hyperparameters, you also **MUST** specify the values as strings (see example above). The platform will interpret the values correctly.
 
 #### (Optional) Data preparation
 

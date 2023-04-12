@@ -6,7 +6,19 @@ function modelOptions = adaptModelOptions(modelOptions, optVars)
 varNames = optVars.Properties.VariableNames;
 for var_idx = 1:length(varNames)
     if isfield(modelOptions.hyperparameters, varNames{var_idx})
-        modelOptions.hyperparameters.(varNames{var_idx}).value = optVars{1, var_idx};
+        if iscategorical(optVars{1, var_idx})
+            if isnumeric(modelOptions.hyperparameters.(varNames{var_idx}))
+                tmp = categories(optVars{1, var_idx});
+                newVar = double(tmp{1}); 
+            else
+                tmp = categories(optVars{1, var_idx});
+                newVar = string(tmp{1});
+            end
+        else
+            newVar = optVars{1, var_idx};
+        end
+
+        modelOptions.hyperparameters.(varNames{var_idx}) = newVar;
         continue;
     else
         warning("Your trying to optimize a hyperparameter which is not defined in the modelOptions struct of your model");

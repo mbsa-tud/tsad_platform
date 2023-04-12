@@ -17,7 +17,7 @@ switch modelOptions.name
                 contaminationFraction = 0;
             end
 
-            [~, ~, anomalyScores] = iforest(XTest, contaminationFraction=contaminationFraction, NumLearners=modelOptions.hyperparameters.numLearners.value, NumObservationsPerLearner=modelOptions.hyperparameters.numObservationsPerLearner.value);
+            [~, ~, anomalyScores] = iforest(XTest, contaminationFraction=contaminationFraction, NumLearners=modelOptions.hyperparameters.numLearners, NumObservationsPerLearner=modelOptions.hyperparameters.numObservationsPerLearner);
         else
             [~, anomalyScores] = isanomaly(Mdl, XTest);
         end
@@ -42,14 +42,14 @@ switch modelOptions.name
             anomalyScores = mergeOverlappingAnomalyScores(modelOptions, anomalyScores, @mean);
         end
     case 'LOF'
-        [~, anomalyScores] = LOF(XTest, modelOptions.hyperparameters.k.value);
+        [~, anomalyScores] = LOF(XTest, modelOptions.hyperparameters.k);
 
         if modelOptions.useSubsequences
             % Merge overlapping scores
             anomalyScores = mergeOverlappingAnomalyScores(modelOptions, anomalyScores, @mean);
         end
     case 'LDOF'
-        anomalyScores = LDOF(XTest, modelOptions.hyperparameters.k.value);
+        anomalyScores = LDOF(XTest, modelOptions.hyperparameters.k);
 
         if modelOptions.useSubsequences
             % Merge overlapping scores
@@ -76,25 +76,25 @@ switch modelOptions.name
             numAnoms = 1;
         end
 
-        if modelOptions.hyperparameters.minL.value < modelOptions.hyperparameters.maxL.value
-            [~, indices, ~] = run_MERLIN(XTest,  modelOptions.hyperparameters.minL.value, ...
-                modelOptions.hyperparameters.maxL.value, numAnoms);
+        if modelOptions.hyperparameters.minL < modelOptions.hyperparameters.maxL
+            [~, indices, ~] = run_MERLIN(XTest,  modelOptions.hyperparameters.minL, ...
+                modelOptions.hyperparameters.maxL, numAnoms);
             indices = sort(indices, 2);
             
-            if strcmp(modelOptions.hyperparameters.mode.value, "median")
+            if strcmp(modelOptions.hyperparameters.mode, "median")
                 anomalyScores = zeros(size(XTest, 1), 1);
                 
                 % Get average locations of top k discords
                 for i = 1:numAnoms
                     avg_disc_loc = floor(median(indices(:, i)));
-                    anomalyScores(avg_disc_loc:(avg_disc_loc + floor((modelOptions.hyperparameters.minL.value + modelOptions.hyperparameters.maxL.value) / 2))) = 1;
+                    anomalyScores(avg_disc_loc:(avg_disc_loc + floor((modelOptions.hyperparameters.minL + modelOptions.hyperparameters.maxL) / 2))) = 1;
                 end
-            elseif strcmp(modelOptions.hyperparameters.mode.value, "merged")
+            elseif strcmp(modelOptions.hyperparameters.mode, "merged")
                 % Alternativeley label all found anomalies of all lengths and merge afterwards
 	            anomalyScores = zeros(size(XTest, 1), size(indices, 1));
                 for i = 1:size(indices, 1)
                     for j = 1:numAnoms
-                        anomalyScores(indices(i, j):(indices(i, j) + modelOptions.hyperparameters.minL.value - 2 + i)) = 1;
+                        anomalyScores(indices(i, j):(indices(i, j) + modelOptions.hyperparameters.minL - 2 + i)) = 1;
                     end
                 end
                 anomalyScores = any(anomalyScores, 2);
@@ -105,9 +105,9 @@ switch modelOptions.name
         end
         anomalyScores = double(anomalyScores);
     case 'Grubbs test'
-        anomalyScores = grubbs_test(XTest, modelOptions.hyperparameters.alpha.value);
+        anomalyScores = grubbs_test(XTest, modelOptions.hyperparameters.alpha);
     case 'over-sampling PCA'
-        [~, anomalyScores, ~] = OD_wpca(XTest, modelOptions.hyperparameters.ratioOversample.value);
+        [~, anomalyScores, ~] = OD_wpca(XTest, modelOptions.hyperparameters.ratioOversample);
 
         if modelOptions.useSubsequences
             % Merge overlapping scores

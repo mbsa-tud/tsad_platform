@@ -11,42 +11,15 @@
                 "isMultivariate": true,
                 "outputsLabels": false,
                 "hyperparameters": {
-                    "neurons": {
-                        "value": 32,
-                        "type": "integer"
-                    },
-                    "windowSize": {
-                        "value": 100,
-                        "type": "integer"
-                    },
-                    "stepSize": {
-                        "value": 1,
-                        "type": "integer"
-                    },
-                    "epochs": {
-                        "value": 50,
-                        "type": "integer"
-                    },
-                    "learningRate": {
-                        "value": 0.001,
-                        "type": "real"
-                    },
-                    "minibatchSize": {
-                        "value": 64,
-                        "type": "integer"
-                    },
-                     "ratioTrainVal": {
-                        "value": 0,
-                        "type": "real"
-                    },
-                    "reconstructionErrorType": {
-                        "value": "median point-wise values",
-                        "type": "categorical"
-                    },
-                    "scoringFunction": {
-                        "value": "aggregated-errors",
-                        "type": "categorical"
-                    }
+                    "neurons": 32,
+                    "windowSize": 100,
+                    "stepSize": 1,
+                    "epochs": 50,
+                    "learningRate": 0.001,
+                    "minibatchSize": 64,
+                    "ratioTrainVal": 0,
+                    "reconstructionErrorType": "median point-wise values",
+                    "scoringFunction": "aggregated-errors"
                 }
             }
         },
@@ -61,42 +34,15 @@
                 "isMultivariate": true,
                 "outputsLabels": false,
                 "hyperparameters": {
-                    "hiddenUnits": {
-                        "value": 64,
-                        "type": "integer"
-                    },
-                    "windowSize": {
-                        "value": 100,
-                        "type": "integer"
-                    },
-                    "stepSize": {
-                        "value": 1,
-                        "type": "integer"
-                    },
-                    "epochs": {
-                        "value": 50,
-                        "type": "integer"
-                    },
-                    "learningRate": {
-                        "value": 0.001,
-                        "type": "real"
-                    },
-                    "minibatchSize": {
-                        "value": 64,
-                        "type": "integer"
-                    },
-                     "ratioTrainVal": {
-                        "value": 0,
-                        "type": "real"
-                    },
-                    "reconstructionErrorType": {
-                        "value": "median point-wise values",
-                        "type": "categorical"
-                    },
-                    "scoringFunction": {
-                        "value": "aggregated-errors",
-                        "type": "categorical"
-                    }
+                    "hiddenUnits": 64,
+                    "windowSize": 100,
+                    "stepSize": 1,
+                    "epochs": 50,
+                    "learningRate": 0.001,
+                    "minibatchSize": 64,
+                    "ratioTrainVal": 0,
+                    "reconstructionErrorType": "median point-wise values",
+                    "scoringFunction": "aggregated-errors"
                 }
             }
         },
@@ -111,46 +57,16 @@
                 "isMultivariate": true,
                 "outputsLabels": false,
                 "hyperparameters": {
-                    "hiddenUnits": {
-                        "value": 64,
-                        "type": "integer"
-                    },
-                    "filter": {
-                        "value": 32,
-                        "type": "integer"
-                    },
-                    "windowSize": {
-                        "value": 100,
-                        "type": "integer"
-                    },
-                    "stepSize": {
-                        "value": 1,
-                        "type": "integer"
-                    },
-                    "epochs": {
-                        "value": 50,
-                        "type": "integer"
-                    },
-                    "learningRate": {
-                        "value": 0.001,
-                        "type": "real"
-                    },
-                    "minibatchSize": {
-                        "value": 64,
-                        "type": "integer"
-                    },
-                     "ratioTrainVal": {
-                        "value": 0,
-                        "type": "real"
-                    },
-                    "reconstructionErrorType": {
-                        "value": "median point-wise values",
-                        "type": "categorical"
-                    },
-                    "scoringFunction": {
-                        "value": "aggregated-errors",
-                        "type": "categorical"
-                    }
+                    "hiddenUnits": 64,
+                    "filter": 32,
+                    "windowSize": 100,
+                    "stepSize": 1,
+                    "epochs": 50,
+                    "learningRate": 0.001,
+                    "minibatchSize": 64,
+                    "ratioTrainVal": 0,
+                    "reconstructionErrorType": "median point-wise values",
+                    "scoringFunction": "aggregated-errors"
                 }
             }
         },
@@ -165,42 +81,15 @@
                 "isMultivariate": true,
                 "outputsLabels": false,
                 "hyperparameters": {
-                    "filter": {
-                        "value": 32,
-                        "type": "integer"
-                    },
-                    "windowSize": {
-                        "value": 100,
-                        "type": "integer"
-                    },
-                    "stepSize": {
-                        "value": 1,
-                        "type": "integer"
-                    },
-                    "epochs": {
-                        "value": 50,
-                        "type": "integer"
-                    },
-                    "learningRate": {
-                        "value": 0.001,
-                        "type": "real"
-                    },
-                    "minibatchSize": {
-                        "value": 64,
-                        "type": "integer"
-                    },
-                     "ratioTrainVal": {
-                        "value": 0,
-                        "type": "real"
-                    },
-                    "reconstructionErrorType": {
-                        "value": "median point-wise values",
-                        "type": "categorical"
-                    },
-                    "scoringFunction": {
-                        "value": "aggregated-errors",
-                        "type": "categorical"
-                    }
+                    "filter": 32,
+                    "windowSize": 100,
+                    "stepSize": 1,
+                    "epochs": 50,
+                    "learningRate": 0.001,
+                    "minibatchSize": 64,
+                    "ratioTrainVal": 0,
+                    "reconstructionErrorType": "median point-wise values",
+                    "scoringFunction": "aggregated-errors"
                 }
             }
         },
@@ -215,38 +104,14 @@
                 "isMultivariate": true,
                 "outputsLabels": false,
                 "hyperparameters": {
-                    "hiddenUnits": {
-                        "value": 64,
-                        "type": "integer"
-                    },
-                    "windowSize": {
-                        "value": 100,
-                        "type": "integer"
-                    },
-                    "stepSize": {
-                        "value": 1,
-                        "type": "integer"
-                    },
-                    "epochs": {
-                        "value": 50,
-                        "type": "integer"
-                    },
-                    "learningRate": {
-                        "value": 0.001,
-                        "type": "real"
-                    },
-                    "minibatchSize": {
-                        "value": 64,
-                        "type": "integer"
-                    },
-                     "ratioTrainVal": {
-                        "value": 0,
-                        "type": "real"
-                    },
-                    "scoringFunction": {
-                        "value": "aggregated-errors",
-                        "type": "categorical"
-                    }
+                    "hiddenUnits": 64,
+                    "windowSize": 100,
+                    "stepSize": 1,
+                    "epochs": 50,
+                    "learningRate": 0.001,
+                    "minibatchSize": 64,
+                    "ratioTrainVal": 0,
+                    "scoringFunction": "aggregated-errors"
                 }
             }
         },
@@ -261,42 +126,15 @@
                 "isMultivariate": true,
                 "outputsLabels": false,
                 "hyperparameters": {
-                    "hiddenUnits": {
-                        "value": 64,
-                        "type": "integer"
-                    },
-                    "filter": {
-                        "value": 32,
-                        "type": "integer"
-                    },
-                    "windowSize": {
-                        "value": 100,
-                        "type": "integer"
-                    },
-                    "stepSize": {
-                        "value": 1,
-                        "type": "integer"
-                    },
-                    "epochs": {
-                        "value": 50,
-                        "type": "integer"
-                    },
-                    "learningRate": {
-                        "value": 0.001,
-                        "type": "real"
-                    },
-                    "minibatchSize": {
-                        "value": 64,
-                        "type": "integer"
-                    },
-                     "ratioTrainVal": {
-                        "value": 0,
-                        "type": "real"
-                    },
-                    "scoringFunction": {
-                        "value": "aggregated-errors",
-                        "type": "categorical"
-                    }
+                    "hiddenUnits": 64,
+                    "filter": 32,
+                    "windowSize": 100,
+                    "stepSize": 1,
+                    "epochs": 50,
+                    "learningRate": 0.001,
+                    "minibatchSize": 64,
+                    "ratioTrainVal": 0,
+                    "scoringFunction": "aggregated-errors"
                 }
             }
         },
@@ -311,38 +149,14 @@
                 "isMultivariate": true,
                 "outputsLabels": false,
                 "hyperparameters": {
-                    "hiddenUnits": {
-                        "value": 64,
-                        "type": "integer"
-                    },
-                    "windowSize": {
-                        "value": 100,
-                        "type": "integer"
-                    },
-                    "stepSize": {
-                        "value": 1,
-                        "type": "integer"
-                    },
-                    "epochs": {
-                        "value": 50,
-                        "type": "integer"
-                    },
-                    "learningRate": {
-                        "value": 0.001,
-                        "type": "real"
-                    },
-                    "minibatchSize": {
-                        "value": 64,
-                        "type": "integer"
-                    },
-                     "ratioTrainVal": {
-                        "value": 0,
-                        "type": "real"
-                    },
-                    "scoringFunction": {
-                        "value": "aggregated-errors",
-                        "type": "categorical"
-                    }
+                    "hiddenUnits": 64,
+                    "windowSize": 100,
+                    "stepSize": 1,
+                    "epochs": 50,
+                    "learningRate": 0.001,
+                    "minibatchSize": 64,
+                    "ratioTrainVal": 0,
+                    "scoringFunction": "aggregated-errors"
                 }
             }
         },
@@ -357,38 +171,14 @@
                 "isMultivariate": true,
                 "outputsLabels": false,
                 "hyperparameters": {
-                    "filter": {
-                        "value": 8,
-                        "type": "integer"
-                    },
-                    "windowSize": {
-                        "value": 100,
-                        "type": "integer"
-                    },
-                    "stepSize": {
-                        "value": 1,
-                        "type": "integer"
-                    },
-                    "epochs": {
-                        "value": 50,
-                        "type": "integer"
-                    },
-                    "learningRate": {
-                        "value": 0.001,
-                        "type": "real"
-                    },
-                    "minibatchSize": {
-                        "value": 64,
-                        "type": "integer"
-                    },
-                     "ratioTrainVal": {
-                        "value": 0,
-                        "type": "real"
-                    },
-                    "scoringFunction": {
-                        "value": "aggregated-errors",
-                        "type": "categorical"
-                    }
+                    "filter": 8,
+                    "windowSize": 100,
+                    "stepSize": 1,
+                    "epochs": 50,
+                    "learningRate": 0.001,
+                    "minibatchSize": 64,
+                    "ratioTrainVal": 0,
+                    "scoringFunction": "aggregated-errors"
                 }
             }
         },
@@ -403,38 +193,14 @@
                 "isMultivariate": true,
                 "outputsLabels": false,
                 "hyperparameters": {
-                    "filter": {
-                        "value": 32,
-                        "type": "integer"
-                    },
-                    "windowSize": {
-                        "value": 100,
-                        "type": "integer"
-                    },
-                    "stepSize": {
-                        "value": 1,
-                        "type": "integer"
-                    },
-                    "epochs": {
-                        "value": 50,
-                        "type": "integer"
-                    },
-                    "learningRate": {
-                        "value": 0.001,
-                        "type": "real"
-                    },
-                    "minibatchSize": {
-                        "value": 64,
-                        "type": "integer"
-                    },
-                     "ratioTrainVal": {
-                        "value": 0,
-                        "type": "real"
-                    },
-                    "scoringFunction": {
-                        "value": "aggregated-errors",
-                        "type": "categorical"
-                    }
+                    "filter": 32,
+                    "windowSize": 100,
+                    "stepSize": 1,
+                    "epochs": 50,
+                    "learningRate": 0.001,
+                    "minibatchSize": 64,
+                    "ratioTrainVal": 0,
+                    "scoringFunction": "aggregated-errors"
                 }
             }
         },
@@ -449,38 +215,14 @@
                 "isMultivariate": true,
                 "outputsLabels": false,
                 "hyperparameters": {
-                    "neurons": {
-                        "value": 32,
-                        "type": "integer"
-                    },
-                    "windowSize": {
-                        "value": 100,
-                        "type": "integer"
-                    },
-                    "stepSize": {
-                        "value": 1,
-                        "type": "integer"
-                    },
-                    "epochs": {
-                        "value": 50,
-                        "type": "integer"
-                    },
-                    "learningRate": {
-                        "value": 0.001,
-                        "type": "real"
-                    },
-                    "minibatchSize": {
-                        "value": 64,
-                        "type": "integer"
-                    },
-                     "ratioTrainVal": {
-                        "value": 0,
-                        "type": "real"
-                    },
-                    "scoringFunction": {
-                        "value": "aggregated-errors",
-                        "type": "categorical"
-                    }
+                    "neurons": 32,
+                    "windowSize": 100,
+                    "stepSize": 1,
+                    "epochs": 50,
+                    "learningRate": 0.001,
+                    "minibatchSize": 64,
+                    "ratioTrainVal": 0,
+                    "scoringFunction": "aggregated-errors"
                 }
             }
         },
@@ -495,18 +237,9 @@
                 "outputsLabels": false,
                 "useSubsequences": true,
                 "hyperparameters": {
-                    "numLearners": {
-                        "value": 100,
-                        "type": "integer"
-                    },
-                    "numObservationsPerLearner": {
-                        "value": 128,
-                        "type": "integer"
-                    },
-                    "windowSize": {
-                        "value": 100,
-                        "type": "integer"
-                    }
+                    "numLearners": 100,
+                    "numObservationsPerLearner": 128,
+                    "windowSize": 100
                 }
             }
         },
@@ -520,14 +253,8 @@
                 "outputsLabels": true,
                 "useSubsequences": true,
                 "hyperparameters": {
-                    "kernelFunction": {
-                        "value": "gaussian",
-                        "type": "categorical"
-                    },
-                    "windowSize": {
-                        "value": 100,
-                        "type": "integer"
-                    }
+                    "kernelFunction": "gaussian",
+                    "windowSize": 100
                 }
             }
         },
@@ -541,10 +268,7 @@
                 "outputsLabels": false,
                 "useSubsequences": true,
                 "hyperparameters": {
-                    "windowSize": {
-                        "value": 100,
-                        "type": "integer"
-                    }
+                    "windowSize": 100
                 }
             }
         },
@@ -558,14 +282,8 @@
                 "outputsLabels": false,
                 "useSubsequences": true,
                 "hyperparameters": {
-                    "k": {
-                        "value": 10,
-                        "type": "integer"
-                    },
-                    "windowSize": {
-                        "value": 100,
-                        "type": "integer"
-                    }
+                    "k": 10,
+                    "windowSize": 100
                 }
             }
         },
@@ -579,14 +297,8 @@
                 "outputsLabels": false,
                 "useSubsequences": true,
                 "hyperparameters": {
-                    "k": {
-                        "value": 10,
-                        "type": "integer"
-                    },
-                    "windowSize": {
-                        "value": 100,
-                        "type": "integer"
-                    }
+                    "k": 10,
+                    "windowSize": 100
                 }
             }
         },
@@ -599,18 +311,9 @@
                 "outputsLabels": true,
                 "useSubsequences": false,
                 "hyperparameters": {
-                    "minL": {
-                        "value": 80,
-                        "type": "integer"
-                    },
-                    "maxL": {
-                        "value": 100,
-                        "type": "integer"
-                    },
-                    "mode": {
-                        "value": "merged",
-                        "type": "categorical"
-                    }
+                    "minL": 90,
+                    "maxL": 100,
+                    "mode": "merged"
                 }
             }
         },
@@ -623,10 +326,7 @@
                 "outputsLabels": true,
                 "useSubsequences": false,
                 "hyperparameters": {
-                    "alpha": {
-                        "value": 0.5,
-                        "type": "real"
-                    }
+                    "alpha": 0.5
                 }
             }
         },
@@ -640,14 +340,8 @@
                 "outputsLabels": false,
                 "useSubsequences": true,
                 "hyperparameters": {
-                    "ratioOversample": {
-                        "value": 0.1,
-                        "type": "real"
-                    },
-                    "windowSize": {
-                        "value": 100,
-                        "type": "integer"
-                    }
+                    "ratioOversample": 0.1,
+                    "windowSize": 100
                 }
             }
         }

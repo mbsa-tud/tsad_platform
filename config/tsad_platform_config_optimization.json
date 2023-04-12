@@ -19,110 +19,110 @@
     },
     "FC AE": {
         "neurons": {
-            "value": [4, 128],
-            "type": "integer"
+            "value": ["8", "16", "32", "64", "128", "256"],
+            "type": "categorical"
         },
         "windowSize": {
-            "value": [10, 256],
-            "type": "integer"
+            "value": ["8", "16", "32", "64", "128", "256"],
+            "type": "categorical"
         }
     },
     "LSTM (reconstruction)": {
         "hiddenUnits": {
-            "value": [8, 128],
-            "type": "integer"
+            "value": ["8", "16", "32", "64", "128", "256"],
+            "type": "categorical"
         },
         "windowSize": {
-            "value": [10, 256],
-            "type": "integer"
+            "value": ["8", "16", "32", "64", "128", "256"],
+            "type": "categorical"
         }
     },
     "Hybrid CNN-LSTM (reconstruction)": {
         "hiddenUnits": {
-            "value": [8, 128],
-            "type": "integer"
+            "value": ["8", "16", "32", "64", "128", "256"],
+            "type": "categorical"
         },
         "filter": {
-            "value": [8, 128],
-            "type": "integer"
+            "value": ["8", "16", "32", "64", "128", "256"],
+            "type": "categorical"
         },
         "windowSize": {
-            "value": [10, 256],
-            "type": "integer"
+            "value": ["8", "16", "32", "64", "128", "256"],
+            "type": "categorical"
         }
     },
     "TCN AE": {
         "filter": {
-            "value": [8, 128],
-            "type": "integer"
+            "value": ["8", "16", "32", "64", "128", "256"],
+            "type": "categorical"
         },
         "windowSize": {
-            "value": [10, 256],
-            "type": "integer"
+            "value": ["8", "16", "32", "64", "128", "256"],
+            "type": "categorical"
         }
     },
     "LSTM": {
         "hiddenUnits": {
-            "value": [8, 128],
-            "type": "integer"
+            "value": ["8", "16", "32", "64", "128", "256"],
+            "type": "categorical"
         },
         "windowSize": {
-            "value": [10, 256],
-            "type": "integer"
+            "value": ["8", "16", "32", "64", "128", "256"],
+            "type": "categorical"
         }
     },
     "Hybrid CNN-LSTM": {
         "hiddenUnits": {
-            "value": [8, 128],
-            "type": "integer"
+            "value": ["8", "16", "32", "64", "128", "256"],
+            "type": "categorical"
         },
         "filter": {
-            "value": [8, 128],
-            "type": "integer"
+            "value": ["8", "16", "32", "64", "128", "256"],
+            "type": "categorical"
         },
         "windowSize": {
-            "value": [10, 256],
-            "type": "integer"
+            "value": ["8", "16", "32", "64", "128", "256"],
+            "type": "categorical"
         }
     },
     "GRU": {
         "hiddenUnits": {
-            "value": [8, 128],
-            "type": "integer"
+            "value": ["8", "16", "32", "64", "128", "256"],
+            "type": "categorical"
         },
         "windowSize": {
-            "value": [10, 256],
-            "type": "integer"
+            "value": ["8", "16", "32", "64", "128", "256"],
+            "type": "categorical"
         }
     },
     "CNN (DeepAnT)": {
         "filter": {
-            "value": [8, 64],
-            "type": "integer"
+            "value": ["8", "16", "32", "64", "128", "256"],
+            "type": "categorical"
         },
         "windowSize": {
-            "value": [10, 256],
-            "type": "integer"
+            "value": ["8", "16", "32", "64", "128", "256"],
+            "type": "categorical"
         }
     },
     "ResNet": {
         "filter": {
-            "value": [8, 256],
-            "type": "integer"
+            "value": ["8", "16", "32", "64", "128", "256"],
+            "type": "categorical"
         },
         "windowSize": {
-            "value": [10, 256],
-            "type": "integer"
+            "value": ["8", "16", "32", "64", "128", "256"],
+            "type": "categorical"
         }
     },
     "MLP": {
         "neurons": {
-            "value": [4, 128],
-            "type": "integer"
+            "value": ["8", "16", "32", "64", "128", "256"],
+            "type": "categorical"
         },
         "windowSize": {
-            "value": [10, 256],
-            "type": "integer"
+            "value": ["8", "16", "32", "64", "128", "256"],
+            "type": "categorical"
         }
     },
     "iForest": {
@@ -135,8 +135,8 @@
             "type": "integer"
         },
         "windowSize": {
-            "value": [10, 256],
-            "type": "integer"
+            "value": ["8", "16", "32", "64", "128", "256"],
+            "type": "categorical"
         }
     },
     "OC-SVM": {
@@ -145,14 +145,14 @@
             "type": "categorical"
         },
         "windowSize": {
-            "value": [10, 256],
-            "type": "integer"
+            "value": ["8", "16", "32", "64", "128", "256"],
+            "type": "categorical"
         }
     },
     "ABOD": {
         "windowSize": {
-            "value": [10, 256],
-            "type": "integer"
+            "value": ["8", "16", "32", "64", "128", "256"],
+            "type": "categorical"
         }
     },
     "LOF": {
@@ -161,8 +161,8 @@
             "type": "integer"
         },
         "windowSize": {
-            "value": [10, 256],
-            "type": "integer"
+            "value": ["8", "16", "32", "64", "128", "256"],
+            "type": "categorical"
         }
     },
     "LDOF": {
@@ -171,8 +171,8 @@
             "type": "integer"
         },
         "windowSize": {
-            "value": [10, 256],
-            "type": "integer"
+            "value": ["8", "16", "32", "64", "128", "256"],
+            "type": "categorical"
         }
     },
     "Merlin": {
@@ -191,8 +191,8 @@
             "type": "real"
         },
         "windowSize": {
-            "value": [10, 256],
-            "type": "integer"
+            "value": ["8", "16", "32", "64", "128", "256"],
+            "type": "categorical"
         }
     },
     "Grubbs test": {

@@ -4,9 +4,9 @@ function Mdl = train_Other(modelOptions, XTrain, YTrain)
 switch modelOptions.name
     case 'Your model name'
     case 'OC-SVM'
-        Mdl = fitcsvm(XTrain, ones(size(XTrain, 1), 1), KernelFunction=string(modelOptions.hyperparameters.kernelFunction.value), KernelScale="auto");
+        Mdl = fitcsvm(XTrain, ones(size(XTrain, 1), 1), KernelFunction=string(modelOptions.hyperparameters.kernelFunction), KernelScale="auto");
     case 'iForest'
-        [Mdl, ~, ~] = iforest(XTrain, NumLearners=modelOptions.hyperparameters.numLearners.value, NumObservationsPerLearner=modelOptions.hyperparameters.numObservationsPerLearner.value);
+        [Mdl, ~, ~] = iforest(XTrain, NumLearners=modelOptions.hyperparameters.numLearners, NumObservationsPerLearner=modelOptions.hyperparameters.numObservationsPerLearner);
     otherwise
         Mdl = [];
 end

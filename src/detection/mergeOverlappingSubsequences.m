@@ -2,7 +2,7 @@ function reshapedPrediction = mergeOverlappingSubsequences(modelOptions, predict
 %MERGEOVERLAPPINGSUBSEQUENCES Get the median predicted value for each
 %observation of the time series
 
-windowSize = modelOptions.hyperparameters.windowSize.value;
+windowSize = modelOptions.hyperparameters.windowSize;
 dataType = modelOptions.dataType;
 
 if dataType == 1
