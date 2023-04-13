@@ -36,7 +36,7 @@ In the [Settings](#settings) you can control the following things:
 
 The platform offers **two different modes** to test time series anomaly detection methods. The workflows are as such:
 
-**MODE 1: Manually train and test models:**
+### MODE 1: Manually train and test models
 
 1. Select/configure threshold in the platform [Settings](#settings)
 2. Import and process a dataset on the [Dataset Preparation](#dataset-preparation) panel.
@@ -44,7 +44,7 @@ The platform offers **two different modes** to test time series anomaly detectio
 4. Test the models on the [Detection](#detection) and [Simulink Detection](#simulink-detection) panels.
 5. (optional) Configure, train and test the dynamic switch mechanism on the [Dynamic Switch](#dynamic-switch) panel (only possible for datasets with multiple files for testing).
 
-**MODE 2: Automatically train and test models on single- or multi-entity datasets:**
+### MODE 2: Automatically train and test models on single- or multi-entity datasets
 
 1. Select/configure thresholds in the platform [Settings](#settings)
 2. Configure models on the [Training](#training-and-optimization) panel.
@@ -60,8 +60,8 @@ You can find the platform settings in the top left corner.
 
 ### Threshold selection
 
-The selection of thresholds controls which thresholds are calculated by the platform.
-Only the selected ones are used during the auto-evaluation on the `Auto Run` panel (Mode 2).
+The selection of thresholds controls which thresholds are set during training and are available during testing ([Mode 1](#mode-1-manually-train-and-test-models)).
+Only the selected ones are used during the auto-evaluation on the `Auto Run` panel ([Mode 2](#mode-2-automatically-train-and-test-models-on-single--or-multi-entity-datasets)).
 
 To select thresholds, proceed as follows:
 
@@ -163,7 +163,7 @@ To enable this, do the following:
 
 ##### Use of anomalous validation set
 
-*INFO: An anomalous validation set can be used to calculate the static thresholds prior to testing the models. In order to do this, the test set will be split to obtain an anomalous validation set and a test set. If no anomalous validation set is used, or it doesn't contain any anomalies, most of the static thresholds will be calculated on the test set directly.*
+*INFO: An anomalous validation set can be used to calculate the static thresholds prior to testing the models. In order to do this, the test set will be split to obtain an anomalous validation set and a test set. If no anomalous validation set is used, or it doesn't contain any anomalies, most of the static thresholds will be set on the test set directly.*
 
 To enable the anomalous validation set, do the following:
 
@@ -189,7 +189,7 @@ There are **three** ways to load a configuration of models:
 
 #### Method 1: Quick load models
 
-Click `Quick Load all Models` to load a default configuration of all implemented models. **NOTE** For non-deep-learning models, the data is **not** split into subsequences by default. If you want to enable subsequences for such models, configure the models manually (see [Method 2: Manually configure models](#method-2-manually-configure-models)).
+Click `Quick Load all Models` to load a default configuration of all implemented models. **NOTE** For non-deep-learning models, the data is **not** split into subsequences by default. If you want to enable subsequences for such models, either configure the models manually (see [Method 2: Manually configure models](#method-2-manually-configure-models)) **or** load the config file `tsad_platform_config_all_subsequences_enabled.json` within the `config` folder of the platform (see [Method 3: Exporting and importing a configuration](#method-3---exporting-and-importing-a-configuration)).
 
 #### Method 2: Manually configure models
 
@@ -386,8 +386,7 @@ The following figure shows an example for the fully-connected autoencoder (FC AE
     "name": "FC AE",
     "modelType": "reconstructive",
     "dataType": 1,
-    "requiresPriorTraining": true,
-    "calcThresholdsOn": "anomalous-validation-data",
+    "learningType": "semi-supervised",
     "isMultivariate": true,
     "outputsLabels": false,
     "hyperparameters": {
@@ -421,7 +420,7 @@ This field is only required for deep-learning models using the standard deep-lea
 #### dataType
 **- optional -**
 This field is only required if your model uses the data preparation function provided by the platform (and for classic machine-learning and statistical models the [useSubsequences](#usesubsequences) field is set to true).
-Its value must be one of: `1`, `2`, `3`. The number controls the shape of the data. The data is always split into subsequences of equal length using a sliding window. The window-size (and step-size for training if your model requires prior training) must be defined in the [hyperparameters](#hyperparameters) field (see below). Look at the file `config > tsad_platform_config_all.json` for reference.
+Its value must be one of: `1`, `2`, `3`. The number controls the shape of the data. The data is always split into subsequences of equal length using a sliding window. The window-size (and step-size for training if your model is semi-supervised or supervised) must be defined in the [hyperparameters](#hyperparameters) field (see below). Look at the file `config > tsad_platform_config_all.json` for reference.
 For the three different numbers, the data will be shaped as such:
 | Data type | Univariate model | Multivariate model |
 |-|-|-|
@@ -429,15 +428,15 @@ For the three different numbers, the data will be shaped as such:
 | **2** | `1 x D` cell array with `D` being the number of channels. For each channel a separate model of the same type will be trained. Each cell contains a `N x 1` cell array with `N` being the number of observations. Each cell is a matrix of size `1 x w` with `w` being the window-size. **NOTE: For predictive deep-learning models, the YTrain data is no cell array** | `1 x 1` cell array containing a `N x 1` cell array with `N` being the number of observations. Each cell contains a matrix of size `d x w` with `d` being the number of channels and `w` being the window size. |
 | **3** | `1 x D` cell array with `D` being the number of channels. For each channel a separate model of the same type will be trained. Each cell contains a `N x 1` cell array with `N` being the number of observations. Each cell is a matrix of size `w x 1` with `w` being the window-size. **NOTE: For predictive deep-learning models, the YTrain data is a cell array, unlike for dataType 2** | `1 x 1` cell array containing a `N x 1` cell array with `N` being the number of observations. Each cell contains a matrix of size `w x d` with `d` being the number of channels and `w` being the window size. |
 
-#### requiresPriorTraining
+#### learningType
 **- mandatory -**
-If this is set to **false**, the model is trained on the data from the **train** folder. If it is set to **true**, the model doesn't get trained on data from the train folder prior to testing.
-**NOTE** If this field is set to true, you can also set the [calcThresholdsOn](#calcthresholdson) field below.
+The learning type determines what data is used for training and testing. Following learning types are possible:
 
-#### calcThresholdsOn
-**- optional -**
-This field is optional and only has an effect if the [requiresPriorTraining]() field is set to true. If it is not specified, no static thresholds are computed in the training phase.
-Its value can be either `"anomalous-validation-data"` or `"training-data"`. This determines what dataset to use to calculate the static threholds. If the selected option is `"anoamlous-validation-data"`, but no anomalous validation data is available, the thresholds will be calculated during testing. If you don't specify this field or set its value to anything except the two options, the thresholds are always set during testing and not during training.
+| Learning type | Description |
+|-|-|
+| "supervised" | Model gets trained on training data from `train` folder (Should contain anomalies). Training data is also used to set static thresholds. |
+| "semi-supervised" | Model gets trained on training data from `train` folder (Should not contain anomalies). Anomalous validation data (if available) is used to set static thresholds. Otherwise static thresholds are set last during testing. |
+| "unsupervised" | Model gets tested directly on data from `test` folder. Static thresholds are alway set last. | 
 
 #### isMultivariate
 **- mandatory -**
@@ -578,7 +577,7 @@ It's recommended to implement the deep-learning models using functions from MATL
 
 The process for adding models other than deep-learning models is as follows:
 
-1. **Add the training function call**: This step is only required if your model requires prior training (if so, you **MUST** set the `requiresPriorTraining` field within the `modelOptions` struct to **true**, otherwise your model will never be trained).
+1. **Add the training function call**: This step is only required if your model is semi-supervised or supervised (see [Learning type](#learningtype)).
  Go to the folder `tsad_platform > src > models_and_training > other` and open the file `train_Other.m`. To train your model, add your model name to the main *switch* statement, then call your training function and save the trained model in the `Mdl` variable:
 
     ```matlab

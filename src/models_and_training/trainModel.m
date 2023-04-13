@@ -6,7 +6,7 @@ trainedModel.modelOptions = modelOptions;
 
 fprintf("Training: %s\n", modelOptions.label);
 
-if modelOptions.requiresPriorTraining
+if ~strcmp(modelOptions.learningType, "unsupervised")
     if isempty(dataTrain)
         error("The %s model requires prior training, but the dataset doesn't contain training data (train folder).", modelOptions.label);
     end
@@ -35,17 +35,21 @@ if modelOptions.requiresPriorTraining
             labelsTrainTest = [labelsTrainTest; labelsTrainTest_tmp];
         end
         
+        % Store raw training errors and training labels in trainedModel. Required for some
+        % static thresholds and scoring functions later on.
         trainedModel.trainingLabels = labelsTrainTest;
-    
         [trainedModel.trainingAnomalyScoresRaw, trainedModel.trainingAnomalyScoreFeatures] = getTrainingAnomalyScoreFeatures(trainedModel, XTrainTestCell, YTrainTestCell);
         
-        if isfield(modelOptions, "calcThresholdsOn")
-            switch modelOptions.calcThresholdsOn
-                case "anomalous-validation-data"
-                    trainedModel.staticThresholds = getStaticThresholds(trainedModel, dataValTest, labelsValTest, thresholds, "anomalous-validation-data");
-                case "training-data"
-                    trainedModel.staticThresholds = getStaticThresholds(trainedModel, [], [], thresholds, "training-data");
-            end
+        switch modelOptions.learningType
+            case "semi-supervised"
+                % Calc thresholds on anomalous validation set for
+                % semi-supervised models
+                trainedModel.staticThresholds = getStaticThresholds(trainedModel, dataValTest, labelsValTest, thresholds, "anomalous-validation-data");
+            case "supervised"
+                % Calc thresholds on training data for supervised models.
+                % (The raw training errors are already stored in the
+                % trainedModel.)
+                trainedModel.staticThresholds = getStaticThresholds(trainedModel, [], [], thresholds, "training-data");
         end
     end
 end
