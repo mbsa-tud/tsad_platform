@@ -8,11 +8,9 @@ for var_idx = 1:length(varNames)
     if isfield(modelOptions.hyperparameters, varNames{var_idx})
         if iscategorical(optVars{1, var_idx})
             if isnumeric(modelOptions.hyperparameters.(varNames{var_idx}))
-                tmp = categories(optVars{1, var_idx});
-                newVar = double(tmp{1}); 
+                newVar = double(string(optVars{1, var_idx}(1)));
             else
-                tmp = categories(optVars{1, var_idx});
-                newVar = string(tmp{1});
+                newVar = string(optVars{1, var_idx}(1));
             end
         else
             newVar = optVars{1, var_idx};

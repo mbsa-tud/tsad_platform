@@ -100,7 +100,8 @@ switch modelOptions.name
                 anomalyScores = any(anomalyScores, 2);
             end
         else
-            fprintf("Warning! minL is greater than maxL for Merlin, setting anomaly scores to zero.");
+            fprintf("Warning! minL (%d) must be less than maxL (%d) for Merlin, setting anomaly scores to zero.", ...
+                modelOptions.hyperparameters.minL, modelOptions.hyperparameters.maxL);
             anomalyScores = zeros(size(XTest, 1), 1);
         end
         anomalyScores = double(anomalyScores);
