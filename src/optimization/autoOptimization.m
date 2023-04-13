@@ -11,7 +11,7 @@ for model_idx = 1:length(models)
     optVars = getOptimizationVariables(models(model_idx).modelOptions.name, configOptFileName);
     
     % Check for each optVar if it matches a hyperparameter in the modelOptions struct
-    if isfield(modelOptions, 'hyperparameters')
+    if ~isempty(optVars) && isfield(modelOptions, 'hyperparameters')
         varNames = fieldnames(optVars);
         for var_idx = 1:length(varNames)
             flag = false;
@@ -42,7 +42,12 @@ for model_idx = 1:length(models)
 
     optimumVars = results.XAtMinObjective;
     
-    tmp.modelOptions = adaptModelOptions(modelOptions, optimumVars);
-    optimizedModelOptions = [optimizedModelOptions; tmp];
+    if ~isempty(optimumVars)
+        tmp.modelOptions = adaptModelOptions(modelOptions, optimumVars);
+        optimizedModelOptions = [optimizedModelOptions; tmp];
+    else
+        tmp.modelOptions = modelOptions;
+        optimizedModelOptions = [optimizedModelOptions; tmp];
+    end
 end
 end

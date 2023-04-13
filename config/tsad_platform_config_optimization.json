@@ -176,14 +176,6 @@
         }
     },
     "Merlin": {
-        "minL": {
-            "value": [10, 20],
-            "type": "integer"
-        },
-        "maxL": {
-            "value": [11, 21],
-            "type": "integer"
-        }
     },
     "over-sampling PCA": {
         "ratioOversample": {

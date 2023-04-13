@@ -260,6 +260,8 @@ To optimize models, do the following:
 4. Click the `Run Optimization` button to optimize all models.
 5. Once it's done, the optimized models will appear on the [Detection](#detection) and [Simulink Detection](#simulink-detection) panels.
 
+**NOTE** Merlin cannot be optimized using this function at the moment.
+
 ---
 
 ## Detection
