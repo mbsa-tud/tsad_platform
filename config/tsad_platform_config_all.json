@@ -224,7 +224,7 @@
                 "learningType": "semi-supervised",
                 "isMultivariate": true,
                 "outputsLabels": false,
-                "useSubsequences": true,
+                "useSubsequences": false,
                 "hyperparameters": {
                     "numLearners": 100,
                     "numObservationsPerLearner": 128
@@ -239,7 +239,7 @@
                 "learningType": "semi-supervised",
                 "isMultivariate": true,
                 "outputsLabels": true,
-                "useSubsequences": true,
+                "useSubsequences": false,
                 "hyperparameters": {
                     "kernelFunction": "gaussian"
                 }
@@ -253,7 +253,7 @@
                 "learningType": "unsupervised",
                 "isMultivariate": true,
                 "outputsLabels": false,
-                "useSubsequences": true,
+                "useSubsequences": false,
                 "hyperparameters": {
                 }
             }
@@ -266,7 +266,7 @@
                 "learningType": "unsupervised",
                 "isMultivariate": true,
                 "outputsLabels": false,
-                "useSubsequences": true,
+                "useSubsequences": false,
                 "hyperparameters": {
                     "k": 10
                 }
@@ -280,7 +280,7 @@
                 "learningType": "unsupervised",
                 "isMultivariate": true,
                 "outputsLabels": false,
-                "useSubsequences": true,
+                "useSubsequences": false,
                 "hyperparameters": {
                     "k": 10
                 }
@@ -322,7 +322,7 @@
                 "learningType": "unsupervised",
                 "isMultivariate": true,
                 "outputsLabels": false,
-                "useSubsequences": true,
+                "useSubsequences": false,
                 "hyperparameters": {
                     "ratioOversample": 0.1
                 }
