@@ -3,7 +3,7 @@
         {
             "modelOptions": {
                 "type": "deep-learning",
-                "name": "FC AE",
+                "name": "FC-AE",
                 "modelType": "reconstructive",
                 "dataType": 1,
                 "learningType": "semi-supervised",
@@ -70,7 +70,7 @@
         {
             "modelOptions": {
                 "type": "deep-learning",
-                "name": "TCN AE",
+                "name": "TCN-AE",
                 "modelType": "reconstructive",
                 "dataType": 2,
                 "learningType": "semi-supervised",

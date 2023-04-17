@@ -3,7 +3,7 @@ function layers = getLayers(modelOptions, numFeatures, numResponses)
 
 switch modelOptions.name
     case 'Your model name'
-    case 'FC AE'
+    case 'FC-AE'
         neurons = modelOptions.hyperparameters.neurons;
         layers = [featureInputLayer(numFeatures, Name='Input')
             fullyConnectedLayer(neurons, Name=strcat('Encode: Fully connected with ', num2str(neurons), ' neurons'))
@@ -42,7 +42,7 @@ switch modelOptions.name
             fullyConnectedLayer(numResponses)
             regressionLayer()];
         layers = layerGraph(layers);
-    case 'TCN AE'
+    case 'TCN-AE'
         if mod(modelOptions.hyperparameters.windowSize, 4) ~= 0
             error("Window size must be divisible by 4 for the TCN AE.");
         end
