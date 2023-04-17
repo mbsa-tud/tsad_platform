@@ -1,17 +1,17 @@
-function finalTable =  evaluateAllForDataset(datasetPath, models, useFraction, preprocMethod, ratioTestVal, thresholds, dynamicThresholdSettings, trainingPlots, parallelEnabled)
-%EVALUATEALLFORDATASET Main function for training and testing all specified
-%models on an entire dataset
+function finalTable =  autoRunAugmentedWrapper(datasetPath, models, preprocMethod, ratioTestVal, thresholds, dynamicThresholdSettings, trainingPlots, parallelEnabled, augmentationMode, augmentationIntensity, augmentedTrainingEnabled)
+%GT_EVALUATEALLFORDATASET Main function for training and testing all specified
+%model on the augmented dataset
 
-fprintf('\n ----------------------------- \n');
-fprintf('###  Evaluating all models  ###');
-fprintf('\n ----------------------------- \n');
+fprintf('\n --------------------------------------------- \n');
+fprintf('###  Evaluating all models on augmented data ###');
+fprintf('\n --------------------------------------------- \n');
 
 % Variable initialization
 scoreNames = table(METRIC_NAMES);
 scoreNames.Properties.VariableNames = "Metric";
 
 % Create folders for results
-% Structure: Dataset_Sweep_Results -> datasetName -> thresholdName -> all_results, 
+% Structure: Dataset_Sweep_Results -> datasetName -> thresholdName -> all_results,
 %                                                                     Average_Scores.csv
 datasetOutputFolder = fullfile(pwd, 'Auto_Run_Results');
 if ~exist(datasetOutputFolder, 'dir')
@@ -47,7 +47,7 @@ else
     subFolders = d([d(:).isdir]);
     subFolders = subFolders(~ismember({subFolders(:).name},{'.','..'}));
     
-    indices = randperm(length(subFolders), ceil(useFraction * length(subFolders)));
+    indices = randperm(length(subFolders), length(subFolders));
     isMultiEntity = true;
 end
 
@@ -82,7 +82,9 @@ for dataset_idx = 1:length(indices)
     
     % Run evaluation
     [tmpScores, testFileNames] = trainAndEvaluateAllModels(dataPath, models, ...
-        preprocMethod, ratioTestVal, thresholds, dynamicThresholdSettings, trainingPlots, parallelEnabled);
+        preprocMethod, ratioTestVal, thresholds, dynamicThresholdSettings, ...
+        trainingPlots, parallelEnabled, true, augmentationMode, augmentationIntensity, ...
+        augmentedTrainingEnabled);
 
     allTestFiles = [allTestFiles testFileNames];
 
@@ -98,11 +100,11 @@ end
 fprintf('\nCalculating max, min, average and standard deviation of scores\n\n')
 for thr_idx = 1:length(scoreMatrix)
     scoreMatrix_tmp = scoreMatrix{thr_idx, 1};
-
-    numOfTestingFiles = length(scoreMatrix_tmp);
     
+    numOfTestingFiles = length(scoreMatrix_tmp);
+
     % Calc average scores
-    avgScores = calcAverageScores(scoreMatrix_tmp);
+    avgScores = calcAverageScores(scoreMatrix_tmp);    
     
     outputFolder = thresholdSubfolders(thr_idx);
 
@@ -112,20 +114,20 @@ for thr_idx = 1:length(scoreMatrix)
     end
     
     for data_idx = 1:numOfTestingFiles
-        all_results_filename = fullfile(all_results_folder, sprintf('%s_%s.csv', allTestFiles(data_idx), datestr(now,'mm-dd-yyyy_HH-MM')));
+        all_results_filename = fullfile(all_results_folder, sprintf('%s_%s_augmented_data.csv', allTestFiles(data_idx), datestr(now,'mm-dd-yyyy_HH-MM')));
         scoreTable_tmp = array2table(scoreMatrix_tmp{data_idx, 1});
         scoreTable = [scoreNames scoreTable_tmp];
         scoreTable.Properties.VariableNames = finalTableVariableNames;
         writetable(scoreTable, all_results_filename);
     end
     
-    fileName_Avg = fullfile(outputFolder, sprintf('Average_Scores__%s.csv', datestr(now,'mm-dd-yyyy_HH-MM')));    
-
+    fileName_Avg = fullfile(outputFolder, sprintf('Average_Scores__%s_augmented_data.csv', datestr(now,'mm-dd-yyyy_HH-MM')));
+    
     avg_tmp = array2table(avgScores);
     avgTable = [scoreNames avg_tmp];
     avgTable.Properties.VariableNames = finalTableVariableNames;
     
-    % Write to files
+    % Write to file
     writetable(avgTable, fileName_Avg);
     
     % Return scores for first threshold to display in platform

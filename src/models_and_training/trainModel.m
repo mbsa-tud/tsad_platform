@@ -1,4 +1,4 @@
-function trainedModel = trainModel(modelOptions, dataTrain, labelsTrain, dataValTest, labelsValTest, thresholds, trainingPlots, verbose)
+function trainedModel = trainModel(modelOptions, dataTrain, labelsTrain, dataTestVal, labelsTestVal, thresholds, trainingPlots, verbose)
 %TRAINMODELS Main wrapper function for training models and calculating static thresholds
 
 trainedModel = [];
@@ -44,7 +44,7 @@ if ~strcmp(modelOptions.learningType, "unsupervised")
             case "semi-supervised"
                 % Calc thresholds on anomalous validation set for
                 % semi-supervised models
-                trainedModel.staticThresholds = getStaticThresholds(trainedModel, dataValTest, labelsValTest, thresholds, "anomalous-validation-data");
+                trainedModel.staticThresholds = getStaticThresholds(trainedModel, dataTestVal, labelsTestVal, thresholds, "anomalous-validation-data");
             case "supervised"
                 % Calc thresholds on training data for supervised models.
                 % (The raw training errors are already stored in the

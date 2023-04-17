@@ -1,13 +1,8 @@
-function [augmentedTrainingData, augmentedTestingData] = augmentationData(rawTrainingData, rawTestingData, choice_aug, intensity, trained)
+function [augmentedTrainingData, augmentedTestingData] = augmentData(rawTrainingData, rawTestingData, method, level, augmentTrainingData)
 % AUGMENTATIONDATA Augment the data
 
 augmentedTrainingData = rawTrainingData;
 augmentedTestingData = [];
-method = choice_aug;
-level = intensity;
-
-
-
 
 if ~isempty(rawTestingData)
     fullData = [];
@@ -31,7 +26,7 @@ if ~isempty(rawTestingData)
 end
 
 
-if trained
+if augmentTrainingData
     if ~isempty(rawTrainingData)
         fullData = [];
         for data_idx = 1:size(rawTrainingData, 1)

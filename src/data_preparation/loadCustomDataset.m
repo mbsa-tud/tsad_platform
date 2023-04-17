@@ -12,17 +12,15 @@ labelsTraining = [];
 labelsTesting = [];
 channelNames = [];
 
-dataPath = datasetPath;
-
 if ~isfolder(datasetPath)
-    dataPath = fullfile(pwd, datasetPath);
-    if ~isfolder(dataPath)
+    datasetPath = fullfile(pwd, datasetPath);
+    if ~isfolder(datasetPath)
         error("Provided folder doesn't exist!");
     end
 end
 
-dataTrainPath = fullfile(dataPath, 'train');
-dataTestPath = fullfile(dataPath, 'test');
+dataTrainPath = fullfile(datasetPath, 'train');
+dataTestPath = fullfile(datasetPath, 'test');
 
 
 trainingFiles = dir(fullfile(dataTrainPath, '*.csv'));
