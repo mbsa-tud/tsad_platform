@@ -303,20 +303,7 @@
         },
         {
             "modelOptions": {
-                "type": "statistics",
-                "name": "Grubbs test",
-                "learningType": "unsupervised",
-                "isMultivariate": false,
-                "outputsLabels": true,
-                "useSubsequences": false,
-                "hyperparameters": {
-                    "alpha": 0.5
-                }
-            }
-        },
-        {
-            "modelOptions": {
-                "type": "statistics",
+                "type": "classic-machine-learning",
                 "name": "over-sampling PCA",
                 "dataType": 1,
                 "learningType": "unsupervised",
@@ -325,6 +312,19 @@
                 "useSubsequences": false,
                 "hyperparameters": {
                     "ratioOversample": 0.1
+                }
+            }
+        },
+        {
+            "modelOptions": {
+                "type": "statistics",
+                "name": "Grubbs test",
+                "learningType": "unsupervised",
+                "isMultivariate": false,
+                "outputsLabels": true,
+                "useSubsequences": false,
+                "hyperparameters": {
+                    "alpha": 0.5
                 }
             }
         }
