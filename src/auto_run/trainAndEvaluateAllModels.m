@@ -35,35 +35,35 @@ if ~augmentationEnabled
     % Run detection and get scores
     finalScores = evaluateAllModels(trainedModels, dataTest, labelsTest, filesTest, thresholds, dynamicThresholdSettings);
 else
-    % Evaluation with data augmentation
-    fprintf("\n\nRunning with data augmentation\n\n");
-
     % Augment data
     [dataTrainAugmented, dataTestAugmented] = augmentData(dataTrain, dataTest, augmentationMode, augmentationIntensity, augmentedTrainingEnabled);
-
-    % Splitting test/val set
-    [dataTestAugmented, labelsTestAugmented, filesTestAugmented, ...
-        dataTestValAugmented, labelsTestValAugmented, ~] = splitTestVal(dataTestAugmented, labelsTest, filesTest, ratioTestVal);
     
-    % Train all models
-    trainedModels = trainAllModels(models, dataTrainAugmented, labelsTrain, dataTestValAugmented, labelsTestValAugmented, thresholds, trainingPlots, parallelEnabled);
-    
-    % Run detection and get scores
-    allScoresWithAugmentation = evaluateAllModels(trainedModels, dataTestAugmented, labelsTestAugmented, filesTestAugmented, thresholds, dynamicThresholdSettings);
 
+    % Splitting test/val set for augmented and non-augmented data
+    [dataTestAugmented, ~, ~, ...
+        dataTestValAugmented, ~, ~] = splitTestVal(dataTestAugmented, labelsTest, filesTest, ratioTestVal);
+    [dataTest, labelsTest, filesTest, ...
+        dataTestVal, labelsTestVal, ~] = splitTestVal(dataTest, labelsTest, filesTest, ratioTestVal);
+    
 
     % Evaluation without augmentation for comparison
     fprintf("\n\nRunning without data augmentation\n\n");
-
-    % Splitting test/val set
-    [dataTest, labelsTest, filesTest, ...
-        dataTestVal, labelsTestVal, ~] = splitTestVal(dataTest, labelsTest, filesTest, ratioTestVal);
     
     % Train all models
     trainedModels = trainAllModels(models, dataTrain, labelsTrain, dataTestVal, labelsTestVal, thresholds, trainingPlots, parallelEnabled);
     
     % Run detection and get scores
     allScoresWithoutAugmentation = evaluateAllModels(trainedModels, dataTest, labelsTest, filesTest, thresholds, dynamicThresholdSettings);
+    
+
+    % Evaluation with data augmentation
+    fprintf("\n\nRunning with data augmentation\n\n");
+
+    % Train all models
+    trainedModels = trainAllModels(models, dataTrainAugmented, labelsTrain, dataTestValAugmented, labelsTestVal, thresholds, trainingPlots, parallelEnabled);
+    
+    % Run detection and get scores
+    allScoresWithAugmentation = evaluateAllModels(trainedModels, dataTestAugmented, labelsTest, filesTest, thresholds, dynamicThresholdSettings);
 
 
     % Reorder scores
