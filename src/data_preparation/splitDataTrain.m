@@ -11,6 +11,10 @@ if strcmp(modelType, 'reconstructive')
     for data_idx = 1:size(data, 1)
         numWindows = floor((size(data{data_idx, 1}, 1) - windowSize + 1) / stepSize);
         
+        if numWindows < 1
+            error("Window size is too big for the time series. Must be equal or less than the length of the time series");
+        end
+
         if dataType == 1
             flattenedWindowsSize = windowSize * numChannels;
             XTrainTmp = zeros(numWindows, flattenedWindowsSize);
@@ -37,6 +41,10 @@ elseif strcmp(modelType, 'predictive')
     for data_idx = 1:size(data, 1)
         numWindows = floor((size(data{data_idx, 1}, 1) - windowSize) / stepSize);
         
+        if numWindows < 1
+            error("Window size is too big for the time series. Must be less than the length of the time series");
+        end
+
         if dataType == 1
             flattenedWindowsSize = windowSize * numChannels;
             XTrainTmp = zeros(numWindows, flattenedWindowsSize);

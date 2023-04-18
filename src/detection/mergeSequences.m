@@ -4,16 +4,26 @@ function mergedData = mergeSequences(data, windowSize, averagingFunction)
 %argument
 reshapedData = flip(data');
 
-middleSectionLength = size(data, 1) - windowSize + 1;
 newSequenceLength = size(data, 1) + windowSize - 1;
+
+beginningSectionLength = windowSize;
+middleSectionLength = max(0, size(data, 1) - windowSize - 1);
+endSectionLength = min(windowSize, (newSequenceLength - windowSize - middleSectionLength));
 
 mergedData = zeros(newSequenceLength, 1);
 
-for i = 1:middleSectionLength
-    mergedData(i + windowSize - 1, 1) = averagingFunction(diag(reshapedData(:, i:(i + windowSize - 1))));
+% Beginning part
+for i = 1:beginningSectionLength
+    mergedData(i, 1) = averagingFunction(diag(reshapedData((windowSize + 1 - i):end, 1:(min(end, i)))));
 end
-for i = 1:(windowSize - 1)
-    mergedData(windowSize - i, 1) = averagingFunction(diag(reshapedData((i + 1):end, 1:(windowSize - i))));
-    mergedData(middleSectionLength + windowSize - 1 + i) = averagingFunction(diag(reshapedData(1:(end - i), (middleSectionLength + i):end)));
+
+% End part
+for i = 1:endSectionLength
+    mergedData(end + 1 - i, 1) = averagingFunction(diag(reshapedData(1:i, (end + 1 - i):end)));
+end
+
+% Middle part
+for i = 1:middleSectionLength
+    mergedData(windowSize + i, 1) = averagingFunction(diag(reshapedData(:, i:(i + windowSize - 1))));
 end
 end

@@ -6,9 +6,9 @@ numChannels = size(data{1, 1}, 2);
 
 if strcmp(modelType, 'reconstructive')
     numWindows = size(data{1, 1}, 1) - windowSize + 1;
-
-    if numWindows < windowSize
-        error("Window size is too big for the time series. Must be less than a third the length of the time series");
+    
+    if numWindows < 1
+        error("Window size is too big for the time series. Must be equal or less than the length of the time series");
     end
 
     % XTest
@@ -35,7 +35,7 @@ elseif strcmp(modelType, 'predictive')
     numWindows = size(data{1, 1}, 1) - windowSize;
 
     if numWindows < 1
-        error("Window size is too big for the time series. Must be less than half the length of the time series");
+        error("Window size is too big for the time series. Must be less than the length of the time series");
     end
     
     % XTest

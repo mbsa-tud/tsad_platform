@@ -184,7 +184,12 @@ To do so, proceed as follows:
 
 ### Load/configure models (1)
 
-You can load a wide selection of deep-learning, classic machine-learning and statistical time series anomaly detection models to the list of models (these are not trained yet, it's only the configuration that gets loaded). 
+Following models are currently available:
+
+* `Deep-learning based models`: FC-AE, LSTM reconstruction, Hybrid CNN-LSTM reconstruction, TCN-AE, LSTM, Hybrid CNN-LSTM, GRU, CNN (DeepAnT), ResNet, MLP
+* `Others`: iForest, OC-SVM, LOF, LDOF, ABOD, Merlin, over-sampling PCA, Grubbs test
+
+You can load these on the training panel (these are not trained yet, it's only the configuration that gets loaded). 
 Once loaded, you can inspect the configuration of a model by selecting it in the list, right-clicking and selecting `Show Model Parameters`. This wil show all parameters of the selected model on the right side of the window (3).
 
 There are **three** ways to load a configuration of models:

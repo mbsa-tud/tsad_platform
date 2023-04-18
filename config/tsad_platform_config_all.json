@@ -80,7 +80,7 @@
                     "filter": 32,
                     "windowSize": 100,
                     "stepSize": 1,
-                    "epochs": 50,
+                    "epochs": 1,
                     "learningRate": 0.001,
                     "minibatchSize": 64,
                     "ratioTrainVal": 0,
