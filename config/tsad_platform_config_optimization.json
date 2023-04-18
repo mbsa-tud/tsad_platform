@@ -17,7 +17,7 @@
             "type": "categorical"
         }
     },
-    "FC AE": {
+    "FC-AE": {
         "neurons": {
             "value": ["8", "16", "32", "64", "128", "256"],
             "type": "categorical"
@@ -51,7 +51,7 @@
             "type": "categorical"
         }
     },
-    "TCN AE": {
+    "TCN-AE": {
         "filter": {
             "value": ["8", "16", "32", "64", "128", "256"],
             "type": "categorical"
