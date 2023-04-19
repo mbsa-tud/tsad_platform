@@ -342,6 +342,7 @@ The usage of the dynamic switch mechanism **requires** the following things:
 * **Correct dataset**: A dataset with **multiple anomalous files** for testing. 
 * The **Split Test Set for Dynamic Switch** checkbox on the [Dataset Preparation](#dataset-preparation) panel must be checked. The testing data for the dynamic switch can be observed in section (3).
 * **Trained models**: Either configure and train models on the [Training](#training-and-optimization) panel or load trained models on the [Detection](#detection) panel.
+* **Detection run**: The detection **must be run for all models** on all files on the [Detection panel](#detection). Otherwise the dynamic switch won't know which models perform best on what kind of data.
 
 ### Run dynamic switch
 
