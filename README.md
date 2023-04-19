@@ -289,7 +289,14 @@ The anomaly detection using the models trained earlier (see [Training and optimi
 3. (**optional**) If you **already ran the detection** for some models, but you want to change the threshold used for evaluating them, click `Apply Threshold to All` or `Apply Threshold to Selection`. This re-evaluates all models for which the detection has been run before using the currently selected threshold.
 
 #### Run detection (3)
-Select models from the **list of trained models** and click `Run for selected Models` or just `Run for all Models` to start the detection process.
+Select models from the **list of trained models** and click on of the four buttons on the right to start the detection process. You can run the detection for:
+
+* Selected models (ony for selected file)
+* Selected models on all files
+* All models (only for selected file)
+* All models on all files
+
+If you want to get the time a model takes to make predictions for a single subsequence, check the `Get Computation Time` checkbox. 
 
 #### Observe results (4)
 
@@ -342,11 +349,9 @@ To **train and test the dynamic switch**, proceed as follows:
 
 #### Configure, train and test dynamic switch (1)
 
-1. Select a metric from the `Metric` dropdown menu. This will be used to compare the models during auto-labeling.
-2. Select a threshold from the `Threshold` dropdown menu. This threshold will be used for all models.
-3. Click the `Auto-label Dataset` button. This runs the detection for all models on all files of the test dataset (without the files for testing the dynamic switch) and determines the best models according to the selected metric.
-4. Click the `Train Classifier` button to train the deep calssification network. It learns to connect time series features with the correct labels determined in step 3.
-5. Click the `Run Evaluations` button to test the dynamic switch.
+1. Select a metric from the `Metric` dropdown menu. This will be used to compare the models performance with.
+2. Click the `Train Classifier` button to train the deep calssification network. It learns to connect time series features with the best performing model according to the selected metric.
+3. Click the `Run Evaluations` button to test the dynamic switch.
 
 #### Observe results (2), (4)
 All results including the scores obtained by all individual models will be displayed in the table (4). You can see the best models for the training data of the dynamic switch and the predictions it made for the testing data in the lists at the bottom (2).

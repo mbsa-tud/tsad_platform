@@ -8,7 +8,11 @@ labeledFiles = fieldnames(labels);
 XTrain = [];
 
 for labeledFile_idx = 1:numel(labeledFiles)
-    [~, file_idx] = ismember(labeledFiles{labeledFile_idx}, files);
+    [exists, file_idx] = ismember(labeledFiles{labeledFile_idx}, files);
+
+    if ~exists
+        continue;
+    end
 
     % Convert time series to feature vector
     XTrain_tmp = diagnosticFeatures(data{file_idx, 1});
