@@ -286,9 +286,11 @@ The anomaly detection using the models trained earlier (see [Training and optimi
 #### Data and threshold selection (2)
 1. Select a file from the `Select faulty Data` dropdown menu.
 2. Select a threshold from the `Threshold` dropdown menu. If you select the **dynamic** threshold, you can additionally configure its parameters.
+3. (**optional**) If you **already ran the detection** for some models, but you want to change the threshold used for evaluating them, click `Apply Threshold to All` or `Apply Threshold to Selection`. This re-evaluates all models for which the detection has been run before using the currently selected threshold.
 
 #### Run detection (3)
 Select models from the **list of trained models** and click `Run for selected Models` or just `Run for all Models` to start the detection process.
+
 #### Observe results (4)
 
 Once the detection is finished, the following results are are displayed in the windows below:

@@ -1,14 +1,24 @@
-function [predictedLabels, threshold] = applyThresholdToAnomalyScores(trainedModel, anomalyScores, labels, threshold, dynamicThresholdSettings)
+function [predictedLabels, threshold] = applyThresholdToAnomalyScores(trainedModel, anomalyScores, labels, thresholdId, dynamicThresholdSettings, storedThresholdValue)
 %APPLYTHRESHOLDTOANOMALYSCORES Transform anomaly scores to binary labels by
 %applying a threshold
 
-if isfield(trainedModel, "staticThresholds") && isfield(trainedModel.staticThresholds, threshold)
-    threshold = trainedModel.staticThresholds.(threshold);
+% Save computation time if this threshold was set before
+if ~exist('storedThresholdValue', 'var')
+    storedThresholdValue = [];
+end
+if ~isempty(storedThresholdValue)
+    threshold = storedThresholdValue;
+    predictedLabels = any(anomalyScores > threshold, 2);
+    return;
+end
+
+if isfield(trainedModel, "staticThresholds") && isfield(trainedModel.staticThresholds, thresholdId)
+    threshold = trainedModel.staticThresholds.(thresholdId);
 
     predictedLabels = any(anomalyScores > threshold, 2);
     % predictedLabels = combineAnomsAndStatic(anomalyScores, predictedLabels);
 else
-    if strcmp(threshold, 'dynamic')
+    if strcmp(thresholdId, 'dynamic')
         % Dynamic threshold
 
         fprintf("Calculating dynamic threshold\n");
@@ -35,8 +45,8 @@ else
         % predictedLabels = combineAnomsAndStatic(anomalyScores, predictedLabels);
     else
         % Other static thresholds
-        fprintf("Calculating static threshold (%s) on test set\n", threshold);
-        threshold = calcStaticThreshold(anomalyScores, labels, threshold, trainedModel.modelOptions.name);
+        fprintf("Calculating static threshold (%s) on test set\n", getThresholdLabels(thresholdId));
+        threshold = calcStaticThreshold(anomalyScores, labels, thresholdId, trainedModel.modelOptions.name);
 
         predictedLabels = any(anomalyScores > threshold, 2);
         % predictedLabels = combineAnomsAndStatic(anomalyScores, predictedLabels);
