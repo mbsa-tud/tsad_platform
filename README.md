@@ -286,17 +286,19 @@ The anomaly detection using the models trained earlier (see [Training and optimi
 #### Data and threshold selection (2)
 1. Select a file from the `Select faulty Data` dropdown menu.
 2. Select a threshold from the `Threshold` dropdown menu. If you select the **dynamic** threshold, you can additionally configure its parameters.
-3. (**optional**) If you **already ran the detection** for some models, but you want to change the threshold used for evaluating them, click `Apply Threshold to All` or `Apply Threshold to Selection`. This re-evaluates all models for which the detection has been run before using the currently selected threshold.
 
 #### Run detection (3)
-Select models from the **list of trained models** and click on of the four buttons on the right to start the detection process. You can run the detection for:
 
-* Selected models (ony for selected file)
-* Selected models on all files
-* All models (only for selected file)
-* All models on all files
+1. Select models from the **list of trained models**.
+2. Configure the detection as follows:
+    * If you want to get the time a model takes to make predictions for a single subsequence, check the `Get Computation Time` checkbox.
+    * To only update the applied threshold and not rerun the entire detection process, check the `Update Threshold only` checkbox (This only has an effect if you ran the detection with this checkbox unchecked before).
 
-If you want to get the time a model takes to make predictions for a single subsequence, check the `Get Computation Time` checkbox. 
+3. You can then run the detection for:
+    * Selected models (ony for selected file)
+    * Selected models on all files
+    * All models (only for selected file)
+    * All models on all files
 
 #### Observe results (4)
 
