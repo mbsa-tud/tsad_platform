@@ -6,8 +6,8 @@ function [anomalyScores, compTime] = detectWith_Other(modelOptions, Mdl, XTest, 
 compTime = NaN;
 
 switch modelOptions.name
-    case 'Your model name'
-    case 'iForest'
+    case "Your model name"
+    case "iForest"
         % iForest supports outlier and novelty detection.
         if isempty(Mdl)
             [~, ~, anomalyScores] = iforest(XTest, NumLearners=modelOptions.hyperparameters.numLearners, NumObservationsPerLearner=modelOptions.hyperparameters.numObservationsPerLearner);
@@ -19,7 +19,7 @@ switch modelOptions.name
             % Merge overlapping scores
             anomalyScores = mergeOverlappingAnomalyScores(modelOptions, anomalyScores, @mean);
         end
-    case 'OC-SVM'
+    case "OC-SVM"
         [~, anomalyScores] = predict(Mdl, XTest);
 
         if modelOptions.useSubsequences
@@ -27,28 +27,28 @@ switch modelOptions.name
             anomalyScores = mergeOverlappingAnomalyScores(modelOptions, anomalyScores, @mean);
         end
         anomalyScores = anomalyScores < 0;
-    case 'ABOD'
+    case "ABOD"
         [~, anomalyScores] = ABOD(XTest);
 
         if modelOptions.useSubsequences
             % Merge overlapping scores
             anomalyScores = mergeOverlappingAnomalyScores(modelOptions, anomalyScores, @mean);
         end
-    case 'LOF'
+    case "LOF"
         [~, anomalyScores] = LOF(XTest, modelOptions.hyperparameters.k);
 
         if modelOptions.useSubsequences
             % Merge overlapping scores
             anomalyScores = mergeOverlappingAnomalyScores(modelOptions, anomalyScores, @mean);
         end
-    case 'LDOF'
+    case "LDOF"
         anomalyScores = LDOF(XTest, modelOptions.hyperparameters.k);
 
         if modelOptions.useSubsequences
             % Merge overlapping scores
             anomalyScores = mergeOverlappingAnomalyScores(modelOptions, anomalyScores, @mean);
         end
-    case 'Merlin'
+    case "Merlin"
         numAnoms = 0;
         i = 1;
         while i <= length(labels)
@@ -98,9 +98,9 @@ switch modelOptions.name
             anomalyScores = zeros(size(XTest, 1), 1);
         end
         anomalyScores = double(anomalyScores);
-    case 'Grubbs test'
+    case "Grubbs test"
         anomalyScores = grubbs_test(XTest, modelOptions.hyperparameters.alpha);
-    case 'over-sampling PCA'
+    case "over-sampling PCA"
         [~, anomalyScores, ~] = OD_wpca(XTest, modelOptions.hyperparameters.ratioOversample);
 
         if modelOptions.useSubsequences

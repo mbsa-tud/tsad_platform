@@ -4,7 +4,7 @@ function [anomalyScores, compTime] = detectWith_DL(modelOptions, Mdl, XTest, YTe
 compTime = NaN;
 
 switch modelOptions.name
-    case 'Your model name'
+    case "Your model name"
     otherwise
         prediction = predict(Mdl, XTest);
 
@@ -20,7 +20,7 @@ switch modelOptions.name
         end
 
           
-        if strcmp(modelOptions.modelType, 'reconstructive')
+        if strcmp(modelOptions.modelType, "reconstructive")
             if ~isfield(modelOptions, "hyperparameters") || ~isfield(modelOptions.hyperparameters, "reconstructionErrorType")
                 error("You must specify the reconstructionErrorType field in the hyperparameters of reconstructive models");
             end
@@ -72,7 +72,7 @@ switch modelOptions.name
                 otherwise
                     error("Unknown reconstructionErrorType");
             end
-        elseif strcmp(modelOptions.modelType, 'predictive')
+        elseif strcmp(modelOptions.modelType, "predictive")
             if iscell(prediction)
                 pred_tmp = zeros(size(prediction, 1), size(prediction{1, 1}, 1));
                 for i = 1:size(prediction, 1)

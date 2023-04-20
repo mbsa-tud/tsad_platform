@@ -17,7 +17,7 @@ for model_idx = 1:length(models)
 end
 
 % Delete parallel pool
-if ~isempty(gcp('nocreate'))
-    delete(gcp('nocreate'));
+if ~isempty(gcp("nocreate"))
+    delete(gcp("nocreate"));
 end
 end

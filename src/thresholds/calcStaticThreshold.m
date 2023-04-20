@@ -10,13 +10,13 @@ end
 
 switch threshold
     case "bestFscorePointwise"
-        thr = computeBestFscoreThreshold(anomalyScores, labels, 'point-wise');
+        thr = computeBestFscoreThreshold(anomalyScores, labels, "point-wise");
     case "bestFscoreEventwise"
-        thr = computeBestFscoreThreshold(anomalyScores, labels, 'event-wise');
+        thr = computeBestFscoreThreshold(anomalyScores, labels, "event-wise");
     case "bestFscorePointAdjusted"
-        thr = computeBestFscoreThreshold(anomalyScores, labels, 'point-adjusted');
+        thr = computeBestFscoreThreshold(anomalyScores, labels, "point-adjusted");
     case "bestFscoreComposite"
-        thr = computeBestFscoreThreshold(anomalyScores, labels, 'composite');
+        thr = computeBestFscoreThreshold(anomalyScores, labels, "composite");
     case "topK"        
         numChannels = size(anomalyScores, 2);
 

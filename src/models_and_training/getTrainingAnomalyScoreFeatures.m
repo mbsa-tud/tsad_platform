@@ -5,7 +5,7 @@ function [trainingAnomalyScores, trainingAnomalyScoreFeatures] = getTrainingAnom
 fprintf("Calculating anomaly scores for training data\n");
 
 switch trainedModel.modelOptions.name
-    case 'Your model'
+    case "Your model"
     otherwise
         trainingAnomalyScores = [];
         for data_idx = 1:size(X, 1)

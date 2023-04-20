@@ -1,7 +1,7 @@
 function [XTrain, labelName] = getDataTrain_Switch(data, labels, files)
 %GETDATATRAIN_SWITCH Prepares the training data for the dynamic switch
 
-labelName = 'best_model';
+labelName = "best_model";
 
 labeledFiles = fieldnames(labels);
 
@@ -20,5 +20,5 @@ for labeledFile_idx = 1:numel(labeledFiles)
     XTrain = [XTrain; XTrain_tmp];
 end
 
-XTrain = convertvars(XTrain, labelName, 'categorical');
+XTrain = convertvars(XTrain, labelName, "categorical");
 end

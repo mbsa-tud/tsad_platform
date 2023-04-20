@@ -3,7 +3,7 @@ function [predictedLabels, threshold] = applyThresholdToAnomalyScores(trainedMod
 %applying a threshold
 
 % Save computation time if this threshold was set before
-if ~exist('storedThresholdValue', 'var')
+if ~exist("storedThresholdValue", "var")
     storedThresholdValue = [];
 end
 if ~isempty(storedThresholdValue)
@@ -18,7 +18,7 @@ if isfield(trainedModel, "staticThresholds") && isfield(trainedModel.staticThres
     predictedLabels = any(anomalyScores > threshold, 2);
     % predictedLabels = combineAnomsAndStatic(anomalyScores, predictedLabels);
 else
-    if strcmp(thresholdId, 'dynamic')
+    if strcmp(thresholdId, "dynamic")
         % Dynamic threshold
 
         fprintf("Calculating dynamic threshold\n");
@@ -27,8 +27,8 @@ else
         min_percent = dynamicThresholdSettings.minPercent;
         z_range = 1:dynamicThresholdSettings.zRange;
         
-        [anom_times, threshold] = find_anomalies(anomalyScores, 'anomaly_padding', padding, ...
-            'window_size', windowSize, 'min_percent', min_percent, 'z_range', z_range);
+        [anom_times, threshold] = find_anomalies(anomalyScores, "anomaly_padding", padding, ...
+            "window_size", windowSize, "min_percent", min_percent, "z_range", z_range);
         
         predictedLabels = false(length(labels), 1);
         for i = 1:size(anom_times, 1)

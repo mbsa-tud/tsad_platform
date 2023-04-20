@@ -3,7 +3,7 @@ function [XTest, YTest, labelsTest] = prepareDataTest(modelOptions, data, labels
 
 if modelOptions.isMultivariate
     switch modelOptions.type
-        case 'deep-learning'
+        case "deep-learning"
             [XTest, YTest, labelsTest] = prepareDataTest_DL(modelOptions, data, labels);
             XTest = {XTest};
             YTest = {YTest};
@@ -16,7 +16,7 @@ else
     numChannels = size(data{1, 1}, 2);
 
     switch modelOptions.type
-        case 'deep-learning'
+        case "deep-learning"
             XTest = cell(1, numChannels);
             YTest = cell(1, numChannels);
         

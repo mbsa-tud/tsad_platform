@@ -2,7 +2,7 @@ function [XTrain, YTrain, XVal, YVal] = prepareDataTrain_DL(modelOptions, data, 
 %PREPAREDATATRAIN_DNN Prepares the training data for DNN models
 
 switch modelOptions.name
-    case 'Your model name'
+    case "Your model name"
     otherwise
         [XTrain, YTrain, XVal, YVal] = splitDataTrain(data, ...
             modelOptions.hyperparameters.windowSize, ...

@@ -2,7 +2,7 @@ function [Mdl, MdlInfo] = train_DL(modelOptions, XTrain, YTrain, XVal, YVal, tra
 %TRAINDNN Trains DNN models
 
 switch modelOptions.name
-    case 'Your model name'
+    case "Your model name"
     otherwise
         [numFeatures, numResponses] = getNumFeaturesAndResponses(XTrain, YTrain, modelOptions.modelType, modelOptions.dataType);
 

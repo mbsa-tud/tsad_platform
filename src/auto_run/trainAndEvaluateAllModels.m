@@ -7,7 +7,7 @@ function [finalScores, filesTest] = trainAndEvaluateAllModels(datasetPath, model
 %TRAINANDEVALUATEALLMODELS Trains all specified models on a single dataset
 %and returns all scores and file names of test data
 
-fprintf('\nLoading data\n\n')
+fprintf("\nLoading data\n\n")
 % Loading data
 [dataTrainRaw, ~, labelsTrain, ~, ...
     dataTestRaw, ~, labelsTest, filesTest, ~] = loadCustomDataset(datasetPath);
@@ -16,7 +16,7 @@ if isempty(dataTestRaw) && isempty(dataTrainRaw)
     error("Invalid dataset selected");
 end
 
-fprintf('\nPreprocessing data with method: %s\n', preprocMethod);
+fprintf("\nPreprocessing data with method: %s\n", preprocMethod);
 % Preprocessing
 [dataTrain, dataTest, ~] = preprocessData(dataTrainRaw, ...
                                             dataTestRaw, ...

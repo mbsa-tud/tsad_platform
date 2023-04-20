@@ -13,13 +13,13 @@ for channel_idx = 1:size(inputData, 2)
         CrestFactor = peak2rms(data);
         ImpulseFactor = max(abs(data))/mean(abs(data));
         Kurtosis = kurtosis(data);
-        Mean = mean(data,'omitnan');
+        Mean = mean(data,"omitnan");
         PeakValue = max(abs(data));
         SINAD = sinad(data);
         SNR = snr(data);
-        ShapeFactor = rms(data,'omitnan')/mean(abs(data),'omitnan');
+        ShapeFactor = rms(data,"omitnan")/mean(abs(data),"omitnan");
         Skewness = skewness(data);
-        Std = std(data,'omitnan');
+        Std = std(data,"omitnan");
     
         % Concatenate signal features.
         features = [features, ClearanceFactor, ...

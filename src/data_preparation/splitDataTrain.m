@@ -7,7 +7,7 @@ YTrain = [];
 
 numChannels = size(data{1, 1}, 2);
 
-if strcmp(modelType, 'reconstructive')
+if strcmp(modelType, "reconstructive")
     for data_idx = 1:size(data, 1)
         numWindows = floor((size(data{data_idx, 1}, 1) - windowSize + 1) / stepSize);
         
@@ -37,7 +37,7 @@ if strcmp(modelType, 'reconstructive')
             error("Invalid dataType for reconstructive model. Must be one of: 1, 2");
         end
     end
-elseif strcmp(modelType, 'predictive')
+elseif strcmp(modelType, "predictive")
     for data_idx = 1:size(data, 1)
         numWindows = floor((size(data{data_idx, 1}, 1) - windowSize) / stepSize);
         

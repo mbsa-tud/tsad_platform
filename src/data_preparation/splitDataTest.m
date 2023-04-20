@@ -4,7 +4,7 @@ function [XTest, YTest, labelsTest] = splitDataTest(data, labels, windowSize, mo
 
 numChannels = size(data{1, 1}, 2);
 
-if strcmp(modelType, 'reconstructive')
+if strcmp(modelType, "reconstructive")
     numWindows = size(data{1, 1}, 1) - windowSize + 1;
     
     if numWindows < 1
@@ -22,7 +22,7 @@ if strcmp(modelType, 'reconstructive')
     elseif dataType == 2
         XTest = cell(numWindows, 1);
         for i = 1:numWindows
-            XTest{i, 1} = data{1, 1}(i:(i + windowSize - 1), :)';
+            XTest{i, 1} = data{1, 1}(i:(i + windowSize - 1), :)";
         end
     else
         error("Invalid dataType for reconstructive model. Must be one of: 1, 2");
@@ -31,7 +31,7 @@ if strcmp(modelType, 'reconstructive')
     % YTest and labels
     YTest = data{1, 1};
     labelsTest = logical(labels{1, 1});
-elseif strcmp(modelType, 'predictive')
+elseif strcmp(modelType, "predictive")
     numWindows = size(data{1, 1}, 1) - windowSize;
 
     if numWindows < 1
@@ -49,7 +49,7 @@ elseif strcmp(modelType, 'predictive')
     elseif dataType == 2
         XTest = cell(numWindows, 1);
         for i = 1:numWindows
-            XTest{i, 1} = data{1, 1}(i:(i + windowSize - 1), :)';
+            XTest{i, 1} = data{1, 1}(i:(i + windowSize - 1), :)";
         end
     elseif dataType == 3
         XTest = cell(numWindows, 1);

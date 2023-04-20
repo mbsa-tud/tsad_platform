@@ -1,11 +1,9 @@
 function trainedModels = trainAllModels(models, dataTrain, labelsTrain, dataTestVal, labelsTestVal, thresholds, trainingPlots, parallelEnabled)
 %TRAINALLMODELS Trains all selected models
 
-numChannels = size(dataTrain{1, 1}, 2);
-
 % Training DNN models
 if ~isempty(models)
-    fprintf('\nTraining models\n\n');
+    fprintf("\nTraining models\n\n");
     trainedModels_tmp = trainingWrapper(models, ...
                                     dataTrain, ...
                                     labelsTrain, ...

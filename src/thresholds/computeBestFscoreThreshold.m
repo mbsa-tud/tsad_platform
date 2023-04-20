@@ -13,7 +13,7 @@ end
 F1Scores = [];
 
 switch type
-    case 'point-wise'
+    case "point-wise"
         for cand_idx = 1:numThresholdCandidates
             confmat = confusionmat(logical(labels), logical(predictedLabels(:, cand_idx)));
             try
@@ -24,7 +24,7 @@ switch type
                 F1Scores(cand_idx) = NaN;
             end
         end
-    case 'event-wise'   
+    case "event-wise"   
         for cand_idx = 1:numThresholdCandidates
             try
                 [fp_e, fn_e, tp_e] = overlap_seg(labels, predictedLabels(:, cand_idx));
@@ -35,7 +35,7 @@ switch type
                 F1Scores(cand_idx) = NaN;
             end
         end
-    case 'point-adjusted'
+    case "point-adjusted"
         sequences = find_cons_sequences(find(labels == 1));
 
         for cand_idx = 1:numThresholdCandidates
@@ -59,7 +59,7 @@ switch type
                 F1Scores(cand_idx) = NaN;
             end
         end
-    case 'composite'
+    case "composite"
         sequences = find_cons_sequences(find(labels == 1));
 
         for cand_idx = 1:numThresholdCandidates

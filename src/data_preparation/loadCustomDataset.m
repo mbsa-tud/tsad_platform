@@ -19,12 +19,12 @@ if ~isfolder(datasetPath)
     end
 end
 
-dataTrainPath = fullfile(datasetPath, 'train');
-dataTestPath = fullfile(datasetPath, 'test');
+dataTrainPath = fullfile(datasetPath, "train");
+dataTestPath = fullfile(datasetPath, "test");
 
 
-trainingFiles = dir(fullfile(dataTrainPath, '*.csv'));
-testingFiles = dir(fullfile(dataTestPath, '*.csv'));
+trainingFiles = dir(fullfile(dataTrainPath, "*.csv"));
+testingFiles = dir(fullfile(dataTestPath, "*.csv"));
 
 if numel(trainingFiles) == 0 && numel(testingFiles) == 0                
     error("Invalid dataset. Check the platform manual for the correct format of a dataset");
@@ -49,7 +49,7 @@ for data_idx = 1:numOfTrainingFiles
     file = fullfile(dataTrainPath, trainingFiles(data_idx).name);
     data = readtable(file);
 
-    name = strsplit(trainingFiles(data_idx).name, '.');
+    name = strsplit(trainingFiles(data_idx).name, ".");
     filesTraining(data_idx, 1) = name(1);
     trainingData{data_idx, 1} = data{:, 2:(end - 1)};
     labelsTraining{data_idx, 1} = logical(data{:, end});                
@@ -68,7 +68,7 @@ for data_idx = 1:numOfTestingFiles
     file = fullfile(dataTestPath, testingFiles(data_idx).name);
     data = readtable(file);
 
-    name = strsplit(testingFiles(data_idx).name, '.');
+    name = strsplit(testingFiles(data_idx).name, ".");
     filesTesting(data_idx, 1) = name(1);
     testingData{data_idx, 1} = data{:, 2:(end - 1)};
     labelsTesting{data_idx, 1} = logical(data{:, end});

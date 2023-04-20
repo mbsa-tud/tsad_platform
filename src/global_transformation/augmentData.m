@@ -14,13 +14,13 @@ if ~isempty(rawTestingData)
     mu = mean(fullData);
 
     switch method
-        case 'white noise'
+        case "white noise"
             augmentedTestingData = addWhiteNoise(rawTestingData, maximum, minimum, level);
-        case 'random walk'
+        case "random walk"
             augmentedTestingData = addRandomWalk(rawTestingData, maximum, minimum, level);
-        case 'global shift'
+        case "global shift"
             augmentedTestingData = shiftData(rawTestingData, maximum, level);
-        case 'attenuate extremum'
+        case "attenuate extremum"
             augmentedTestingData = attenuateExtremum(rawTestingData, mu, level);
     end
 end
@@ -37,13 +37,13 @@ if augmentTrainingData
         mu = mean(fullData);
 
         switch method
-            case 'white noise'
+            case "white noise"
                 augmentedTrainingData = addWhiteNoise(rawTrainingData, maximum, minimum, level);
-            case 'random walk'
+            case "random walk"
                 augmentedTrainingData = addRandomWalk(rawTrainingData, maximum, minimum, level);
-            case 'global shift'
+            case "global shift"
                 augmentedTrainingData = shiftData(rawTrainingData, maximum, level);
-            case 'attenuate extremum'
+            case "attenuate extremum"
                 augmentedTrainingData = attenuateExtremum(rawTrainingData, mu, level);
         end
     end

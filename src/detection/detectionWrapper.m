@@ -3,7 +3,7 @@ function [anomalyScores, compTimeOut] = detectionWrapper(trainedModel, XTest, YT
 %   Runs the detection applys a scoring function and returns anomaly scores
 %   and computational time
 
-if ~exist('getCompTime', 'var')
+if ~exist("getCompTime", "var")
     getCompTime = false;
 end
 
@@ -21,8 +21,8 @@ if trainedModel.modelOptions.outputsLabels
 end
 
 % Apply optional scoring function
-if isfield(trainedModel.modelOptions, 'hyperparameters')
-    if isfield(trainedModel.modelOptions.hyperparameters, 'scoringFunction')
+if isfield(trainedModel.modelOptions, "hyperparameters")
+    if isfield(trainedModel.modelOptions.hyperparameters, "scoringFunction")
         anomalyScores = applyScoringFunction(trainedModel, anomalyScores);
     end
 end

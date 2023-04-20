@@ -16,7 +16,7 @@ if ~strcmp(modelOptions.learningType, "unsupervised")
     
     % Train model
     switch modelOptions.type
-        case 'deep-learning'
+        case "deep-learning"
             [XTrain, YTrain, XVal, YVal] = prepareDataTrain(modelOptions, dataTrain, labelsTrain);
             [trainedModel.Mdl, trainedModel.MdlInfo] = trainWrapper_DL(modelOptions, XTrain, YTrain, XVal, YVal, trainingPlots, verbose);
         otherwise
