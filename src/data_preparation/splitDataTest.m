@@ -22,7 +22,7 @@ if strcmp(modelType, "reconstructive")
     elseif dataType == 2
         XTest = cell(numWindows, 1);
         for i = 1:numWindows
-            XTest{i, 1} = data{1, 1}(i:(i + windowSize - 1), :)";
+            XTest{i, 1} = data{1, 1}(i:(i + windowSize - 1), :)';
         end
     else
         error("Invalid dataType for reconstructive model. Must be one of: 1, 2");
@@ -49,7 +49,7 @@ elseif strcmp(modelType, "predictive")
     elseif dataType == 2
         XTest = cell(numWindows, 1);
         for i = 1:numWindows
-            XTest{i, 1} = data{1, 1}(i:(i + windowSize - 1), :)";
+            XTest{i, 1} = data{1, 1}(i:(i + windowSize - 1), :)';
         end
     elseif dataType == 3
         XTest = cell(numWindows, 1);

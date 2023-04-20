@@ -100,7 +100,7 @@ end
 thresholdSubfolders = strings(length(thresholds), 1);
 
 for thr_idx = 1:length(thresholds)
-    thresholdSubfolders(thr_idx) = fullfile(datasetOutputFolder, getThresholdLabels(thresholds(thr_idx)));
+    thresholdSubfolders(thr_idx) = fullfile(datasetOutputFolder, thresholds(thr_idx));
     if ~exist(thresholdSubfolders(thr_idx), "dir")
         mkdir(thresholdSubfolders(thr_idx));
     end
