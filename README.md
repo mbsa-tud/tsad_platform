@@ -263,7 +263,7 @@ To optimize models, do the following:
     <img src="media/final_optimization_window.png" alt="Optimization window" title="Optimization window" width=200/>
 
 2. (optional) Click `Open Optimization Config` to edit the optimization config `.json` file. This file defines the ranges of hyperparameters to optimize. See [below](#optional-enable-optimization-for-your-model) for information on how to edit this file.
-3. Configure the optimization process by selecting a `Metric to Optimize` and check the `Training Plots` checkbox if you want to show plots for deep-learning models.
+3. Configure the optimization process by selecting the number of `Iterations` for the bayesian optimization, the `Metric to Optimize` and check the `Training Plots` checkbox if you want to show plots for deep-learning models.
 4. Click the `Run Optimization` button to optimize all models. For each iteration of the optimization, every model gets tested on all files of the testing dataset and the average score (metric selected in step 3.) is aimed to be improved. The threshold used for all models is the one selected on the [Detection panel](#detection).
 5. Once it's done, the optimized models will appear on the [Detection](#detection) and [Simulink Detection](#simulink-detection) panels.
 
