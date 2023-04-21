@@ -252,7 +252,7 @@ To train models, do the following:
 Before training, you can configure the training process as follows:
 * Check the `Training Plots` checkbox to enable graphical training plots (currently only for deep-learning models).
 
-**USEFUL** You can update the scoring function and re-calculate the static thresholds without having to train the entire model again. To do so, select models in the list, right-click and click `Change Scoring Function` to change the scoring function or `Update Static Thresholds` to calculate the static thresholds again.
+**USEFUL** You can update the scoring function and calculate the static thresholds again without having to train the entire model again. To do so, select models in the list, right-click and click `Change Scoring Function` to change the scoring function or `Update Static Thresholds` to calculate the static thresholds again.
 
 #### Optimize models
 
@@ -303,8 +303,8 @@ The anomaly detection using the models trained earlier (see [Training and optimi
 #### Observe results (4)
 
 Once the detection is finished, the following results are are displayed in the windows below:
-* **Plots** of the anomaly scores and detected anoamlies for the last model the detection was run for.
-* A **Table** storing all scores for all models and the computational time of deep-learning models (time to make predictions for one subsequence)
+* **Plots** of the anomaly scores and detected anoamlies for the first model the detection was run for.
+* The **Scores** for the currently selected file and the average scores across all files. These tables can be exported.
 * A **Computation time** plot showing the  average computational time of the models for a single subsequence on the x-axis and the obtained scores on the y-axis.
 Using the `Metric Selection` button, one can choose what metrics should be displayed within this plot.
 
