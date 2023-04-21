@@ -263,8 +263,8 @@ To optimize models, do the following:
     <img src="media/final_optimization_window.png" alt="Optimization window" title="Optimization window" width=200/>
 
 2. (optional) Click `Open Optimization Config` to edit the optimization config `.json` file. This file defines the ranges of hyperparameters to optimize. Just look at examples in the file on how to edit this file.
-3. Configure the optimization process by selecting a `Score`, a `Threshold` and check the `Training Plots` checkbox if you want to show plots for deep-learning models.
-4. Click the `Run Optimization` button to optimize all models.
+3. Configure the optimization process by selecting a `Score` and check the `Training Plots` checkbox if you want to show plots for deep-learning models. The threshold used for all models is the one selected on the [Detection panel](#detection).
+4. Click the `Run Optimization` button to optimize all models. For each iteration of the optimization, every model gets tested on all files of the testing dataset and the average scores are computed.
 5. Once it's done, the optimized models will appear on the [Detection](#detection) and [Simulink Detection](#simulink-detection) panels.
 
 ---
@@ -354,7 +354,7 @@ To **train and test the dynamic switch**, proceed as follows:
 
 1. Select a metric from the `Metric` dropdown menu. This will be used to compare the models performance with.
 2. Click the `Train Classifier` button to train the deep calssification network. It learns to connect time series features with the best performing model according to the selected metric.
-3. Click the `Run Evaluations` button to test the dynamic switch.
+3. Click the `Run Evaluations` button to test the dynamic switch. The threshold used for all models is the one selected on the [Detection panel](#detection).
 
 #### Observe results (2), (4)
 All results including the scores obtained by all individual models will be displayed in the table (4). You can see the best models for the training data of the dynamic switch and the predictions it made for the testing data in the lists at the bottom (2).
