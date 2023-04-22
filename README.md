@@ -1,6 +1,6 @@
 # TSAD Platform Manual
 
-A platform for evaluating time series anomaly detection methods.
+A platform for evaluating time series anomaly detection (tsad) methods offering options to automatically train, test compare and optimize them.
 
 ## Getting Started
 
