@@ -111,13 +111,16 @@ A dataset can be loaded and processed on the `Dataset Preparation` panel:
 <img src="media/final_dataset_panel.png" alt="Dataset preparation panel" title="Dataset preparation panel" width=900/>
 
 ### Loading a dataset (1)
-1. Click `Browse` to select a folder from your computer or enter a path manually.
+1. Click `Browse` to select a folder from your computer or enter a path manually. You can find some datasets in the `datasets` folder of the tsad platform.
 2. Click `Load Data` to import the selected dataset.
 
 
 The **format** of a dataset must be as such:
 
 * It contains at least one of the following folders: a `train` folder containing training data and a `test` folder containing testing data.
+* The `test` folder always contains data with anomalies. All models are evaluated on this data.
+* The `train` folder is only required for **semi-supervised** and **supervised** models, not for **unsupervised** models as they are tested on the test data directly.
+It should contain fault-free data for semi-supervised models and anomalous data for supervised models. Chapter [Load and configure models](#loadconfigure-models-1) shows the learning-types of the implemented models.
 * Each folder contains an arbitrary amount of **CSV** files with the following format:
 
 | timestamp | value1 | value2 | is_anomaly |
@@ -186,8 +189,13 @@ To do so, proceed as follows:
 
 Following models are currently available:
 
-* `Deep-learning based models`: FC-AE, LSTM reconstruction, Hybrid CNN-LSTM reconstruction, TCN-AE, LSTM, Hybrid CNN-LSTM, GRU, CNN (DeepAnT), ResNet, MLP
-* `Others`: iForest, OC-SVM, LOF, LDOF, ABOD, Merlin, over-sampling PCA, Grubbs test
+* `Deep-learning based models`:
+    * **semi-supervised**: 
+        * **reconstruction models**: FC-AE, LSTM, Hybrid CNN-LSTM, TCN-AE, 
+        * **prediction models**: LSTM, Hybrid CNN-LSTM, GRU, CNN (DeepAnT), ResNet, MLP
+* `Others`: 
+    * **unsupervised**: iForest (optionally semi-supervised), LOF, LDOF, ABOD, Merlin, over-sampling PCA, Grubbs test
+    * **semi-supervised**: OC-SVM, (iForest)
 
 You can load these on the training panel (these are not trained yet, it's only the configuration that gets loaded). 
 Once loaded, you can inspect the configuration of a model by selecting it in the list, right-clicking and selecting `Show Model Parameters`. This wil show all parameters of the selected model on the right side of the window (3).
