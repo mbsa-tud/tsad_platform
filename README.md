@@ -303,10 +303,10 @@ The anomaly detection using the models trained earlier (see [Training and optimi
     * To only update the applied threshold and not rerun the entire detection process, check the `Update Threshold only` checkbox (This only has an effect if you ran the detection with this checkbox unchecked before).
 
 3. You can then run the detection for:
-    * Selected models (ony for selected file)
-    * Selected models on all files
-    * All models (only for selected file)
-    * All models on all files
+    * `Selected models` (ony for selected file)
+    * `Selected models on all files`
+    * `All models` (only for selected file)
+    * `All models on all files`
 
 #### Observe results (4)
 
