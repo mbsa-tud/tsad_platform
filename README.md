@@ -121,7 +121,7 @@ The **format** of a dataset must be as such:
 * The `test` folder always contains data with anomalies. All models are evaluated on this data.
 * The `train` folder is only required for **semi-supervised** and **supervised** models, not for **unsupervised** models as they are tested on the test data directly.
 It should contain fault-free data for semi-supervised models and anomalous data for supervised models. Chapter [Load and configure models](#loadconfigure-models-1) shows the learning-types of the implemented models.
-* Each folder contains an arbitrary amount of **CSV** files with the following format:
+* Each folder must contain at least one **CSV** file with the following format:
 
 | timestamp | value1 | value2 | is_anomaly |
 |-|-|-|-|
