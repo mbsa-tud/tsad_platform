@@ -264,15 +264,20 @@ Before training, you can configure the training process as follows:
 
 #### Optimize models
 
+The platform offers the possibility to use bayesian hyperparameter optimization.
 To optimize models, do the following:
 
 1. Select the models within the list and click `Optimize Selection` or just click `Optimize All` to open a **new window**:
 
     <img src="media/final_optimization_window.png" alt="Optimization window" title="Optimization window" width=200/>
 
-2. (optional) Click `Open Optimization Config` to edit the optimization config `.json` file. This file defines the ranges of hyperparameters to optimize. See [below](#optional-enable-optimization-for-your-model) for information on how to edit this file.
-3. Configure the optimization process by selecting the number of `Iterations` for the bayesian optimization, the `Metric to Optimize` and check the `Training Plots` checkbox if you want to show plots for deep-learning models.
-4. Click the `Run Optimization` button to optimize all models. For each iteration of the optimization, every model gets tested on all files of the testing dataset and the average score (metric selected in step 3.) is aimed to be improved. The threshold used for all models is the one selected on the [Detection panel](#detection).
+2. (optional) Click `Open Optimization Config` to edit the optimization config `.json` file. This file defines the ranges of hyperparameters to optimize. See Chapter [Enable optimization](#optional-enable-optimization-for-your-model) for information on how to edit this file.
+3. Configure the optimization process by selecting:
+    * The number of `Iterations` for the optimization (= number of combinations of hyperparameters to check).
+    * The `Metric to Optimize`.
+    * The `Threshold` used for all models.
+    * (optional) Check the `Training Plots` checkbox if you want to show plots for deep-learning models.
+4. Click the `Run Optimization` button to optimize all models. For each iteration of the optimization, every model gets tested on all files of the testing dataset and the average score (metric selected in step 3.) is aimed to be improved.
 5. Once it's done, the optimized models will appear on the [Detection](#detection) and [Simulink Detection](#simulink-detection) panels.
 
 ---
@@ -360,7 +365,7 @@ To **train and test the dynamic switch**, proceed as follows:
 
 #### Configure, train and test dynamic switch (1)
 
-1. Select a metric from the `Metric` dropdown menu. This will be used to compare the models performance with.
+1. Select a `Metric` from the dropdown menu. This metric will be used to compare the performance of models.
 2. Click the `Train Classifier` button to train the deep calssification network. It learns to connect time series features with the best performing model according to the selected metric.
 3. Click the `Run Evaluations` button to test the dynamic switch. The threshold used for all models is the one selected on the [Detection panel](#detection).
 
