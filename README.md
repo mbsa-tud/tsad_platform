@@ -284,11 +284,11 @@ To optimize models, do the following:
 
 ## Detection
 
-The anomaly detection using the models trained earlier (see [Training and optimization](#training-and-optimization)) is available on the `Detection` panel:
+The trained models can be tested on the `Detection` panel:
 
 <img src="media/final_detection_panel.png" alt="Detection panel" title="Detection panel" width=900/>
 
-### Running a detection
+### Running detections
 
 #### List of trained Models (1)
 
