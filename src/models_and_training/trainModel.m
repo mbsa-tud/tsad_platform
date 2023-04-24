@@ -4,7 +4,7 @@ function trainedModel = trainModel(modelOptions, dataTrain, labelsTrain, dataTes
 trainedModel = [];
 trainedModel.modelOptions = modelOptions;
 
-fprintf("Training: %s\n", modelOptions.label);
+fprintf("Training: %s ...\n", modelOptions.label);
 
 if ~strcmp(modelOptions.learningType, "unsupervised")
     if isempty(dataTrain)
@@ -53,4 +53,6 @@ if ~strcmp(modelOptions.learningType, "unsupervised")
         end
     end
 end
+
+fprintf("Successfully trained: %s!\n", modelOptions.label);
 end

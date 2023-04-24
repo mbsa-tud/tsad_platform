@@ -3,7 +3,7 @@ function staticThresholds = getStaticThresholds(trainedModel, data, labels, thre
 %   Compute static thresholds either using the training data or the
 %   anomalous validation data
 
-fprintf("Calculating static thresholds\n");
+fprintf("Calculating static thresholds ...\n");
 
 staticThresholds = [];
 

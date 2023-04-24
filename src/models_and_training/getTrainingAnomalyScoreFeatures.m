@@ -2,7 +2,7 @@ function [trainingAnomalyScores, trainingAnomalyScoreFeatures] = getTrainingAnom
 %GETTRAININGANOMALYSCOREFEATURES Get the raw anomaly scores and their
 %statistical features for the training data
 
-fprintf("Calculating anomaly scores for training data\n");
+fprintf("Calculating anomaly scores for training data ...\n");
 
 switch trainedModel.modelOptions.name
     case "Your model"

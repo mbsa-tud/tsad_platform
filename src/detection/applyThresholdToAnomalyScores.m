@@ -21,7 +21,7 @@ else
     if strcmp(thresholdId, "dynamic")
         % Dynamic threshold
 
-        fprintf("Calculating dynamic threshold\n");
+        fprintf("Calculating dynamic threshold ...\n");
         padding = dynamicThresholdSettings.anomalyPadding;
         windowSize = max(1, floor(length(anomalyScores) * (dynamicThresholdSettings.windowSize / 100)));
         min_percent = dynamicThresholdSettings.minPercent;
@@ -45,7 +45,7 @@ else
         % predictedLabels = combineAnomsAndStatic(anomalyScores, predictedLabels);
     else
         % Other static thresholds
-        fprintf("Calculating static threshold (%s) on test set\n", getThresholdLabels(thresholdId));
+        fprintf("Calculating static threshold (%s) on test set ...\n", getThresholdLabels(thresholdId));
         threshold = calcStaticThreshold(anomalyScores, labels, thresholdId, trainedModel.modelOptions.name);
 
         predictedLabels = any(anomalyScores > threshold, 2);

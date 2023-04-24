@@ -1,4 +1,4 @@
-function optimizedModelOptions = autoOptimization(models, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, configOptFileName, cmpScore, threshold, dynamicThresholdSettings, iterations, trainingPlots, parallelEnabled)
+function optimizedModelOptions = autoOptimization(models, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, configOptFileName, metric, threshold, dynamicThresholdSettings, iterations, trainingPlots, parallelEnabled)
 %AUTOOPTIMIZATION Runs the auto optimization for the models
 %   Main wrapper function to run the bayesian optimization for all selected
 %   models
@@ -38,7 +38,7 @@ for model_idx = 1:length(models)
     results = optimizeModel(optVars, modelOptions, dataTrain, ...
                             labelsTrain, dataValTest, labelsValTest, ...
                             dataTest, labelsTest, threshold, dynamicThresholdSettings, ...
-                            cmpScore, iterations, trainingPlots, parallelEnabled);
+                            metric, iterations, trainingPlots, parallelEnabled);
 
     optimumVars = results.XAtMinObjective;
     

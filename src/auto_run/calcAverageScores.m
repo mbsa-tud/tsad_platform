@@ -18,8 +18,8 @@ for model_idx = 1:numOfModels
                 scores(data_idx, 1) = tmp(metric_idx, model_idx);
             end
         end
-        avgScore = mean(scores);
-        if avgScore == 0
+        avgScore = round(mean(scores), 4); % Round mean score to 4 decimal places
+        if avgScore == 0 % If average is 0, convert back to NaN
             avgScore = NaN;
         end
         avgScores(metric_idx, model_idx) = avgScore;
