@@ -19,9 +19,9 @@ for id_idx = 1:numIds
         case "topK"
             labels(1, id_idx) = "Top k";
         case "meanStd"
-            labels(1, id_idx) = "Mean + 4 * Std";
+            labels(1, id_idx) = "Mean + 3 * Std";
         case "meanStdTrain"
-            labels(1, id_idx) = "Mean + 4 * Std (Train)";
+            labels(1, id_idx) = "Mean + 3 * Std (Train)";
         case "maxTrainAnomalyScore"
             labels(1, id_idx) = "Max Train Anomaly Score";
         case "pointFive"

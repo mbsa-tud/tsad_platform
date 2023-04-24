@@ -14,9 +14,9 @@ switch label
         id = "bestFscoreComposite";
     case "Top k"
         id = "topK";
-    case "Mean + 4 * Std"
+    case "Mean + 3 * Std"
         id = "meanStd";
-    case "Mean + 4 * Std (Train)"
+    case "Mean + 3 * Std (Train)"
         id = "meanStdTrain";
     case "Max Train Anomaly Score"
         id = "maxTrainAnomalyScore";
