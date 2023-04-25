@@ -4,9 +4,9 @@ function finalTable = autoRunWrapper(datasetPath, models, preprocMethod, ...
 %EVALUATEALLFORDATASET Main function for training and testing all specified
 %models on an entire dataset
 
-fprintf("\n ----------------------------- \n");
-fprintf("###  Evaluating all models  ###");
-fprintf("\n ----------------------------- \n");
+fprintf("\n ------------------------- \n");
+fprintf("###  Starting Auto Run  ###");
+fprintf("\n ------------------------- \n");
 
 % Variable initialization
 scoreNames = table(METRIC_NAMES);
@@ -147,7 +147,7 @@ for thr_idx = 1:length(allScores)
 end
 
 fprintf("Saved all files to %s\n", datasetOutputFolder);
-fprintf("\n ----------------------------- \n");
-fprintf("###  Finished successfully! ###");
-fprintf("\n ----------------------------- \n");
+fprintf("\n -------------------------------------- \n");
+fprintf("###  Finished Auto Run Successfully! ###");
+fprintf("\n -------------------------------------- \n");
 end
