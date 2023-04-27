@@ -6,8 +6,8 @@ augmentedTestingData = [];
 
 if ~isempty(rawTestingData)
     fullData = [];
-    for data_idx = 1:size(rawTestingData, 1)
-        fullData = [fullData; rawTestingData{data_idx, 1}];
+    for data_idx = 1:numel(rawTestingData)
+        fullData = [fullData; rawTestingData{data_idx}];
     end
     maximum = max(fullData);
     minimum = min(fullData);
@@ -29,8 +29,8 @@ end
 if augmentTrainingData
     if ~isempty(rawTrainingData)
         fullData = [];
-        for data_idx = 1:size(rawTrainingData, 1)
-            fullData = [fullData; rawTrainingData{data_idx, 1}];
+        for data_idx = 1:numel(rawTrainingData)
+            fullData = [fullData; rawTrainingData{data_idx}];
         end
         maximum = max(fullData);
         minimum = min(fullData);

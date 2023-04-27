@@ -4,32 +4,32 @@ function labels = getThresholdLabels(ids)
 %   converts all ids to the labels which are nicer to display.
 
 numIds = numel(ids);
-labels = strings(1, numIds);
+labels = strings(numIds, 1);
 
-for id_idx = 1:numIds
-    switch ids(id_idx)
+for i = 1:numIds
+    switch ids(i)
         case "bestFscorePointwise"
-            labels(1, id_idx) = "Best F1 Score (point-wise)";
+            labels(i) = "Best F1 Score (point-wise)";
         case "bestFscoreEventwise"
-            labels(1, id_idx) = "Best F1 Score (event-wise)";
+            labels(i) = "Best F1 Score (event-wise)";
         case "bestFscorePointAdjusted"
-            labels(1, id_idx) = "Best F1 Score (point-adjusted)";
+            labels(i) = "Best F1 Score (point-adjusted)";
         case "bestFscoreComposite"
-            labels(1, id_idx) = "Best F1 Score (composite)";
+            labels(i) = "Best F1 Score (composite)";
         case "topK"
-            labels(1, id_idx) = "Top k";
+            labels(i) = "Top k";
         case "meanStd"
-            labels(1, id_idx) = "Mean + 3 * Std";
+            labels(i) = "Mean + 3 * Std";
         case "meanStdTrain"
-            labels(1, id_idx) = "Mean + 3 * Std (Train)";
+            labels(i) = "Mean + 3 * Std (Train)";
         case "maxTrainAnomalyScore"
-            labels(1, id_idx) = "Max Train Anomaly Score";
+            labels(i) = "Max Train Anomaly Score";
         case "pointFive"
-            labels(1, id_idx) = "0.5";
+            labels(i) = "0.5";
         case "dynamic"
-            labels(1, id_idx) = "Dynamic";
+            labels(i) = "Dynamic";
         case "custom"
-            labels(1, id_idx) = "Custom";
+            labels(i) = "Custom";
     end
 end
 end

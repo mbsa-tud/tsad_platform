@@ -15,7 +15,7 @@ if modelOptions.isMultivariate
             YTrain = {YTrain};
     end
 else
-    numChannels = size(data{1, 1}, 2);
+    numChannels = size(data{1}, 2);
 
     switch modelOptions.type
         case "deep-learning"
@@ -25,24 +25,24 @@ else
             YVal = cell(1, numChannels);
         
             for channel_idx = 1:numChannels
-                data_tmp = cell(size(data));
-                for j = 1:size(data, 1)
-                    data_tmp{j, 1} = data{j, 1}(:, channel_idx);
+                data_tmp = cell(numel(data), 1);
+                for j = 1:numel(data)
+                    data_tmp{j} = data{j}(:, channel_idx);
                 end
         
-                [XTrain{1, channel_idx}, YTrain{1, channel_idx}, XVal{1, channel_idx}, YVal{1, channel_idx}] = prepareDataTrain_DL(modelOptions, data_tmp, labels);
+                [XTrain{channel_idx}, YTrain{channel_idx}, XVal{channel_idx}, YVal{channel_idx}] = prepareDataTrain_DL(modelOptions, data_tmp, labels);
             end
         otherwise
             XTrain = cell(1, numChannels);
             YTrain = cell(1, numChannels);
         
             for channel_idx = 1:numChannels
-                data_tmp = cell(size(data));
-                for j = 1:size(data, 1)
-                    data_tmp{j, 1} = data{j, 1}(:, channel_idx);
+                data_tmp = cell(numel(data), 1);
+                for j = 1:numel(data)
+                    data_tmp{j} = data{j}(:, channel_idx);
                 end
         
-                [XTrain{1, channel_idx}, YTrain{1, channel_idx}] = prepareDataTrain_Other(modelOptions, data_tmp, labels);
+                [XTrain{channel_idx}, YTrain{channel_idx}] = prepareDataTrain_Other(modelOptions, data_tmp, labels);
             end
     end
 end

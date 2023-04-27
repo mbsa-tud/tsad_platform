@@ -10,15 +10,15 @@ staticThresholds = [];
 if strcmp(type, "anomalous-validation-data")
     % For semi-supervised models trained on fault-free data
     if ~isempty(data)
-        XValTestCell = cell(size(data, 1), 1);
-        YValTestCell = cell(size(data, 1), 1);
-        labelsValTestCell = cell(size(data, 1), 1);
+        XValTestCell = cell(numel(data), 1);
+        YValTestCell = cell(numel(data), 1);
+        labelsValTestCell = cell(numel(data), 1);
         
         numAnoms = 0;
         numTimeSteps = 0;
     
-        for data_idx = 1:size(data, 1)
-            [XValTestCell{data_idx, 1}, YValTestCell{data_idx, 1}, labelsValTestCell{data_idx, 1}] = prepareDataTest(trainedModel.modelOptions, data(data_idx, :), labels(data_idx, :));
+        for data_idx = 1:numel(data)
+            [XValTestCell{data_idx}, YValTestCell{data_idx}, labelsValTestCell{data_idx}] = prepareDataTest(trainedModel.modelOptions, data(data_idx), labels(data_idx));
     
             numAnoms = numAnoms + sum(labelsValTestCell{end} == 1);
             numTimeSteps = numTimeSteps + size(labelsValTestCell{end}, 1);
@@ -30,10 +30,10 @@ if strcmp(type, "anomalous-validation-data")
             anomalyScoresValTest = [];
             labelsValTest = [];
     
-            for data_idx = 1:size(XValTestCell, 1)
-                anomalyScores_tmp = detectionWrapper(trainedModel, XValTestCell{data_idx, 1}, YValTestCell{data_idx, 1}, labelsValTestCell{data_idx, 1});
+            for data_idx = 1:numel(XValTestCell)
+                anomalyScores_tmp = detectionWrapper(trainedModel, XValTestCell{data_idx}, YValTestCell{data_idx}, labelsValTestCell{data_idx});
                 anomalyScoresValTest = [anomalyScoresValTest; anomalyScores_tmp];
-                labelsValTest = [labelsValTest; labelsValTestCell{data_idx, 1}];
+                labelsValTest = [labelsValTest; labelsValTestCell{data_idx}];
             end
     
     

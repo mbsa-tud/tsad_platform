@@ -5,7 +5,7 @@ function optimizedModelOptions = autoOptimization(models, dataTrain, labelsTrain
 
 optimizedModelOptions = [];
 
-for model_idx = 1:length(models)
+for model_idx = 1:numel(models)
     modelOptions = models(model_idx).modelOptions;
     % Load hyperparameters to be optimized
     optVars = getOptimizationVariables(models(model_idx).modelOptions.name, configOptFileName);
@@ -13,7 +13,7 @@ for model_idx = 1:length(models)
     % Check for each optVar if it matches a hyperparameter in the modelOptions struct
     if ~isempty(optVars) && isfield(modelOptions, "hyperparameters")
         varNames = fieldnames(optVars);
-        for var_idx = 1:length(varNames)
+        for var_idx = 1:numel(varNames)
             flag = false;
             if isfield(modelOptions.hyperparameters, varNames{var_idx})
                 flag = true;

@@ -4,13 +4,13 @@ function thr = computeBestFscoreThreshold(anomalyScores, labels, type)
 %   or composite best F-Score threshold
 
 thresholdCandidates = uniquetol(anomalyScores, 0.0001);
-numThresholdCandidates = size(thresholdCandidates, 1);
+numThresholdCandidates = numel(thresholdCandidates);
 
 for cand_idx = 1:numThresholdCandidates
     predictedLabels(:, cand_idx) = any(anomalyScores > thresholdCandidates(cand_idx), 2);
 end
 
-F1Scores = [];
+F1Scores = zeros(numThresholdCandidates, 1);
 
 switch type
     case "point-wise"
@@ -41,9 +41,9 @@ switch type
         for cand_idx = 1:numThresholdCandidates
             labels_pred_point_adjusted = predictedLabels(:, cand_idx);
 
-            for j = 1:size(sequences, 1) 
-                if any(predictedLabels(sequences{j, 1}, cand_idx))
-                    labels_pred_point_adjusted(sequences{j, 1}, 1) = 1;
+            for j = 1:numel(sequences) 
+                if any(predictedLabels(sequences{j}, cand_idx))
+                    labels_pred_point_adjusted(sequences{j}, 1) = 1;
                 end
             end
 
@@ -66,8 +66,8 @@ switch type
             tp_e = 0;
             fn_e = 0;
             
-            for j = 1:size(sequences, 1) 
-                if any(predictedLabels(sequences{j, 1}, cand_idx))
+            for j = 1:numel(sequences) 
+                if any(predictedLabels(sequences{j}, cand_idx))
                     tp_e = tp_e + 1;
                 else
                     fn_e = fn_e + 1;

@@ -688,7 +688,7 @@ case "custom"
 5. Network architectures of deep-learning models could be checked in more detail or updated. For example the TCN-AE currently only accepts window-sizes that are divisible by 4.
 6. Check on startup of the platform whether all required folders are on the matlab path to avoid errors later on.
 7. Add more models (The platform lacks for example in statistical models. Classic machine-learning oder deep-learning models like a Convolutional Autoencoder or a LSTM Autoencoder could also be added. **Note** The implemented LSTM and Hybrid CNN-LSTM reconstruction models don't feature any dimensionality reduction).
-8. Save intermediate results during auto run. This allows to save some results even when a longer running process crashes.
+8. (Maybe irrelevant?) Save intermediate results during auto run. This allows to save some results even when a longer running process crashes.
 9. On some datasets, the training of some deep-learning models can occasionally get stuck. The reasons for this might be further investigated in the future (Maybe related to preprocessing, network architectures, dataset in general, etc.).
 
 **NOTE** The entire platform is quite large at this point and not all functions, data manipulation and app interaction steps could be tested in every way. New errors can always occur and be fixed in the future.

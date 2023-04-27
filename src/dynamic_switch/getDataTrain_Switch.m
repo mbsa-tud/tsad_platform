@@ -1,4 +1,4 @@
-function [XTrain, labelName] = getDataTrain_Switch(data, labels, files)
+function [XTrain, labelName] = getDataTrain_Switch(data, labels, fileNames)
 %GETDATATRAIN_SWITCH Prepares the training data for the dynamic switch
 
 labelName = "best_model";
@@ -8,7 +8,7 @@ labeledFiles = fieldnames(labels);
 XTrain = [];
 
 for labeledFile_idx = 1:numel(labeledFiles)
-    [exists, file_idx] = ismember(labeledFiles{labeledFile_idx}, files);
+    [exists, file_idx] = ismember(labeledFiles{labeledFile_idx}, fileNames);
 
     if ~exists
         continue;

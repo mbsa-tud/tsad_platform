@@ -3,7 +3,7 @@ function scoresCell = trainAndEvaluateModel(modelOptions, dataTrain, labelsTrain
 %   This function does the entire pipeline for a single model from training
 %   to caluclating a threshold and running tests. It returns all scores.
 
-scoresCell = cell(size(dataTest, 1), 1);
+scoresCell = cell(numel(dataTest), 1);
 
 model.modelOptions = modelOptions;
 
@@ -14,9 +14,9 @@ trainedModel = trainingWrapper(model, dataTrain, ...
                             trainingPlots, parallelEnabled);
 
 % Run detection for all test files
-for data_idx = 1:size(dataTest, 1)
-    fullScores = detectAndEvaluateWith(trainedModel.(modelOptions.id), dataTest(data_idx, 1), labelsTest(data_idx, 1), threshold, dynamicThresholdSettings);
+for data_idx = 1:numel(dataTest)
+    fullScores = detectAndEvaluateWith(trainedModel.(modelOptions.id), dataTest(data_idx), labelsTest(data_idx), threshold, dynamicThresholdSettings);
 
-    scoresCell{data_idx, 1} = fullScores;
+    scoresCell{data_idx} = fullScores;
 end
 end

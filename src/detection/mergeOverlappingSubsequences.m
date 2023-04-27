@@ -18,13 +18,13 @@ if dataType == 1
         reshapedPrediction(:, channel_idx) = mergeSequences(data, windowSize, averagingFunction);
     end
 elseif dataType == 2
-    numChannels = size(prediction{1, 1}, 1);
-    reshapedPrediction = zeros((size(prediction, 1) + windowSize - 1), numChannels);
+    numChannels = size(prediction{1}, 1);
+    reshapedPrediction = zeros((numel(prediction) + windowSize - 1), numChannels);
     
     for channel_idx = 1:numChannels
-        data = zeros(size(prediction, 1), size(prediction{1, 1}, 2));
+        data = zeros(numel(prediction), size(prediction{1}, 2));
         for i = 1:size(prediction, 1)
-            data(i, :) = prediction{i, 1}(channel_idx, :);
+            data(i, :) = prediction{i}(channel_idx, :);
         end
     
         reshapedPrediction(:, channel_idx) = mergeSequences(data, windowSize, averagingFunction);

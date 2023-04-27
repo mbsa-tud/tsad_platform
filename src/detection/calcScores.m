@@ -36,9 +36,9 @@ anomsPointAdjusted = predictedLabels;
 
 sequences = find_cons_sequences(find(labels == 1));
 
-for i = 1:size(sequences, 1)
-    if any(predictedLabels(sequences{i, 1}, 1))
-        anomsPointAdjusted(sequences{i, 1}, 1) = 1;
+for i = 1:numel(sequences)
+    if any(predictedLabels(sequences{i}, 1))
+        anomsPointAdjusted(sequences{i}, 1) = 1;
     end
 end
 

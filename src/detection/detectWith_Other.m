@@ -75,7 +75,7 @@ switch modelOptions.name
             indices = sort(indices, 2);
             
             if strcmp(modelOptions.hyperparameters.mode, "median")
-                anomalyScores = zeros(size(XTest, 1), 1);
+                anomalyScores = zeros(length(XTest), 1);
                 
                 % Get average locations of top k discords
                 for i = 1:numAnoms
@@ -84,7 +84,7 @@ switch modelOptions.name
                 end
             elseif strcmp(modelOptions.hyperparameters.mode, "merged")
                 % Alternativeley label all found anomalies of all lengths and merge afterwards
-	            anomalyScores = zeros(size(XTest, 1), size(indices, 1));
+	            anomalyScores = zeros(length(XTest), size(indices, 1));
                 for i = 1:size(indices, 1)
                     for j = 1:numAnoms
                         anomalyScores(indices(i, j):(indices(i, j) + modelOptions.hyperparameters.minL - 2 + i)) = 1;
@@ -95,7 +95,7 @@ switch modelOptions.name
         else
             fprintf("Warning! minL (%d) must be less than maxL (%d) for Merlin, setting anomaly scores to zero.", ...
                 modelOptions.hyperparameters.minL, modelOptions.hyperparameters.maxL);
-            anomalyScores = zeros(size(XTest, 1), 1);
+            anomalyScores = zeros(length(XTest), 1);
         end
         anomalyScores = double(anomalyScores);
     case "Grubbs test"

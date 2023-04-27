@@ -4,7 +4,7 @@ function modelOptions = adaptModelOptions(modelOptions, optVars)
 %   bayesian optimization algorithm
 
 varNames = optVars.Properties.VariableNames;
-for var_idx = 1:length(varNames)
+for var_idx = 1:numel(varNames)
     if isfield(modelOptions.hyperparameters, varNames{var_idx})
         if iscategorical(optVars{1, var_idx})
             if isnumeric(modelOptions.hyperparameters.(varNames{var_idx}))

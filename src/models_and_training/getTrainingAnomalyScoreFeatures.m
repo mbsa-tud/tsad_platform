@@ -8,8 +8,8 @@ switch trainedModel.modelOptions.name
     case "Your model"
     otherwise
         trainingAnomalyScores = [];
-        for data_idx = 1:size(X, 1)
-            trainingAnomalyScores_tmp = detectWithModel(trainedModel, X{data_idx, 1}, Y{data_idx, 1}, [], false);
+        for data_idx = 1:numel(X)
+            trainingAnomalyScores_tmp = detectWithModel(trainedModel, X{data_idx}, Y{data_idx}, [], false);
             trainingAnomalyScores = [trainingAnomalyScores; trainingAnomalyScores_tmp];
         end
 

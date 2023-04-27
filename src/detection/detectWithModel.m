@@ -6,7 +6,7 @@ if trainedModel.modelOptions.isMultivariate
     
     if isfield(trainedModel, "Mdl")
         if ~isempty(trainedModel.Mdl)
-            Mdl_tmp = trainedModel.Mdl{1, 1};
+            Mdl_tmp = trainedModel.Mdl{1};
         else
             Mdl_tmp = [];
         end
@@ -16,20 +16,20 @@ if trainedModel.modelOptions.isMultivariate
 
     switch trainedModel.modelOptions.type
         case 'deep-learning'
-            [anomalyScores, compTime] = detectWith_DL(trainedModel.modelOptions, Mdl_tmp, XTest{1, 1}, YTest{1, 1}, labels, getCompTime);
+            [anomalyScores, compTime] = detectWith_DL(trainedModel.modelOptions, Mdl_tmp, XTest{1}, YTest{1}, labels, getCompTime);
         otherwise
-            [anomalyScores, compTime] = detectWith_Other(trainedModel.modelOptions, Mdl_tmp, XTest{1, 1}, YTest{1, 1}, labels, getCompTime);
+            [anomalyScores, compTime] = detectWith_Other(trainedModel.modelOptions, Mdl_tmp, XTest{1}, YTest{1}, labels, getCompTime);
     end
 else
     % For univariate models which are trained separately for each channel
-    numChannels = size(XTest, 2);
+    numChannels = numel(XTest);
 
     anomalyScores = [];
     compTimes = [];
     for channel_idx = 1:numChannels
         if isfield(trainedModel, "Mdl")
             if ~isempty(trainedModel.Mdl)
-                Mdl_tmp = trainedModel.Mdl{channel_idx, 1};
+                Mdl_tmp = trainedModel.Mdl{channel_idx};
             else
                 Mdl_tmp = [];
             end
@@ -39,11 +39,11 @@ else
         
         switch trainedModel.modelOptions.type
             case 'deep-learning'
-                [anomalyScores_tmp, compTime_tmp]  = detectWith_DL(trainedModel.modelOptions, Mdl_tmp, XTest{1, channel_idx}, YTest{1, channel_idx}, labels, getCompTime);
+                [anomalyScores_tmp, compTime_tmp]  = detectWith_DL(trainedModel.modelOptions, Mdl_tmp, XTest{channel_idx}, YTest{channel_idx}, labels, getCompTime);
                 anomalyScores = [anomalyScores, anomalyScores_tmp];
                 compTimes = [compTimes, compTime_tmp];
             otherwise
-                [anomalyScores_tmp, compTime_tmp]  = detectWith_Other(trainedModel.modelOptions, Mdl_tmp, XTest{1, channel_idx}, YTest{1, channel_idx}, labels, getCompTime);
+                [anomalyScores_tmp, compTime_tmp]  = detectWith_Other(trainedModel.modelOptions, Mdl_tmp, XTest{channel_idx}, YTest{channel_idx}, labels, getCompTime);
                 anomalyScores = [anomalyScores, anomalyScores_tmp];
                 compTimes = [compTimes, compTime_tmp];
         end

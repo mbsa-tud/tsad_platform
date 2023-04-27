@@ -12,7 +12,7 @@ if ~strcmp(modelOptions.learningType, "unsupervised")
     end
     
     % Save dimensionality of data
-    trainedModel.dimensionality = size(dataTrain{1, 1}, 2);
+    trainedModel.dimensionality = size(dataTrain{1}, 2);
     
     % Train model
     switch modelOptions.type
@@ -26,12 +26,12 @@ if ~strcmp(modelOptions.learningType, "unsupervised")
     
     % Get static thresholds
     if ~modelOptions.outputsLabels
-        XTrainTestCell = cell(size(dataTrain, 1), 1);
-        YTrainTestCell = cell(size(dataTrain, 1), 1);
+        XTrainTestCell = cell(numel(dataTrain), 1);
+        YTrainTestCell = cell(numel(dataTrain), 1);
         labelsTrainTest = [];
     
-        for data_idx = 1:size(dataTrain, 1)
-            [XTrainTestCell{data_idx, 1}, YTrainTestCell{data_idx, 1}, labelsTrainTest_tmp] = prepareDataTest(modelOptions, dataTrain(data_idx, :), labelsTrain(data_idx, :));
+        for data_idx = 1:numel(dataTrain)
+            [XTrainTestCell{data_idx}, YTrainTestCell{data_idx}, labelsTrainTest_tmp] = prepareDataTest(modelOptions, dataTrain(data_idx), labelsTrain(data_idx));
             labelsTrainTest = [labelsTrainTest; labelsTrainTest_tmp];
         end
         

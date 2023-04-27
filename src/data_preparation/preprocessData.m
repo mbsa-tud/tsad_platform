@@ -18,8 +18,8 @@ switch method
                 preprocParams.minimum = paramsPrevious.minimum;
             else
                 fullData = [];
-                for data_idx = 1:size(rawTrainingData, 1)
-                    fullData = [fullData; rawTrainingData{data_idx, 1}];
+                for data_idx = 1:numel(rawTrainingData)
+                    fullData = [fullData; rawTrainingData{data_idx}];
                 end
                 preprocParams.maximum = max(fullData);
                 preprocParams.minimum = min(fullData);
@@ -34,8 +34,8 @@ switch method
             else
                 if isempty(preprocParams.maximum)
                     fullData = [];
-                    for data_idx = 1:size(rawTestingData, 1)
-                        fullData = [fullData; rawTestingData{data_idx, 1}];
+                    for data_idx = 1:numel(rawTestingData)
+                        fullData = [fullData; rawTestingData{data_idx}];
                     end
                     preprocParams.maximum = max(fullData);
                     preprocParams.minimum = min(fullData);
@@ -51,8 +51,8 @@ switch method
                 preprocParams.sigma = paramsPrevious.sigma;
             else                
                 fullData = [];
-                for data_idx = 1:size(rawTrainingData, 1)
-                    fullData = [fullData; rawTrainingData{data_idx, 1}];
+                for data_idx = 1:numel(rawTrainingData)
+                    fullData = [fullData; rawTrainingData{data_idx}];
                 end
                 [~, preprocParams.mu, preprocParams.sigma] = zscore(fullData, 0, 1);
             end
@@ -66,8 +66,8 @@ switch method
             else
                 if isempty(preprocParams.mu)    
                     fullData = [];
-                    for data_idx = 1:size(rawTestingData, 1)
-                        fullData = [fullData; rawTestingData{data_idx, 1}];
+                    for data_idx = 1:numel(rawTestingData)
+                        fullData = [fullData; rawTestingData{data_idx}];
                     end
                     [~, preprocParams.mu, preprocParams.sigma] = zscore(fullData, 0, 1);
                 end

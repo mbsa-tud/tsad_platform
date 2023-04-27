@@ -32,7 +32,7 @@ else
     subFolders = d([d(:).isdir]);
     subFolders = subFolders(~ismember({subFolders(:).name},{'.', '..'}));
     
-    indices = randperm(length(subFolders), length(subFolders));
+    indices = randperm(numel(subFolders));
     isMultiEntity = true;
 end
 
@@ -42,13 +42,13 @@ end
 
 
 % Initialize table for evaluation results
-allScores = cell(length(thresholds), 1);
+allScores = cell(numel(thresholds), 1);
 
-allTestFiles = [];
+allTestFileNames = [];
 
 % Get all model names
 finalTableVariableNames = "Metric";
-for model_idx = 1:length(models)
+for model_idx = 1:numel(models)
     if augmentationEnabled
         finalTableVariableNames = [finalTableVariableNames, ...
             sprintf("%s", models(model_idx).modelOptions.label), ...
@@ -62,9 +62,9 @@ end
 
 
 % Evaluate each model for every dataset
-for dataset_idx = 1:length(indices)    
+for dataset_idx = 1:numel(indices)    
     if isMultiEntity
-        fprintf("\n\nEvaluating subset %d/%d \n\n", dataset_idx, length(indices));
+        fprintf("\n\nEvaluating subset %d/%d \n\n", dataset_idx, numel(indices));
         fprintf("%s\n\n", subFolders(indices(dataset_idx)).name);
         subsetPath = fullfile(datasetPath, subFolders(indices(dataset_idx)).name);
     else
@@ -77,10 +77,10 @@ for dataset_idx = 1:length(indices)
         trainingPlots, parallelEnabled, augmentationEnabled, augmentationMode, ...
         augmentationIntensity, augmentedTrainingEnabled);
 
-    allTestFiles = [allTestFiles; testFileNames];
+    allTestFileNames = [allTestFileNames; testFileNames];
 
-    for thr_idx = 1:length(thresholds)
-        allScores{thr_idx, 1} = [allScores{thr_idx, 1}; subsetScores{thr_idx, 1}];
+    for thr_idx = 1:numel(thresholds)
+        allScores{thr_idx} = [allScores{thr_idx}; subsetScores{thr_idx}];
     end
     fprintf("\n ----------------------------- \n");
 end
@@ -97,9 +97,9 @@ if ~exist(datasetOutputFolder, "dir")
     mkdir(datasetOutputFolder);
 end
 
-thresholdSubfolders = strings(length(thresholds), 1);
+thresholdSubfolders = strings(numel(thresholds), 1);
 
-for thr_idx = 1:length(thresholds)
+for thr_idx = 1:numel(thresholds)
     thresholdSubfolders(thr_idx) = fullfile(datasetOutputFolder, thresholds(thr_idx));
     if ~exist(thresholdSubfolders(thr_idx), "dir")
         mkdir(thresholdSubfolders(thr_idx));
@@ -108,10 +108,10 @@ end
 
 % Score calculations and saving of results
 fprintf("\nCalculating max, min, average and standard deviation of scores\n\n")
-for thr_idx = 1:length(allScores)
-    scoreMatrix_tmp = allScores{thr_idx, 1};
+for thr_idx = 1:numel(allScores)
+    scoreMatrix_tmp = allScores{thr_idx};
 
-    numTestedFiles = length(scoreMatrix_tmp);
+    numTestedFiles = numel(scoreMatrix_tmp);
     
     % Calc average scores
     avgScores = calcAverageScores(scoreMatrix_tmp);
@@ -124,8 +124,8 @@ for thr_idx = 1:length(allScores)
     end
     
     for data_idx = 1:numTestedFiles
-        allResultsFileName = fullfile(allResultsFolder, sprintf("%s_%s.csv", allTestFiles(data_idx), datestr(now,"mm-dd-yyyy_HH-MM")));
-        scoreTable_tmp = array2table(scoreMatrix_tmp{data_idx, 1});
+        allResultsFileName = fullfile(allResultsFolder, sprintf("%s_%s.csv", allTestFileNames(data_idx), datestr(now,"mm-dd-yyyy_HH-MM")));
+        scoreTable_tmp = array2table(scoreMatrix_tmp{data_idx});
         scoreTable = [scoreNames scoreTable_tmp];
         scoreTable.Properties.VariableNames = finalTableVariableNames;
         writetable(scoreTable, allResultsFileName);

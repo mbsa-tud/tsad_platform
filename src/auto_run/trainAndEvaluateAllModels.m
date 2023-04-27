@@ -1,4 +1,4 @@
-function [finalScores, filesTest] = trainAndEvaluateAllModels(datasetPath, models, ...
+function [finalScores, fileNamesTest] = trainAndEvaluateAllModels(datasetPath, models, ...
                                         preprocMethod, ratioTestVal, thresholds, ...
                                         dynamicThresholdSettings, trainingPlots, ...
                                         parallelEnabled, augmentationEnabled, ...
@@ -10,7 +10,7 @@ function [finalScores, filesTest] = trainAndEvaluateAllModels(datasetPath, model
 fprintf("\nLoading data\n\n")
 % Loading data
 [dataTrainRaw, ~, labelsTrain, ~, ...
-    dataTestRaw, ~, labelsTest, filesTest, ~] = loadCustomDataset(datasetPath);
+    dataTestRaw, ~, labelsTest, fileNamesTest, ~] = loadCustomDataset(datasetPath);
 
 if isempty(dataTestRaw) && isempty(dataTrainRaw)
     error("Invalid dataset selected");
@@ -26,14 +26,14 @@ fprintf("\nPreprocessing data with method: %s\n", preprocMethod);
 
 if ~augmentationEnabled
     % Splitting test/val set
-    [dataTest, labelsTest, filesTest, ...
-        dataTestVal, labelsTestVal, ~] = splitTestVal(dataTest, labelsTest, filesTest, ratioTestVal);
+    [dataTest, labelsTest, fileNamesTest, ...
+        dataTestVal, labelsTestVal, ~] = splitTestVal(dataTest, labelsTest, fileNamesTest, ratioTestVal);
     
     % Train all models
     trainedModels = trainAllModels(models, dataTrain, labelsTrain, dataTestVal, labelsTestVal, thresholds, trainingPlots, parallelEnabled);
     
     % Run detection and get scores
-    finalScores = evaluateAllModels(trainedModels, dataTest, labelsTest, filesTest, thresholds, dynamicThresholdSettings);
+    finalScores = evaluateAllModels(trainedModels, dataTest, labelsTest, fileNamesTest, thresholds, dynamicThresholdSettings);
 else
     % Augment data
     [dataTrainAugmented, dataTestAugmented] = augmentData(dataTrain, dataTest, augmentationMode, augmentationIntensity, augmentedTrainingEnabled);
@@ -41,9 +41,9 @@ else
 
     % Splitting test/val set for augmented and non-augmented data
     [dataTestAugmented, ~, ~, ...
-        dataTestValAugmented, ~, ~] = splitTestVal(dataTestAugmented, labelsTest, filesTest, ratioTestVal);
-    [dataTest, labelsTest, filesTest, ...
-        dataTestVal, labelsTestVal, ~] = splitTestVal(dataTest, labelsTest, filesTest, ratioTestVal);
+        dataTestValAugmented, ~, ~] = splitTestVal(dataTestAugmented, labelsTest, fileNamesTest, ratioTestVal);
+    [dataTest, labelsTest, fileNamesTest, ...
+        dataTestVal, labelsTestVal, ~] = splitTestVal(dataTest, labelsTest, fileNamesTest, ratioTestVal);
     
 
     % Evaluation without augmentation for comparison
@@ -53,7 +53,7 @@ else
     trainedModels = trainAllModels(models, dataTrain, labelsTrain, dataTestVal, labelsTestVal, thresholds, trainingPlots, parallelEnabled);
     
     % Run detection and get scores
-    allScoresWithoutAugmentation = evaluateAllModels(trainedModels, dataTest, labelsTest, filesTest, thresholds, dynamicThresholdSettings);
+    allScoresWithoutAugmentation = evaluateAllModels(trainedModels, dataTest, labelsTest, fileNamesTest, thresholds, dynamicThresholdSettings);
     
 
     % Evaluation with data augmentation
@@ -63,27 +63,27 @@ else
     trainedModels = trainAllModels(models, dataTrainAugmented, labelsTrain, dataTestValAugmented, labelsTestVal, thresholds, trainingPlots, parallelEnabled);
     
     % Run detection and get scores
-    allScoresWithAugmentation = evaluateAllModels(trainedModels, dataTestAugmented, labelsTest, filesTest, thresholds, dynamicThresholdSettings);
+    allScoresWithAugmentation = evaluateAllModels(trainedModels, dataTestAugmented, labelsTest, fileNamesTest, thresholds, dynamicThresholdSettings);
 
 
     % Reorder scores
-    numTestedFiles = numel(filesTest);
+    numTestedFiles = numel(fileNamesTest);
     numModels = numel(fieldnames(trainedModels));
     finalScores = cell(numel(thresholds), 1);
 
     for thr_idx = 1:numel(thresholds)
-        scores = allScoresWithoutAugmentation{thr_idx, 1};
-        scoresAugmented = allScoresWithAugmentation{thr_idx, 1};
+        scores = allScoresWithoutAugmentation{thr_idx};
+        scoresAugmented = allScoresWithAugmentation{thr_idx};
         scoresMerged = cell(numTestedFiles, 1);
     
         for data_idx = 1:numTestedFiles
             for model_idx = 1:numModels
-                scoresMerged{data_idx, 1} = [scoresMerged{data_idx, 1}, ...
-                    scores{data_idx, 1}(:, model_idx), ...
-                    scoresAugmented{data_idx, 1}(:, model_idx)];
+                scoresMerged{data_idx} = [scoresMerged{data_idx}, ...
+                    scores{data_idx}(:, model_idx), ...
+                    scoresAugmented{data_idx}(:, model_idx)];
             end
         end
-        finalScores{thr_idx, 1} = [finalScores{thr_idx, 1}; scoresMerged];
+        finalScores{thr_idx} = [finalScores{thr_idx}; scoresMerged];
     end
 end
 end

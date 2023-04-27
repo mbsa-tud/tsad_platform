@@ -13,7 +13,7 @@ if modelOptions.isMultivariate
             YTest = {YTest};
     end
 else
-    numChannels = size(data{1, 1}, 2);
+    numChannels = size(data{1}, 2);
 
     switch modelOptions.type
         case "deep-learning"
@@ -21,24 +21,24 @@ else
             YTest = cell(1, numChannels);
         
             for channel_idx = 1:numChannels
-                data_tmp = cell(size(data));
-                for j = 1:size(data, 1)
-                    data_tmp{j, 1} = data{j, 1}(:, channel_idx);
+                data_tmp = cell(numel(data), 1);
+                for j = 1:numel(data)
+                    data_tmp{j} = data{j}(:, channel_idx);
                 end
         
-                [XTest{1, channel_idx}, YTest{1, channel_idx}, labelsTest] = prepareDataTest_DL(modelOptions, data_tmp, labels);
+                [XTest{channel_idx}, YTest{channel_idx}, labelsTest] = prepareDataTest_DL(modelOptions, data_tmp, labels);
             end
         otherwise
             XTest = cell(1, numChannels);
             YTest = cell(1, numChannels);
         
             for channel_idx = 1:numChannels
-                data_tmp = cell(size(data));
-                for j = 1:size(data, 1)
-                    data_tmp{j, 1} = data{j, 1}(:, channel_idx);
+                data_tmp = cell(numel(data), 1);
+                for j = 1:numel(data)
+                    data_tmp{j} = data{j}(:, channel_idx);
                 end
         
-                [XTest{1, channel_idx}, YTest{1, channel_idx}, labelsTest] = prepareDataTest_Other(modelOptions, data_tmp, labels);
+                [XTest{channel_idx}, YTest{channel_idx}, labelsTest] = prepareDataTest_Other(modelOptions, data_tmp, labels);
             end
     end
 end

@@ -1,11 +1,11 @@
-function finalScores = evaluateAllModels(trainedModels, dataTest, labelsTest, filesTest, thresholds, dynamicThresholdSettings)
+function finalScores = evaluateAllModels(trainedModels, dataTest, labelsTest, fileNamesTest, thresholds, dynamicThresholdSettings)
 % EVALUATEALLMODELS Tests all specified trained models on the test data for
 % all selected thresholds and returns the scores
 
 
-finalScores = cell(length(thresholds), 1);
-for tmp_idx = 1:length(finalScores)
-    finalScores{tmp_idx, 1} = cell(length(filesTest), 1);
+finalScores = cell(numel(thresholds), 1);
+for i = 1:numel(finalScores)
+    finalScores{i} = cell(numel(fileNamesTest), 1);
 end
 
 
@@ -14,19 +14,19 @@ if ~isempty(trainedModels)
     fprintf("\nDetecting with models\n\n")
     trainedModelIds = fieldnames(trainedModels);
 
-    for model_idx = 1:length(trainedModelIds)
+    for model_idx = 1:numel(trainedModelIds)
         trainedModel = trainedModels.(trainedModelIds{model_idx});
         
         fprintf("Detecting with: %s\n", trainedModel.modelOptions.label);
 
         % For all test files
-        for data_idx = 1:length(filesTest)
-            [XTest, YTest, labels] = prepareDataTest(trainedModel.modelOptions, dataTest(data_idx, 1), labelsTest(data_idx, 1));
+        for data_idx = 1:numel(fileNamesTest)
+            [XTest, YTest, labels] = prepareDataTest(trainedModel.modelOptions, dataTest(data_idx), labelsTest(data_idx));
                 
             anomalyScores = detectionWrapper(trainedModel, XTest, YTest, labels);
             
             % For all thresholds in the thresholds variable
-            for thr_idx = 1:length(thresholds)
+            for thr_idx = 1:numel(thresholds)
                 if ~trainedModel.modelOptions.outputsLabels
                     [predictedLabels, ~] = applyThresholdToAnomalyScores(trainedModel, anomalyScores, labels, thresholds(thr_idx), dynamicThresholdSettings);
                 else
@@ -35,9 +35,9 @@ if ~isempty(trainedModels)
 
                 scores = calcScores(anomalyScores, predictedLabels, labels, trainedModel.modelOptions.outputsLabels);
         
-                tmp = finalScores{thr_idx, 1};
-                tmp{data_idx, 1} = [tmp{data_idx, 1}, scores];
-                finalScores{thr_idx, 1} = tmp;
+                tmp = finalScores{thr_idx};
+                tmp{data_idx} = [tmp{data_idx}, scores];
+                finalScores{thr_idx} = tmp;
             end
         end
     end

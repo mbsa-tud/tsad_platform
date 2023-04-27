@@ -1,15 +1,15 @@
-function [trainingData, timestampsTraining, labelsTraining, filesTraining, ...
-                testingData, timestampsTesting, labelsTesting, filesTesting, channelNames] = loadCustomDataset(datasetPath)
+function [trainingData, timestampsTrain, labelsTrain, fileNamesTrain, ...
+                testingData, timestampsTest, labelsTest, fileNamesTest, channelNames] = loadCustomDataset(datasetPath)
 %LOADCUSTOMDATASET Loads the custom dataset from CSV files.
 
 trainingData = [];
 testingData = [];
-timestampsTraining = [];
-timestampsTesting = [];
-filesTraining = [];
-filesTesting = [];
-labelsTraining = [];
-labelsTesting = [];
+timestampsTrain = [];
+timestampsTest = [];
+fileNamesTrain = [];
+fileNamesTest = [];
+labelsTrain = [];
+labelsTest = [];
 channelNames = [];
 
 if ~isfolder(datasetPath)
@@ -34,15 +34,15 @@ numOfTrainingFiles = numel(trainingFiles);
 numOfTestingFiles = numel(testingFiles);
 if numOfTrainingFiles > 0
     trainingData = cell(numOfTrainingFiles, 1);
-    timestampsTraining = cell(numOfTrainingFiles, 1);
-    labelsTraining = cell(numOfTestingFiles, 1);
-    filesTraining = strings(numOfTrainingFiles, 1);
+    timestampsTrain = cell(numOfTrainingFiles, 1);
+    labelsTrain = cell(numOfTestingFiles, 1);
+    fileNamesTrain = strings(numOfTrainingFiles, 1);
 end
 if numOfTestingFiles > 0
     testingData = cell(numOfTestingFiles, 1);
-    timestampsTesting = cell(numOfTestingFiles, 1);
-    labelsTesting = cell(numOfTestingFiles, 1);
-    filesTesting = strings(numOfTestingFiles, 1);
+    timestampsTest = cell(numOfTestingFiles, 1);
+    labelsTest = cell(numOfTestingFiles, 1);
+    fileNamesTest = strings(numOfTestingFiles, 1);
 end
     
 for data_idx = 1:numOfTrainingFiles
@@ -50,14 +50,14 @@ for data_idx = 1:numOfTrainingFiles
     data = readtable(file);
 
     name = strsplit(trainingFiles(data_idx).name, ".");
-    filesTraining(data_idx, 1) = name(1);
-    trainingData{data_idx, 1} = data{:, 2:(end - 1)};
-    labelsTraining{data_idx, 1} = logical(data{:, end});                
+    fileNamesTrain(data_idx) = name(1);
+    trainingData{data_idx} = data{:, 2:(end - 1)};
+    labelsTrain{data_idx} = logical(data{:, end});                
 
     try
-        timestampsTraining{data_idx, 1} = datetime(data{:, 1});
+        timestampsTrain{data_idx} = datetime(data{:, 1});
     catch
-        timestampsTraining{data_idx, 1} = data{:, 1};
+        timestampsTrain{data_idx} = data{:, 1};
     end
 
     channelNames = string(data.Properties.VariableNames(2:(end - 1)));
@@ -69,14 +69,14 @@ for data_idx = 1:numOfTestingFiles
     data = readtable(file);
 
     name = strsplit(testingFiles(data_idx).name, ".");
-    filesTesting(data_idx, 1) = name(1);
-    testingData{data_idx, 1} = data{:, 2:(end - 1)};
-    labelsTesting{data_idx, 1} = logical(data{:, end});
+    fileNamesTest(data_idx) = name(1);
+    testingData{data_idx} = data{:, 2:(end - 1)};
+    labelsTest{data_idx} = logical(data{:, end});
 
     try
-        timestampsTesting{data_idx, 1} = datetime(data{:, 1});
+        timestampsTest{data_idx} = datetime(data{:, 1});
     catch
-        timestampsTesting{data_idx, 1} = data{:, 1};
+        timestampsTest{data_idx} = data{:, 1};
     end
 
     channelNames = string(data.Properties.VariableNames(2:(end - 1)));

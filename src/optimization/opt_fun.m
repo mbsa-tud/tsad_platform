@@ -11,6 +11,6 @@ avgScores = calcAverageScores(scoresCell);
 
 % Get specified score
 [~, score_idx] = ismember(metric, METRIC_NAMES);
-avgScore = avgScores(score_idx, 1);
+avgScore = avgScores(score_idx);
 score = 1 - avgScore;
 end

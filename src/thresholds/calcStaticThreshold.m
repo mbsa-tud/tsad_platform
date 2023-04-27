@@ -5,7 +5,7 @@ function thr = calcStaticThreshold(anomalyScores, labels, threshold, modelName)
 
 if ~isempty(labels)
     numAnoms = sum(labels == 1);
-    contaminationFraction = numAnoms / size(labels, 1);
+    contaminationFraction = numAnoms / numel(labels);
 end
 
 switch threshold
@@ -22,7 +22,7 @@ switch threshold
 
         if numChannels > 1
             thresholdCandidates = uniquetol(anomalyScores, 0.0001);
-            numThresholdCandidates = size(thresholdCandidates, 1);
+            numThresholdCandidates = numel(thresholdCandidates);
 
             currentMinDistance = numel(labels);
             thr = NaN;

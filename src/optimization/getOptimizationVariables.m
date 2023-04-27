@@ -22,7 +22,7 @@ if isempty(vars)
 end
 
 % Load optimizable hyperparameters
-for var_idx = 1:length(vars)
+for var_idx = 1:numel(vars)
     optVars.(vars{var_idx}).value = config.(modelName).(vars{var_idx}).value;
     optVars.(vars{var_idx}).type = config.(modelName).(vars{var_idx}).type;
 end
