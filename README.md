@@ -394,7 +394,8 @@ To use this function, proceed as follows:
 
 1. Select a dataset on the [Auto Run](#auto-run) panel by clicking the `Browse` button.
 2. Configure the data preparation similar to Mode 1.
-3. Click `Run Evaluation` to start the process. You can observe more details about the current state in the MATLAB command window.
+3. If you want to get the time a model takes to make predictions for a single subsequence, check the `Get Computation Time` checkbox.
+4. Click `Run Evaluation` to start the process. You can observe more details about the current state in the MATLAB command window.
 
 #### Observe results (2)
 Once the evaluation is done, all results are stored in a folder called *Auto_Run_Results* within the current MATLAB folder (This folder includes subfolders for the results for each selected threshold). The average scores for each model for the first threshold are displayed in the table (2).

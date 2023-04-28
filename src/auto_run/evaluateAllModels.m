@@ -1,4 +1,4 @@
-function finalScores = evaluateAllModels(trainedModels, dataTest, labelsTest, fileNamesTest, thresholds, dynamicThresholdSettings)
+function finalScores = evaluateAllModels(trainedModels, dataTest, labelsTest, fileNamesTest, thresholds, dynamicThresholdSettings, getCompTime)
 % EVALUATEALLMODELS Tests all specified trained models on the test data for
 % all selected thresholds and returns the scores
 
@@ -23,7 +23,7 @@ if ~isempty(trainedModels)
         for data_idx = 1:numel(fileNamesTest)
             [XTest, YTest, labels] = prepareDataTest(trainedModel.modelOptions, dataTest(data_idx), labelsTest(data_idx));
                 
-            anomalyScores = detectionWrapper(trainedModel, XTest, YTest, labels);
+            [anomalyScores, compTime] = detectionWrapper(trainedModel, XTest, YTest, labels, getCompTime);
             
             % For all thresholds in the thresholds variable
             for thr_idx = 1:numel(thresholds)
@@ -33,7 +33,7 @@ if ~isempty(trainedModels)
                     predictedLabels = anomalyScores;
                 end
 
-                scores = calcScores(anomalyScores, predictedLabels, labels, trainedModel.modelOptions.outputsLabels);
+                scores = [compTime; calcScores(anomalyScores, predictedLabels, labels, trainedModel.modelOptions.outputsLabels)];
         
                 tmp = finalScores{thr_idx};
                 tmp{data_idx} = [tmp{data_idx}, scores];

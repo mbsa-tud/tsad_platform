@@ -1,9 +1,9 @@
 function [finalScores, fileNamesTest] = trainAndEvaluateAllModels(datasetPath, models, ...
-                                        preprocMethod, ratioTestVal, thresholds, ...
-                                        dynamicThresholdSettings, trainingPlots, ...
-                                        parallelEnabled, augmentationEnabled, ...
-                                        augmentationMode, augmentationIntensity, ...
-                                        augmentedTrainingEnabled)
+                                                                  preprocMethod, ratioTestVal, thresholds, ...
+                                                                  dynamicThresholdSettings, trainingPlots, ...
+                                                                  parallelEnabled, augmentationEnabled, ...
+                                                                  augmentationMode, augmentationIntensity, ...
+                                                                  augmentedTrainingEnabled, getCompTime)
 %TRAINANDEVALUATEALLMODELS Trains all specified models on a single dataset
 %and returns all scores and file names of test data
 
@@ -33,7 +33,7 @@ if ~augmentationEnabled
     trainedModels = trainAllModels(models, dataTrain, labelsTrain, dataTestVal, labelsTestVal, thresholds, trainingPlots, parallelEnabled);
     
     % Run detection and get scores
-    finalScores = evaluateAllModels(trainedModels, dataTest, labelsTest, fileNamesTest, thresholds, dynamicThresholdSettings);
+    finalScores = evaluateAllModels(trainedModels, dataTest, labelsTest, fileNamesTest, thresholds, dynamicThresholdSettings, getCompTime);
 else
     % Augment data
     [dataTrainAugmented, dataTestAugmented] = augmentData(dataTrain, dataTest, augmentationMode, augmentationIntensity, augmentedTrainingEnabled);
@@ -53,7 +53,7 @@ else
     trainedModels = trainAllModels(models, dataTrain, labelsTrain, dataTestVal, labelsTestVal, thresholds, trainingPlots, parallelEnabled);
     
     % Run detection and get scores
-    allScoresWithoutAugmentation = evaluateAllModels(trainedModels, dataTest, labelsTest, fileNamesTest, thresholds, dynamicThresholdSettings);
+    allScoresWithoutAugmentation = evaluateAllModels(trainedModels, dataTest, labelsTest, fileNamesTest, thresholds, dynamicThresholdSettings, getCompTime);
     
 
     % Evaluation with data augmentation
@@ -63,7 +63,7 @@ else
     trainedModels = trainAllModels(models, dataTrainAugmented, labelsTrain, dataTestValAugmented, labelsTestVal, thresholds, trainingPlots, parallelEnabled);
     
     % Run detection and get scores
-    allScoresWithAugmentation = evaluateAllModels(trainedModels, dataTestAugmented, labelsTest, fileNamesTest, thresholds, dynamicThresholdSettings);
+    allScoresWithAugmentation = evaluateAllModels(trainedModels, dataTestAugmented, labelsTest, fileNamesTest, thresholds, dynamicThresholdSettings, getCompTime);
 
 
     % Reorder scores
