@@ -9,7 +9,7 @@ switch modelOptions.name
         prediction = predict(Mdl, XTest);
 
         if getCompTime
-            iterations = min(1000, size(XTest, 1));
+            iterations = min(500, size(XTest, 1));
             times = zeros(iterations, 1);
             for i = 1:iterations
                 tStart = cputime;
