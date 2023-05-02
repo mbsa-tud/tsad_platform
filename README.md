@@ -2,7 +2,39 @@
 
 A platform for evaluating time series anomaly detection (tsad) methods which offers options to automatically train, test, compare and optimize them.
 
-## Getting Started
+## Contents
+
+1. [Getting started](#getting-started)
+2. [How to use the platform](#how-to-use-the-platform)
+    * [Overview](#overview)
+    * [Settings](#settings)
+        * [Threshold selection](#threshold-selection)
+        * [Dynamic threshold](#dynamic-switch)
+        * [Enable/disable parallel mode](#enabledisable-parallel-mode)
+    * [Dataset preparation](#dataset-preparation)
+        * [Loading a dataset](#loading-a-dataset-1)
+        * [Preprocessing the dataset](#preprocessing-and-splitting-the-dataset-2)
+    * [Training and optimization](#training-and-optimization)
+        * [Load/configure models](#loadconfigure-models-1)
+        * [Train and/or optimize models](#train-andor-optimize-models-2)
+    * [Detection](#detection)
+    * [Simulink detection](#simulink-detection)
+    * [Dynamic switch](#dynamic-switch)
+    * [Auto run](#auto-run)
+3. [Extending the platform](#extending-the-platform)
+    * [The "modelOptions" struct](#the-modeloptions-struct)
+    * [Configuration file](#configuration-file)
+    * [Adding models](#adding-models)
+        * [Add deep-learning anomaly detection models](#add-deep-learning-anomaly-detection-models)
+        * [Add other models](#add-other-models)
+        * [(optional) Enable optimization](#optional-enable-optimization-for-your-model)
+        * [(optional) Custom data preparation](#optional-custom-data-preparation)
+        * [(optional) Custom threshold](#optional-custom-threshold)
+4. [Known limiations](#known-limitations-issues-and-possible-future-upgrades-mostly-relevant-for-developers)
+
+
+
+## Getting started
 
 1. Download the TSAD platform repository from https://github.com/AdrianWolf1999/tsad_platform.git.
 2. Install MATLAB Toolboxes:
@@ -22,7 +54,9 @@ A platform for evaluating time series anomaly detection (tsad) methods which off
 
 ---
 
-## Overview
+## How to use the platform
+
+### Overview
 
 On the top of the platform you will find the `Settings` menu and six different `Panels`:
 
@@ -36,7 +70,7 @@ In the [Settings](#settings) you can control the following things:
 
 The platform offers **two different modes** to test time series anomaly detection methods. The workflows are as such:
 
-### MODE 1: Manually train and test models
+#### MODE 1: Manually train and test models
 
 1. Select/configure threshold in the platform [Settings](#settings)
 2. Import and process a dataset on the [Dataset Preparation](#dataset-preparation) panel.
@@ -44,7 +78,7 @@ The platform offers **two different modes** to test time series anomaly detectio
 4. Test the models on the [Detection](#detection) and [Simulink Detection](#simulink-detection) panels.
 5. (optional) Configure, train and test the dynamic switch mechanism on the [Dynamic Switch](#dynamic-switch) panel (only possible for datasets with multiple files for testing).
 
-### MODE 2: Automatically train and test models on single- or multi-entity datasets
+#### MODE 2: Automatically train and test models on single- or multi-entity datasets
 
 1. Select/configure thresholds in the platform [Settings](#settings)
 2. Configure models on the [Training](#training-and-optimization) panel.
@@ -54,11 +88,11 @@ Further details can be found below.
 
 ---
 
-## Settings
+### Settings
 
 You can find the platform settings in the top left corner.
 
-### Threshold selection
+#### Threshold selection
 
 The selection of thresholds controls which thresholds are set during training and are available during testing ([Mode 1](#mode-1-manually-train-and-test-models)).
 Only the selected ones are used during the auto-evaluation on the `Auto Run` panel ([Mode 2](#mode-2-automatically-train-and-test-models-on-single--or-multi-entity-datasets)).
@@ -87,7 +121,7 @@ The thresholds are used to convert anomaly scores produced by an anomaly detecti
 | Dynamic | Unsupervised dynamic threshold. See [Dynamic threshold](#dynamic-threshold). |
 | Custom | Can be implemented individually for a specific model. If none is specified, its value is set to 0.5 (See [Add custom threshold](#optional-custom-threshold)). |
 
-### Dynamic threshold
+#### Dynamic threshold
 
 These options control the default parameters for the dynmaic threshold, which can also be configured on the `Detection` panel. To update their values, proceed as follows:
 
@@ -98,19 +132,19 @@ These options control the default parameters for the dynmaic threshold, which ca
 2. Configure the parameters (1).
 3. Click `Save` (2) to save the new parameters.
 
-### Enable/Disable Parallel Mode
+### Enable/disable parallel mode
 
 To enable/disable parallel training, click on `Settings` and then `Enable Parallel Mode` (or `Disable Parallel Mode` if it's already active).
 
 ---
 
-## Dataset preparation
+### Dataset preparation
 
 A dataset can be loaded and processed on the `Dataset Preparation` panel:
 
 <img src="media/final_dataset_panel.png" alt="Dataset preparation panel" title="Dataset preparation panel" width=900/>
 
-### Loading a dataset (1)
+#### Loading a dataset (1)
 1. Click `Browse` to select a folder from your computer or enter a path manually. You can find some datasets in the `datasets` folder of the tsad platform.
 2. Click `Load Data` to import the selected dataset.
 
@@ -135,9 +169,9 @@ It should contain fault-free data for semi-supervised models and anomalous data 
 
 **NOTE** The column-names don't need to be as presented. The platfrom interprets the values of each column according to their position in the file. The first column is always considered the timestamp column and the last column is always considered to be the column of anomaly indicators (=labels). Everything in between are the values of the channels.
 
-### Preprocessing and splitting the dataset (2)
+#### Preprocessing and splitting the dataset (2)
 
-#### Preprocessing method selection
+##### Preprocessing method selection
 
 Three `Preprocessing Methods` can be selected. These **don't** apply to the [Auto Run](#auto-run) functions, but to everything else:
 
@@ -148,16 +182,16 @@ Three `Preprocessing Methods` can be selected. These **don't** apply to the [Aut
 
 **NOTE** The data in the `test` folder gets processed with the same parameters as for the `train` data (with the exception if no train data is used). For the `Rescale [0, 1]` preprocessing method, the testing data additionally gets limited to the range [-4, 5]. All channels of multivariate datasets are preprocessed independently.
 
-#### Data augmentation
+##### Data augmentation
 
 You can choose to further transform your data in various ways. To do so, proceed as follows:
 1. Select an `Augmentation Mode` from the dropdown menu.
 2. Configure the `Intensity` of the augmentation using the slider.
 3. Check the `Augmented training` checkbox if you also want to augment the training data.
 
-#### Dataset splitting
+##### Dataset splitting
 
-##### Data preparation for Dynamic Switch
+###### Data preparation for Dynamic Switch
 
 *INFO: If the dataset  includes multiple files for testing, you can split the test set to use some of the files for testing the [Dynamic Switch](#dynamic-switch) mechanism.*
 
@@ -166,7 +200,7 @@ To enable this, do the following:
 1. Check the `Split Test Set for Dynamic Switch` checkbox.
 2. Enter a value for the `Ratio` to determine its size.
 
-##### Use of anomalous validation set
+###### Use of anomalous validation set
 
 *INFO: An anomalous validation set can be used to calculate the static thresholds prior to testing the models. In order to do this, the test set will be split to obtain an anomalous validation set and a test set. If no anomalous validation set is used, or it doesn't contain any anomalies, most of the static thresholds will be set on the test set directly.*
 
@@ -177,7 +211,7 @@ To enable the anomalous validation set, do the following:
 
 ---
 
-## Training and optimization
+### Training and optimization
 
 On the `Training` panel you can train or optimize a selection of models:
 
@@ -185,7 +219,7 @@ On the `Training` panel you can train or optimize a selection of models:
 
 To do so, proceed as follows:
 
-### Load/configure models (1)
+#### Load/configure models (1)
 
 Following models are currently available:
 
@@ -202,11 +236,11 @@ Once loaded, you can inspect the configuration of a model by selecting it in the
 
 There are **three** ways to load a configuration of models:
 
-#### Method 1: Quick load models
+##### Method 1: Quick load models
 
 Click `Quick Load all Models` to load a default configuration of all implemented models. **NOTE** For non-deep-learning models, the data is **not** split into subsequences by default. If you want to enable subsequences for such models, either configure the models manually (see [Method 2: Manually configure models](#method-2-manually-configure-models)) **or** load the config file `tsad_platform_config_all_subsequences_enabled.json` within the `config` folder of the platform (see [Method 3: Exporting and importing a configuration](#method-3---exporting-and-importing-a-configuration)).
 
-#### Method 2: Manually configure models
+##### Method 2: Manually configure models
 
 Click `Add Models Manually` to configure models by hand. This opens a **new window**, allowing you to select a model and configure its parameters:
 
@@ -242,13 +276,14 @@ The `reconstruction error type` defines how the errors are computed for reconstr
 6. For some non-deep-learning models, you can choose wheter to split the data into subsequences by checking the `Use Subsequences` checkbox (6). **NOTE** Subsequences for non-deep-learning models are **disabled by default**.
 7. Once configured, click `Add to Model Selection` to add the selected model to the list of models. You can then repeat the previous steps and add as many models as you wish.
 
-#### Method 3 - Exporting and importing a configuration
+##### Method 3 - Exporting and importing a configuration
+
 You can click `Export Config` to store a configuration file for the configured models on your computer.
 This allows you to load a previous configuration of models at another time using the `Load from File` button.
 
-### Train and/or optimize models (2)
+#### Train and/or optimize models (2)
 
-#### Train models
+##### Train models
 
 To train models, do the following:
 
@@ -262,7 +297,7 @@ Before training, you can configure the training process as follows:
 
 **USEFUL** You can update the scoring function and calculate the static thresholds again without having to train the entire model again. To do so, select models in the list, right-click and click `Change Scoring Function` to change the scoring function or `Update Static Thresholds` to calculate the static thresholds again.
 
-#### Optimize models
+##### Optimize models
 
 The platform offers the possibility to use bayesian hyperparameter optimization.
 To optimize models, do the following:
@@ -282,25 +317,25 @@ To optimize models, do the following:
 
 ---
 
-## Detection
+### Detection
 
 The trained models can be tested on the `Detection` panel:
 
 <img src="media/final_detection_panel.png" alt="Detection panel" title="Detection panel" width=900/>
 
-### Running detections
+#### Running detections
 
-#### List of trained Models (1)
+##### List of trained Models (1)
 
 * All trained models appear in the **list of trained models**. If it's empty, no detection can be run.
 * These models are **ranked** according to their detection performance. The metric used for ranking can be manually selected from the dropdown menu at the bottom of the list.
 * Models can be **exported** by clicking the `Export trained Models` button. These trained models can be **loaded** directly into the platform via the `Import trained Models` button.
 
-#### Data and threshold selection (2)
+##### Data and threshold selection (2)
 1. Select a file from the `Select faulty Data` dropdown menu.
 2. Select a threshold from the `Threshold` dropdown menu. If you select the **dynamic** threshold, you can additionally configure its parameters.
 
-#### Run detection (3)
+##### Run detection (3)
 
 1. Select models from the **list of trained models**.
 2. Configure the detection as follows:
@@ -313,7 +348,7 @@ The trained models can be tested on the `Detection` panel:
     * `All models` (only for selected file)
     * `All models on all files`
 
-#### Observe results (4)
+##### Observe results (4)
 
 Once the detection is finished, the following results are are displayed in the windows below:
 * **Plots** of the anomaly scores and detected anoamlies for the first model the detection was run for.
@@ -327,7 +362,7 @@ You can select another threshold or reconfigure the dynamic threshold. This will
 
 ---
 
-## Simulink Detection
+### Simulink Detection
 
 **NOTE The simulink detection isn't fully functional at this point**
 
@@ -344,13 +379,13 @@ To **run the simulink detection**, proceed as follows:
 
 ---
 
-## Dynamic switch
+### Dynamic switch
 
 The dynamic switch mechanism (model selection mechanism) can be trained and tested on the `Dynamic switch` panel:
 
 <img src="media/final_dynamic_switch_panel.png" alt="Dynamic switch panel" title="Dynamic switch panel" width=900/>
 
-### Requirements
+#### Requirements
 
 The usage of the dynamic switch mechanism **requires** the following things:
 
@@ -359,45 +394,45 @@ The usage of the dynamic switch mechanism **requires** the following things:
 * **Trained models**: Either configure and train models on the [Training](#training-and-optimization) panel or load trained models on the [Detection](#detection) panel.
 * **Detection run**: The detection **must be run for all models** on all files on the [Detection panel](#detection). Otherwise the dynamic switch won't know which models perform best on what kind of data.
 
-### Run dynamic switch
+#### Run dynamic switch
 
 To **train and test the dynamic switch**, proceed as follows:
 
-#### Configure, train and test dynamic switch (1)
+##### Configure, train and test dynamic switch (1)
 
 1. Select a `Metric` from the dropdown menu. This metric will be used to compare the performance of models.
 2. Click the `Train Classifier` button to train the deep calssification network. It learns to connect time series features with the best performing model according to the selected metric.
 3. Click the `Run Evaluations` button to test the dynamic switch. The threshold used for all models is the one selected on the [Detection panel](#detection).
 
-#### Observe results (2), (4)
+##### Observe results (2), (4)
 All results including the scores obtained by all individual models will be displayed in the table (4). You can see the best models for the training data of the dynamic switch and the predictions it made for the testing data in the lists at the bottom (2).
 
 ---
 
-## Auto run
+### Auto run
 
 Automatically train and test models on single- or multi-entity datasets on the `Auto Run` panel:
 
 <img src="media/final_auto_run_panel.png" alt="Auto Run panel" title="Auto Run panel" width=900/>
 
-### Running automated training and detection
+#### Running automated training and detection
 
 To use this function, proceed as follows:
 
-#### Prequisites
+##### Prequisites
 
 1. Select the thresholds in the [Settings](#settings) of the platform
 2. (optional) If the dynamic threshold was selected, configure it in the [Settings](#settings).
 3. Configure/load models on the [Training](#training-and-optimization) panel **(don't train them yet)**.
 
-#### Configure and start auto run (1)
+##### Configure and start auto run (1)
 
 1. Select a dataset on the [Auto Run](#auto-run) panel by clicking the `Browse` button.
 2. Configure the data preparation similar to Mode 1.
 3. If you want to get the time a model takes to make predictions for a single subsequence, check the `Get Computation Time` checkbox.
 4. Click `Run Evaluation` to start the process. You can observe more details about the current state in the MATLAB command window.
 
-#### Observe results (2)
+##### Observe results (2)
 Once the evaluation is done, all results are stored in a folder called *Auto_Run_Results* within the current MATLAB folder (This folder includes subfolders for the results for each selected threshold). The average scores for each model for the first threshold are displayed in the table (2).
 
 ---
@@ -521,7 +556,7 @@ To add more models to the platform (deep-learning, classic machine learning or s
 1. Define the `modelOptions` struct mentioned before. You can create a `.json` file (use the `tsad_platform_config_all.json` file as reference or add your model to this file directly) as mentioned above. Alternativeley, edit the `ModelSelection.mlapp` file within the `src > pupup_apps` folder. Use other examples in that file as a guideline on how to add your model.
 2. Add the training and detection function calls to the source code of the platform. See [below](#add-deep-learning-anomaly-detection-models) for a detailed explanation.
 3. (optional) Enable optimization for your model: [Enable optimization](#optional-enable-optimization-for-your-model).
-4. (optional) If you require the data to be transformed in another way as provided by the platform, see [below](#optional-data-preparation) for more information.
+4. (optional) If you require the data to be transformed in another way as provided by the platform, see [below](#optional-custom-data-preparation) for more information.
 5. (optional) Add a custom threshold: [Add custom threshold](#optional-custom-threshold).
 
 **NOTE** The process for deep-learning and other models (E.g. classic machine-learning and statistical algorithms) slightly differs.
@@ -657,7 +692,7 @@ If you want to specify the lower and upper bounds for a hyperparameter, set the 
 ##### 2 - Specify discrete possible values
 If you want to limit the possible values for a hyperparameter during optimization, set the `type` to `"categorical"`. In this case the `value` is an array of strings containing the possible values. For numerical hyperparameters, you also **MUST** specify the values as strings (see example above). The platform will interpret the values correctly.
 
-#### (Optional) Data preparation
+#### (Optional) Custom data preparation
 
 To prepare the data your own way, you can add your model name to the main *switch* statements in the following files within the `tsad_platform > src > data_preparation` folder:
 
