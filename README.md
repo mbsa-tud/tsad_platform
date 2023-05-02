@@ -442,7 +442,7 @@ The type of the model/algorithm. Must be one of: `"deep-learning"`, `"classic-ma
 
 #### name
 **- mandatory -**
-The unique name of the model. This is used by the platform to recognize the model. It should only contain **letters** and the following characters: `-` `(` `)`.
+The unique name of the model. This is used by the platform to recognize the model.
 
 #### modelType
 **- optional -**
