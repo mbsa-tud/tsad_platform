@@ -32,7 +32,7 @@ A platform for evaluating time series anomaly detection (tsad) methods which off
         * [(optional) Custom threshold](#optional-custom-threshold)
 4. [Known limiations](#known-limitations-issues-and-possible-future-upgrades-mostly-relevant-for-developers)
 
-
+---
 
 ## Getting started
 
