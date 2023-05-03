@@ -5,7 +5,8 @@ switch modelOptions.name
     case "Your model name"
     case "FC-AE"
         neurons = modelOptions.hyperparameters.neurons;
-        layers = [featureInputLayer(numFeatures, Name="Input")
+        layers = [ ...
+            featureInputLayer(numFeatures, Name="Input")
             fullyConnectedLayer(neurons, Name=strcat("Encode: Fully connected with ", num2str(neurons), " neurons"))
             reluLayer()
             fullyConnectedLayer(floor(neurons / 2), Name=strcat("Encode: Fully connected with ", num2str(floor(neurons/2)), " neurons"))
@@ -20,7 +21,7 @@ switch modelOptions.name
             regressionLayer(Name="Output")];
         layers = layerGraph(layers);
     case "LSTM (reconstruction)"
-        layers = [
+        layers = [ ...
             sequenceInputLayer(numFeatures, MinLength=modelOptions.hyperparameters.windowSize)
             lstmLayer(modelOptions.hyperparameters.hiddenUnits)
             dropoutLayer(0.3)
@@ -29,7 +30,7 @@ switch modelOptions.name
             regressionLayer];
         layers = layerGraph(layers);
     case "Hybrid CNN-LSTM (reconstruction)"
-        layers = [...
+        layers = [ ...
             sequenceInputLayer(numFeatures, MinLength=modelOptions.hyperparameters.windowSize)
             convolution1dLayer(5, modelOptions.hyperparameters.filter, Padding="same", WeightsInitializer="he", DilationFactor=1)
             batchNormalizationLayer()
@@ -46,7 +47,7 @@ switch modelOptions.name
         if mod(modelOptions.hyperparameters.windowSize, 4) ~= 0
             error("Window size must be divisible by 4 for the TCN AE.");
         end
-        layers = [
+        layers = [ ...
             sequenceInputLayer(numFeatures, Name="Input", MinLength=modelOptions.hyperparameters.windowSize, Name="Input")
 
             convolution1dLayer(5, modelOptions.hyperparameters.filter, Stride=1, Padding="causal", WeightsInitializer="he", DilationFactor=1)
@@ -92,8 +93,7 @@ switch modelOptions.name
 
             convolution1dLayer(1, numFeatures, Padding="same")
 
-            regressionLayer(Name="Output")
-            ];
+            regressionLayer(Name="Output")];
         layers = layerGraph(layers);
         layers = addLayers(layers, convolution1dLayer(1, modelOptions.hyperparameters.filter, Stride=1, Name="Conv_skip_1"));
         layers = addLayers(layers, convolution1dLayer(1, modelOptions.hyperparameters.filter, Stride=1, Name="Conv_skip_2"));
@@ -110,7 +110,7 @@ switch modelOptions.name
     case "LSTM"
         outputMode = "last";
 
-        layers = [
+        layers = [ ...
             sequenceInputLayer(numFeatures, MinLength=modelOptions.hyperparameters.windowSize)
             lstmLayer(modelOptions.hyperparameters.hiddenUnits)
             dropoutLayer(0.3)
@@ -121,7 +121,7 @@ switch modelOptions.name
     case "Hybrid CNN-LSTM"
         outputMode = "last";
 
-        layers = [...
+        layers = [ ...
             sequenceInputLayer(numFeatures, MinLength=modelOptions.hyperparameters.windowSize, Name="Input")
             convolution1dLayer(5, modelOptions.hyperparameters.filter, Padding="same", WeightsInitializer="he", DilationFactor=1)
             batchNormalizationLayer()
@@ -137,7 +137,7 @@ switch modelOptions.name
     case "GRU"
         outputMode = "last";
 
-        layers = [
+        layers = [ ...
             sequenceInputLayer(numFeatures, MinLength=modelOptions.hyperparameters.windowSize)
             gruLayer(modelOptions.hyperparameters.hiddenUnits)
             dropoutLayer(0.3)
@@ -146,7 +146,7 @@ switch modelOptions.name
             regressionLayer];
         layers = layerGraph(layers);
     case "CNN (DeepAnT)"
-        layers = [
+        layers = [ ...
             sequenceInputLayer([modelOptions.hyperparameters.windowSize numFeatures], Name="Input")
             sequenceFoldingLayer(Name="Fold")
 
@@ -165,12 +165,11 @@ switch modelOptions.name
             fullyConnectedLayer(32)
             reluLayer()
             fullyConnectedLayer(numResponses)
-            regressionLayer(Name="Output")
-            ];
+            regressionLayer(Name="Output")];
         layers = layerGraph(layers);
         layers = connectLayers(layers, "Fold/miniBatchSize", "Unfold/miniBatchSize");
     case "ResNet"
-        layers = [
+        layers = [ ...
             sequenceInputLayer([modelOptions.hyperparameters.windowSize numFeatures], Name="Input")
             sequenceFoldingLayer(Name="Fold")
 
@@ -190,13 +189,12 @@ switch modelOptions.name
             fullyConnectedLayer(32)
             reluLayer()
             fullyConnectedLayer(numResponses)
-            regressionLayer(Name="Output")
-            ];
+            regressionLayer(Name="Output")];
         layers = layerGraph(layers);
         layers = connectLayers(layers, "ReLU 1", "Add/in2");
         layers = connectLayers(layers, "Fold/miniBatchSize", "Unfold/miniBatchSize");
     case "MLP"
-        layers = [
+        layers = [ ...
             featureInputLayer(numFeatures, Name="Input")
             fullyConnectedLayer(modelOptions.hyperparameters.neurons)
             reluLayer()
@@ -205,8 +203,7 @@ switch modelOptions.name
             fullyConnectedLayer(floor(modelOptions.hyperparameters.neurons / 4))
             reluLayer()
             fullyConnectedLayer(numResponses)
-            regressionLayer(Name="Output")
-            ];
+            regressionLayer(Name="Output")];
         layers = layerGraph(layers);
 end
 end
