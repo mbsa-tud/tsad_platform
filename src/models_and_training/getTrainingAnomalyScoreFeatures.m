@@ -1,4 +1,4 @@
-function [trainingAnomalyScores, trainingAnomalyScoreFeatures] = getTrainingAnomalyScoreFeatures(trainedModel, X, Y)
+function [trainingAnomalyScores, trainingAnomalyScoreFeatures] = getTrainingAnomalyScoreFeatures(trainedModel, X, TS)
 %GETTRAININGANOMALYSCOREFEATURES Get the raw anomaly scores and their
 %statistical features for the training data
 
@@ -9,7 +9,7 @@ switch trainedModel.modelOptions.name
     otherwise
         trainingAnomalyScores = [];
         for data_idx = 1:numel(X)
-            trainingAnomalyScores_tmp = detectWithModel(trainedModel, X{data_idx}, Y{data_idx}, [], false);
+            trainingAnomalyScores_tmp = detectWithModel(trainedModel, X{data_idx}, TS{data_idx}, [], false);
             trainingAnomalyScores = [trainingAnomalyScores; trainingAnomalyScores_tmp];
         end
 

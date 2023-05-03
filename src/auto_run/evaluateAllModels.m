@@ -21,9 +21,9 @@ if ~isempty(trainedModels)
 
         % For all test files
         for data_idx = 1:numel(fileNamesTest)
-            [XTest, YTest, labels] = prepareDataTest(trainedModel.modelOptions, dataTest(data_idx), labelsTest(data_idx));
+            [XTest, TSTest, labels] = prepareDataTest(trainedModel.modelOptions, dataTest(data_idx), labelsTest(data_idx));
                 
-            [anomalyScores, compTime] = detectionWrapper(trainedModel, XTest, YTest, labels, getCompTime);
+            [anomalyScores, compTime] = detectionWrapper(trainedModel, XTest, TSTest, labels, getCompTime);
             
             % For all thresholds in the thresholds variable
             for thr_idx = 1:numel(thresholds)

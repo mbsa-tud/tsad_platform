@@ -1,4 +1,4 @@
-function [XTest, YTest, labelsTest] = splitDataTest(data, labels, windowSize, modelType, dataType)
+function [XTest, TSTest, labelsTest] = splitDataTest(data, labels, windowSize, modelType, dataType)
 %SPLITDATATEST Splits the data for testing using a sliding window defined
 %by the window size
 
@@ -28,8 +28,8 @@ if strcmp(modelType, "reconstructive")
         error("Invalid dataType for reconstructive model. Must be one of: 1, 2");
     end
 
-    % YTest and labels
-    YTest = data{1};
+    % TSTest and labels
+    TSTest = data{1};
     labelsTest = logical(labels{1});
 elseif strcmp(modelType, "predictive")
     numWindows = size(data{1}, 1) - windowSize;
@@ -60,8 +60,8 @@ elseif strcmp(modelType, "predictive")
         error("Invalid dataType for predictive model. Must be one of: 1, 2, 3");
     end
     
-    % YTest and labels
-    YTest = data{1}((windowSize + 1):end, :);
+    % TSTest and labels
+    TSTest = data{1}((windowSize + 1):end, :);
     labelsTest = logical(labels{1}((windowSize + 1):end, 1));
 else
     error("Invalid modelType. Must be one of: predictive, reconstructive");

@@ -1,4 +1,4 @@
-function [anomalyScores, compTime] = detectWith_DL(modelOptions, Mdl, XTest, YTest, labels, getCompTime)
+function [anomalyScores, compTime] = detectWith_DL(modelOptions, Mdl, XTest, TSTest, labels, getCompTime)
 %DETECTWITHDNN Runs the detection for DL models and returns anomaly Scores
 
 compTime = NaN;
@@ -29,7 +29,7 @@ switch modelOptions.name
                 case "median point-wise values"
                     % calculate median predicted value for each time step and then calculate the errors for the entire time series
                     prediction = mergeOverlappingSubsequences(modelOptions, prediction, @median);
-                    anomalyScores = abs(prediction - YTest);
+                    anomalyScores = abs(prediction - TSTest);
                 case "median point-wise errors"
                     % calulate the point-wise errors for each subsequence and then calculate the median error for each time step
                     if modelOptions.dataType == 1
@@ -81,7 +81,7 @@ switch modelOptions.name
                 prediction = pred_tmp;
             end
 
-            anomalyScores = abs(prediction - YTest);
+            anomalyScores = abs(prediction - TSTest);
         end
 end
 end

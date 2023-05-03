@@ -3,9 +3,9 @@ function scores = detectAndEvaluateWith(trainedModel, dataTest, labelsTest, thre
 
 fprintf("Detecting with: %s\n", trainedModel.modelOptions.label);
 
-[XTest, YTest, labels] = prepareDataTest(trainedModel.modelOptions, dataTest, labelsTest);
+[XTest, TSTest, labels] = prepareDataTest(trainedModel.modelOptions, dataTest, labelsTest);
     
-anomalyScores = detectionWrapper(trainedModel, XTest, YTest, labels);
+anomalyScores = detectionWrapper(trainedModel, XTest, TSTest, labels);
 
 if ~trainedModel.modelOptions.outputsLabels
     [predictedLabels, ~] = applyThresholdToAnomalyScores(trainedModel, anomalyScores, labels, threshold, dynamicThresholdSettings);

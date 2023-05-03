@@ -1,4 +1,4 @@
-function [anomalyScores, compTime] = detectWithModel(trainedModel, XTest, YTest, labels, getCompTime)
+function [anomalyScores, compTime] = detectWithModel(trainedModel, XTest, TSTest, labels, getCompTime)
 %DETECTWITHMODEL Wrapper function for running a single detection
 
 if trainedModel.modelOptions.isMultivariate
@@ -16,9 +16,9 @@ if trainedModel.modelOptions.isMultivariate
 
     switch trainedModel.modelOptions.type
         case 'deep-learning'
-            [anomalyScores, compTime] = detectWith_DL(trainedModel.modelOptions, Mdl_tmp, XTest{1}, YTest{1}, labels, getCompTime);
+            [anomalyScores, compTime] = detectWith_DL(trainedModel.modelOptions, Mdl_tmp, XTest{1}, TSTest{1}, labels, getCompTime);
         otherwise
-            [anomalyScores, compTime] = detectWith_Other(trainedModel.modelOptions, Mdl_tmp, XTest{1}, YTest{1}, labels, getCompTime);
+            [anomalyScores, compTime] = detectWith_Other(trainedModel.modelOptions, Mdl_tmp, XTest{1}, TSTest{1}, labels, getCompTime);
     end
 else
     % For univariate models which are trained separately for each channel
@@ -39,11 +39,11 @@ else
         
         switch trainedModel.modelOptions.type
             case 'deep-learning'
-                [anomalyScores_tmp, compTime_tmp]  = detectWith_DL(trainedModel.modelOptions, Mdl_tmp, XTest{channel_idx}, YTest{channel_idx}, labels, getCompTime);
+                [anomalyScores_tmp, compTime_tmp]  = detectWith_DL(trainedModel.modelOptions, Mdl_tmp, XTest{channel_idx}, TSTest{channel_idx}, labels, getCompTime);
                 anomalyScores = [anomalyScores, anomalyScores_tmp];
                 compTimes = [compTimes, compTime_tmp];
             otherwise
-                [anomalyScores_tmp, compTime_tmp]  = detectWith_Other(trainedModel.modelOptions, Mdl_tmp, XTest{channel_idx}, YTest{channel_idx}, labels, getCompTime);
+                [anomalyScores_tmp, compTime_tmp]  = detectWith_Other(trainedModel.modelOptions, Mdl_tmp, XTest{channel_idx}, TSTest{channel_idx}, labels, getCompTime);
                 anomalyScores = [anomalyScores, anomalyScores_tmp];
                 compTimes = [compTimes, compTime_tmp];
         end

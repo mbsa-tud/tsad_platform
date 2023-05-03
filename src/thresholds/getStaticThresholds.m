@@ -10,47 +10,47 @@ staticThresholds = [];
 if strcmp(type, "anomalous-validation-data")
     % For semi-supervised models trained on fault-free data
     if ~isempty(data)
-        XValTestCell = cell(numel(data), 1);
-        YValTestCell = cell(numel(data), 1);
-        labelsValTestCell = cell(numel(data), 1);
+        XTestCell = cell(numel(data), 1);
+        TSTestCell = cell(numel(data), 1);
+        labelsTestCell = cell(numel(data), 1);
         
         numAnoms = 0;
         numTimeSteps = 0;
     
         for data_idx = 1:numel(data)
-            [XValTestCell{data_idx}, YValTestCell{data_idx}, labelsValTestCell{data_idx}] = prepareDataTest(trainedModel.modelOptions, data(data_idx), labels(data_idx));
+            [XTestCell{data_idx}, TSTestCell{data_idx}, labelsTestCell{data_idx}] = prepareDataTest(trainedModel.modelOptions, data(data_idx), labels(data_idx));
     
-            numAnoms = numAnoms + sum(labelsValTestCell{end} == 1);
-            numTimeSteps = numTimeSteps + size(labelsValTestCell{end}, 1);
+            numAnoms = numAnoms + sum(labelsTestCell{end} == 1);
+            numTimeSteps = numTimeSteps + size(labelsTestCell{end}, 1);
         end
     
         contaminationFraction = numAnoms / numTimeSteps;
         
         if contaminationFraction > 0
-            anomalyScoresValTest = [];
-            labelsValTest = [];
+            anomalyScoresTest = [];
+            labelsTest = [];
     
-            for data_idx = 1:numel(XValTestCell)
-                anomalyScores_tmp = detectionWrapper(trainedModel, XValTestCell{data_idx}, YValTestCell{data_idx}, labelsValTestCell{data_idx});
-                anomalyScoresValTest = [anomalyScoresValTest; anomalyScores_tmp];
-                labelsValTest = [labelsValTest; labelsValTestCell{data_idx}];
+            for data_idx = 1:numel(XTestCell)
+                anomalyScores_tmp = detectionWrapper(trainedModel, XTestCell{data_idx}, TSTestCell{data_idx}, labelsTestCell{data_idx});
+                anomalyScoresTest = [anomalyScoresTest; anomalyScores_tmp];
+                labelsTest = [labelsTest; labelsTestCell{data_idx}];
             end
     
     
             if ismember("bestFscorePointwise", thresholds)
-                staticThresholds.bestFscorePointwise = calcStaticThreshold(anomalyScoresValTest, labelsValTest, "bestFscorePointwise", trainedModel.modelOptions.name);
+                staticThresholds.bestFscorePointwise = calcStaticThreshold(anomalyScoresTest, labelsTest, "bestFscorePointwise", trainedModel.modelOptions.name);
             end
             if ismember("bestFscoreEventwise", thresholds)
-                staticThresholds.bestFscoreEventwise = calcStaticThreshold(anomalyScoresValTest, labelsValTest, "bestFscoreEventwise", trainedModel.modelOptions.name);
+                staticThresholds.bestFscoreEventwise = calcStaticThreshold(anomalyScoresTest, labelsTest, "bestFscoreEventwise", trainedModel.modelOptions.name);
             end
             if ismember("bestFscorePointAdjusted", thresholds)
-                staticThresholds.bestFscorePointAdjusted = calcStaticThreshold(anomalyScoresValTest, labelsValTest, "bestFscorePointAdjusted", trainedModel.modelOptions.name);
+                staticThresholds.bestFscorePointAdjusted = calcStaticThreshold(anomalyScoresTest, labelsTest, "bestFscorePointAdjusted", trainedModel.modelOptions.name);
             end
             if ismember("bestFscoreComposite", thresholds)
-                staticThresholds.bestFscoreComposite = calcStaticThreshold(anomalyScoresValTest, labelsValTest, "bestFscoreComposite", trainedModel.modelOptions.name);
+                staticThresholds.bestFscoreComposite = calcStaticThreshold(anomalyScoresTest, labelsTest, "bestFscoreComposite", trainedModel.modelOptions.name);
             end
             if ismember("topK", thresholds)
-                staticThresholds.topK = calcStaticThreshold(anomalyScoresValTest, labelsValTest, "topK", trainedModel.modelOptions.name);
+                staticThresholds.topK = calcStaticThreshold(anomalyScoresTest, labelsTest, "topK", trainedModel.modelOptions.name);
             end
         else
             warning("Warning! Anomalous validation set doesn't contain anomalies, possibly couldn't calculate some static thresholds.");

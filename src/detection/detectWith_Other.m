@@ -1,4 +1,4 @@
-function [anomalyScores, compTime] = detectWith_Other(modelOptions, Mdl, XTest, YTest, labels, getCompTime)
+function [anomalyScores, compTime] = detectWith_Other(modelOptions, Mdl, XTest, TSTest, labels, getCompTime)
 %DETECTWITHCML Runs the detection for classic ML models
 
 % Comptime measure the computation time for a single subsequence. Might be
