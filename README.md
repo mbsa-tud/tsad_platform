@@ -1,6 +1,6 @@
 # TSAD Platform Manual
 
-A platform for evaluating time series anomaly detection (tsad) methods which offers options to automatically train, test, compare and optimize them.
+A platform for evaluating time series anomaly detection (TSAD) methods which offers options to automatically train, test, compare and optimize them.
 
 ## Contents
 
@@ -30,13 +30,13 @@ A platform for evaluating time series anomaly detection (tsad) methods which off
         * [(optional) Enable optimization](#optional-enable-optimization-for-your-model)
         * [(optional) Custom data preparation](#optional-custom-data-preparation)
         * [(optional) Custom threshold](#optional-custom-threshold)
-4. [Known limiations](#known-limitations-issues-and-possible-future-upgrades-mostly-relevant-for-developers)
+4. [Known limitations](#known-limitations-issues-and-possible-future-upgrades-mostly-relevant-for-developers)
 
 ---
 
 ## Getting started
 
-1. Download the TSAD platform repository from https://github.com/AdrianWolf1999/tsad_platform.git.
+1. Download this repository.
 2. Install MATLAB Toolboxes:
     * `Simulink`
     * `Signal Processing Toolbox`
@@ -72,19 +72,19 @@ The platform offers **two different modes** to test time series anomaly detectio
 
 #### MODE 1: Manually train and test models
 
-1. Select/configure threshold in the platform [Settings](#settings)
-2. Import and process a dataset on the [Dataset Preparation](#dataset-preparation) panel.
+1. Select/configure thresholds in the platform [Settings](#settings).
+2. Import and preprocess a dataset on the [Dataset Preparation](#dataset-preparation) panel.
 3. Configure, train and optimize models on the [Training](#training-and-optimization) panel.
-4. Test the models on the [Detection](#detection) and [Simulink Detection](#simulink-detection) panels.
+4. Test the models on the [Detection](#detection) panel (and [Simulink Detection](#simulink-detection) panel for online simulation).
 5. (optional) Configure, train and test the dynamic switch mechanism on the [Dynamic Switch](#dynamic-switch) panel (only possible for datasets with multiple files for testing).
 
 #### MODE 2: Automatically train and test models on single- or multi-entity datasets
 
-1. Select/configure thresholds in the platform [Settings](#settings)
+1. Select/configure thresholds in the platform [Settings](#settings).
 2. Configure models on the [Training](#training-and-optimization) panel.
-3. Configure and start the auto-run function on the [Auto Run](#auto-run) panel.
+3. Configure and start the auto-evaluation on the [Auto Run](#auto-run) panel.
 
-Further details can be found below.
+Further details are given in the following.
 
 ---
 
@@ -93,6 +93,8 @@ Further details can be found below.
 You can find the platform settings in the top left corner.
 
 #### Threshold selection
+
+*INFO: Thresholds are used to convert anomaly scores into binary labels (0 = normal points, 1 = anomalous points).*
 
 The selection of thresholds controls which thresholds are set during training and are available during testing ([Mode 1](#mode-1-manually-train-and-test-models)).
 Only the selected ones are used during the auto-evaluation on the `Auto Run` panel ([Mode 2](#mode-2-automatically-train-and-test-models-on-single--or-multi-entity-datasets)).
@@ -108,15 +110,15 @@ To select thresholds, proceed as follows:
 2. Select the desired thresholds.
 3. Click `Save` to save the new selection.
 
-The thresholds are used to convert anomaly scores produced by an anomaly detection model/algorithm into binary labels and are set as follows:
+The thresholds are set as follows:
 
 | Threshold | Description |
 |-|-|
-| Best F1 Score thresholds | Calculates the best possible F1 score (either point-wise, event-wise, point-adjusted or composite) on either the anomalous validation set or the test set directly (depending on wether a anomalous validation set is used or not. See [Use of anomalous validation set](#use-of-anomalous-validation-set)). |
+| Best F1 Score thresholds | Calculates the best possible F1 score (either point-wise, event-wise, point-adjusted or composite) on either the anomalous validation set or the test set (depending on wether a anomalous validation set is used or not. See [Use of anomalous validation set](#use-of-anomalous-validation-set)). |
 | Top k | Set threshold to detect the correct amount of anomalies as given by the labels. This is done either on the anomalous validation set or the test set (depending on wether a anomalous validation set is used or not. See [Use of anomalous validation set](#use-of-anomalous-validation-set)). |
-| Mean + 3 * Std | Mean + 3 * Standard deviation of the anomaly scores for the testing data. If the anomaly score output of a model (after a optional scoring function is applied) still has multiple channels, the average mean and average standard deviation across channels are used instead. |
-| Mean + 3 * Standard deviation (Train) | Mean + 3 * Std of the anomaly scores for the training data. If the anomaly score output of a model (after a optional scoring function is applied) still has multiple channels, the average mean and average standard deviation across channels are used instead. |
-| Max Train Anomaly Score | The maximum value of the anomaly score when running the detection on the training data. |
+| Mean + 3 * Std | Mean + 3 * Standard deviation of the anomaly scores for the testing data. |
+| Mean + 3 * Std (Train) | Mean + 3 * Standard deviation of the anomaly scores for the training data. |
+| Max Train Anomaly Score | The maximum value of the anomaly scores for the training data. |
 | 0.5 | 0.5 |
 | Dynamic | Unsupervised dynamic threshold. See [Dynamic threshold](#dynamic-threshold). |
 | Custom | Can be implemented individually for a specific model. If none is specified, its value is set to 0.5 (See [Add custom threshold](#optional-custom-threshold)). |
@@ -134,7 +136,8 @@ These options control the default parameters for the dynamic threshold, which ca
 
 ### Enable/disable parallel mode
 
-To enable/disable parallel training, click on `Settings` and then `Enable Parallel Mode` (or `Disable Parallel Mode` if it's already active).
+* To **enable parallel training**, click `Settings` > `Enable Parallel Mode`.
+* To **disable parallel training**, click `Settings` > `Disable Parallel Mode`.
 
 ---
 
@@ -145,9 +148,8 @@ A dataset can be loaded and preprocessed on the `Dataset Preparation` panel:
 <img src="media/final_dataset_panel.png" alt="Dataset preparation panel" title="Dataset preparation panel" width=900/>
 
 #### Loading a dataset (1)
-1. Click `Browse` to select a folder from your computer or enter a path manually. You can find some datasets in the `datasets` folder of the tsad platform.
+1. Click `Browse` to select a folder from your computer or enter a path manually. You can find some datasets in the `datasets` folder of the TSAD platform.
 2. Click `Load Data` to import the selected dataset.
-
 
 The **format** of a dataset must be as such:
 
@@ -165,15 +167,15 @@ It should contain fault-free data for semi-supervised models and anomalous data 
 
 * **Timestamp**: The equally spaced timestamps. Can be increasing numeric values or common datatime strings.
 * **Values**: The values for the individual channels of the dataset. For univariate data there is just one value-column.
-* **is_anomaly**: The anomaly indicators for each observation. 1 = anomaly, 0 = fault-free.
+* **is_anomaly**: The anomaly indicators for each observation. 1 = anomaly, 0 = normal.
 
-**NOTE** The column-names don't need to be as presented. The platfrom interprets the values of each column according to their position in the file. The first column is always considered the timestamp column and the last column is always considered to be the column of anomaly indicators (=labels). Everything in between are the values of the channels.
+**NOTE** The column-names don't need to be as presented. The platform interprets the values of each column according to their position in the file. The first column is always considered the timestamp column and the last column is always considered to be the column of anomaly indicators (=labels). Everything in between are the values of the channels.
 
 #### Preprocessing and splitting the dataset (2)
 
 ##### Preprocessing method selection
 
-Three `Preprocessing Methods` can be selected. These **don't** apply to the [Auto Run](#auto-run) functions, but to everything else:
+Three `Preprocessing Methods` can be selected.:
 
 * **Rescale [0, 1]**: Processed data has maximum = 1 and minimum = 0.
 * **Standardize**: Processed data has mean = 0 and standard deviation = 1.
@@ -187,7 +189,7 @@ Three `Preprocessing Methods` can be selected. These **don't** apply to the [Aut
 You can choose to further transform your data in various ways. To do so, proceed as follows:
 1. Select an `Augmentation Mode` from the dropdown menu.
 2. Configure the `Intensity` of the augmentation using the slider.
-3. Check the `Augmented training` checkbox if you also want to augment the training data.
+3. Check the `Augmented training` checkbox if you also want to transform the training data.
 
 ##### Dataset splitting
 
@@ -202,7 +204,8 @@ To enable this, do the following:
 
 ###### Use of anomalous validation set
 
-*INFO: An anomalous validation set can be used to calculate the static thresholds prior to testing the models (only for semi-supevised models). In order to do this, the test set will be split to obtain an anomalous validation set and a test set. If no anomalous validation set is used, or it doesn't contain any anomalies, the static thresholds will be set on the test set.*
+*INFO: An anomalous validation set can be used to calculate the static thresholds (`Best F score` and `Top k` thresholds) prior to testing the models (only for semi-supervised models). These thresholds are then used during testing.
+In order to do this, the test set will be split to obtain an anomalous validation set and a test set. If no anomalous validation set is used or it doesn't contain any anomalies, the static thresholds will be set on the test set.*
 
 To enable the anomalous validation set, do the following:
 
@@ -248,8 +251,8 @@ Click `Add Models Manually` to configure models by hand. This opens a **new wind
 <img src="media/final_model_selection.png" alt="Modelselection popup window" title="Modelselection pupup window" width=600/>
 
 To configure a model, proceed as follows:
-1. At the top (1) you can select the type of model you want to add: Deep Neural Networks or Others (classic machine-learning, statistical).
-2. Select a model from the drowpdown menu (2)
+1. At the top (1) you can select the type of model you want to add: `Deep Neural Networks` or `Others` (classic machine-learning, statistical).
+2. Select a model from the drowpdown menu (2).
 3. **Some** models offer the option to configure the dimensionality with the `Is Multivariate` checkbox (3). If this is disabled but the loaded dataset is multivariate, a separate model will be trained for every channel of the data. Otherwise just a single model is used for all channels.
 4. **Some** models offer additional configuration options like `scoring functions` or `reconstruction error types` (4).
 
@@ -263,19 +266,18 @@ The `scoring function` defines how anomaly scores are computed. Following scorin
 | aggregated-gauss | The channelwise mean and standard deviation of the training error distribution is used to compute -log(1 - cdf) of the channel-wise errors to get channel-wise anomaly scores. Afterwards, the channelwise anomaly scores are added. |
 | channelwise-gauss | The channelwise mean and standard deviation of the training error distribution is used to compute -log(1 - cdf) of the channel-wise errors to get channel-wise anomaly scores. |
 
-**NOTE** For the channel-wise scores, a common threshold gets applied accross all channels during testing. A single observation only needs to be labeled as anomalous in one of the channels to be considered an anomaly.
+**NOTE** For the channel-wise anomaly scores, a common threshold gets applied accross all channels during testing. A single observation only needs to be labeled as anomalous in one of the channels to be considered an anomaly.
 
 The `reconstruction error type` defines how the errors are computed for reconstructive deep-learning models. Since there are multiple predicted values for every observation of the time series, a single value must be computed. Following methods to do this are available:
 
 | Reconstruction Error Type | Description |
 |-|-|
-| median point-wise values | Calculates the median predicted value for each time step and then calculates the absolute errors for the entire time series. |
-| median point-wise errors | Calulates the point-wise absolute errors for each subsequence and then calculates the median error for each time step. |
-| mean subsequence errors | Calulates the MSE for each subsequence and channel and then calculates the mean error for each time step and channel. |
+| median point-wise values | Calculates the median predicted value for each time step and then calculates the absolute errors for the entire time series. This is done for each channel separately. |
+| median point-wise errors | Calulates the point-wise absolute errors for each subsequence and then calculates the median error for each time step. This is done for each channel separately. |
+| mean subsequence errors | Calulates the MSE for each subsequence and then calculates the mean error for each time step. This is done for each channel separately. |
 
-5. Configure model, data and training related hyperparameters (5)
+5. Configure model, data and training related hyperparameters (5).
 6. For some non-deep-learning models, you can choose whether to split the data into subsequences by checking the `Use Subsequences` checkbox (6).
-**NOTE** Subsequences for non-deep-learning models are **disabled by default**.
 7. Once configured, click `Add to Model Selection` to add the selected model to the list of models. You can then repeat the previous steps and add as many models as you wish.
 
 ##### Method 3 - Exporting and importing a configuration
@@ -314,7 +316,7 @@ To optimize models, do the following:
     * The `Metric to Optimize`.
     * The `Threshold` used for all models.
     * (optional) Check the `Training Plots` checkbox if you want to show plots for deep-learning models.
-4. Click the `Run Optimization` button to start the optimization. For each iteration of the optimization, every model gets tested on all files of the testing dataset and the average score (metric selected in step 3.) is aimed to be improved.
+4. Click the `Run Optimization` button to start the optimization. For each iteration of the optimization, every model gets tested on all files of the testing dataset and the average score (metric selected in step 3) is aimed to be improved.
 5. Once it's done, the optimized models will appear on the [Detection](#detection) and [Simulink Detection](#simulink-detection) panels.
 
 ---
@@ -354,13 +356,12 @@ The trained models can be tested on the `Detection` panel:
 
 Once the detection is finished, the following results are are displayed in the windows below:
 * **Plots** of the anomaly scores and detected anoamlies for the first model the detection was run for.
-* The **Scores** for the currently selected file and the average scores across all files. These tables can be exported.
-* A **Computation time** plot showing the  average computational time of the models for a single subsequence on the x-axis and the obtained scores on the y-axis.
+If you want to observe the detection of another model, just right-click on it in the list of trained models (1) and select `Show Detection`. If you already ran the detection for that model, the scores and plots will be displayed directly. Otherwise run the detection for the selected model again.
+* The **Scores** for the currently selected file and the **Average Scores** across all files. These tables can be exported.
+* A **Computation Time** plot showing the  average computational time of the models for a single subsequence on the x-axis and the obtained scores on the y-axis.
 Using the `Metric Selection` button, one can choose what metrics should be displayed within this plot.
 
 You can select another threshold or reconfigure the dynamic threshold. This will update the scores **only** for the currently shown model in the **Plots** section (4). To update it for all models, you need to run the detection again (See [Run detection](#run-detection-3)).
-
-**NOTE** If you want to observe the detection of another model, just right-click on it in the list of trained models (1) and select `Show Detection`. If you already ran the detection for that model, the scores and plots will be displayed directly. Otherwise run the detection for the selected model again.
 
 ---
 
@@ -387,18 +388,20 @@ The dynamic switch mechanism (model selection mechanism) can be trained and test
 
 <img src="media/final_dynamic_switch_panel.png" alt="Dynamic switch panel" title="Dynamic switch panel" width=900/>
 
+*Info: The dynamic switch mechanism aims to make predictions on what model is best-suited for what kind of data. It's trained to choose the best model based on several statistical features of the time series data. The labels (= best models) for its training data are determined by running the detection for all models and files on the [Detection panel](#detection).*
+
 #### Requirements
 
 The usage of the dynamic switch mechanism **requires** the following things:
 
-* **Correct dataset**: A dataset with **multiple anomalous files** for testing. 
-* The **Split Test Set for Dynamic Switch** checkbox on the [Dataset Preparation](#dataset-preparation) panel must be checked. The testing data for the dynamic switch can be observed in section (3).
-* **Trained models**: Either configure and train models on the [Training](#training-and-optimization) panel or load trained models on the [Detection](#detection) panel.
-* **Detection run**: The detection **must be run for all models** on all files on the [Detection panel](#detection). Otherwise the dynamic switch won't know which models perform best on what kind of data.
+1. **Correct dataset**: A dataset with **multiple anomalous files** for testing. 
+2. The **Split Test Set for Dynamic Switch** checkbox on the [Dataset Preparation](#dataset-preparation) panel must be checked. The testing data for the dynamic switch can be observed in section (3).
+3. **Trained models**: Either configure and train models on the [Training](#training-and-optimization) panel or load trained models on the [Detection](#detection) panel.
+4. **Detection run**: The detection **must be run for all models on all files** on the [Detection panel](#detection). Otherwise the dynamic switch won't know which models perform best on what kind of data.
 
-#### Run dynamic switch
+#### Train and test dynamic switch
 
-To **train and test the dynamic switch**, proceed as follows:
+To train and test the dynamic switch, proceed as follows:
 
 ##### Configure, train and test dynamic switch (1)
 
@@ -423,7 +426,7 @@ To use this function, proceed as follows:
 
 ##### Prequisites
 
-1. Select the thresholds in the [Settings](#settings) of the platform
+1. Select the thresholds in the [Settings](#settings) of the platform. All of these thresholds will be used for testing.
 2. (optional) If the dynamic threshold was selected, configure it in the [Settings](#settings).
 3. Configure/load models on the [Training](#training-and-optimization) panel **(don't train them yet)**.
 
@@ -435,7 +438,8 @@ To use this function, proceed as follows:
 4. Click `Run Evaluation` to start the process. You can observe more details about the current state in the MATLAB command window.
 
 ##### Observe results (2)
-Once the evaluation is done, all results are stored in a folder called *Auto_Run_Results* within the current MATLAB folder (This folder includes subfolders for the results for each selected threshold). The average scores for each model for the first threshold are displayed in the table (2).
+Once the evaluation is done, all results are stored in a folder called *Auto_Run_Results* within the current MATLAB folder.
+The average scores for each model for the first threshold are displayed in the table (2).
 
 ---
 
@@ -505,7 +509,7 @@ The learning type determines what data is used for training and testing. Followi
 
 | Learning type | Description |
 |-|-|
-| "supervised" | Model gets trained on training data from `train` folder (Should contain anomalies). Training data is also used to set static thresholds, if the model doesn't output labels. |
+| "supervised" | Model gets trained on training data from `train` folder (Should contain anomalies). (Training data is also used to set static thresholds, if the model doesn't output labels.) |
 | "semi-supervised" | Model gets trained on training data from `train` folder (Should not contain anomalies). Anomalous validation data (if available) is used to set static thresholds. Otherwise static thresholds are set last during testing. |
 | "unsupervised" | Model gets tested directly on data from `test` folder. Static thresholds are alway set last. | 
 
@@ -520,13 +524,13 @@ If your anomaly detection method doesn't output anomaly scores, but binary labes
 #### useSubsequences
 **- optional -**
 This field is only required for **non** deep-learning models which use the standard data preparation functions provided by the platform.
-If it is set to `true`, the dataset will be split into overlapping subsequences (See field [dataType](#datatype) above), otherwise the data is used directly.
+If it is set to `true`, the time series will be split into overlapping subsequences (see field [dataType](#datatype) above), otherwise the time series is used directly.
 
 #### hyperparameters
 **- optional -**
 This field can contain all configurable hyperparameters for your model/algorithm. If you want to add a hyperparameter, specify its name as a new key within this field.
 You can then use these hyperparameters in the data preparation, model training and detection functions to modify your model.
-See Chapter [adding models](#adding-models) for some examples.
+See Chapter [Adding models](#adding-models) for some examples.
 
 One hyperparamter that must be mentioned is the `scoringFunction`:
 It is optional for all models. Its value changes how the anomaly scores are defined. If your model defines its own scoring function, don't add this field to the hyperparameters.
@@ -558,11 +562,11 @@ The file `tsad_platform > config > tsad_platform_config_all.json` contains the J
 
 To add more models to the platform (deep-learning, classic machine learning or statistical), proceed as follows:
 
-1. Define the `modelOptions` struct mentioned before. You can create a `JSON` file (use the `tsad_platform_config_all.json` file as reference or add your model to this file directly) as mentioned above. Alternativeley, edit the `ModelSelection.mlapp` file within the `src > pupup_apps` folder. Use other examples in that file as a guideline on how to add your model.
+1. Define the `modelOptions` struct mentioned before. You can create a `JSON` file (use the `tsad_platform_config_all.json` file as reference or add your model to this file directly) as mentioned above. Alternatively, edit the `ModelSelection.mlapp` file within the `src > pupup_apps` folder. Use other examples in that file as a guideline on how to add your model.
 2. Add the training and detection function calls to the source code of the platform. The process for deep-learning and other models (E.g. classic machine-learning and statistical algorithms) slightly differs.
 See [Add deep-learning anomaly detection models](#add-deep-learning-anomaly-detection-models) and [Add other models](#add-other-models) for more information.
 3. (optional) Enable optimization for your model: [Enable optimization](#optional-enable-optimization-for-your-model).
-4. (optional) If you require the data to be transformed in another way as provided by the platform, see [Custom data preparation](#optional-custom-data-preparation) for more information.
+4. (optional) If you require the dataset to be transformed in another way than provided by the platform, see [Custom data preparation](#optional-custom-data-preparation) for more information.
 5. (optional) [Add custom threshold](#optional-custom-threshold).
 
 
@@ -622,9 +626,9 @@ It's recommended to implement the deep-learning models using functions from MATL
             end
     ```
 
-**NOTE** You can **optionally** add the training and detection function call for your network manually. In that case you don't have to add your model to the files mentioned above. To do so proceed as follows:
+**NOTE** You can **optionally** add the training and detection function call for your model manually. In that case you don't have to add your model to the files mentioned above. To do so proceed as follows:
 
-1. **Add the training function call for you network**: Go to the folder `tsad_platform > src > models_and_training > deep_learning` and open the file `train_DL.m`. Add your model name within the main *switch* statement, then call your training function and save the trained network in the `Mdl` vairable. The `MdlInfo` variable is optional and can be left empty:
+1. **Add the training function call for you model**: Go to the folder `tsad_platform > src > models_and_training > deep_learning` and open the file `train_DL.m`. Add your model name within the main *switch* statement, then call your training function and save the trained network in the `Mdl` vairable. The `MdlInfo` variable is optional and can be left empty:
 
     ```matlab
     switch modelOptions.name
@@ -634,7 +638,7 @@ It's recommended to implement the deep-learning models using functions from MATL
             MdlInfo = [];
     ```
 
-2. **Add the detection call for your network**: Go to the folder `tsad_platform > src > detection` and open the file `detectWith_DL.m`. Add your model name within the main *switch* statement, then add your detection function call. Make sure to save the prediction of your model in the `anomalyScores` variable (even if your model outputs labels):
+2. **Add the detection call for your model**: Go to the folder `tsad_platform > src > detection` and open the file `detectWith_DL.m`. Add your model name within the main *switch* statement, then add your detection function call. Make sure to save the prediction of your model in the `anomalyScores` variable (even if your model outputs labels):
 
     ```matlab
     switch modelOptions.name
@@ -648,7 +652,7 @@ It's recommended to implement the deep-learning models using functions from MATL
 The process for adding models other than deep-learning models is as follows:
 
 1. **Add the training function call**: This step is only required if your model is semi-supervised or supervised (see [Learning type](#learningtype)).
- Go to the folder `tsad_platform > src > models_and_training > other` and open the file `train_Other.m`. To train your model, add your model name to the main *switch* statement, then call your training function and save the trained model in the `Mdl` variable:
+ Go to the folder `tsad_platform > src > models_and_training > other` and open the file `train_Other.m`. To train your model, add your model name within the main *switch* statement, then call your training function and save the trained model in the `Mdl` variable:
 
     ```matlab
     switch modelOptions.name
@@ -695,16 +699,24 @@ If you want to limit the possible values for a hyperparameter during optimizatio
 
 #### (Optional) Custom data preparation
 
-To prepare the data your own way, you can add your model name to the main *switch* statements in the following files within the `tsad_platform > src > data_preparation` folder and then call your own data preparation functions:
+To prepare the data your own way, you can add your model name within the main *switch* statements in the following files within the `tsad_platform > src > data_preparation` folder and then call your own data preparation functions:
 
 * **For deep-learning models**: `prepareDataTrain_DL.m`, `prepareDataTest_DL.m`.
 * **For other models**: `prepareDataTrain_Other.m`, `prepareDataTest_Other.m`.
 
-**NOTE** If you do so, you must also call your own training and detection functions as described above. Otherwise it might lead to errors as the platform doesn't recognize your data.
+**Example**:
+```matlab
+switch modelOptions.name
+    % Add your model here
+    case "Your model name"
+        [XTest, TSTest, labelsTest] = prepareMyData(data, labels);
+```
+
+**NOTE** If you do so, you must also call your own training and detection functions as described [above](#adding-models). Otherwise it might lead to errors as the platform doesn't recognize your data.
 
 #### (Optional) Custom Threshold
 
-To add a custom threshold, open the file `tsad_platform > src > thresholds > calcStaticThreshold.m`. In line `50` add your model name and store your custom threshold in the `thr` variable.
+To add a custom threshold, open the file `tsad_platform > src > thresholds > calcStaticThreshold.m`. Below line `49` add your model name within the *switch* statement and store your custom threshold in the `thr` variable.
 
 ```matlab
 case "custom"
@@ -723,7 +735,7 @@ case "custom"
 3. (Maybe irrelevant?) The step-size for the detection process is always set to 1 and can't be adjusted.
 4. (Maybe irrelevant?) The forecast horizon for deep-learning models is always set to 1 and can't be adjusted.
 5. Network architectures of deep-learning models could be checked in more detail or updated. For example the TCN-AE currently only accepts window-sizes that are divisible by 4 and the ResNet architecture results in very noisy predictions.
-6. Check on startup of the platform whether all required folders are on the matlab path to avoid errors later on.
+6. Check on startup of the platform whether all required folders are on the MATLAB path to avoid errors later on.
 7. Add more models (The platform lacks for example in statistical models. Classic machine-learning oder deep-learning models like a Convolutional Autoencoder or a LSTM Autoencoder could also be added. **Note** The implemented LSTM and Hybrid CNN-LSTM reconstruction models don't feature any dimensionality reduction).
 8. (Maybe irrelevant?) Save intermediate results during auto run. This allows to save some results even when a longer running process crashes.
 9. On some datasets, the training of some deep-learning models can occasionally get stuck. The reasons for this might be further investigated in the future (Maybe related to preprocessing, network architectures, dataset in general, etc.).
