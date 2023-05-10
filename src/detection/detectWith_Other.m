@@ -5,6 +5,8 @@ function [anomalyScores, compTime] = detectWith_Other(modelOptions, Mdl, XTest, 
 % unavailable for some models
 compTime = NaN;
 
+outlierFraction = sum(labels) / numel(labels);
+
 switch modelOptions.name
     case "Your model name"
     case "iForest"
@@ -23,7 +25,7 @@ switch modelOptions.name
     case "OC-SVM"
         if isempty(Mdl)
             Mdl = fitcsvm(XTest, ones(size(XTest, 1), 1), KernelFunction=string(modelOptions.hyperparameters.kernelFunction), ...
-                                      KernelScale="auto", OutlierFraction=sum(labels)/numel(labels));
+                                      KernelScale="auto", OutlierFraction=outlierFraction);
         end
 
         [~, anomalyScores] = predict(Mdl, XTest);
