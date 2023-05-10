@@ -238,10 +238,9 @@
                 "dataType": 1,
                 "learningType": "unsupervised",
                 "isMultivariate": true,
-                "outputsLabels": true,
+                "outputsLabels": false,
                 "useSubsequences": false,
                 "hyperparameters": {
-                    "kernelFunction": "gaussian"
                 }
             }
         },

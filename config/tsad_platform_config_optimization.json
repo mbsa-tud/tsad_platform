@@ -140,10 +140,6 @@
         }
     },
     "OC-SVM": {
-        "kernelFunction": {
-            "value": ["gaussian", "rbf", "linear", "polynomial"],
-            "type": "categorical"
-        },
         "windowSize": {
             "value": ["8", "16", "32", "64", "128", "256"],
             "type": "categorical"

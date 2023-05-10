@@ -99,7 +99,7 @@ You can find the platform settings in the top left corner.
 The selection of thresholds controls which thresholds are set during training and are available during testing ([Mode 1](#mode-1-manually-train-and-test-models)).
 Only the selected ones are used during the auto-evaluation on the `Auto Run` panel ([Mode 2](#mode-2-automatically-train-and-test-models-on-single--or-multi-entity-datasets)).
 
-**NOTE** Some models/algorithms (Merlin, OC-SVM, Grubbst test) define their own threshold or don't require one. For these models, none of the available thresholds are applied.
+**NOTE** Some models/algorithms (Merlin, Grubbst test) define their own threshold or don't require one. For these models, none of the available thresholds are applied.
 
 To select thresholds, proceed as follows:
 

@@ -24,17 +24,15 @@ switch modelOptions.name
         end
     case "OC-SVM"
         if isempty(Mdl)
-            Mdl = fitcsvm(XTest, ones(size(XTest, 1), 1), KernelFunction=string(modelOptions.hyperparameters.kernelFunction), ...
-                                      KernelScale="auto", OutlierFraction=outlierFraction);
+            [~, ~, anomalyScores] = ocsvm(XTest, KernelScale="auto");
+        else
+            [~, anomalyScores] = isanomaly(Mdl, XTest);
         end
-
-        [~, anomalyScores] = predict(Mdl, XTest);
 
         if modelOptions.useSubsequences
             % Merge overlapping scores
             anomalyScores = mergeOverlappingAnomalyScores(modelOptions, anomalyScores, @mean);
         end
-        anomalyScores = anomalyScores < 0;
     case "ABOD"
         [~, anomalyScores] = ABOD(XTest);
 
