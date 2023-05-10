@@ -231,8 +231,8 @@ Following models are currently available:
         * **reconstruction models**: FC-AE, LSTM, Hybrid CNN-LSTM, TCN-AE, 
         * **prediction models**: LSTM, Hybrid CNN-LSTM, GRU, CNN (DeepAnT), ResNet, MLP
 * `Others`: 
-    * **unsupervised**: iForest (optionally semi-supervised), LOF, LDOF, ABOD, Merlin, over-sampling PCA, Grubbs test
-    * **semi-supervised**: OC-SVM, (iForest)
+    * **unsupervised**: iForest (optionally semi-supervised), OC-SVM (optionally semi-supervised), LOF, LDOF, ABOD, Merlin, over-sampling PCA, Grubbs test
+    * **semi-supervised**: OC-SVM, iForest
 
 You can load these on the training panel (these are not trained yet, it's only the configuration that gets loaded). 
 Once loaded, you can inspect the configuration of a model by selecting it in the list, right-clicking and selecting `Show Model Parameters`. This wil show all parameters of the selected model on the right side of the window (3).

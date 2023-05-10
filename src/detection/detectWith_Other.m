@@ -10,7 +10,8 @@ switch modelOptions.name
     case "iForest"
         % iForest supports outlier and novelty detection.
         if isempty(Mdl)
-            [~, ~, anomalyScores] = iforest(XTest, NumLearners=modelOptions.hyperparameters.numLearners, NumObservationsPerLearner=modelOptions.hyperparameters.numObservationsPerLearner);
+            [~, ~, anomalyScores] = iforest(XTest, NumLearners=modelOptions.hyperparameters.numLearners, ...
+                                            NumObservationsPerLearner=modelOptions.hyperparameters.numObservationsPerLearner);
         else
             [~, anomalyScores] = isanomaly(Mdl, XTest);
         end
@@ -20,6 +21,11 @@ switch modelOptions.name
             anomalyScores = mergeOverlappingAnomalyScores(modelOptions, anomalyScores, @mean);
         end
     case "OC-SVM"
+        if isempty(Mdl)
+            Mdl = fitcsvm(XTest, ones(size(XTest, 1), 1), KernelFunction=string(modelOptions.hyperparameters.kernelFunction), ...
+                                      KernelScale="auto", OutlierFraction=sum(labels)/numel(labels));
+        end
+
         [~, anomalyScores] = predict(Mdl, XTest);
 
         if modelOptions.useSubsequences

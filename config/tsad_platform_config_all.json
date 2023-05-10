@@ -236,7 +236,7 @@
                 "type": "classic-machine-learning",
                 "name": "OC-SVM",
                 "dataType": 1,
-                "learningType": "semi-supervised",
+                "learningType": "unsupervised",
                 "isMultivariate": true,
                 "outputsLabels": true,
                 "useSubsequences": false,
