@@ -14,12 +14,7 @@ if trainedModel.modelOptions.isMultivariate
         Mdl_tmp = [];
     end
 
-    switch trainedModel.modelOptions.type
-        case 'deep-learning'
-            [anomalyScores, compTime] = detectWith_DL(trainedModel.modelOptions, Mdl_tmp, XTest{1}, TSTest{1}, labels, getCompTime);
-        otherwise
-            [anomalyScores, compTime] = detectWith_Other(trainedModel.modelOptions, Mdl_tmp, XTest{1}, TSTest{1}, labels, getCompTime);
-    end
+    [anomalyScores, compTime] = detect(trainedModel.modelOptions, Mdl_tmp, XTest{1}, TSTest{1}, labels, getCompTime);
 else
     % For univariate models which are trained separately for each channel
     numChannels = numel(XTest);
@@ -37,16 +32,9 @@ else
             Mdl_tmp = [];
         end
         
-        switch trainedModel.modelOptions.type
-            case 'deep-learning'
-                [anomalyScores_tmp, compTime_tmp]  = detectWith_DL(trainedModel.modelOptions, Mdl_tmp, XTest{channel_idx}, TSTest{channel_idx}, labels, getCompTime);
-                anomalyScores = [anomalyScores, anomalyScores_tmp];
-                compTimes = [compTimes, compTime_tmp];
-            otherwise
-                [anomalyScores_tmp, compTime_tmp]  = detectWith_Other(trainedModel.modelOptions, Mdl_tmp, XTest{channel_idx}, TSTest{channel_idx}, labels, getCompTime);
-                anomalyScores = [anomalyScores, anomalyScores_tmp];
-                compTimes = [compTimes, compTime_tmp];
-        end
+        [anomalyScores_tmp, compTime_tmp]  = detect(trainedModel.modelOptions, Mdl_tmp, XTest{channel_idx}, TSTest{channel_idx}, labels, getCompTime);
+        anomalyScores = [anomalyScores, anomalyScores_tmp];
+        compTimes = [compTimes, compTime_tmp];
     end
     
     if getCompTime

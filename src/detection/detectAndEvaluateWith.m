@@ -3,7 +3,7 @@ function scores = detectAndEvaluateWith(trainedModel, dataTest, labelsTest, thre
 
 fprintf("Detecting with: %s\n", trainedModel.modelOptions.label);
 
-[XTest, TSTest, labels] = prepareDataTest(trainedModel.modelOptions, dataTest, labelsTest);
+[XTest, TSTest, labels] = prepareDataTest_Wrapper(trainedModel.modelOptions, dataTest, labelsTest);
     
 anomalyScores = detectionWrapper(trainedModel, XTest, TSTest, labels);
 

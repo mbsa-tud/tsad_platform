@@ -1,45 +1,23 @@
 function [XTest, TSTest, labelsTest] = prepareDataTest(modelOptions, data, labels)
-%PREPAREDATATEST Testing data preparation wrapper function
+%PREPAREDATATEST_DNN Prepares the testing data for DNN models
 
-if modelOptions.isMultivariate
-    switch modelOptions.type
-        case "deep-learning"
-            [XTest, TSTest, labelsTest] = prepareDataTest_DL(modelOptions, data, labels);
-            XTest = {XTest};
-            TSTest = {TSTest};
-        otherwise
-            [XTest, TSTest, labelsTest] = prepareDataTest_Other(modelOptions, data, labels);
-            XTest = {XTest};
-            TSTest = {TSTest};
-    end
-else
-    numChannels = size(data{1}, 2);
-
-    switch modelOptions.type
-        case "deep-learning"
-            XTest = cell(1, numChannels);
-            TSTest = cell(1, numChannels);
-        
-            for channel_idx = 1:numChannels
-                data_tmp = cell(numel(data), 1);
-                for j = 1:numel(data)
-                    data_tmp{j} = data{j}(:, channel_idx);
-                end
-        
-                [XTest{channel_idx}, TSTest{channel_idx}, labelsTest] = prepareDataTest_DL(modelOptions, data_tmp, labels);
+switch modelOptions.name
+    case "Your model name"
+    otherwise
+        if strcmp(modelOptions.type, "deep-learning")
+            [XTest, TSTest, labelsTest] = splitDataTest(data, labels, ...
+                modelOptions.hyperparameters.windowSize, modelOptions.modelType, ...
+                modelOptions.dataType);
+        else
+            if modelOptions.useSubsequences
+                [XTest, TSTest, labelsTest] = splitDataTest(data, labels, ...
+                    modelOptions.hyperparameters.windowSize, ...
+                    "reconstructive", modelOptions.dataType);
+            else
+                XTest = cell2mat(data);
+                TSTest = XTest;
+                labelsTest = cell2mat(labels);
             end
-        otherwise
-            XTest = cell(1, numChannels);
-            TSTest = cell(1, numChannels);
-        
-            for channel_idx = 1:numChannels
-                data_tmp = cell(numel(data), 1);
-                for j = 1:numel(data)
-                    data_tmp{j} = data{j}(:, channel_idx);
-                end
-        
-                [XTest{channel_idx}, TSTest{channel_idx}, labelsTest] = prepareDataTest_Other(modelOptions, data_tmp, labels);
-            end
-    end
+        end
 end
 end

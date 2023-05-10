@@ -25,8 +25,7 @@ A platform for evaluating time series anomaly detection (TSAD) methods which off
     * [The "modelOptions" struct](#the-modeloptions-struct)
     * [Configuration file](#configuration-file)
     * [Adding models](#adding-models)
-        * [Add deep-learning anomaly detection models](#add-deep-learning-anomaly-detection-models)
-        * [Add other models](#add-other-models)
+        * [Add model](#add-model)
         * [(optional) Enable optimization](#optional-enable-optimization-for-your-model)
         * [(optional) Custom data preparation](#optional-custom-data-preparation)
         * [(optional) Custom threshold](#optional-custom-threshold)
@@ -562,16 +561,41 @@ The file `tsad_platform > config > tsad_platform_config_all.json` contains the J
 To add more models to the platform (deep-learning, classic machine learning or statistical), proceed as follows:
 
 1. Define the `modelOptions` struct mentioned before. You can create a `JSON` file (use the `tsad_platform_config_all.json` file as reference or add your model to this file directly) as mentioned above. Alternatively, edit the `ModelSelection.mlapp` file within the `src > pupup_apps` folder. Use other examples in that file as a guideline on how to add your model.
-2. Add the training and detection function calls to the source code of the platform. The process for deep-learning and other models (E.g. classic machine-learning and statistical algorithms) slightly differs.
-See [Add deep-learning anomaly detection models](#add-deep-learning-anomaly-detection-models) and [Add other models](#add-other-models) for more information.
+2. Add the training and detection function calls to the source code of the platform (see [Add model](#add-model)).
 3. (optional) Enable optimization for your model: [Enable optimization](#optional-enable-optimization-for-your-model).
 4. (optional) If you require the dataset to be transformed in another way than provided by the platform, see [Custom data preparation](#optional-custom-data-preparation) for more information.
 5. (optional) [Add custom threshold](#optional-custom-threshold).
 
 
-#### Add deep-learning anomaly detection models
 
-It's recommended to implement the deep-learning models using functions from MATLAB's Deep Learning Toolbox and using the data preparation methods provided by the platform (this data preparation mode is enabled by default and nothing needs to be done other than adding the `dataType` field to the `modelOptions` struct (see [above](#the-modeloptions-struct))). To add a new deep-learning model, follow these steps:
+#### Add model
+
+**IMPORTANT** The process for adding new deep-learning based, semi-supervised models - similar to the currently implemented ones - is explained [below](#add-deep-learning-anomaly-detection-models). However all types of models can be added as described in the following.
+
+The process for adding a model/algorithm is as such:
+
+1. **Add the training function call**: This step is only required if your model is semi-supervised or supervised (see [Learning type](#learningtype)).
+ Go to the folder `tsad_platform > src > models_and_training` and open the file `train.m`. Add your model name within the main *switch* statement, then call your training function and save the trained model in the `Mdl` variable:
+
+    ```matlab
+    switch modelOptions.name
+        % Add your model here
+        case "Your model name"
+            Mdl = trainYourModel(XTrain);
+    ```
+
+2. **Add the detection function call**: Go to the folder `tsad_platform > src > detection` and open the file `detect.m`. Add your model name within the main *switch* statement, then add your detection function call. Make sure to save the prediction of your model in the `anomalyScores` variable (even if your model outputs labels):
+
+    ```matlab
+    switch modelOptions.name
+        % Add your model here
+        case "Your model name"
+            anomalyScores = detectWithYourModel(Mdl, XTest);
+    ```
+
+##### Add deep-learning anomaly detection models
+
+To add a new semi-supervised deep-learning models (similar to the ones already implemented) using MATLAB's `Deep Learning Toolbox`, follow these steps:
 
 1. **Define the layers**: Go to the folder `tsad_platform > src > models_and_training > deep_learning` and open the file `getLayers.m`. Add a new option in the main *switch* statement for the name of your model:
 
@@ -625,50 +649,6 @@ It's recommended to implement the deep-learning models using functions from MATL
             end
     ```
 
-**NOTE** You can **optionally** add the training and detection function call for your model manually. In that case you don't have to add your model to the files mentioned above. To do so proceed as follows:
-
-1. **Add the training function call for you model**: Go to the folder `tsad_platform > src > models_and_training > deep_learning` and open the file `train_DL.m`. Add your model name within the main *switch* statement, then call your training function and save the trained network in the `Mdl` vairable. The `MdlInfo` variable is optional and can be left empty:
-
-    ```matlab
-    switch modelOptions.name
-        % Add your model here
-        case "Your model name"
-            Mdl = yourTrainFunction(XTrain, YTrain, XVal, YVal);
-            MdlInfo = [];
-    ```
-
-2. **Add the detection call for your model**: Go to the folder `tsad_platform > src > detection` and open the file `detectWith_DL.m`. Add your model name within the main *switch* statement, then add your detection function call. Make sure to save the prediction of your model in the `anomalyScores` variable (even if your model outputs labels):
-
-    ```matlab
-    switch modelOptions.name
-        % Add your model here
-        case "Your model name"
-            anomalyScores = detectWithYourModel(Mdl, XTest);
-    ```
-
-#### Add other models
-
-The process for adding models other than deep-learning models is as follows:
-
-1. **Add the training function call**: This step is only required if your model is semi-supervised or supervised (see [Learning type](#learningtype)).
- Go to the folder `tsad_platform > src > models_and_training > other` and open the file `train_Other.m`. To train your model, add your model name within the main *switch* statement, then call your training function and save the trained model in the `Mdl` variable:
-
-    ```matlab
-    switch modelOptions.name
-        % Add your model here
-        case "Your model name"
-            Mdl = trainYourModel(XTrain);
-    ```
-
-2. **Add the detection function call**: Go to the folder `tsad_platform > src > detection` and open the file `detectWith_Other.m`. Add your model name within the main *switch* statement, then add your detection function call. Make sure to save the prediction of your model in the `anomalyScores` variable (even if your model outputs labels):
-
-    ```matlab
-    switch modelOptions.name
-        % Add your model here
-        case "Your model name"
-            anomalyScores = detectWithYourModel(Mdl, XTest);
-    ```
-
 #### (Optional) Enable optimization for your model
 
 To enable the built-in optimization for your model, open the file `tsad_platform > config > tsad_platform_config_optimization.json`.
@@ -700,8 +680,8 @@ If you want to limit the possible values for a hyperparameter during optimizatio
 
 To prepare the data your own way, you can add your model name within the main *switch* statements in the following files within the `tsad_platform > src > data_preparation` folder and then call your own data preparation functions:
 
-* **For deep-learning models**: `prepareDataTrain_DL.m`, `prepareDataTest_DL.m`.
-* **For other models**: `prepareDataTrain_Other.m`, `prepareDataTest_Other.m`.
+* `prepareDataTrain.m` for preparing training data.
+* `prepareDataTest.m` for preparing testing data.
 
 **Example**:
 ```matlab
@@ -711,7 +691,7 @@ switch modelOptions.name
         [XTest, TSTest, labelsTest] = prepareMyData(data, labels);
 ```
 
-**NOTE** If you do so, you must also call your own training and detection functions as described [above](#adding-models). Otherwise it might lead to errors as the platform doesn't recognize your data.
+**NOTE** If you do so, you must also call your own training and detection functions as described [above](#add-model). Otherwise it might lead to errors as the platform doesn't recognize your data.
 
 #### (Optional) Custom Threshold
 
