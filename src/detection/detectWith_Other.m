@@ -5,7 +5,7 @@ function [anomalyScores, compTime] = detectWith_Other(modelOptions, Mdl, XTest, 
 % unavailable for some models
 compTime = NaN;
 
-outlierFraction = sum(labels) / numel(labels);
+contaminationFraction = sum(labels) / numel(labels);
 
 switch modelOptions.name
     case "Your model name"
