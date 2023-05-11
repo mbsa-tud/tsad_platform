@@ -21,7 +21,7 @@ if ~isempty(trainedModels)
 
         % For all test files
         for data_idx = 1:numel(fileNamesTest)
-            [XTest, TSTest, labels] = prepareDataTest_Wrapper(trainedModel.modelOptions, dataTest(data_idx), labelsTest(data_idx));
+            [XTest, TSTest, labels] = dataTestPreparationWrapper(trainedModel.modelOptions, dataTest(data_idx), labelsTest(data_idx));
                 
             [anomalyScores, compTime] = detectionWrapper(trainedModel, XTest, TSTest, labels, getCompTime);
             

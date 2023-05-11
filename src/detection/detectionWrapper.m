@@ -8,7 +8,7 @@ if ~exist("getCompTime", "var")
 end
 
 % Get raw scores
-[anomalyScores, compTime] = detectWithModel(trainedModel, XTest, TSTest, labels, getCompTime);
+[anomalyScores, compTime] = detectWith(trainedModel, XTest, TSTest, labels, getCompTime);
 
 if nargout == 2
     compTimeOut = compTime;

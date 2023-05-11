@@ -1,5 +1,5 @@
 function trainedModels = trainingWrapper(models, dataTrain, labelsTrain, dataTestVal, labelsTestVal, thresholds, trainingPlots, parallelEnabled)
-%TRAINMODELS Main wrapper function for training models and calculating static thresholds
+%TRAININGWRAPPER Main wrapper function for training models and calculating static thresholds
 
 trainedModelsCell = cell(numel(models), 1);
 if parallelEnabled

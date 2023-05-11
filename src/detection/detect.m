@@ -1,5 +1,6 @@
 function [anomalyScores, compTime] = detect(modelOptions, Mdl, XTest, TSTest, labels, getCompTime)
-%DETECTWITHCML Runs the detection for classic ML models
+%DETECT Entry-point for adding detection function for models. This function 
+% runs the detection for the selected model
 
 % Comptime measure the computation time for a single subsequence. Might be
 % unavailable for some models
@@ -115,6 +116,7 @@ switch modelOptions.name
         end
     otherwise
         if strcmp(modelOptions.type, "deep-learning")
+            % Default detection for semi-supervised deep-learning models
             prediction = predict(Mdl, XTest);
 
             if getCompTime

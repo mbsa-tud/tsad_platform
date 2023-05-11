@@ -1,5 +1,6 @@
 function trainedModel = trainModel(modelOptions, dataTrain, labelsTrain, dataTestVal, labelsTestVal, thresholds, trainingPlots, verbose)
-%TRAINMODELS Main wrapper function for training models and calculating static thresholds
+%TRAINMODEL Function for training a model including the calculation of
+%static thresholds
 
 trainedModel = [];
 trainedModel.modelOptions = modelOptions;
@@ -18,7 +19,7 @@ switch modelOptions.learningType
         trainedModel.dimensionality = size(dataTrain{1}, 2);
         
         % Train model
-        [XTrain, YTrain, XVal, YVal] = prepareDataTrain_Wrapper(modelOptions, dataTrain, labelsTrain);
+        [XTrain, YTrain, XVal, YVal] = dataTrainPreparationWrapper(modelOptions, dataTrain, labelsTrain);
         if modelOptions.isMultivariate
             % Train single model on entire data
             Mdl = train(modelOptions, XTrain{1}, YTrain{1}, XVal{1}, YVal{1}, trainingPlots, verbose);
@@ -42,7 +43,7 @@ switch modelOptions.learningType
             labelsTrainTest = [];
         
             for data_idx = 1:numel(dataTrain)
-                [XTrainTestCell{data_idx}, TSTrainTestCell{data_idx}, labelsTrainTest_tmp] = prepareDataTest_Wrapper(modelOptions, dataTrain(data_idx), labelsTrain(data_idx));
+                [XTrainTestCell{data_idx}, TSTrainTestCell{data_idx}, labelsTrainTest_tmp] = dataTestPreparationWrapper(modelOptions, dataTrain(data_idx), labelsTrain(data_idx));
                 labelsTrainTest = [labelsTrainTest; labelsTrainTest_tmp];
             end
             
@@ -63,7 +64,7 @@ switch modelOptions.learningType
         trainedModel.dimensionality = size(dataTrain{1}, 2);
         
         % Train model
-        [XTrain, YTrain, XVal, YVal] = prepareDataTrain_Wrapper(modelOptions, dataTrain, labelsTrain);
+        [XTrain, YTrain, XVal, YVal] = dataTrainPreparationWrapper(modelOptions, dataTrain, labelsTrain);
         if modelOptions.isMultivariate
             % Train single model on entire data
             Mdl = train(modelOptions, XTrain{1}, YTrain{1}, XVal{1}, YVal{1}, trainingPlots, verbose);
@@ -87,7 +88,7 @@ switch modelOptions.learningType
             labelsTrainTest = [];
         
             for data_idx = 1:numel(dataTrain)
-                [XTrainTestCell{data_idx}, TSTrainTestCell{data_idx}, labelsTrainTest_tmp] = prepareDataTest_Wrapper(modelOptions, dataTrain(data_idx), labelsTrain(data_idx));
+                [XTrainTestCell{data_idx}, TSTrainTestCell{data_idx}, labelsTrainTest_tmp] = dataTestPreparationWrapper(modelOptions, dataTrain(data_idx), labelsTrain(data_idx));
                 labelsTrainTest = [labelsTrainTest; labelsTrainTest_tmp];
             end
             

@@ -1,5 +1,5 @@
-function [anomalyScores, compTime] = detectWithModel(trainedModel, XTest, TSTest, labels, getCompTime)
-%DETECTWITHMODEL Wrapper function for running a single detection
+function [anomalyScores, compTime] = detectWith(trainedModel, XTest, TSTest, labels, getCompTime)
+%DETECTWITH Function for running a single detection
 
 if trainedModel.modelOptions.isMultivariate
     % For multivariate models

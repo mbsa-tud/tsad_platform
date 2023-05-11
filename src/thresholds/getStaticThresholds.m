@@ -18,7 +18,7 @@ if strcmp(type, "anomalous-validation-data")
         numTimeSteps = 0;
     
         for data_idx = 1:numel(data)
-            [XTestCell{data_idx}, TSTestCell{data_idx}, labelsTestCell{data_idx}] = prepareDataTest_Wrapper(trainedModel.modelOptions, data(data_idx), labels(data_idx));
+            [XTestCell{data_idx}, TSTestCell{data_idx}, labelsTestCell{data_idx}] = dataTestPreparationWrapper(trainedModel.modelOptions, data(data_idx), labels(data_idx));
     
             numAnoms = numAnoms + sum(labelsTestCell{end} == 1);
             numTimeSteps = numTimeSteps + size(labelsTestCell{end}, 1);

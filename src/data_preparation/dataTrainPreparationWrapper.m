@@ -1,5 +1,5 @@
-function [XTrain, YTrain, XVal, YVal] = prepareDataTrain_Wrapper(modelOptions, data, labels)
-%PREPAREDATATRAIN Training data preparation wrapper function
+function [XTrain, YTrain, XVal, YVal] = dataTrainPreparationWrapper(modelOptions, data, labels)
+%DATATRAINPREPARATIONWRAPPER Training data preparation wrapper function
 
 if modelOptions.isMultivariate
     [XTrain, YTrain, XVal, YVal] = prepareDataTrain(modelOptions, data, labels);

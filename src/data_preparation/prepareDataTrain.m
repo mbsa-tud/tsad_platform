@@ -1,5 +1,6 @@
 function [XTrain, YTrain, XVal, YVal] = prepareDataTrain(modelOptions, data, labels)
-%PREPAREDATATRAIN_DNN Prepares the training data for DNN models
+%PREPAREDATATRAIN Prepars the training data according to the selected model
+
 XTrain = [];
 YTrain = [];
 XVal = [];

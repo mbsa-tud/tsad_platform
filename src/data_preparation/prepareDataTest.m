@@ -1,5 +1,5 @@
 function [XTest, TSTest, labelsTest] = prepareDataTest(modelOptions, data, labels)
-%PREPAREDATATEST_DNN Prepares the testing data for DNN models
+%PREPAREDATATEST Prepares the testing data according to the selected model
 
 switch modelOptions.name
     case "Your model name"

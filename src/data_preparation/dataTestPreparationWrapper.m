@@ -1,5 +1,5 @@
-function [XTest, TSTest, labelsTest] = prepareDataTest_Wrapper(modelOptions, data, labels)
-%PREPAREDATATEST Testing data preparation wrapper function
+function [XTest, TSTest, labelsTest] = dataTestPreparationWrapper(modelOptions, data, labels)
+%DATATESTPREPARATIONWRAPPER Testing data preparation wrapper function
 
 if modelOptions.isMultivariate
     [XTest, TSTest, labelsTest] = prepareDataTest(modelOptions, data, labels);
