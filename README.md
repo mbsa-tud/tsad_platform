@@ -517,7 +517,7 @@ Its value can be `true` or `false` according to the dimensionality of your model
 
 #### outputsLabels
 **- mandatory -**
-If your anomaly detection method doesn't output anomaly scores, but binary labes for each observation of the time series, set this field to `true` to bypass all thresholding methods. Otherwise it must be set to `false`.
+If your anomaly detection method doesn't output anomaly scores, but binary labes for each observation of the time series (0 = normal, 1 = anomaly), set this field to `true` to bypass all thresholding methods. Otherwise it must be set to `false`.
 
 #### useSubsequences
 **- optional -**
@@ -584,7 +584,7 @@ The process for adding a model/algorithm is as such:
             Mdl = trainYourModel(XTrain);
     ```
 
-2. **Add the detection function call**: Go to the folder `tsad_platform > src > detection` and open the file `detect.m`. Add your model name within the main *switch* statement, then add your detection function call. Make sure to save the prediction of your model in the `anomalyScores` variable (even if your model outputs labels):
+2. **Add the detection function call**: Go to the folder `tsad_platform > src > detection` and open the file `detect.m`. Add your model name within the main *switch* statement, then add your detection function call. Make sure to save the prediction of your model in the `anomalyScores` variable (even if your model outputs labels). The anomalyScores **must** be a vector or matrix where rows represent observations:
 
     ```matlab
     switch modelOptions.name
