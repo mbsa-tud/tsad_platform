@@ -55,7 +55,7 @@ switch modelOptions.name
             % Merge overlapping scores
             anomalyScores = mergeOverlappingAnomalyScores(modelOptions, anomalyScores, @mean);
         end
-    case "Merlin"
+    case "MERLIN"
         numAnoms = 0;
         i = 1;
         while i <= length(labels)
@@ -100,7 +100,7 @@ switch modelOptions.name
                 anomalyScores = any(anomalyScores, 2);
             end
         else
-            fprintf("Warning! minL (%d) must be less than maxL (%d) for Merlin, setting anomaly scores to zero.", ...
+            fprintf("Warning! minL (%d) must be less than maxL (%d) for MERLIN, setting anomaly scores to zero.", ...
                 modelOptions.hyperparameters.minL, modelOptions.hyperparameters.maxL);
             anomalyScores = zeros(length(XTest), 1);
         end

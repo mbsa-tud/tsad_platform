@@ -293,7 +293,7 @@
         {
             "modelOptions": {
                 "type": "classic-machine-learning",
-                "name": "Merlin",
+                "name": "MERLIN",
                 "learningType": "unsupervised",
                 "isMultivariate": false,
                 "outputsLabels": true,
