@@ -1,5 +1,5 @@
 function reshapedAnomalyScores = mergeOverlappingAnomalyScores(modelOptions, anomalyScores, averagingFunction)
-%MERGEOVERLAPPINGANOMALYSCORES Gets the median anomaly score for each
+%MERGEOVERLAPPINGANOMALYSCORES Gets the average anomaly score for each
 %observation of the time series
 
 switch modelOptions.name
