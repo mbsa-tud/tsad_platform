@@ -244,7 +244,7 @@ Click `Quick Load all Models` to load a default configuration of all implemented
 
 ##### Method 2: Manually configure models
 
-Click `Add Models Manually` to configure models by hand. This opens a **new window**, allowing you to select a model and configure its parameters:
+Click `Add Models manually` to configure models by hand. This opens a **new window**, allowing you to select a model and configure its parameters:
 
 <img src="media/final_model_selection.png" alt="Modelselection popup window" title="Modelselection pupup window" width=600/>
 
