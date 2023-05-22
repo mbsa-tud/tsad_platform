@@ -281,7 +281,7 @@ The `reconstruction error type` defines how the errors are computed for reconstr
 ##### Method 3 - Exporting and importing a configuration
 
 You can click `Export Config` to store a configuration file for the configured models on your computer.
-This allows you to load a previous configuration of models at another time using the `Load from File` button.
+This allows you to load a previous configuration of models at another time using the `Load Models from File` button.
 
 #### Train and/or optimize models (2)
 
