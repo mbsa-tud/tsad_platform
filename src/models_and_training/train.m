@@ -2,6 +2,9 @@ function Mdl = train(modelOptions, XTrain, YTrain, XVal, YVal, trainingPlots, ve
 %TRAIN Entry-point for adding training functions for models. This function selects the correct
 %model and trains it.
 
+% Fixed random seed
+rng("default");
+
 switch modelOptions.name
     case "Your model name"
     case "OC-SVM"

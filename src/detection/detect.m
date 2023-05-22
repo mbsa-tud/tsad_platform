@@ -2,11 +2,14 @@ function [anomalyScores, compTime] = detect(modelOptions, Mdl, XTest, TSTest, la
 %DETECT Entry-point for adding detection function for models. This function 
 % runs the detection for the selected model
 
-% Comptime measure the computation time for a single subsequence. Might be
-% unavailable for some models
+% Fixed random seed
+rng("default");
+
+% Comptime measure the computation time for a single subsequence. Can be
+% set for some model later in this file
 compTime = NaN;
 
-contaminationFraction = sum(labels) / numel(labels);
+contaminationFraction = sum(labels) / numel(labels); % True fraction of outliers
 
 switch modelOptions.name
     case "Your model name"
