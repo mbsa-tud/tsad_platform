@@ -36,21 +36,11 @@ switch modelOptions.learningType
             trainedModel.Mdl = Mdl;
         end
         
-        % Get static thresholds
+        % Get static thresholds and training anomaly scores
         if ~modelOptions.outputsLabels
-            XTrainTestCell = cell(numel(dataTrain), 1);
-            TSTrainTestCell = cell(numel(dataTrain), 1);
-            labelsTrainTest = [];
-        
-            for data_idx = 1:numel(dataTrain)
-                [XTrainTestCell{data_idx}, TSTrainTestCell{data_idx}, labelsTrainTest_tmp] = dataTestPreparationWrapper(modelOptions, dataTrain(data_idx), labelsTrain(data_idx));
-                labelsTrainTest = [labelsTrainTest; labelsTrainTest_tmp];
-            end
-            
-            % Store raw training errors and training labels in trainedModel. Required for some
-            % static thresholds and scoring functions later on.
-            trainedModel.trainingLabels = labelsTrainTest;
-            [trainedModel.trainingAnomalyScoresRaw, trainedModel.trainingAnomalyScoreFeatures] = getTrainingAnomalyScoreFeatures(trainedModel, XTrainTestCell, TSTrainTestCell);
+            [trainedModel.trainingAnomalyScoresRaw, ...
+                trainedModel.trainingAnomalyScoreFeatures, ...
+                trainedModel.trainingLabels] = getTrainingAnomalyScoreFeatures(trainedModel, dataTrain, labelsTrain);
             
             % Calc thresholds on anomalous validation set
             trainedModel.staticThresholds = getStaticThresholds(trainedModel, dataTestVal, labelsTestVal, thresholds, "anomalous-validation-data");
@@ -81,21 +71,11 @@ switch modelOptions.learningType
             trainedModel.Mdl = Mdl;
         end
         
-        % Get static thresholds
+        % Get static thresholds and training anomaly scores
         if ~modelOptions.outputsLabels
-            XTrainTestCell = cell(numel(dataTrain), 1);
-            TSTrainTestCell = cell(numel(dataTrain), 1);
-            labelsTrainTest = [];
-        
-            for data_idx = 1:numel(dataTrain)
-                [XTrainTestCell{data_idx}, TSTrainTestCell{data_idx}, labelsTrainTest_tmp] = dataTestPreparationWrapper(modelOptions, dataTrain(data_idx), labelsTrain(data_idx));
-                labelsTrainTest = [labelsTrainTest; labelsTrainTest_tmp];
-            end
-            
-            % Store raw training errors and training labels in trainedModel. Required for some
-            % static thresholds and scoring functions later on.
-            trainedModel.trainingLabels = labelsTrainTest;
-            [trainedModel.trainingAnomalyScoresRaw, trainedModel.trainingAnomalyScoreFeatures] = getTrainingAnomalyScoreFeatures(trainedModel, XTrainTestCell, TSTrainTestCell);
+            [trainedModel.trainingAnomalyScoresRaw, ...
+                trainedModel.trainingAnomalyScoreFeatures, ...
+                trainedModel.trainingLabels] = getTrainingAnomalyScoreFeatures(trainedModel, dataTrain, labelsTrain);
             
             % Calc thresholds on training data
             trainedModel.staticThresholds = getStaticThresholds(trainedModel, [], [], thresholds, "training-data");
