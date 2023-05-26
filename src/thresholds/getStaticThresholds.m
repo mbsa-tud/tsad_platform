@@ -15,28 +15,24 @@ if strcmp(type, "anomalous-validation-data")
         labelsTestCell = cell(numel(data), 1);
         
         numAnoms = 0;
-        numTimeSteps = 0;
     
         for data_idx = 1:numel(data)
             [XTestCell{data_idx}, TSTestCell{data_idx}, labelsTestCell{data_idx}] = dataTestPreparationWrapper(trainedModel.modelOptions, data(data_idx), labels(data_idx));
     
             numAnoms = numAnoms + sum(labelsTestCell{end} == 1);
-            numTimeSteps = numTimeSteps + size(labelsTestCell{end}, 1);
         end
     
-        contaminationFraction = numAnoms / numTimeSteps;
+        anomalyScoresTest = [];
+        labelsTest = [];
+
+        for data_idx = 1:numel(XTestCell)
+            anomalyScores_tmp = detectionWrapper(trainedModel, XTestCell{data_idx}, TSTestCell{data_idx}, labelsTestCell{data_idx});
+            anomalyScoresTest = [anomalyScoresTest; anomalyScores_tmp];
+            labelsTest = [labelsTest; labelsTestCell{data_idx}];
+        end
         
-        if contaminationFraction > 0
-            anomalyScoresTest = [];
-            labelsTest = [];
-    
-            for data_idx = 1:numel(XTestCell)
-                anomalyScores_tmp = detectionWrapper(trainedModel, XTestCell{data_idx}, TSTestCell{data_idx}, labelsTestCell{data_idx});
-                anomalyScoresTest = [anomalyScoresTest; anomalyScores_tmp];
-                labelsTest = [labelsTest; labelsTestCell{data_idx}];
-            end
-    
-    
+        % Get all thresholds which are set using anomaly scores for test validation data
+        if numAnoms ~= 0
             if ismember("bestFscorePointwise", thresholds)
                 staticThresholds.bestFscorePointwise = calcStaticThreshold(anomalyScoresTest, labelsTest, "bestFscorePointwise", trainedModel.modelOptions.name);
             end
@@ -48,15 +44,17 @@ if strcmp(type, "anomalous-validation-data")
             end
             if ismember("bestFscoreComposite", thresholds)
                 staticThresholds.bestFscoreComposite = calcStaticThreshold(anomalyScoresTest, labelsTest, "bestFscoreComposite", trainedModel.modelOptions.name);
-            end
-            if ismember("topK", thresholds)
-                staticThresholds.topK = calcStaticThreshold(anomalyScoresTest, labelsTest, "topK", trainedModel.modelOptions.name);
-            end
+            end            
         else
             warning("Warning! Anomalous validation set doesn't contain anomalies, possibly couldn't calculate some static thresholds.");
         end
+
+        if ismember("topK", thresholds)
+            staticThresholds.topK = calcStaticThreshold(anomalyScoresTest, labelsTest, "topK", trainedModel.modelOptions.name);
+        end
     end
     
+    % Get all thresholds which are set using anomaly scores for train data
     if isfield(trainedModel, "trainingAnomalyScoresRaw")
         if ismember("meanStdTrain", thresholds) || ismember("maxTrainAnomalyScore", thresholds)    
             if isfield(trainedModel.modelOptions, 'hyperparameters') && isfield(trainedModel.modelOptions.hyperparameters, 'scoringFunction')
@@ -74,6 +72,7 @@ if strcmp(type, "anomalous-validation-data")
         end
     end
     
+    % Get all thresholds which don't require anomaly scores
     if ismember("pointFive", thresholds)
         staticThresholds.pointFive = calcStaticThreshold([], [], "pointFive", trainedModel.modelOptions.name);
     end
@@ -83,17 +82,20 @@ if strcmp(type, "anomalous-validation-data")
 elseif strcmp(type, "training-data")
     % For supervised models trained on faulty-data
 
-    if ~isequal(sum(trainedModel.trainingLabels), 0)
-        if isfield(trainedModel, "trainingAnomalyScoresRaw")
-            % Apply optional scoring function to raw scores
-            if isfield(trainedModel.modelOptions, 'hyperparameters') && isfield(trainedModel.modelOptions.hyperparameters, 'scoringFunction')
-                anomalyScoresTrain = applyScoringFunction(trainedModel, trainedModel.trainingAnomalyScoresRaw);
-            else
-                anomalyScoresTrain = trainedModel.trainingAnomalyScoresRaw;
-            end
     
-            labelsTrain = trainedModel.trainingLabels;
-    
+    if isfield(trainedModel, "trainingAnomalyScoresRaw")
+        % Apply optional scoring function to raw scores
+        if isfield(trainedModel.modelOptions, 'hyperparameters') && isfield(trainedModel.modelOptions.hyperparameters, 'scoringFunction')
+            anomalyScoresTrain = applyScoringFunction(trainedModel, trainedModel.trainingAnomalyScoresRaw);
+        else
+            anomalyScoresTrain = trainedModel.trainingAnomalyScoresRaw;
+        end
+
+        labelsTrain = trainedModel.trainingLabels;
+        
+
+        % Get all thresholds which are set using anomaly scores for train data
+        if ~isequal(sum(labelsTrain), 0)
             if ismember("bestFscorePointwise", thresholds)
                 staticThresholds.bestFscorePointwise = calcStaticThreshold(anomalyScoresTrain, labelsTrain, "bestFscorePointwise", trainedModel.modelOptions.name);
             end
@@ -106,20 +108,22 @@ elseif strcmp(type, "training-data")
             if ismember("bestFscoreComposite", thresholds)
                 staticThresholds.bestFscoreComposite = calcStaticThreshold(anomalyScoresTrain, labelsTrain, "bestFscoreComposite", trainedModel.modelOptions.name);
             end
-            if ismember("topK", thresholds)
-                staticThresholds.topK = calcStaticThreshold(anomalyScoresTrain, labelsTrain, "topK", trainedModel.modelOptions.name);
-            end
-            if ismember("meanStdTrain", thresholds)
-                staticThresholds.meanStdTrain = mean(mean(anomalyScoresTrain)) + 4 * mean(std(anomalyScoresTrain));
-            end
-            if ismember("maxTrainAnomalyScore", thresholds)
-                staticThresholds.maxTrainAnomalyScore = max(max(anomalyScoresTrain));
-            end
+        else
+            warning("Warning! Traininng data doesn't contain anomalies, possibly couldn't calculate some static thresholds.");
         end
-    else
-        warning("Warning! Traininng data doesn't contain anomalies, possibly couldn't calculate some static thresholds.");
+        
+        if ismember("topK", thresholds)
+            staticThresholds.topK = calcStaticThreshold(anomalyScoresTrain, labelsTrain, "topK", trainedModel.modelOptions.name);
+        end
+        if ismember("meanStdTrain", thresholds)
+            staticThresholds.meanStdTrain = mean(mean(anomalyScoresTrain)) + 4 * mean(std(anomalyScoresTrain));
+        end
+        if ismember("maxTrainAnomalyScore", thresholds)
+            staticThresholds.maxTrainAnomalyScore = max(max(anomalyScoresTrain));
+        end
     end
     
+    % Get all thresholds which don't require anomaly scores
     if ismember("pointFive", thresholds)
         staticThresholds.pointFive = calcStaticThreshold([], [], "pointFive", trainedModel.modelOptions.name);
     end
