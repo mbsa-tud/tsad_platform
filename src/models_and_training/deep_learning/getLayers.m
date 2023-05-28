@@ -48,7 +48,7 @@ switch modelOptions.name
             error("Window size must be divisible by 4 for the TCN AE.");
         end
         layers = [ ...
-            sequenceInputLayer(numFeatures, Name="Input", MinLength=modelOptions.hyperparameters.windowSize, Name="Input")
+            sequenceInputLayer(numFeatures, Name="Input", MinLength=modelOptions.hyperparameters.windowSize)
 
             convolution1dLayer(5, modelOptions.hyperparameters.filter, Stride=1, Padding="causal", WeightsInitializer="he", DilationFactor=1)
             layerNormalizationLayer()
@@ -147,9 +147,8 @@ switch modelOptions.name
         layers = layerGraph(layers);
     case "CNN (DeepAnT)"
         layers = [ ...
-            sequenceInputLayer([modelOptions.hyperparameters.windowSize numFeatures], Name="Input")
-            sequenceFoldingLayer(Name="Fold")
-
+            sequenceInputLayer([modelOptions.hyperparameters.windowSize numFeatures], Name="Input") % 1D image input would be better, but wasn't possible. This is a workaround
+            
             convolution1dLayer(5, modelOptions.hyperparameters.filter, Stride=1, Padding="same", WeightsInitializer="he")
             reluLayer()
             maxPooling1dLayer(3, Padding="same", Name="Maxpool1")
@@ -160,18 +159,15 @@ switch modelOptions.name
             reluLayer()
             maxPooling1dLayer(3, Padding="same", Name="Maxpool3")
 
-            sequenceUnfoldingLayer(Name="Unfold")
             flattenLayer()
             fullyConnectedLayer(32)
             reluLayer()
             fullyConnectedLayer(numResponses)
             regressionLayer(Name="Output")];
         layers = layerGraph(layers);
-        layers = connectLayers(layers, "Fold/miniBatchSize", "Unfold/miniBatchSize");
     case "ResNet"
         layers = [ ...
-            sequenceInputLayer([modelOptions.hyperparameters.windowSize numFeatures], Name="Input")
-            sequenceFoldingLayer(Name="Fold")
+            sequenceInputLayer([modelOptions.hyperparameters.windowSize numFeatures], Name="Input") % 1D image input would be better, but wasn't possible. This is a workaround
 
             convolution1dLayer(5, modelOptions.hyperparameters.filter, Stride=1, Padding="same", WeightsInitializer="he")
             reluLayer(Name="ReLU 1")
@@ -182,9 +178,8 @@ switch modelOptions.name
             convolution1dLayer(5, modelOptions.hyperparameters.filter, Stride=1, Padding="same", WeightsInitializer="he")
             batchNormalizationLayer()
             additionLayer(2, Name="Add")
-            reluLayer()                        
+            reluLayer()
 
-            sequenceUnfoldingLayer(Name="Unfold")
             flattenLayer()
             fullyConnectedLayer(32)
             reluLayer()
@@ -192,7 +187,6 @@ switch modelOptions.name
             regressionLayer(Name="Output")];
         layers = layerGraph(layers);
         layers = connectLayers(layers, "ReLU 1", "Add/in2");
-        layers = connectLayers(layers, "Fold/miniBatchSize", "Unfold/miniBatchSize");
     case "MLP"
         layers = [ ...
             featureInputLayer(numFeatures, Name="Input")
