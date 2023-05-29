@@ -147,42 +147,99 @@ switch modelOptions.name
                     case "median point-wise errors"
                         % calulate the point-wise errors for each subsequence and then calculate the median error for each time step
                         if modelOptions.dataType == 1
-                            anomalyScores = abs(prediction - XTest);
+                            errors = abs(prediction - XTest);
                         elseif modelOptions.dataType == 2
-                            anomalyScores = cell(numel(prediction), 1);
+                            errors = cell(numel(prediction), 1);
                             for i = 1:numel(prediction)
-                                anomalyScores{i} = abs(prediction{i} - XTest{i});
+                                errors{i} = abs(prediction{i} - XTest{i});
                             end
                         end
                                 
-                        anomalyScores = mergeOverlappingSubsequences(modelOptions, anomalyScores, @median);
-                    case "mean subsequence errors"
-                        % calulate the MSE for each subsequence and channel and
+                        anomalyScores = mergeOverlappingSubsequences(modelOptions, errors, @median);
+                    case "mean subsequence MAE"
+                        % calulate the MAE for each subsequence and channel and
                         % then calculate the mean error for each time step
-                        % and channel
                         windowSize = modelOptions.hyperparameters.windowSize;
                         if modelOptions.dataType == 1
-                            anomalyScores = abs(prediction - XTest);
-                            numChannels = round(size(anomalyScores, 2) / windowSize);                        
+                            errors = abs(prediction - XTest);
+                            numChannels = round(size(errors, 2) / windowSize);                        
                             for channel_idx = 1:numChannels
+                                % Assign MAE to each poit of every subsequence
                                 for i = 1:size(prediction, 1)
-                                    anomalyScores(i, ((channel_idx - 1) * windowSize + 1):((channel_idx - 1) * windowSize + windowSize)) = ...
-                                        mean(anomalyScores(i, ((channel_idx - 1) * windowSize + 1):((channel_idx - 1) * windowSize + windowSize)));
+                                    errors(i, ((channel_idx - 1) * windowSize + 1):((channel_idx - 1) * windowSize + windowSize)) = ...
+                                        mean((errors(i, ((channel_idx - 1) * windowSize + 1):((channel_idx - 1) * windowSize + windowSize))));
                                 end
                             end
                         elseif modelOptions.dataType == 2
+                            errors = cell(size(prediction, 1), 1);
                             numChannels = size(prediction{1}, 1);
-                            anomalyScores = prediction;
                             for i = 1:numel(prediction)
-                                anomalyScores{i} = abs(prediction{i} - XTest{i});
+                                errors{i} = abs(prediction{i} - XTest{i});
     
-                                for channel_idx = 1:numChannels                            
-                                    anomalyScores{i}(channel_idx, :) = mean(anomalyScores{i}(channel_idx, :));
+                                for channel_idx = 1:numChannels
+                                    % Assign MAE to each poit of every subsequence
+                                    errors{i}(channel_idx, :) = mean(errors{i}(channel_idx, :));
                                 end
                             end            
                         end
     
-                        anomalyScores = mergeOverlappingSubsequences(modelOptions, anomalyScores, @mean);
+                        anomalyScores = mergeOverlappingSubsequences(modelOptions, errors, @mean);
+                    case "mean subsequence MSE"
+                        % calulate the MSE for each subsequence and channel and
+                        % then calculate the mean error for each time step
+                        windowSize = modelOptions.hyperparameters.windowSize;
+                        if modelOptions.dataType == 1
+                            errors = abs(prediction - XTest);
+                            numChannels = round(size(errors, 2) / windowSize);                        
+                            for channel_idx = 1:numChannels
+                                % Assign MSE to each poit of every subsequence
+                                for i = 1:size(prediction, 1)
+                                    errors(i, ((channel_idx - 1) * windowSize + 1):((channel_idx - 1) * windowSize + windowSize)) = ...
+                                        mean((errors(i, ((channel_idx - 1) * windowSize + 1):((channel_idx - 1) * windowSize + windowSize))).^2);
+                                end
+                            end
+                        elseif modelOptions.dataType == 2
+                            errors = cell(size(prediction, 1), 1);
+                            numChannels = size(prediction{1}, 1);
+                            for i = 1:numel(prediction)
+                                errors{i} = abs(prediction{i} - XTest{i});
+    
+                                for channel_idx = 1:numChannels
+                                    % Assign MSE to each poit of every subsequence
+                                    errors{i}(channel_idx, :) = mean(errors{i}(channel_idx, :).^2);
+                                end
+                            end            
+                        end
+    
+                        anomalyScores = mergeOverlappingSubsequences(modelOptions, errors, @mean);
+                    case "mean subsequence RMSE"
+                        % calulate the RMSE for each subsequence and channel and
+                        % then calculate the mean error for each time step
+                        windowSize = modelOptions.hyperparameters.windowSize;
+                        if modelOptions.dataType == 1
+                            errors = abs(prediction - XTest);
+                            numChannels = round(size(errors, 2) / windowSize);                        
+                            for channel_idx = 1:numChannels
+                                % Assign RMSE to each poit of every subsequence
+                                for i = 1:size(prediction, 1)
+                                    errors(i, ((channel_idx - 1) * windowSize + 1):((channel_idx - 1) * windowSize + windowSize)) = ...
+                                        sqrt(mean((errors(i, ((channel_idx - 1) * windowSize + 1):((channel_idx - 1) * windowSize + windowSize))).^2));
+                                end
+                            end
+                        elseif modelOptions.dataType == 2
+                            errors = cell(size(prediction, 1), 1);
+                            numChannels = size(prediction{1}, 1);
+                            for i = 1:numel(prediction)
+                                errors{i} = abs(prediction{i} - XTest{i});
+    
+                                for channel_idx = 1:numChannels
+                                    % Assign RMSE to each poit of every subsequence
+                                    errors{i}(channel_idx, :) = sqrt(mean(errors{i}(channel_idx, :).^2));
+                                end
+                            end            
+                        end
+    
+                        anomalyScores = mergeOverlappingSubsequences(modelOptions, errors, @mean);
                     otherwise
                         error("Unknown reconstructionErrorType");
                 end

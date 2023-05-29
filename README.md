@@ -30,6 +30,7 @@ A platform for evaluating time series anomaly detection (TSAD) methods which off
         * [(optional) Custom data preparation](#optional-custom-data-preparation)
         * [(optional) Custom threshold](#optional-custom-threshold)
 4. [Known limitations](#known-limitations-issues-and-possible-future-upgrades-mostly-relevant-for-developers)
+5. [Appendix](#appendix)
 
 ---
 
@@ -222,17 +223,21 @@ To do so, proceed as follows:
 
 #### Load/configure models (1)
 
+##### Implemented models/algorithms
+
 Following models are currently available:
 
 * `Deep-learning based models`:
-    * **semi-supervised**: 
+    * **semi-supervised** (Trained on fault-free data): 
         * **reconstruction models**: FC-AE, LSTM, Hybrid CNN-LSTM, TCN-AE, 
         * **prediction models**: LSTM, Hybrid CNN-LSTM, GRU, CNN (DeepAnT), ResNet, MLP
 * `Others`: 
-    * **unsupervised**: iForest (optionally semi-supervised), OC-SVM (optionally semi-supervised), LOF, LDOF, ABOD, Merlin, over-sampling PCA, Grubbs test
-    * **semi-supervised**: OC-SVM (optionally unsupervised), iForest (optionally unsupervised)
+    * **unsupervised** (No explicit training step, directly tested on data with anomalies): iForest (optionally semi-supervised), OC-SVM (optionally semi-supervised), LOF, LDOF, ABOD, Merlin, over-sampling PCA, Grubbs test
+    * **semi-supervised** (Trained on fault-free data): OC-SVM (optionally unsupervised), iForest (optionally unsupervised)
 
-You can load these on the training panel (these are not trained yet, it's only the configuration that gets loaded). 
+**NOTE** For all models which assign a single anomaly score to each subsequence, this score gets assigned to every time point of the subsequence. Afterwards, the mean is computed for overlapping values to produce one anomaly score for every observation of the entire time series. Only then a threshold is applied.
+
+You can load these on models the training panel (these are not trained yet, it's only the configuration that gets loaded). 
 Once loaded, you can inspect the configuration of a model by selecting it in the list, right-clicking and selecting `Show Model Parameters`. This wil show all parameters of the selected model on the right side of the window (3).
 
 There are **three** ways to load a configuration of models:
@@ -252,28 +257,7 @@ To configure a model, proceed as follows:
 1. At the top (1) you can select the type of model you want to add: `Deep Neural Networks` or `Others` (classic machine-learning, statistical).
 2. Select a model from the drowpdown menu (2).
 3. **Some** models offer the option to configure the dimensionality with the `Is Multivariate` checkbox (3). If this is disabled but the loaded dataset is multivariate, a separate model will be trained for every channel of the data. Otherwise just a single model is used for all channels.
-4. **Some** models offer additional configuration options like `scoring functions` or `reconstruction error types` (4).
-
-The `scoring function` defines how anomaly scores are computed. Following scoring functions are currently available:
-
-| Scoring Function | Description |
-|-|-|
-| aggregated-errors | The mean training reconstruction/prediction error gets subtracted from the channel-wise errors (Only for multivariate datasets). Afterwards, the root-mean-square is taken across channels. For univariate datasets, the errors are used directly. |
-| channelwise-errors | The mean training reconstruction error gets subtracted from the channel-wise errors (Only for multivariate datasets). Nothing else is done. For univariate datasets, this is the same as the aggregated-errors scoring function. |
-| gauss | A multivariate gaussian distribution is fitted to the trainig errors and used to compute -log(1 - cdf) to get the anomaly scores. **The max supported number of channels in the dataset is 25** |
-| aggregated-gauss | The channelwise mean and standard deviation of the training error distribution is used to compute -log(1 - cdf) of the channel-wise errors to get channel-wise anomaly scores. Afterwards, the channelwise anomaly scores are added. |
-| channelwise-gauss | The channelwise mean and standard deviation of the training error distribution is used to compute -log(1 - cdf) of the channel-wise errors to get channel-wise anomaly scores. |
-
-**NOTE** For the channel-wise anomaly scores, a common threshold gets applied accross all channels during testing. A single observation only needs to be labeled as anomalous in one of the channels to be considered an anomaly.
-
-The `reconstruction error type` defines how the errors are computed for reconstructive deep-learning models. Since there are multiple predicted values for every observation of the time series, a single value must be computed. Following methods to do this are available:
-
-| Reconstruction Error Type | Description |
-|-|-|
-| median point-wise values | Calculates the median predicted value for each time step and then calculates the absolute errors for the entire time series. This is done for each channel separately. |
-| median point-wise errors | Calulates the point-wise absolute errors for each subsequence and then calculates the median error for each time step. This is done for each channel separately. |
-| mean subsequence errors | Calulates the MSE for each subsequence and then calculates the mean error for each time step. This is done for each channel separately. |
-
+4. **Some** models offer additional configuration options like `scoring functions` or `reconstruction error types` (4). See [Appendix](#additional-model-configuration) for more information.
 5. Configure model, data and training related hyperparameters (5).
 6. For some non-deep-learning models, you can choose whether to split the data into subsequences by checking the `Use Subsequences` checkbox (6).
 7. Once configured, click `Add to Model Selection` to add the selected model to the list of models. You can then repeat the previous steps and add as many models as you wish.
@@ -718,3 +702,35 @@ case "custom"
 7. Add more models (The platform lacks for example in statistical models. Classic machine-learning oder deep-learning models like a Convolutional Autoencoder or a LSTM Autoencoder could also be added. **Note** The implemented LSTM and Hybrid CNN-LSTM reconstruction models don't feature any dimensionality reduction).
 8. (Maybe irrelevant?) Save intermediate results during auto run. This allows to save some results even when a longer running process crashes.
 9. On some datasets, the training of some deep-learning models can occasionally get stuck. The reasons for this might be further investigated in the future (Maybe related to preprocessing, network architectures, dataset in general, etc.).
+
+---
+
+## Appendix
+
+### Additional model configuration
+
+#### Scoring function
+
+The `scoring function` defines how anomaly scores are computed. These are currently **only used for deep-learning models**. Following scoring functions are currently available:
+
+| Scoring Function | Description |
+|-|-|
+| aggregated-errors | The mean training reconstruction/prediction error gets subtracted from the channel-wise errors (Only for multivariate datasets). Afterwards, the root-mean-square is taken across channels. For univariate datasets, the errors are used directly. |
+| channelwise-errors | The mean training reconstruction error gets subtracted from the channel-wise errors (Only for multivariate datasets). Nothing else is done. For univariate datasets, this is the same as the aggregated-errors scoring function. |
+| gauss | A multivariate gaussian distribution is fitted to the trainig errors and used to compute -log(1 - cdf) to get the anomaly scores. **The max supported number of channels in the dataset is 25** |
+| aggregated-gauss | The channelwise mean and standard deviation of the training error distribution is used to compute -log(1 - cdf) of the channel-wise errors to get channel-wise anomaly scores. Afterwards, the channelwise anomaly scores are added. |
+| channelwise-gauss | The channelwise mean and standard deviation of the training error distribution is used to compute -log(1 - cdf) of the channel-wise errors to get channel-wise anomaly scores. |
+
+**NOTE** For the channel-wise anomaly scores, a common threshold gets applied accross all channels during testing. A single observation only needs to be labeled as anomalous in one of the channels to be considered an anomaly.
+
+#### Reconstruciton error type
+
+The `reconstruction error type` defines how the errors are computed **for reconstructive deep-learning models**. Since there are multiple predicted values for every observation of the time series, a single value must be computed. Following methods to do this are available:
+
+| Reconstruction Error Type | Description |
+|-|-|
+| median point-wise values | Calculates the median predicted value for each time step and then calculates the absolute errors for the entire time series. This is done for each channel separately. |
+| median point-wise errors | Calulates the point-wise absolute errors for each subsequence and then calculates the median error for each time step. This is done for each channel separately. |
+| mean subsequence MAE | Calulates the mean absolute errors (MAE) for each subsequence and then calculates the mean for each time step. This is done for each channel separately. |
+| mean subsequence MSE | Calulates the mean squared errors (MSE) for each subsequence and then calculates the mean for each time step. This is done for each channel separately. |
+| mean subsequence RMSE | Calulates the root mean squared errors (RMSE) for each subsequence and then calculates the mean for each time step. This is done for each channel separately. |
