@@ -56,7 +56,7 @@ A platform for evaluating time series anomaly detection (TSAD) methods which off
 
 ## How to use the platform
 
-<img src="media/TSAD_Platform_Quick_Demo.gif" alt="Quick Demo Mode 1" title="Quick Demo Mode 1" width=800/>
+<img src="media/TSADPlatform_Quick_Demo.gif" alt="Quick Demo Mode 1" title="Quick Demo Mode 1" width=800/>
 
 ### Overview
 
