@@ -35,14 +35,14 @@
       <item>19</item>
     </param.products.id>
     <param.products.version>
-      <item>9.12</item>
-      <item>10.5</item>
-      <item>14.4</item>
-      <item>6.0</item>
-      <item>11.6</item>
-      <item>2.5</item>
-      <item>9.0</item>
-      <item>12.3</item>
+      <item>9.14</item>
+      <item>10.7</item>
+      <item>14.6</item>
+      <item>6.2</item>
+      <item>11.7</item>
+      <item>2.7</item>
+      <item>9.2</item>
+      <item>12.5</item>
     </param.products.version>
     <param.platforms />
     <param.output>C:\Ich\Studium\tsad_platform</param.output>
@@ -161,7 +161,7 @@
     </build-deliverables>
     <workflow />
     <matlab>
-      <root>C:\Program Files\MATLAB\R2022a</root>
+      <root>C:\Program Files\MATLAB\R2023a</root>
       <toolboxes>
         <toolbox name="neuralnetwork" />
       </toolboxes>
