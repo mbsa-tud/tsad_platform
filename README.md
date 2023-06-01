@@ -341,7 +341,7 @@ The trained models can be tested on the `Detection` panel:
 Once the detection is finished, the following results are are displayed in the windows below:
 * **Plots** of the anomaly scores and detected anoamlies for the first model the detection was run for.
 If you want to observe the detection of another model, just right-click on it in the list of trained models (1) and select `Show Detection`. If you already ran the detection for that model, the scores and plots will be displayed directly. Otherwise run the detection for the selected model again.
-* The **Scores** for the currently selected file and the **Average Scores** across all files. These tables can be exported.
+* The **Scores** for the currently selected file and the **Average Scores** across all files (These include many common evaluation metrics like the F1 score or the AUC). These tables can be exported.
 * A **Computation Time** plot showing the  average computational time of the models for a single subsequence on the x-axis and the obtained scores on the y-axis.
 Using the `Metric Selection` button, one can choose what metrics should be displayed within this plot.
 
