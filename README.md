@@ -257,7 +257,7 @@ Click `Add Models manually` to configure models by hand. This opens a **new wind
 To configure a model, proceed as follows:
 1. At the top (1) you can select the type of model you want to add: `Deep Neural Networks` or `Others` (classic machine-learning, statistical).
 2. Select a model from the drowpdown menu (2).
-3. **Some** models offer the option to configure the dimensionality with the `Dimensionality` dropdown (3). If a model is univariate, but the dataset has multiple channels, a separate model will be trained for every channel of the data. Otherwise just a single model is used for all channels.
+3. **Some** models offer the option to configure the dimensionality with the `Dimensionality` dropdown menu (3). If a model is univariate, but the dataset has multiple channels, a separate model will be trained for every channel of the data. Otherwise just a single model is used for all channels.
 4. **Some** models offer additional configuration options like `scoring functions` or `reconstruction error types` (4). See [Appendix - Additional model configuration](#additional-model-configuration) for more information.
 5. Configure model, data and training related hyperparameters (5).
 6. For some non-deep-learning models, you can choose whether to split the data into overlapping subsequences using a sliding window by checking the `Use sliding Window` checkbox (6).
