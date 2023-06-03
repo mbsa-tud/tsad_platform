@@ -11,7 +11,7 @@ for model_idx = 1:numel(models)
     optVars = getOptimizationVariables(models(model_idx).modelOptions.name, configOptFileName);
     
     % Check for each optVar if it matches a hyperparameter in the modelOptions struct
-    if ~isempty(optVars) && isfield(modelOptions, "hyperparameters")
+    if ~isempty(fieldnames(optVars)) && isfield(modelOptions, "hyperparameters")
         varNames = fieldnames(optVars);
         for var_idx = 1:numel(varNames)
             flag = false;
@@ -28,7 +28,7 @@ for model_idx = 1:numel(models)
     
     % If no hyperparameters are available for the model, save default
     % modelOptions
-    if isempty(optVars) || ~isfield(modelOptions, "hyperparameters")
+    if isempty(fieldnames(optVars)) || ~isfield(modelOptions, "hyperparameters")
         tmp.modelOptions = modelOptions;
         optimizedModelOptions = [optimizedModelOptions; tmp];
         continue;

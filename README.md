@@ -247,7 +247,6 @@ There are **three** ways to load a configuration of models:
 ##### Method 1: Quick load models
 
 Click `Quick Load all Models` to load a default configuration of all implemented models.
-**NOTE** For non-deep-learning models, the data is **not** split into subsequences by default. If you want to enable subsequences for such models, either configure the models manually (see [Method 2: Manually configure models](#method-2-manually-configure-models)) **or** load the config file `tsad_platform_config_all_subsequences_enabled.json` within the `config` folder of the platform (see [Method 3: Exporting and importing a configuration](#method-3---exporting-and-importing-a-configuration)).
 
 ##### Method 2: Manually configure models
 
@@ -258,10 +257,10 @@ Click `Add Models manually` to configure models by hand. This opens a **new wind
 To configure a model, proceed as follows:
 1. At the top (1) you can select the type of model you want to add: `Deep Neural Networks` or `Others` (classic machine-learning, statistical).
 2. Select a model from the drowpdown menu (2).
-3. **Some** models offer the option to configure the dimensionality with the `Is Multivariate` checkbox (3). If this is disabled but the loaded dataset is multivariate, a separate model will be trained for every channel of the data. Otherwise just a single model is used for all channels.
+3. **Some** models offer the option to configure the dimensionality with the `Dimensionality` dropdown (3). If a model is univariate, but the dataset has multiple channels, a separate model will be trained for every channel of the data. Otherwise just a single model is used for all channels.
 4. **Some** models offer additional configuration options like `scoring functions` or `reconstruction error types` (4). See [Appendix - Additional model configuration](#additional-model-configuration) for more information.
 5. Configure model, data and training related hyperparameters (5).
-6. For some non-deep-learning models, you can choose whether to split the data into subsequences by checking the `Use Subsequences` checkbox (6).
+6. For some non-deep-learning models, you can choose whether to split the data into overlapping subsequences using a sliding window by checking the `Use sliding Window checkbox (6).
 7. Once configured, click `Add to Model Selection` to add the selected model to the list of models. You can then repeat the previous steps and add as many models as you wish.
 
 ##### Method 3 - Exporting and importing a configuration
@@ -443,7 +442,7 @@ The following figure shows an example for the fully-connected autoencoder (FC-AE
     "modelType": "reconstructive",
     "dataType": 1,
     "learningType": "semi-supervised",
-    "isMultivariate": true,
+    "dimensionality": "multivariate",
     "outputsLabels": false,
     "hyperparameters": {
         "neurons": 32,
@@ -475,7 +474,7 @@ This field is only required for deep-learning models using the standard deep-lea
 
 #### dataType
 **- optional -**
-This field is only required if your model uses the data preparation function provided by the platform (and if for classic machine-learning and statistical models the [useSubsequences](#usesubsequences) field is set to true).
+This field is only required if your model uses the data preparation function provided by the platform (and if for classic machine-learning and statistical models the [useSlidingWindow](#useslidingwindow) field is set to true).
 Its value must be one of: `1`, `2`, `3`. The number controls the shape of the data. The data is always split into **subsequences** of equal length using a sliding window. The window-size (and step-size for training, if your model is semi-supervised or supervised) must be defined in the [hyperparameters](#hyperparameters) field.
 The step-size for the testing data is always set to 1.
 For the three different data types, the data will be shaped as such:
@@ -497,18 +496,18 @@ The learning type determines what data is used for training and testing. Followi
 | "semi-supervised" | Model gets trained on training data from `train` folder (Should not contain anomalies). Anomalous validation data (if available) is used to set static thresholds. Otherwise static thresholds are set last during testing. |
 | "unsupervised" | Model gets tested directly on data from `test` folder. Static thresholds are alway set last. | 
 
-#### isMultivariate
+#### dimensionality
 **- mandatory -**
-Its value can be `true` or `false` according to the dimensionality of your model. **If it is set to `false` but the loaded dataset is multivariate, a separate model will be trained for each channel of the dataset.**
+Its value can be `"univariate"` or `"multivariate"` according to the dimensionality of your model. **For univariate models, if the loaded dataset has multiple channels, a separate model will be trained for each channel of the dataset.**
 
 #### outputsLabels
 **- mandatory -**
 If your anomaly detection method doesn't output anomaly scores, but binary labes for each observation of the time series (0 = normal, 1 = anomaly), set this field to `true` to bypass all thresholding methods. Otherwise it must be set to `false`.
 
-#### useSubsequences
+#### useSlidingWindow
 **- optional -**
 This field is only required for **non** deep-learning models which use the standard data preparation functions provided by the platform.
-If it is set to `true`, the time series will be split into overlapping subsequences (see field [dataType](#datatype) above), otherwise the time series is used directly.
+If it is set to `true`, the time series will be split into overlapping subsequences (see field [dataType](#datatype) above) using a sliding window, otherwise the time series is used directly.
 
 #### hyperparameters
 **- optional -**
@@ -696,7 +695,7 @@ case "custom"
 ## Known limitations, issues and possible future upgrades (Mostly relevant for developers)
 
 1. Optimize the threshold calculation (in file computeBestFScoreThreshold.m). It can be slow, especially for larger datasets, as it checks the F-Score for every single unique anomaly score value of the used time series (either anomalous validation set or test set). An upper bound of threshold values to check could be implemented to counter this issue.
-2. The simulink detection doesn't implement the different data preparation methods and scoring functions for the different deep-learning models, which makes it non-functional in many cases. The functionality of using a univariate model on multivariate datasets, where a separate model is trained for each channel of the dataset, must be implemented aswell. This feature already exists in the normal detection mode (It can be enabled by setting the `isMultivariate` field to `false` for a model).
+2. The simulink detection doesn't implement the different data preparation methods and scoring functions for the different deep-learning models, which makes it non-functional in many cases. The functionality of using a univariate model on multivariate datasets, where a separate model is trained for each channel of the dataset, must be implemented aswell. This feature already exists in the normal detection mode (It can be enabled by setting the `dimensionality` field to `"univariate"` for a model).
 3. (Maybe irrelevant?) The step-size for the detection process is always set to 1 and can't be adjusted.
 4. (Maybe irrelevant?) The forecast horizon for deep-learning models is always set to 1 and can't be adjusted.
 5. Network architectures of deep-learning models could be checked in more detail or updated. For example the TCN-AE currently only accepts window-sizes that are divisible by 4.

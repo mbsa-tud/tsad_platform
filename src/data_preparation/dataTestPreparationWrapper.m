@@ -1,7 +1,7 @@
 function [XTest, TSTest, labelsTest] = dataTestPreparationWrapper(modelOptions, data, labels)
 %DATATESTPREPARATIONWRAPPER Testing data preparation wrapper function
 
-if modelOptions.isMultivariate
+if strcmp(modelOptions.dimensionality, "multivariate")
     [XTest, TSTest, labelsTest] = prepareDataTest(modelOptions, data, labels);
     XTest = {XTest};
     TSTest = {TSTest};

@@ -16,13 +16,13 @@ switch modelOptions.name
     case "iForest"
         % iForest supports outlier and novelty detection.
         if isempty(Mdl)
-            [~, ~, anomalyScores] = iforest(XTest, NumLearners=modelOptions.hyperparameters.numLearners, ...
-                                            NumObservationsPerLearner=modelOptions.hyperparameters.numObservationsPerLearner);
+            [~, ~, anomalyScores] = iforest(XTest, NumLearners=modelOptions.hyperparameters.iTrees, ...
+                                            NumObservationsPerLearner=modelOptions.hyperparameters.observationsPeriTree);
         else
             [~, anomalyScores] = isanomaly(Mdl, XTest);
         end
 
-        if modelOptions.useSubsequences
+        if modelOptions.useSlidingWindow
             % Merge overlapping scores
             anomalyScores = mergeOverlappingAnomalyScores(modelOptions, anomalyScores, @mean);
         end
@@ -33,28 +33,28 @@ switch modelOptions.name
             [~, anomalyScores] = isanomaly(Mdl, XTest);
         end
 
-        if modelOptions.useSubsequences
+        if modelOptions.useSlidingWindow
             % Merge overlapping scores
             anomalyScores = mergeOverlappingAnomalyScores(modelOptions, anomalyScores, @mean);
         end
     case "ABOD"
         [~, anomalyScores] = ABOD(XTest);
 
-        if modelOptions.useSubsequences
+        if modelOptions.useSlidingWindow
             % Merge overlapping scores
             anomalyScores = mergeOverlappingAnomalyScores(modelOptions, anomalyScores, @mean);
         end
     case "LOF"
         [~, anomalyScores] = LOF(XTest, modelOptions.hyperparameters.k);
 
-        if modelOptions.useSubsequences
+        if modelOptions.useSlidingWindow
             % Merge overlapping scores
             anomalyScores = mergeOverlappingAnomalyScores(modelOptions, anomalyScores, @mean);
         end
     case "LDOF"
         anomalyScores = LDOF(XTest, modelOptions.hyperparameters.k);
 
-        if modelOptions.useSubsequences
+        if modelOptions.useSlidingWindow
             % Merge overlapping scores
             anomalyScores = mergeOverlappingAnomalyScores(modelOptions, anomalyScores, @mean);
         end
@@ -108,15 +108,15 @@ switch modelOptions.name
             anomalyScores = zeros(length(XTest), 1);
         end
         anomalyScores = double(anomalyScores);
-    case "Grubbs test"
-        anomalyScores = grubbs_test(XTest, modelOptions.hyperparameters.alpha);
     case "over-sampling PCA"
-        [~, anomalyScores, ~] = OD_wpca(XTest, modelOptions.hyperparameters.ratioOversample);
+        [~, anomalyScores, ~] = OD_wpca(XTest, modelOptions.hyperparameters.oversamplingRatio);
 
-        if modelOptions.useSubsequences
+        if modelOptions.useSlidingWindow
             % Merge overlapping scores
             anomalyScores = mergeOverlappingAnomalyScores(modelOptions, anomalyScores, @mean);
         end
+    case "Grubbs test"
+        anomalyScores = grubbs_test(XTest, modelOptions.hyperparameters.alpha);
     otherwise
         if strcmp(modelOptions.type, "deep-learning")
             % Default detection for semi-supervised deep-learning models

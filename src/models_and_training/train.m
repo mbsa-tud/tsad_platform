@@ -10,7 +10,7 @@ switch modelOptions.name
     case "OC-SVM"
         Mdl = ocsvm(XTrain, KernelScale="auto");
     case "iForest"
-        [Mdl, ~, ~] = iforest(XTrain, NumLearners=modelOptions.hyperparameters.numLearners, NumObservationsPerLearner=modelOptions.hyperparameters.numObservationsPerLearner);
+        [Mdl, ~, ~] = iforest(XTrain, NumLearners=modelOptions.hyperparameters.iTrees, NumObservationsPerLearner=modelOptions.hyperparameters.observationsPeriTree);
     otherwise
         if strcmp(modelOptions.type, "deep-learning")
             % Default training for semi-supervised deep-learning models

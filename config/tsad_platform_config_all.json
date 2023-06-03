@@ -7,7 +7,7 @@
                 "modelType": "reconstructive",
                 "dataType": 1,
                 "learningType": "semi-supervised",
-                "isMultivariate": true,
+                "dimensionality": "multivariate",
                 "outputsLabels": false,
                 "hyperparameters": {
                     "neurons": 32,
@@ -29,7 +29,7 @@
                 "modelType": "reconstructive",
                 "dataType": 2,
                 "learningType": "semi-supervised",
-                "isMultivariate": true,
+                "dimensionality": "multivariate",
                 "outputsLabels": false,
                 "hyperparameters": {
                     "hiddenUnits": 64,
@@ -51,7 +51,7 @@
                 "modelType": "reconstructive",
                 "dataType": 2,
                 "learningType": "semi-supervised",
-                "isMultivariate": true,
+                "dimensionality": "multivariate",
                 "outputsLabels": false,
                 "hyperparameters": {
                     "hiddenUnits": 64,
@@ -74,13 +74,13 @@
                 "modelType": "reconstructive",
                 "dataType": 2,
                 "learningType": "semi-supervised",
-                "isMultivariate": true,
+                "dimensionality": "multivariate",
                 "outputsLabels": false,
                 "hyperparameters": {
                     "filter": 32,
                     "windowSize": 100,
                     "stepSize": 1,
-                    "epochs": 1,
+                    "epochs": 50,
                     "learningRate": 0.001,
                     "minibatchSize": 64,
                     "ratioTrainVal": 0,
@@ -96,7 +96,7 @@
                 "modelType": "predictive",
                 "dataType": 2,
                 "learningType": "semi-supervised",
-                "isMultivariate": true,
+                "dimensionality": "multivariate",
                 "outputsLabels": false,
                 "hyperparameters": {
                     "hiddenUnits": 64,
@@ -117,7 +117,7 @@
                 "modelType": "predictive",
                 "dataType": 2,
                 "learningType": "semi-supervised",
-                "isMultivariate": true,
+                "dimensionality": "multivariate",
                 "outputsLabels": false,
                 "hyperparameters": {
                     "hiddenUnits": 64,
@@ -139,7 +139,7 @@
                 "modelType": "predictive",
                 "dataType": 2,
                 "learningType": "semi-supervised",
-                "isMultivariate": true,
+                "dimensionality": "multivariate",
                 "outputsLabels": false,
                 "hyperparameters": {
                     "hiddenUnits": 64,
@@ -160,7 +160,7 @@
                 "modelType": "predictive",
                 "dataType": 3,
                 "learningType": "semi-supervised",
-                "isMultivariate": true,
+                "dimensionality": "multivariate",
                 "outputsLabels": false,
                 "hyperparameters": {
                     "filter": 8,
@@ -181,7 +181,7 @@
                 "modelType": "predictive",
                 "dataType": 3,
                 "learningType": "semi-supervised",
-                "isMultivariate": true,
+                "dimensionality": "multivariate",
                 "outputsLabels": false,
                 "hyperparameters": {
                     "filter": 32,
@@ -202,7 +202,7 @@
                 "modelType": "predictive",
                 "dataType": 1,
                 "learningType": "semi-supervised",
-                "isMultivariate": true,
+                "dimensionality": "multivariate",
                 "outputsLabels": false,
                 "hyperparameters": {
                     "neurons": 32,
@@ -221,13 +221,14 @@
                 "type": "classic-machine-learning",
                 "name": "iForest",
                 "dataType": 1,
-                "learningType": "semi-supervised",
-                "isMultivariate": true,
+                "learningType": "unsupervised",
+                "dimensionality": "multivariate",
                 "outputsLabels": false,
-                "useSubsequences": false,
+                "useSlidingWindow": true,
                 "hyperparameters": {
-                    "numLearners": 100,
-                    "numObservationsPerLearner": 128
+                    "iTrees": 100,
+                    "observationsPeriTree": 128,
+                    "windowSize": 100
                 }
             }
         },
@@ -236,11 +237,12 @@
                 "type": "classic-machine-learning",
                 "name": "OC-SVM",
                 "dataType": 1,
-                "learningType": "unsupervised",
-                "isMultivariate": true,
+                "learningType": "semi-supervised",
+                "dimensionality": "multivariate",
                 "outputsLabels": false,
-                "useSubsequences": false,
+                "useSlidingWindow": true,
                 "hyperparameters": {
+                    "windowSize": 100
                 }
             }
         },
@@ -250,10 +252,11 @@
                 "name": "ABOD",
                 "dataType": 1,
                 "learningType": "unsupervised",
-                "isMultivariate": true,
+                "dimensionality": "multivariate",
                 "outputsLabels": false,
-                "useSubsequences": false,
+                "useSlidingWindow": true,
                 "hyperparameters": {
+                    "windowSize": 100
                 }
             }
         },
@@ -263,11 +266,12 @@
                 "name": "LOF",
                 "dataType": 1,
                 "learningType": "unsupervised",
-                "isMultivariate": true,
+                "dimensionality": "multivariate",
                 "outputsLabels": false,
-                "useSubsequences": false,
+                "useSlidingWindow": true,
                 "hyperparameters": {
-                    "k": 10
+                    "k": 10,
+                    "windowSize": 100
                 }
             }
         },
@@ -277,11 +281,12 @@
                 "name": "LDOF",
                 "dataType": 1,
                 "learningType": "unsupervised",
-                "isMultivariate": true,
+                "dimensionality": "multivariate",
                 "outputsLabels": false,
-                "useSubsequences": false,
+                "useSlidingWindow": true,
                 "hyperparameters": {
-                    "k": 10
+                    "k": 10,
+                    "windowSize": 100
                 }
             }
         },
@@ -290,9 +295,9 @@
                 "type": "classic-machine-learning",
                 "name": "MERLIN",
                 "learningType": "unsupervised",
-                "isMultivariate": false,
+                "dimensionality": "univariate",
                 "outputsLabels": true,
-                "useSubsequences": false,
+                "useSlidingWindow": false,
                 "hyperparameters": {
                     "minL": 90,
                     "maxL": 100,
@@ -306,11 +311,12 @@
                 "name": "over-sampling PCA",
                 "dataType": 1,
                 "learningType": "unsupervised",
-                "isMultivariate": true,
+                "dimensionality": "multivariate",
                 "outputsLabels": false,
-                "useSubsequences": false,
+                "useSlidingWindow": true,
                 "hyperparameters": {
-                    "ratioOversample": 0.1
+                    "oversamplingRatio": 0.1,
+                    "windowSize": 100
                 }
             }
         },
@@ -319,9 +325,9 @@
                 "type": "statistics",
                 "name": "Grubbs test",
                 "learningType": "unsupervised",
-                "isMultivariate": false,
+                "dimensionality": "univariate",
                 "outputsLabels": true,
-                "useSubsequences": false,
+                "useSlidingWindow": false,
                 "hyperparameters": {
                     "alpha": 0.5
                 }

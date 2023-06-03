@@ -1,7 +1,7 @@
 function [anomalyScores, compTime] = detectWith(trainedModel, XTest, TSTest, labels, getCompTime)
 %DETECTWITH Function for running a single detection
 
-if trainedModel.modelOptions.isMultivariate
+if strcmp(trainedModel.modelOptions.dimensionality, "multivariate")
     % For multivariate models
     
     if isfield(trainedModel, "Mdl")

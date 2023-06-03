@@ -17,7 +17,7 @@ config = jsondecode(str);
 
 vars = fieldnames(config.(modelName));
 if isempty(vars)
-    optVars = [];
+    optVars = struct(); % Return empty struct
     return;
 end
 

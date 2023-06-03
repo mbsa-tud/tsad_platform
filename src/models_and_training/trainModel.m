@@ -20,7 +20,7 @@ switch modelOptions.learningType
         
         % Train model
         [XTrain, YTrain, XVal, YVal] = dataTrainPreparationWrapper(modelOptions, dataTrain, labelsTrain);
-        if modelOptions.isMultivariate
+        if strcmp(modelOptions.dimensionality, "multivariate")
             % Train single model on entire data
             Mdl = train(modelOptions, XTrain{1}, YTrain{1}, XVal{1}, YVal{1}, trainingPlots, verbose);
             trainedModel.Mdl = {Mdl};
@@ -55,7 +55,7 @@ switch modelOptions.learningType
         
         % Train model
         [XTrain, YTrain, XVal, YVal] = dataTrainPreparationWrapper(modelOptions, dataTrain, labelsTrain);
-        if modelOptions.isMultivariate
+        if strcmp(modelOptions.dimensionality, "multivariate")
             % Train single model on entire data
             Mdl = train(modelOptions, XTrain{1}, YTrain{1}, XVal{1}, YVal{1}, trainingPlots, verbose);
             trainedModel.Mdl = {Mdl};
