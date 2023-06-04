@@ -260,7 +260,7 @@ To configure a model, proceed as follows:
 3. **Some** models offer the option to configure the dimensionality with the `Dimensionality` dropdown menu (3). If a model is univariate, but the dataset has multiple channels, a separate model will be trained for every channel of the data. Otherwise just a single model is used for all channels.
 4. **Some** models offer additional configuration options like `scoring functions` or `reconstruction error types` (4). See [Appendix - Additional model configuration](#additional-model-configuration) for more information.
 5. Configure model, data and training related hyperparameters (5).
-6. For some non-deep-learning models, you can choose whether to split the data into overlapping subsequences using a sliding window by checking the `Use sliding Window` checkbox (6).
+6. For some non-deep-learning models, you can choose whether or not to split the data into overlapping subsequences using a sliding window by checking the `Use sliding Window` checkbox (6). **This is enabled by default. Please refer to the individual algorithm as to what option is correct for your use-case!** 
 7. Once configured, click `Add to Model Selection` to add the selected model to the list of models. You can then repeat the previous steps and add as many models as you wish.
 
 ##### Method 3 - Exporting and importing a configuration
