@@ -111,18 +111,7 @@ To select thresholds, proceed as follows:
 2. Select the desired thresholds.
 3. Click `Save` to save the new selection.
 
-The thresholds are set as follows:
-
-| Threshold | Description |
-|-|-|
-| Best F1 Score thresholds | Calculates the best possible F1 score (either point-wise, event-wise, point-adjusted or composite) on either the anomalous validation set or the test set (depending on wether a anomalous validation set is used or not. See [Use of anomalous validation set](#use-of-anomalous-validation-set)). |
-| Top k | Set threshold to detect the correct amount of anomalies as given by the labels. This is done either on the anomalous validation set or the test set (depending on wether a anomalous validation set is used or not. See [Use of anomalous validation set](#use-of-anomalous-validation-set)). |
-| Mean + 3 * Std | Mean + 3 * Standard deviation of the anomaly scores for the testing data. |
-| Mean + 3 * Std (Train) | Mean + 3 * Standard deviation of the anomaly scores for the training data. |
-| Max Train Anomaly Score | The maximum value of the anomaly scores for the training data. |
-| 0.5 | 0.5 |
-| Dynamic | Unsupervised dynamic threshold. See [Dynamic threshold](#dynamic-threshold). |
-| Custom | Can be implemented individually for a specific model. If none is specified, its value is set to 0.5 (See [Add custom threshold](#optional-custom-threshold)). |
+See [Appendix - Thresholds](#thresholds) for more information on how the individual thresholds are set.
 
 #### Dynamic threshold
 
@@ -707,6 +696,21 @@ case "custom"
 ---
 
 ## Appendix
+
+### Thresholds
+
+The thresholds are set as follows:
+
+| Threshold | Description |
+|-|-|
+| Best F1 Score thresholds | Calculates the best possible F1 score (either point-wise, event-wise, point-adjusted or composite) on either the anomalous validation set or the test set (depending on wether a anomalous validation set is used or not. See [Use of anomalous validation set](#use-of-anomalous-validation-set)). |
+| Top k | Set threshold to detect the correct amount of anomalies as given by the labels. This is done either on the anomalous validation set or the test set (depending on wether a anomalous validation set is used or not. See [Use of anomalous validation set](#use-of-anomalous-validation-set)). |
+| Mean + 3 * Std | Mean + 3 * Standard deviation of the anomaly scores for the testing data. |
+| Mean + 3 * Std (Train) | Mean + 3 * Standard deviation of the anomaly scores for the training data. |
+| Max Train Anomaly Score | The maximum value of the anomaly scores for the training data. |
+| 0.5 | 0.5 |
+| Dynamic | Unsupervised dynamic threshold. See [Dynamic threshold](#dynamic-threshold). |
+| Custom | Can be implemented individually for a specific model. If none is specified, its value is set to 0.5 (See [Add custom threshold](#optional-custom-threshold)). |
 
 ### Additional model configuration
 
