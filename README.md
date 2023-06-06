@@ -234,8 +234,8 @@ Following models are currently available:
         * **reconstruction models**: FC-AE, LSTM, Hybrid CNN-LSTM, TCN-AE, 
         * **prediction models**: LSTM, Hybrid CNN-LSTM, GRU, CNN (DeepAnT), ResNet, MLP
 * `Others`: 
-    * **unsupervised** (No explicit training step, directly tested on data with anomalies): iForest (optionally semi-supervised), OC-SVM (optionally semi-supervised), LOF, LDOF, ABOD, Merlin, over-sampling PCA, Grubbs test
-    * **semi-supervised** (Trained on fault-free data): OC-SVM (optionally unsupervised), iForest (optionally unsupervised)
+    * **unsupervised** (= Outlier detection. No explicit training step, directly tested on data with anomalies): iForest (optionally semi-supervised), OC-SVM (optionally semi-supervised), LOF, LDOF, ABOD, Merlin, over-sampling PCA, Grubbs test
+    * **semi-supervised** (= Novelty detection. Trained on fault-free data): OC-SVM (optionally unsupervised), iForest (optionally unsupervised)
 
 **NOTE** For all models which assign a single anomaly score to each subsequence, this score gets assigned to every time point of the subsequence. Afterwards, the mean is computed for overlapping values to produce one anomaly score for every observation of the entire time series. Only then a threshold is applied.
 
