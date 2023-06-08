@@ -477,7 +477,7 @@ For the three different data types, the data will be shaped as such:
 
 #### learningType
 **- mandatory -**
-The learning type determines how the TSAD method is trained and tested. It controls what data is used for training and testing. Following learning types are possible:
+The learning type determines what data is used for training and testing. Following learning types are possible (these are used to categorize TSAD methods):
 
 | Learning type | Description |
 |-|-|
