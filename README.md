@@ -145,8 +145,8 @@ The **format** of a dataset must be as such:
 
 * It contains at least one of the following folders: a `train` folder containing training data and a `test` folder containing testing data.
 * The `test` folder always contains data with anomalies. All models are evaluated on this data.
-* The `train` folder is only required for **semi-supervised** and **supervised** models, not for **unsupervised** models as they are tested on the test data directly.
-It should contain fault-free data for semi-supervised models and anomalous data for supervised models. Chapter [Load and configure models](#loadconfigure-models-1) shows the learning-types of the implemented models.
+* The `train` folder is only required for **semi-supervised** and **supervised** TSAD methods, not for **unsupervised** ones as they don't require an prior training step.
+It should contain fault-free data for semi-supervised, and anomalous data for supervised methods. Chapter [Load and configure models](#loadconfigure-models-1) shows the learning-types of the implemented models.
 * Each folder must contain at least one **CSV** file with the following format:
 
 | timestamp | value1 | value2 | is_anomaly |
@@ -194,7 +194,7 @@ To enable this, do the following:
 
 ###### Use of anomalous validation set
 
-*INFO: An anomalous validation set can be used to calculate the static thresholds (`Best F score` and `Top k` thresholds) prior to testing the models (only for semi-supervised models). These thresholds are then used during testing.
+*INFO: An anomalous validation set can be used to calculate the static thresholds (`Best F score` and `Top k` thresholds) prior to testing the models (only for semi-supervised TSAD methods). These thresholds are then used during testing.
 In order to do this, the test set will be split to obtain an anomalous validation set and a test set. If no anomalous validation set is used or it doesn't contain any anomalies, the static thresholds will be set on the test set.*
 
 To enable the anomalous validation set, do the following:
@@ -214,9 +214,9 @@ To do so, proceed as follows:
 
 #### Load/configure models (1)
 
-##### Implemented models/algorithms
+##### Implemented models
 
-Following models are currently available:
+Following models are currently available (see [learning type](#learningtype) for more information about the learning types):
 
 * `Deep-learning based models`:
     * **semi-supervised** (Trained on fault-free data): 
@@ -464,7 +464,7 @@ This field is only required for deep-learning models using the standard deep-lea
 #### dataType
 **- optional -**
 This field is only required if your model uses the data preparation function provided by the platform (and if for classic machine-learning and statistical models the [useSlidingWindow](#useslidingwindow) field is set to true).
-Its value must be one of: `1`, `2`, `3`. The number controls the shape of the data. The data is always split into **subsequences** of equal length using a sliding window. The window-size (and step-size for training, if your model is semi-supervised or supervised) must be defined in the [hyperparameters](#hyperparameters) field.
+Its value must be one of: `1`, `2`, `3`. The number controls the shape of the data. The data is always split into **subsequences** of equal length using a sliding window. The window-size (and step-size for training, if your model is used for semi-supervised or supervised anomaly detection) must be defined in the [hyperparameters](#hyperparameters) field.
 The step-size for the testing data is always set to 1.
 For the three different data types, the data will be shaped as such:
 | Data type | Description |
@@ -477,13 +477,13 @@ For the three different data types, the data will be shaped as such:
 
 #### learningType
 **- mandatory -**
-The learning type determines what data is used for training and testing. Following learning types are possible:
+The learning type determines how the TSAD method is trained and tested. It controls what data is used for training and testing. Following learning types are possible:
 
 | Learning type | Description |
 |-|-|
-| "supervised" | Model gets trained on training data from `train` folder (Should contain anomalies). (Training data is also used to set static thresholds, if the model doesn't output labels.) |
-| "semi-supervised" | Model gets trained on training data from `train` folder (Should not contain anomalies). Anomalous validation data (if available) is used to set static thresholds. Otherwise static thresholds are set last during testing. |
-| "unsupervised" | Model gets tested directly on data from `test` folder. Static thresholds are alway set last. | 
+| "unsupervised" | Model gets tested directly on data from `test` folder. No explicit prior training step required. Static thresholds are alway set last. |
+| "semi-supervised" | Model gets trained on **fault-free training data** from `train` folder to learn the normal state of the data. Anomalies will result in higher anomaly scores during testing. Anomalous validation data (if available) is used to set static thresholds. Otherwise static thresholds are set last during testing. |
+| "supervised" | Model gets trained on **anomalous**, **labeled training data** from `train` folder and learns to identify normal points and anomalous points. (Training data is also used to set static thresholds, if the model doesn't output labels.) |
 
 #### dimensionality
 **- mandatory -**
@@ -544,11 +544,11 @@ To add more models to the platform (deep-learning, classic machine learning or s
 
 #### Add model
 
-**IMPORTANT** The process for adding new deep-learning based, semi-supervised models - similar to the currently implemented ones - is explained [below](#add-deep-learning-anomaly-detection-models). However all types of models can be added as described in the following.
+**IMPORTANT** The process for adding new deep-learning based models for semi-supervised anomaly detection - similar to the currently implemented ones - is explained [below](#add-deep-learning-anomaly-detection-models). However all types of models can be added as described in the following.
 
 The process for adding a model/algorithm is as such:
 
-1. **Add the training function call**: This step is only required if your model is semi-supervised or supervised (see [Learning type](#learningtype)).
+1. **Add the training function call**: This step is only required if your model is used for semi-supervised or supervised anomaly detection (see [Learning type](#learningtype)).
  Go to the folder `tsad_platform > src > models_and_training` and open the file `train.m`. Add your model name within the main *switch* statement, then call your training function and save the trained model in the `Mdl` variable:
 
     ```matlab
@@ -569,7 +569,7 @@ The process for adding a model/algorithm is as such:
 
 ##### Add deep-learning anomaly detection models
 
-To add a new semi-supervised deep-learning models (similar to the ones already implemented) using MATLAB's `Deep Learning Toolbox`, follow these steps:
+To add a new deep-learning models for semi-supervised anomaly detection (similar to the ones already implemented) using MATLAB's `Deep Learning Toolbox`, follow these steps:
 
 1. **Define the layers**: Go to the folder `tsad_platform > src > models_and_training > deep_learning` and open the file `getLayers.m`. Add a new option in the main *switch* statement for the name of your model:
 
