@@ -1,6 +1,5 @@
-function scores = calcScores(anomalyScores, predictedLabels, labels, justLabels)
+function scores = calcScores(anomalyScores, predictedLabels, labels)
 %CALCSCORES Calculates the different metrics
-% justLabels is true if the model outpus labels instead of anomaly scores
 
 % Pointwise (weighted) scores
 try
@@ -66,20 +65,15 @@ catch ME
     scoresComposite = [NaN; NaN];
 end
 
-if justLabels
+try
+    % Calc AUC. (If model outputs labels then anomalyScores == predictedLabels)
+    [~, ~, ~, AUC] = perfcurve(labels, anomalyScores, 1);
+catch
     AUC = NaN;
-else
-    if size(anomalyScores, 2) > 1
-        AUC = NaN;
-    else
-        try
-            [~, ~, ~, AUC] = perfcurve(labels, anomalyScores, 1);
-        catch
-            AUC = NaN;
-        end
-    end
 end
 
+% The order of scores MUST be the same as in the
+% "../global_definitions/METRIC_NAMES..." files
 scores = [scoresPointwise(3); ...
             scoresEventwise(3); ...
             scoresPointAdjusted(3); ...

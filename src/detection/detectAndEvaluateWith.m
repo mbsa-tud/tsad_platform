@@ -13,5 +13,5 @@ else
     predictedLabels = anomalyScores;
 end
 
-scores = calcScores(anomalyScores, predictedLabels, labels, trainedModel.modelOptions.outputsLabels);
+scores = calcScores(anomalyScores, predictedLabels, labels);
 end
