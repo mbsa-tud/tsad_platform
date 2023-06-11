@@ -33,7 +33,7 @@ if ~isempty(trainedModels)
                     predictedLabels = anomalyScores;
                 end
 
-                scores = [compTime; calcScores(anomalyScores, predictedLabels, labels)];
+                scores = [compTime; computeMetrics(anomalyScores, predictedLabels, labels)];
         
                 tmp = finalScores{thr_idx};
                 tmp{data_idx} = [tmp{data_idx}, scores];

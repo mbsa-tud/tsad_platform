@@ -9,13 +9,13 @@ if ~isempty(labels)
 end
 
 switch threshold
-    case "bestFscorePointwise"
+    case "bestF1ScorePointwise"
         thr = computeBestFscoreThreshold(anomalyScores, labels, "point-wise");
-    case "bestFscoreEventwise"
+    case "bestF1ScoreEventwise"
         thr = computeBestFscoreThreshold(anomalyScores, labels, "event-wise");
-    case "bestFscorePointAdjusted"
+    case "bestF1ScorePointAdjusted"
         thr = computeBestFscoreThreshold(anomalyScores, labels, "point-adjusted");
-    case "bestFscoreComposite"
+    case "bestF1ScoreComposite"
         thr = computeBestFscoreThreshold(anomalyScores, labels, "composite");
     case "topK"        
         numChannels = size(anomalyScores, 2);

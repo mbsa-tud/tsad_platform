@@ -8,13 +8,13 @@ labels = strings(numIds, 1);
 
 for i = 1:numIds
     switch ids(i)
-        case "bestFscorePointwise"
+        case "bestF1ScorePointwise"
             labels(i) = "Best F1 Score (point-wise)";
-        case "bestFscoreEventwise"
+        case "bestF1ScoreEventwise"
             labels(i) = "Best F1 Score (event-wise)";
-        case "bestFscorePointAdjusted"
+        case "bestF1ScorePointAdjusted"
             labels(i) = "Best F1 Score (point-adjusted)";
-        case "bestFscoreComposite"
+        case "bestF1ScoreComposite"
             labels(i) = "Best F1 Score (composite)";
         case "topK"
             labels(i) = "Top k";

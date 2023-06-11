@@ -12,76 +12,27 @@ end
 
 F1Scores = zeros(numThresholdCandidates, 1);
 
+% Calculate F1-Scores for all candidate thresholds
 switch type
     case "point-wise"
         for cand_idx = 1:numThresholdCandidates
-            confmat = confusionmat(logical(labels), logical(predictedLabels(:, cand_idx)));
-            try
-                pre_p = confmat(2, 2) / (confmat(2, 2) + confmat(1, 2));
-                rec_p = confmat(2, 2) / (confmat(2, 2) + confmat(2, 1));
-                F1Scores(cand_idx) = 2 * (pre_p * rec_p) / (pre_p + rec_p);
-            catch
-                F1Scores(cand_idx) = NaN;
-            end
+            [~, ~, f1, ~] = computePointwiseMetrics(predictedLabels(:, cand_idx), labels);
+            F1Scores(cand_idx) = f1;
         end
     case "event-wise"   
         for cand_idx = 1:numThresholdCandidates
-            try
-                [fp_e, fn_e, tp_e] = overlap_seg(labels, predictedLabels(:, cand_idx));
-                pre_e = tp_e / (tp_e + fp_e);
-                rec_e = tp_e / (tp_e + fn_e);
-                F1Scores(cand_idx) = 2 * pre_e * rec_e / (pre_e + rec_e);
-            catch ME
-                F1Scores(cand_idx) = NaN;
-            end
+            [~, ~, f1, ~] = computeEventwiseMetrics(predictedLabels(:, cand_idx), labels);
+            F1Scores(cand_idx) = f1;
         end
     case "point-adjusted"
-        sequences = find_cons_sequences(find(labels == 1));
-
         for cand_idx = 1:numThresholdCandidates
-            labels_pred_point_adjusted = predictedLabels(:, cand_idx);
-
-            for j = 1:numel(sequences) 
-                if any(predictedLabels(sequences{j}, cand_idx))
-                    labels_pred_point_adjusted(sequences{j}, 1) = 1;
-                end
-            end
-
-            confmat = confusionmat(logical(labels), logical(labels_pred_point_adjusted));
-            try
-                tp_a = confmat(2, 2);
-                fp_a = confmat(1, 2);
-                fn_a = confmat(2, 1);
-                pre_a = tp_a / (tp_a + fp_a);
-                rec_a = tp_a / (tp_a + fn_a);
-                F1Scores(cand_idx) = 2 * pre_a * rec_a / (pre_a + rec_a);
-            catch ME
-                F1Scores(cand_idx) = NaN;
-            end
+            [~, ~, f1, ~] = computePointAdjustedMetrics(predictedLabels(:, cand_idx), labels);
+            F1Scores(cand_idx) = f1;
         end
     case "composite"
-        sequences = find_cons_sequences(find(labels == 1));
-
         for cand_idx = 1:numThresholdCandidates
-            tp_e = 0;
-            fn_e = 0;
-            
-            for j = 1:numel(sequences) 
-                if any(predictedLabels(sequences{j}, cand_idx))
-                    tp_e = tp_e + 1;
-                else
-                    fn_e = fn_e + 1;
-                end
-            end
-            
-            confmat = confusionmat(logical(labels), logical(predictedLabels(:, cand_idx)));
-            try
-                pre_p = confmat(2, 2) / (confmat(2, 2) + confmat(1, 2));
-                rec_e = tp_e / (tp_e + fn_e);
-                F1Scores(cand_idx) = 2 * pre_p * rec_e / (pre_p + rec_e);
-            catch ME
-                F1Scores(cand_idx) = NaN;
-            end
+            [f1, ~] = computeCompositeMetrics(predictedLabels(:, cand_idx), labels);
+            F1Scores(cand_idx) = f1;
         end
 end
 

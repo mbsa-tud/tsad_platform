@@ -13,5 +13,5 @@ else
     predictedLabels = anomalyScores;
 end
 
-scores = calcScores(anomalyScores, predictedLabels, labels);
+scores = computeMetrics(anomalyScores, predictedLabels, labels);
 end

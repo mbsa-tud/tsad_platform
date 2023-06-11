@@ -5,13 +5,13 @@ function id = getThresholdId(label)
 
 switch label
     case "Best F1 Score (point-wise)"
-        id = "bestFscorePointwise";
+        id = "bestF1ScorePointwise";
     case "Best F1 Score (event-wise)"
-        id = "bestFscoreEventwise";
+        id = "bestF1ScoreEventwise";
     case "Best F1 Score (point-adjusted)"
-        id = "bestFscorePointAdjusted";
+        id = "bestF1ScorePointAdjusted";
     case "Best F1 Score (composite)"
-        id = "bestFscoreComposite";
+        id = "bestF1ScoreComposite";
     case "Top k"
         id = "topK";
     case "Mean + 3 * Std"
