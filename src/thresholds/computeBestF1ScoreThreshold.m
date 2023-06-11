@@ -1,7 +1,7 @@
-function thr = computeBestFscoreThreshold(anomalyScores, labels, type)
-%COMPUTEBESTFSCORETHRESHOLD Comput the best F-Score threshold
+function thr = computeBestF1ScoreThreshold(anomalyScores, labels, type)
+%COMPUTEBESTFSCORETHRESHOLD Computes the best F1-Score threshold
 %   Computes either the point-wise, event-wise, point-adjusted
-%   or composite best F-Score threshold
+%   or composite best F1-Score threshold
 
 thresholdCandidates = uniquetol(anomalyScores, 0.0001);
 numThresholdCandidates = numel(thresholdCandidates);
