@@ -1,9 +1,12 @@
-function layers = getLayers(modelOptions, numFeatures, numResponses)
+function layers = getLayers(modelOptions, XTrain, YTrain)
 %GETLAYERS Gets the layers for the DNN model specified in the modelOptions parameter
 
 switch modelOptions.name
     case "Your model name"
     case "FC-AE"
+        numFeatures = size(XTrain, 2);
+        numResponses = numFeatures;
+
         neurons = modelOptions.hyperparameters.neurons;
         layers = [ ...
             featureInputLayer(numFeatures, Name="Input")
@@ -21,6 +24,9 @@ switch modelOptions.name
             regressionLayer(Name="Output")];
         layers = layerGraph(layers);
     case "LSTM (reconstruction)"
+        numFeatures = size(XTrain{1, 1}, 1);
+        numResponses = numFeatures;
+
         layers = [ ...
             sequenceInputLayer(numFeatures, MinLength=modelOptions.hyperparameters.windowSize)
             lstmLayer(modelOptions.hyperparameters.hiddenUnits)
@@ -30,6 +36,9 @@ switch modelOptions.name
             regressionLayer];
         layers = layerGraph(layers);
     case "Hybrid CNN-LSTM (reconstruction)"
+        numFeatures = size(XTrain{1, 1}, 1);
+        numResponses = numFeatures;
+        
         layers = [ ...
             sequenceInputLayer(numFeatures, MinLength=modelOptions.hyperparameters.windowSize)
             convolution1dLayer(5, modelOptions.hyperparameters.filter, Padding="same", WeightsInitializer="he", DilationFactor=1)
@@ -47,6 +56,10 @@ switch modelOptions.name
         if mod(modelOptions.hyperparameters.windowSize, 4) ~= 0
             error("Window size must be divisible by 4 for the TCN AE.");
         end
+
+        numFeatures = size(XTrain{1, 1}, 1);
+        numResponses = numFeatures;
+
         layers = [ ...
             sequenceInputLayer(numFeatures, Name="Input", MinLength=modelOptions.hyperparameters.windowSize)
 
@@ -91,7 +104,7 @@ switch modelOptions.name
             reluLayer()
             additionLayer(2, Name="Add_4")
 
-            convolution1dLayer(1, numFeatures, Padding="same")
+            convolution1dLayer(1, numResponses, Padding="same")
 
             regressionLayer(Name="Output")];
         layers = layerGraph(layers);
@@ -108,6 +121,9 @@ switch modelOptions.name
         layers = connectLayers(layers, "Add_3", "Conv_skip_4");
         layers = connectLayers(layers, "Conv_skip_4", "Add_4/in2");
     case "LSTM"
+        numFeatures = size(XTrain{1, 1}, 1);
+        numResponses = numFeatures;
+
         outputMode = "last";
 
         layers = [ ...
@@ -119,6 +135,9 @@ switch modelOptions.name
             regressionLayer];
         layers = layerGraph(layers);
     case "Hybrid CNN-LSTM"
+        numFeatures = size(XTrain{1, 1}, 1);
+        numResponses = numFeatures;
+
         outputMode = "last";
 
         layers = [ ...
@@ -135,6 +154,9 @@ switch modelOptions.name
             regressionLayer()];
         layers = layerGraph(layers);
     case "GRU"
+        numFeatures = size(XTrain{1, 1}, 1);
+        numResponses = numFeatures;
+
         outputMode = "last";
 
         layers = [ ...
@@ -146,6 +168,9 @@ switch modelOptions.name
             regressionLayer];
         layers = layerGraph(layers);
     case "CNN (DeepAnT)"
+        numFeatures = size(XTrain{1, 1}, 2);
+        numResponses = numFeatures;
+
         layers = [ ...
             sequenceInputLayer([modelOptions.hyperparameters.windowSize numFeatures], Name="Input") % 1D image input would be better, but wasn't possible. This is a workaround
             
@@ -166,6 +191,9 @@ switch modelOptions.name
             regressionLayer(Name="Output")];
         layers = layerGraph(layers);
     case "ResNet"
+        numFeatures = size(XTrain{1, 1}, 2);
+        numResponses = numFeatures;
+        
         layers = [ ...
             sequenceInputLayer([modelOptions.hyperparameters.windowSize numFeatures], Name="Input") % 1D image input would be better, but wasn't possible. This is a workaround
 
@@ -188,6 +216,9 @@ switch modelOptions.name
         layers = layerGraph(layers);
         layers = connectLayers(layers, "ReLU 1", "Add/in2");
     case "MLP"
+        numFeatures = size(XTrain, 2);
+        numResponses = size(YTrain, 2);
+
         layers = [ ...
             featureInputLayer(numFeatures, Name="Input")
             fullyConnectedLayer(modelOptions.hyperparameters.neurons)

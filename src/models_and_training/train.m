@@ -14,9 +14,8 @@ switch modelOptions.name
     otherwise
         if strcmp(modelOptions.type, "deep-learning")
             % Default training for semi-supervised deep-learning models
-            [numFeatures, numResponses] = getNumFeaturesAndResponses(XTrain, YTrain, modelOptions.modelType, modelOptions.dataType);
-    
-            layers = getLayers(modelOptions, numFeatures, numResponses);
+
+            layers = getLayers(modelOptions, XTrain, YTrain);
             trainOptions = getTrainOptions(modelOptions, XVal, YVal, size(XTrain, 1), trainingPlots, verbose);
             
             Mdl = trainNetwork(XTrain, YTrain, layers, trainOptions);

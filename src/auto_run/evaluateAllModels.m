@@ -21,19 +21,19 @@ if ~isempty(trainedModels)
 
         % For all test files
         for data_idx = 1:numel(fileNamesTest)
-            [XTest, TSTest, labels] = dataTestPreparationWrapper(trainedModel.modelOptions, dataTest(data_idx), labelsTest(data_idx));
+            [XTest, TSTest, labelsTest] = dataTestPreparationWrapper(trainedModel.modelOptions, dataTest(data_idx), labelsTest(data_idx));
                 
-            [anomalyScores, compTime] = detectionWrapper(trainedModel, XTest, TSTest, labels, getCompTime);
+            [anomalyScores, compTime] = detectionWrapper(trainedModel, XTest, TSTest, labelsTest, getCompTime);
             
             % For all thresholds in the thresholds variable
             for thr_idx = 1:numel(thresholds)
                 if ~trainedModel.modelOptions.outputsLabels
-                    [predictedLabels, ~] = applyThresholdToAnomalyScores(trainedModel, anomalyScores, labels, thresholds(thr_idx), dynamicThresholdSettings);
+                    [predictedLabels, ~] = applyThresholdToAnomalyScores(trainedModel, anomalyScores, labelsTest, thresholds(thr_idx), dynamicThresholdSettings);
                 else
                     predictedLabels = anomalyScores;
                 end
 
-                scores = [compTime; computeMetrics(anomalyScores, predictedLabels, labels)];
+                scores = [compTime; computeMetrics(anomalyScores, predictedLabels, labelsTest)];
         
                 tmp = finalScores{thr_idx};
                 tmp{data_idx} = [tmp{data_idx}, scores];
