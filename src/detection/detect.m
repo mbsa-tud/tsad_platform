@@ -140,11 +140,11 @@ switch modelOptions.name
                 end
     
                 switch modelOptions.hyperparameters.reconstructionErrorType
-                    case "median point-wise values"
+                    case "Median point-wise Values"
                         % calculate median predicted value for each time step and then calculate the errors for the entire time series
                         prediction = mergeOverlappingSubsequences(modelOptions, prediction, @median);
                         anomalyScores = abs(prediction - TSTest);
-                    case "median point-wise errors"
+                    case "Median point-wise Errors"
                         % calulate the point-wise errors for each subsequence and then calculate the median error for each time step
                         if modelOptions.dataType == 1
                             errors = abs(prediction - XTest);
@@ -156,7 +156,7 @@ switch modelOptions.name
                         end
                                 
                         anomalyScores = mergeOverlappingSubsequences(modelOptions, errors, @median);
-                    case "mean subsequence MAE"
+                    case "Mean Subsequence MAE"
                         % calulate the MAE for each subsequence and channel and
                         % then calculate the mean error for each time step
                         windowSize = modelOptions.hyperparameters.windowSize;
@@ -184,7 +184,7 @@ switch modelOptions.name
                         end
     
                         anomalyScores = mergeOverlappingSubsequences(modelOptions, errors, @mean);
-                    case "mean subsequence MSE"
+                    case "Mean Subsequence MSE"
                         % calulate the MSE for each subsequence and channel and
                         % then calculate the mean error for each time step
                         windowSize = modelOptions.hyperparameters.windowSize;
@@ -212,7 +212,7 @@ switch modelOptions.name
                         end
     
                         anomalyScores = mergeOverlappingSubsequences(modelOptions, errors, @mean);
-                    case "mean subsequence RMSE"
+                    case "Mean Subsequence RMSE"
                         % calulate the RMSE for each subsequence and channel and
                         % then calculate the mean error for each time step
                         windowSize = modelOptions.hyperparameters.windowSize;

@@ -17,8 +17,8 @@
                     "learningRate": 0.001,
                     "minibatchSize": 64,
                     "ratioTrainVal": 0,
-                    "reconstructionErrorType": "median point-wise values",
-                    "scoringFunction": "aggregated-errors"
+                    "reconstructionErrorType": "Median point-wise Values",
+                    "scoringFunction": "Errors (aggregated)"
                 }
             }
         },
@@ -39,8 +39,8 @@
                     "learningRate": 0.001,
                     "minibatchSize": 64,
                     "ratioTrainVal": 0,
-                    "reconstructionErrorType": "median point-wise values",
-                    "scoringFunction": "aggregated-errors"
+                    "reconstructionErrorType": "Median point-wise Values",
+                    "scoringFunction": "Errors (aggregated)"
                 }
             }
         },
@@ -62,8 +62,8 @@
                     "learningRate": 0.001,
                     "minibatchSize": 64,
                     "ratioTrainVal": 0,
-                    "reconstructionErrorType": "median point-wise values",
-                    "scoringFunction": "aggregated-errors"
+                    "reconstructionErrorType": "Median point-wise Values",
+                    "scoringFunction": "Errors (aggregated)"
                 }
             }
         },
@@ -84,8 +84,8 @@
                     "learningRate": 0.001,
                     "minibatchSize": 64,
                     "ratioTrainVal": 0,
-                    "reconstructionErrorType": "median point-wise values",
-                    "scoringFunction": "aggregated-errors"
+                    "reconstructionErrorType": "Median point-wise Values",
+                    "scoringFunction": "Errors (aggregated)"
                 }
             }
         },
@@ -106,7 +106,7 @@
                     "learningRate": 0.001,
                     "minibatchSize": 64,
                     "ratioTrainVal": 0,
-                    "scoringFunction": "aggregated-errors"
+                    "scoringFunction": "Errors (aggregated)"
                 }
             }
         },
@@ -128,7 +128,7 @@
                     "learningRate": 0.001,
                     "minibatchSize": 64,
                     "ratioTrainVal": 0,
-                    "scoringFunction": "aggregated-errors"
+                    "scoringFunction": "Errors (aggregated)"
                 }
             }
         },
@@ -149,7 +149,7 @@
                     "learningRate": 0.001,
                     "minibatchSize": 64,
                     "ratioTrainVal": 0,
-                    "scoringFunction": "aggregated-errors"
+                    "scoringFunction": "Errors (aggregated)"
                 }
             }
         },
@@ -170,7 +170,7 @@
                     "learningRate": 0.001,
                     "minibatchSize": 64,
                     "ratioTrainVal": 0,
-                    "scoringFunction": "aggregated-errors"
+                    "scoringFunction": "Errors (aggregated)"
                 }
             }
         },
@@ -191,7 +191,7 @@
                     "learningRate": 0.001,
                     "minibatchSize": 64,
                     "ratioTrainVal": 0,
-                    "scoringFunction": "aggregated-errors"
+                    "scoringFunction": "Errors (aggregated)"
                 }
             }
         },
@@ -212,7 +212,7 @@
                     "learningRate": 0.001,
                     "minibatchSize": 64,
                     "ratioTrainVal": 0,
-                    "scoringFunction": "aggregated-errors"
+                    "scoringFunction": "Errors (aggregated)"
                 }
             }
         },

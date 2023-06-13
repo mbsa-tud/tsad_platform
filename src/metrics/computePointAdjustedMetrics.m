@@ -5,8 +5,8 @@ try
     sequences = findConsecutiveSequences(find(labels == 1));
 
     for i = 1:numel(sequences)
-        if any(predictedLabels(sequences{i}, 1))
-            predictedLabels(sequences{i}, 1) = 1;
+        if any(predictedLabels(sequences{i}))
+            predictedLabels(sequences{i}) = 1;
         end
     end
 

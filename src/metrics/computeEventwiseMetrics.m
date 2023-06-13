@@ -11,7 +11,7 @@ try
     trueSequences = findConsecutiveSequences(find(labels == 1));
     
     for i = 1:numel(trueSequences)
-        if any(predictedLabels(trueSequences{i}, 1))
+        if any(predictedLabels(trueSequences{i}))
             tp = tp + 1;
         else
             fn = fn + 1;
@@ -19,7 +19,7 @@ try
     end
     
     for i = 1:numel(predictedSequences)
-        if ~any(labels(predictedSequences{i}, 1))
+        if ~any(labels(predictedSequences{i}))
             fp = fp + 1;
         end
     end

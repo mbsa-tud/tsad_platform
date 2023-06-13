@@ -506,7 +506,7 @@ See Chapter [Adding models](#adding-models) for some examples.
 
 One hyperparamter that must be mentioned is the `scoringFunction`:
 It is optional for all models. Its value changes how the anomaly scores are defined. If your model defines its own scoring function, don't add this field to the hyperparameters.
-Currently available scoring functions can be found in Chapter [Load/configure models](#loadconfigure-models-1).
+Currently available scoring functions can be found in [Appendix - Scoring functions](#scoring-functions).
 
 ### Configuration file
 
@@ -714,17 +714,18 @@ The thresholds are set as follows:
 
 ### Additional model configuration
 
-#### Scoring function
+#### Scoring functions
 
 The `scoring function` defines how anomaly scores are computed. These are currently **only used for deep-learning models**. Following scoring functions are currently available:
 
 | Scoring Function | Description |
 |-|-|
-| aggregated-errors | The mean training reconstruction/prediction error gets subtracted from the channel-wise errors (Only for multivariate datasets). Afterwards, the root-mean-square is taken across channels. For univariate datasets, the errors are used directly. |
-| channelwise-errors | The mean training reconstruction error gets subtracted from the channel-wise errors (Only for multivariate datasets). Nothing else is done. For univariate datasets, this is the same as the aggregated-errors scoring function. |
-| gauss | A multivariate gaussian distribution is fitted to the trainig errors and used to compute -log(1 - cdf) to get the anomaly scores. **The max supported number of channels in the dataset is 25** |
-| aggregated-gauss | The channelwise mean and standard deviation of the training error distribution is used to compute -log(1 - cdf) of the channel-wise errors to get channel-wise anomaly scores. Afterwards, the channelwise anomaly scores are added. |
-| channelwise-gauss | The channelwise mean and standard deviation of the training error distribution is used to compute -log(1 - cdf) of the channel-wise errors to get channel-wise anomaly scores. |
+| Errors (aggregated) | The mean training reconstruction/prediction error gets subtracted from the channel-wise errors (Only for multivariate datasets). Afterwards, the root-mean-square is taken across channels. For univariate datasets, the errors are used directly. |
+| Errors (channel-wise) | The mean training reconstruction error gets subtracted from the channel-wise errors (Only for multivariate datasets). Nothing else is done. For univariate datasets, this is the same as the aggregated-errors scoring function. |
+| Gauss | A multivariate gaussian distribution is fitted to the trainig errors and used to compute -log(1 - cdf) to get the anomaly scores. **The max supported number of channels in the dataset is 25** |
+| Gauss (aggregated) | The channelwise mean and standard deviation of the training error distribution is used to compute -log(1 - cdf) of the channel-wise errors to get channel-wise anomaly scores. Afterwards, the channelwise anomaly scores are added. |
+| Gauss (channel-wise) | The channelwise mean and standard deviation of the training error distribution is used to compute -log(1 - cdf) of the channel-wise errors to get channel-wise anomaly scores. |
+| EWMA | The Root-Mean-Square is taken across channels before computing the Exponentially Weighted Moving Average. |
 
 **NOTE** For the channel-wise anomaly scores, a common threshold gets applied accross all channels during testing. A single observation only needs to be labeled as anomalous in one of the channels to be considered an anomaly.
 
@@ -734,8 +735,8 @@ The `reconstruction error type` defines how the errors are computed **for recons
 
 | Reconstruction Error Type | Description |
 |-|-|
-| median point-wise values | Calculates the median predicted value for each time step and then calculates the absolute errors for the entire time series. This is done for each channel separately. |
-| median point-wise errors | Calulates the point-wise absolute errors for each subsequence and then calculates the median error for each time step. This is done for each channel separately. |
-| mean subsequence MAE | Calulates the mean absolute errors (MAE) for each subsequence and then calculates the mean for each time step. This is done for each channel separately. |
-| mean subsequence MSE | Calulates the mean squared errors (MSE) for each subsequence and then calculates the mean for each time step. This is done for each channel separately. |
-| mean subsequence RMSE | Calulates the root mean squared errors (RMSE) for each subsequence and then calculates the mean for each time step. This is done for each channel separately. |
+| Median point-wise Values | Calculates the median predicted value for each time step and then calculates the absolute errors for the entire time series. This is done for each channel separately. |
+| Median point-wise Errors | Calulates the point-wise absolute errors for each subsequence and then calculates the median error for each time step. This is done for each channel separately. |
+| Mean Subsequence MAE | Calulates the mean absolute errors (MAE) for each subsequence and then calculates the mean for each time step. This is done for each channel separately. |
+| Mean Subsequence MSE | Calulates the mean squared errors (MSE) for each subsequence and then calculates the mean for each time step. This is done for each channel separately. |
+| Mean Subsequence RMSE | Calulates the root mean squared errors (RMSE) for each subsequence and then calculates the mean for each time step. This is done for each channel separately. |
