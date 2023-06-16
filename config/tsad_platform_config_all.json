@@ -25,28 +25,6 @@
         {
             "modelOptions": {
                 "type": "deep-learning",
-                "name": "TCN-AE",
-                "modelType": "reconstructive",
-                "dataType": 2,
-                "learningType": "semi-supervised",
-                "dimensionality": "multivariate",
-                "outputsLabels": false,
-                "hyperparameters": {
-                    "filter": 32,
-                    "windowSize": 100,
-                    "stepSize": 1,
-                    "epochs": 50,
-                    "learningRate": 0.001,
-                    "minibatchSize": 64,
-                    "ratioTrainVal": 0,
-                    "reconstructionErrorType": "Median point-wise Values",
-                    "scoringFunction": "Errors (aggregated)"
-                }
-            }
-        },
-        {
-            "modelOptions": {
-                "type": "deep-learning",
                 "name": "LSTM (reconstruction)",
                 "modelType": "reconstructive",
                 "dataType": 2,
@@ -77,6 +55,28 @@
                 "outputsLabels": false,
                 "hyperparameters": {
                     "hiddenUnits": 64,
+                    "filter": 32,
+                    "windowSize": 100,
+                    "stepSize": 1,
+                    "epochs": 50,
+                    "learningRate": 0.001,
+                    "minibatchSize": 64,
+                    "ratioTrainVal": 0,
+                    "reconstructionErrorType": "Median point-wise Values",
+                    "scoringFunction": "Errors (aggregated)"
+                }
+            }
+        },
+        {
+            "modelOptions": {
+                "type": "deep-learning",
+                "name": "TCN-AE",
+                "modelType": "reconstructive",
+                "dataType": 2,
+                "learningType": "semi-supervised",
+                "dimensionality": "multivariate",
+                "outputsLabels": false,
+                "hyperparameters": {
                     "filter": 32,
                     "windowSize": 100,
                     "stepSize": 1,
