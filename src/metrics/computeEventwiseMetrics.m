@@ -1,6 +1,6 @@
 function [pre, rec, f1, f05] = computeEventwiseMetrics(predictedLabels, labels)
 %COMPUTEEVENTWISEMETRICS Computes event-wise metrics
-tic
+
 try
     fp = 0;
     fn = 0;
@@ -34,5 +34,4 @@ catch
     f1 = NaN;
     f05 = NaN;
 end
-toc
 end
