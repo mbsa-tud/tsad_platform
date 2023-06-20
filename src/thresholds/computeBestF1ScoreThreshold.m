@@ -6,6 +6,8 @@ function thr = computeBestF1ScoreThreshold(anomalyScores, labels, type)
 thresholdCandidates = uniquetol(anomalyScores, 0.0001);
 numThresholdCandidates = numel(thresholdCandidates);
 
+predictedLabels = zeros(size(anomalyScores, 1), numThresholdCandidates);
+
 for cand_idx = 1:numThresholdCandidates
     predictedLabels(:, cand_idx) = any(anomalyScores > thresholdCandidates(cand_idx), 2);
 end

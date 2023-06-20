@@ -48,18 +48,22 @@ allScores = cell(numel(thresholds), 1);
 allTestFileNames = [];
 
 % Get all model names
-finalTableVariableNames = "Metric";
-for model_idx = 1:numel(models)
-    if augmentationEnabled
-        finalTableVariableNames = [finalTableVariableNames, ...
-            sprintf("%s", models(model_idx).modelOptions.label), ...
-            sprintf("%s  (augmented data)", models(model_idx).modelOptions.label)];
-    else
-        finalTableVariableNames = [finalTableVariableNames, models(model_idx).modelOptions.label];
+if augmentationEnabled
+    finalTableVariableNames = strings(1, numel(models) * 2);
+    finalTableVariableNames(1) = "Metric";
+    
+    for model_idx = 1:numel(models)
+        finalTableVariableNames(model_idx * 2) = models(model_idx).modelOptions.label;
+        finalTableVariableNames(model_idx * 2 + 1) = sprintf("%s  (augmented data)", models(model_idx).modelOptions.label);
+    end
+else
+    finalTableVariableNames = strings(1, numel(models));
+    finalTableVariableNames(1) = "Metric";
+    
+    for model_idx = 1:numel(models)
+        finalTableVariableNames(model_idx + 1) = models(model_idx).modelOptions.label;
     end
 end
-
-
 
 
 % Evaluate each model for every dataset
@@ -128,14 +132,14 @@ for thr_idx = 1:numel(allScores)
     end
     
     for data_idx = 1:numTestedFiles
-        allResultsFileName = fullfile(allResultsFolder, sprintf("%s_%s.csv", allTestFileNames(data_idx), datestr(now,"mm-dd-yyyy_HH-MM")));
+        allResultsFileName = fullfile(allResultsFolder, sprintf("%s_%s.csv", allTestFileNames(data_idx), datetime("now", 'Format','MMMM_d_yyyy_HH_mm_ss')));
         scoreTable_tmp = array2table(scoreMatrix_tmp{data_idx});
         scoreTable = [scoreNames scoreTable_tmp];
         scoreTable.Properties.VariableNames = finalTableVariableNames;
         writetable(scoreTable, allResultsFileName);
     end
     
-    fileName_Avg = fullfile(outputFolder, sprintf("Average_Scores__%s.csv", datestr(now,"mm-dd-yyyy_HH-MM")));    
+    fileName_Avg = fullfile(outputFolder, sprintf("Average_Scores__%s.csv", datetime("now", 'Format','MMMM_d_yyyy_HH_mm_ss')));  
 
     avg_tmp = array2table(avgScores);
     avgTable = [scoreNames avg_tmp];

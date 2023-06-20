@@ -1,5 +1,6 @@
-function metricNames = METRIC_NAMES()
-%METRIC_NAMES Returns all metric names used by the tsad platform
+function metricNames = METRIC_NAMES_WITH_COMP_TIME()
+%METRIC_NAMES_WITH_COMP_TIME Returns all metric names used by the tsad
+%platform includeing the computation time
 
 metricNames = ["Mean Computation Time per Window (seconds)"; ...
                 "F1 Score (point-wise)"; ...

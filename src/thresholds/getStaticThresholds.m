@@ -33,17 +33,17 @@ if strcmp(type, "anomalous-validation-data")
         
         % Get all thresholds which are set using anomaly scores for test validation data
         if numAnoms ~= 0
-            if ismember("bestFscorePointwise", thresholds)
-                staticThresholds.bestFscorePointwise = calcStaticThreshold(anomalyScoresTest, labelsTest, "bestFscorePointwise", trainedModel.modelOptions.name);
+            if ismember("bestF1ScorePointwise", thresholds)
+                staticThresholds.bestF1ScorePointwise = calcStaticThreshold(anomalyScoresTest, labelsTest, "bestF1ScorePointwise", trainedModel.modelOptions.name);
             end
-            if ismember("bestFscoreEventwise", thresholds)
-                staticThresholds.bestFscoreEventwise = calcStaticThreshold(anomalyScoresTest, labelsTest, "bestFscoreEventwise", trainedModel.modelOptions.name);
+            if ismember("bestF1ScoreEventwise", thresholds)
+                staticThresholds.bestF1ScoreEventwise = calcStaticThreshold(anomalyScoresTest, labelsTest, "bestF1ScoreEventwise", trainedModel.modelOptions.name);
             end
-            if ismember("bestFscorePointAdjusted", thresholds)
-                staticThresholds.bestFscorePointAdjusted = calcStaticThreshold(anomalyScoresTest, labelsTest, "bestFscorePointAdjusted", trainedModel.modelOptions.name);
+            if ismember("bestF1ScorePointAdjusted", thresholds)
+                staticThresholds.bestF1ScorePointAdjusted = calcStaticThreshold(anomalyScoresTest, labelsTest, "bestF1ScorePointAdjusted", trainedModel.modelOptions.name);
             end
-            if ismember("bestFscoreComposite", thresholds)
-                staticThresholds.bestFscoreComposite = calcStaticThreshold(anomalyScoresTest, labelsTest, "bestFscoreComposite", trainedModel.modelOptions.name);
+            if ismember("bestF1ScoreComposite", thresholds)
+                staticThresholds.bestF1ScoreComposite = calcStaticThreshold(anomalyScoresTest, labelsTest, "bestF1ScoreComposite", trainedModel.modelOptions.name);
             end            
         else
             warning("Warning! Anomalous validation set doesn't contain anomalies, possibly couldn't calculate some static thresholds.");
@@ -96,17 +96,17 @@ elseif strcmp(type, "training-data")
 
         % Get all thresholds which are set using anomaly scores for train data
         if ~isequal(sum(labelsTrain), 0)
-            if ismember("bestFscorePointwise", thresholds)
-                staticThresholds.bestFscorePointwise = calcStaticThreshold(anomalyScoresTrain, labelsTrain, "bestFscorePointwise", trainedModel.modelOptions.name);
+            if ismember("bestF1ScorePointwise", thresholds)
+                staticThresholds.bestF1ScorePointwise = calcStaticThreshold(anomalyScoresTrain, labelsTrain, "bestF1ScorePointwise", trainedModel.modelOptions.name);
             end
-            if ismember("bestFscoreEventwise", thresholds)
-                staticThresholds.bestFscoreEventwise = calcStaticThreshold(anomalyScoresTrain, labelsTrain, "bestFscoreEventwise", trainedModel.modelOptions.name);
+            if ismember("bestF1ScoreEventwise", thresholds)
+                staticThresholds.bestF1ScoreEventwise = calcStaticThreshold(anomalyScoresTrain, labelsTrain, "bestF1ScoreEventwise", trainedModel.modelOptions.name);
             end
-            if ismember("bestFscorePointAdjusted", thresholds)
-                staticThresholds.bestFscorePointAdjusted = calcStaticThreshold(anomalyScoresTrain, labelsTrain, "bestFscorePointAdjusted", trainedModel.modelOptions.name);
+            if ismember("bestF1ScorePointAdjusted", thresholds)
+                staticThresholds.bestF1ScorePointAdjusted = calcStaticThreshold(anomalyScoresTrain, labelsTrain, "bestF1ScorePointAdjusted", trainedModel.modelOptions.name);
             end
-            if ismember("bestFscoreComposite", thresholds)
-                staticThresholds.bestFscoreComposite = calcStaticThreshold(anomalyScoresTrain, labelsTrain, "bestFscoreComposite", trainedModel.modelOptions.name);
+            if ismember("bestF1ScoreComposite", thresholds)
+                staticThresholds.bestF1ScoreComposite = calcStaticThreshold(anomalyScoresTrain, labelsTrain, "bestF1ScoreComposite", trainedModel.modelOptions.name);
             end
         else
             warning("Warning! Traininng data doesn't contain anomalies, possibly couldn't calculate some static thresholds.");
