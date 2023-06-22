@@ -64,20 +64,26 @@ switch modelOptions.name
             sequenceInputLayer(numFeatures, Name="Input", MinLength=modelOptions.hyperparameters.windowSize)
 
             convolution1dLayer(5, modelOptions.hyperparameters.filter, Stride=1, Padding="causal", WeightsInitializer="he", DilationFactor=1)
-            layerNormalizationLayer()
             reluLayer()
+            layerNormalizationLayer()
+            dropoutLayer(0.25)
             convolution1dLayer(5, modelOptions.hyperparameters.filter, Stride=1, Padding="causal", WeightsInitializer="he", DilationFactor=1)
-            layerNormalizationLayer()
             reluLayer()
+            layerNormalizationLayer()
+            dropoutLayer(0.25)
             additionLayer(2, Name="Add_1")
+            reluLayer()
 
             convolution1dLayer(5, modelOptions.hyperparameters.filter, Stride=1, Padding="causal", WeightsInitializer="he", DilationFactor=2)
-            layerNormalizationLayer()
             reluLayer()
+            layerNormalizationLayer()
+            dropoutLayer(0.25)
             convolution1dLayer(5, modelOptions.hyperparameters.filter, Stride=1, Padding="causal", WeightsInitializer="he", DilationFactor=2)
-            layerNormalizationLayer()
             reluLayer()
+            layerNormalizationLayer()
+            dropoutLayer(0.25)
             additionLayer(2, Name="Add_2")
+            reluLayer()
 
 
 
@@ -89,20 +95,26 @@ switch modelOptions.name
 
 
             convolution1dLayer(5, modelOptions.hyperparameters.filter, Stride=1, Padding="causal", WeightsInitializer="he", DilationFactor=2)
-            layerNormalizationLayer()
             reluLayer()
+            layerNormalizationLayer()
+            dropoutLayer(0.25)
             convolution1dLayer(5, modelOptions.hyperparameters.filter, Stride=1, Padding="causal", WeightsInitializer="he", DilationFactor=2)
-            layerNormalizationLayer()
             reluLayer()
+            layerNormalizationLayer()
+            dropoutLayer(0.25)
             additionLayer(2, Name="Add_3")
+            reluLayer()
 
             convolution1dLayer(5, modelOptions.hyperparameters.filter, Stride=1, Padding="causal", WeightsInitializer="he", DilationFactor=1)
-            layerNormalizationLayer()
             reluLayer()
+            layerNormalizationLayer()
+            dropoutLayer(0.25)
             convolution1dLayer(5, modelOptions.hyperparameters.filter, Stride=1, Padding="causal", WeightsInitializer="he", DilationFactor=1)
-            layerNormalizationLayer()
             reluLayer()
+            layerNormalizationLayer()
+            dropoutLayer(0.25)
             additionLayer(2, Name="Add_4")
+            reluLayer()
 
             convolution1dLayer(1, numResponses, Padding="same")
 
