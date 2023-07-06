@@ -94,6 +94,12 @@ else
     error("Invalid modelType. Must be one of: predictive, reconstructive");
 end
 
+% Shuffle data
+indices = randperm(size(XTrain, 1));
+
+XTrain = XTrain(indices, :);
+YTrain = YTrain(indices, :);
+
 % Val data
 if ratioTrainVal ~= 0
     numWindows = size(XTrain, 1);
