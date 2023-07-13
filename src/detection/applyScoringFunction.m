@@ -38,14 +38,12 @@ switch trainedModel.modelOptions.hyperparameters.scoringFunction
         anomalyScores(isinf(anomalyScores)) = 100; % Cap scores
     case "EWMA"
         anomalyScores = rms(anomalyScores, 2);
-        
-        for channel_idx = 1:numChannels
-            smoothingFactor = 0.7;
-            weights = (smoothingFactor).^(0:size(anomalyScores, 1) - 1);
-            weights = weights / sum(weights);
+    
+        smoothingFactor = 0.7;
+        weights = (smoothingFactor).^(0:size(anomalyScores, 1) - 1);
+        weights = weights / sum(weights);
 
-            anomalyScores(:, channel_idx) = filter(weights, 1, anomalyScores(:, channel_idx));
-        end
+        anomalyScores(:, 1) = filter(weights, 1, anomalyScores(:, 1));
     otherwise
         % Do nothing
 end
