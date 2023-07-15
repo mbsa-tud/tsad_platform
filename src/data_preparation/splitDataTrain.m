@@ -16,11 +16,11 @@ if strcmp(modelType, "reconstructive")
         end
 
         if dataType == 1
-            flattenedWindowsSize = windowSize * numChannels;
-            XTrainTmp = zeros(numWindows, flattenedWindowsSize);
+            flattenedWindowSize = windowSize * numChannels;
+            XTrainTmp = zeros(numWindows, flattenedWindowSize);
             for i = 1:numWindows
                 XTrainTmp(i, :) = reshape(data{data_idx}((i * stepSize):(i * stepSize + windowSize - 1), :), ...
-                    [1, flattenedWindowsSize]);
+                    [1, flattenedWindowSize]);
             end
 
             XTrain = [XTrain; XTrainTmp];
@@ -46,11 +46,11 @@ elseif strcmp(modelType, "predictive")
         end
 
         if dataType == 1
-            flattenedWindowsSize = windowSize * numChannels;
-            XTrainTmp = zeros(numWindows, flattenedWindowsSize);
+            flattenedWindowSize = windowSize * numChannels;
+            XTrainTmp = zeros(numWindows, flattenedWindowSize);
             for i = 1:numWindows
                 XTrainTmp(i, :) = reshape(data{data_idx}((i * stepSize):(i * stepSize + windowSize - 1), :), ...
-                    [1, flattenedWindowsSize]);
+                    [1, flattenedWindowSize]);
             end
 
             YTrainTmp = zeros(numWindows, numChannels);

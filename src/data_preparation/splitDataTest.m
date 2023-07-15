@@ -13,11 +13,11 @@ if strcmp(modelType, "reconstructive")
 
     % XTest
     if dataType == 1
-        flattenedWindowsSize = windowSize * numChannels;
-        XTest = zeros(numWindows, flattenedWindowsSize);
+        flattenedWindowSize = windowSize * numChannels;
+        XTest = zeros(numWindows, flattenedWindowSize);
         for i = 1:numWindows
             XTest(i, :) = reshape(data{1}(i:(i + windowSize - 1), :), ...
-                    [1, flattenedWindowsSize]);
+                    [1, flattenedWindowSize]);
         end
     elseif dataType == 2
         XTest = cell(numWindows, 1);
@@ -40,11 +40,11 @@ elseif strcmp(modelType, "predictive")
     
     % XTest
     if dataType == 1
-        flattenedWindowsSize = windowSize * numChannels;
-        XTest = zeros(numWindows, flattenedWindowsSize);
+        flattenedWindowSize = windowSize * numChannels;
+        XTest = zeros(numWindows, flattenedWindowSize);
         for i = 1:numWindows
             XTest(i, :) = reshape(data{1}(i:(i + windowSize - 1), :), ...
-                    [1, flattenedWindowsSize]);
+                    [1, flattenedWindowSize]);
         end
     elseif dataType == 2
         XTest = cell(numWindows, 1);
