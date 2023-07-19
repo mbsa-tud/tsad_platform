@@ -580,6 +580,10 @@ To add a new deep-learning models for semi-supervised anomaly detection (similar
             % Get hyperparameters from options
             neurons = modelOptions.hyperparameters.neurons;
 
+            % Input and output layer dimensions
+            numFeatures = Size(XTrain, 2);
+            numResponses = numFeatures;
+
             % Define layers
             layers = [ ...
                 featureInputLayer(numFeatures)
