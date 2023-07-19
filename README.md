@@ -716,18 +716,22 @@ The thresholds are set as follows:
 
 #### Scoring functions
 
-The `scoring function` defines how anomaly scores are computed. These are currently **only used for deep-learning models**. Following scoring functions are currently available:
+The `scoring function` can be used to transform the anomaly scores produced by a Model (**channel-wise reconstruction/prediction errors for DL models**). This can include aggregation of channel-wise scores or further transformation.
+These are currently **only used for deep-learning models**.
+
+Following scoring functions are currently available:
 
 | Scoring Function | Description |
 |-|-|
-| Errors (aggregated) | The mean training reconstruction/prediction error gets subtracted from the channel-wise errors (Only for multivariate datasets). Afterwards, the Root Mean Square is taken across channels. For univariate datasets, the errors are used directly. |
-| Errors (channel-wise) | The mean training reconstruction error gets subtracted from the channel-wise errors (Only for multivariate datasets). Nothing else is done. For univariate datasets, this is the same as the aggregated-errors scoring function. |
-| Gauss | A multivariate gaussian distribution is fitted to the trainig errors and used to compute -log(1 - cdf) to get the anomaly scores. **The max supported number of channels in the dataset is 25** |
-| Gauss (aggregated) | The channelwise mean and standard deviation of the training error distribution is used to compute -log(1 - cdf) of the channel-wise errors to get channel-wise anomaly scores. Afterwards, the channelwise anomaly scores are added. |
-| Gauss (channel-wise) | The channelwise mean and standard deviation of the training error distribution is used to compute -log(1 - cdf) of the channel-wise errors to get channel-wise anomaly scores. |
-| EWMA | The Root Mean Square is taken across channels before computing the Exponentially Weighted Moving Average. |
+| Aggregated | The mean training anomaly score gets subtracted from the channel-wise anomaly scores. Afterwards, the Root Mean Square is taken across channels. **For univariate datasets nothing is done.** |
+| Channel-wise | The mean training anomaly score gets subtracted from the channel-wise anomaly scores. **For univariate datasets nothing is done.** |
+| Gauss | A multivariate gaussian distribution is fitted to the trainig anomaly scores and used to compute -log(1 - cdf) of the anomaly scores. **The max supported number of channels in the dataset is 25** |
+| Gauss (aggregated) | The channel-wise mean and standard deviation of the training anomaly score distribution is used to compute -log(1 - cdf) of the channel-wise anomaly scores. Afterwards, the channel-wise anomaly scores are added. |
+| Gauss (channel-wise) | The channel-wise mean and standard deviation of the training anomaly score distribution is used to compute -log(1 - cdf) of the channel-wise anomaly scores. |
+| EWMA | The Root Mean Square is taken across the channels of the anomaly scores before computing the Exponentially Weighted Moving Average. |
 
-**NOTE** For the channel-wise anomaly scores, a common threshold gets applied accross all channels during testing. A single observation only needs to be labeled as anomalous in one of the channels to be considered an anomaly.
+**NOTE** For the channel-wise scoring functions (labeled "channel-wise"), the output consits of anomaly scores for every channel of the dataset.
+In this case, a common threshold gets applied across all channels during testing. A single observation only needs to be labeled as anomalous in one of the channels to be considered an anomaly.
 
 #### Reconstruciton error type
 

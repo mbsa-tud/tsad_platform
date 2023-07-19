@@ -5,7 +5,7 @@ function anomalyScores = applyScoringFunction(trainedModel, anomalyScores)
 numChannels = size(anomalyScores, 2);
 
 switch trainedModel.modelOptions.hyperparameters.scoringFunction
-    case "Errors (aggregated)"
+    case "Aggregated"
         % Only has an effect for multivariate data
         if numChannels > 1
             for channel_idx = 1:numChannels
@@ -13,7 +13,7 @@ switch trainedModel.modelOptions.hyperparameters.scoringFunction
             end
             anomalyScores = rms(anomalyScores, 2);
         end
-    case "Errors (channel-wise)"
+    case "Channel-wise"
         % Only has an effect for multivariate data
         if numChannels > 1
             for channel_idx = 1:numChannels
