@@ -1,0 +1,76 @@
+{
+  "models": [
+    {
+      "config": {
+        "modelInfo": {
+          "name": "FC-AE",
+          "type": "deep-learning",
+          "modelType": "reconstruction",
+          "learningType": "semi-supervised",
+          "outputType": "anomaly-scores",
+          "dimensionality": "univariate",
+          "className": "TSAD_FC_AE"
+        },
+        "hyperparameters": {
+          "neurons": 32,
+          "windowSize": 100,
+          "stepSize": 1,
+          "epochs": 50,
+          "learningRate": 0.001,
+          "minibatchSize": 64,
+          "valSize": 0,
+          "reconstructionErrorType": "median point-wise values",
+          "scoringFunction": "aggregated"
+        }
+      }
+    },
+    {
+      "config": {
+        "modelInfo": {
+          "name": "FC-AE",
+          "type": "deep-learning",
+          "modelType": "reconstruction",
+          "learningType": "semi-supervised",
+          "outputType": "anomaly-scores",
+          "dimensionality": "univariate",
+          "className": "TSAD_FC_AE"
+        },
+        "hyperparameters": {
+          "neurons": 32,
+          "windowSize": 100,
+          "stepSize": 1,
+          "epochs": 50,
+          "learningRate": 0.001,
+          "minibatchSize": 64,
+          "valSize": 0,
+          "reconstructionErrorType": "median point-wise values",
+          "scoringFunction": "aggregated"
+        }
+      }
+    },
+    {
+      "config": {
+        "modelInfo": {
+          "name": "FC-AE",
+          "type": "deep-learning",
+          "modelType": "reconstruction",
+          "learningType": "semi-supervised",
+          "outputType": "anomaly-scores",
+          "dimensionality": "univariate",
+          "className": "TSAD_FC_AE"
+        },
+        "hyperparameters": {
+          "neurons": 32,
+          "windowSize": 100,
+          "stepSize": 1,
+          "epochs": 50,
+          "learningRate": 0.001,
+          "minibatchSize": 64,
+          "valSize": 0,
+          "reconstructionErrorType": "median point-wise values",
+          "scoringFunction": "aggregated"
+        }
+      }
+    }
+  ]
+}

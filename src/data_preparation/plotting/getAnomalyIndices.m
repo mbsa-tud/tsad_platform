@@ -1,5 +1,5 @@
-function index = getIndexes(data)
-%GETINDEXES Get indices for anomalies for plots
+function index = getAnomalyIndices(data)
+%GETANOMALYINDICES Get indices for anomalies for plots
 
 try
     shift = [0; data(1:end-1)];

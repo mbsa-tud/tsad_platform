@@ -1,9 +1,6 @@
-function reshapedPrediction = mergeOverlappingSubsequences(modelOptions, prediction, averagingFunction)
+function reshapedPrediction = mergeOverlappingSubsequences(prediction, windowSize, dataType, averagingFunction)
 %MERGEOVERLAPPINGSUBSEQUENCES Get the average predicted value for each
 %observation of the time series
-
-windowSize = modelOptions.hyperparameters.windowSize;
-dataType = modelOptions.dataType;
 
 if dataType == 1
     numChannels = round(size(prediction, 2) / windowSize);

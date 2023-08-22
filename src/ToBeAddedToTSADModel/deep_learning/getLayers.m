@@ -4,25 +4,7 @@ function layers = getLayers(modelOptions, XTrain, YTrain)
 switch modelOptions.name
     case "Your model name"
     case "FC-AE"
-        numFeatures = size(XTrain, 2);
-        numResponses = numFeatures;
-
-        neurons = modelOptions.hyperparameters.neurons;
-        layers = [ ...
-            featureInputLayer(numFeatures, Name="Input")
-            fullyConnectedLayer(neurons, Name=strcat("Encode: Fully connected with ", num2str(neurons), " neurons"))
-            reluLayer()
-            fullyConnectedLayer(floor(neurons / 2), Name=strcat("Encode: Fully connected with ", num2str(floor(neurons/2)), " neurons"))
-            reluLayer()
-            fullyConnectedLayer(floor(floor(neurons / 2) / 2), Name=strcat("Encode: Fully connected with ", num2str(floor(floor(neurons/2)/2)), " neurons"))
-            reluLayer()
-            fullyConnectedLayer(floor(neurons / 2), Name=strcat("Decode:Fully connected with ", num2str(floor(neurons/2)), " neurons"))
-            reluLayer()
-            fullyConnectedLayer(neurons, Name=strcat("Decode: Fully connected with ", num2str(neurons), " neurons"))
-            reluLayer()
-            fullyConnectedLayer(numResponses, Name="Out")
-            regressionLayer(Name="Output")];
-        layers = layerGraph(layers);
+        
     case "LSTM (reconstruction)"
         numFeatures = size(XTrain{1, 1}, 1);
         numResponses = numFeatures;

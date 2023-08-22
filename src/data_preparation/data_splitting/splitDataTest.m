@@ -4,7 +4,7 @@ function [XTest, TSTest, labelsTest] = splitDataTest(data, labels, windowSize, m
 
 numChannels = size(data{1}, 2);
 
-if strcmp(modelType, "reconstructive")
+if strcmp(modelType, "reconstruction")
     numWindows = size(data{1}, 1) - windowSize + 1;
     
     if numWindows < 1
@@ -25,13 +25,13 @@ if strcmp(modelType, "reconstructive")
             XTest{i} = data{1}(i:(i + windowSize - 1), :)';
         end
     else
-        error("Invalid dataType for reconstructive model. Must be one of: 1, 2");
+        error("Invalid dataType for reconstruction model. Must be one of: 1, 2");
     end
 
     % TSTest and labels
     TSTest = data{1};
     labelsTest = logical(labels{1});
-elseif strcmp(modelType, "predictive")
+elseif strcmp(modelType, "forecasting")
     numWindows = size(data{1}, 1) - windowSize;
 
     if numWindows < 1
@@ -57,14 +57,14 @@ elseif strcmp(modelType, "predictive")
             XTest{i} = data{1}(i:(i + windowSize - 1), :);
         end
     else
-        error("Invalid dataType for predictive model. Must be one of: 1, 2, 3");
+        error("Invalid dataType for forecasting model. Must be one of: 1, 2, 3");
     end
     
     % TSTest and labels
     TSTest = data{1}((windowSize + 1):end, :);
     labelsTest = logical(labels{1}((windowSize + 1):end, 1));
 else
-    error("Invalid modelType. Must be one of: predictive, reconstructive");
+    error("Invalid modelType. Must be one of: forecasting, reconstruction");
 end
 end
 

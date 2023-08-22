@@ -11,7 +11,7 @@ preprocParams.mu = [];
 preprocParams.sigma = [];
 
 switch method
-    case "Rescale [0, 1]"
+    case "rescale (min=0, max=1)"
         if ~isempty(rawTrainingData)
             if usePrevious
                 preprocParams.maximum = paramsPrevious.maximum;
@@ -44,7 +44,7 @@ switch method
             
             preprocessedTestingData = rescaleData(rawTestingData, preprocParams.maximum, preprocParams.minimum);
         end
-    case "Standardize"
+    case "standardize (mean=0, std=1)"
         if ~isempty(rawTrainingData)
             if usePrevious
                 preprocParams.mu = paramsPrevious.mu;
@@ -75,7 +75,7 @@ switch method
             
             preprocessedTestingData = standardizeData(rawTestingData, preprocParams.mu, preprocParams.sigma);
         end
-    case "Raw Data"
+    case "raw data"
         preprocessedTrainingData = rawTrainingData;
         preprocessedTestingData = rawTestingData;
 end

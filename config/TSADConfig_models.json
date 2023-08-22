@@ -1,0 +1,61 @@
+{
+    "TSAD_FC_AE": {
+        "name": "FC-AE",
+        "configurables": {
+            "modelInfo": {
+                "dimensionality": {
+                    "type": "categorical",
+                    "value": ["univariate", "multivariate"],
+                    "initialValue": "univariate"
+                }
+            },
+            "hyperparameters": {
+                "neurons": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 32
+                },
+                "windowSize": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 100
+                },
+                "stepSize": {
+                    "type": "integer",
+                    "value": [1, 100],
+                    "initialValue": 1
+                },
+                "epochs": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 50
+                },
+                "learningRate": {
+                    "type": "real",
+                    "value": [0.0001, 1],
+                    "initialValue": 0.001
+                },
+                "minibatchSize": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 64
+                },
+                "valSize": {
+                    "type": "real",
+                    "value": [0, 1],
+                    "initialValue": 0
+                },
+                "reconstructionErrorType": {
+                    "type": "categorical",
+                    "value": ["median point-wise values", "median point-wise errors", "mean subsequence RMSE"],
+                    "initialValue": "median point-wise values"
+                },
+                "scoringFunction": {
+                    "type": "categorical",
+                    "value": ["aggregated", "channel-wise", "gauss", "gauss (aggregated)", "gauss (channel-wise)", "EWMA"],
+                    "initialValue": "aggregated"
+                }
+            }
+        }
+    }
+}
