@@ -1,4 +1,4 @@
-function [anomalies, thresholdEnd] = find_anomalies(errors, varargin)
+function [anomalies, thresholdEnd] = applyDynamicThreshold(errors, varargin)
 % Find sequences of error values that are anomalous.
 % We first define the window of errors, that we want to analyze. We then find the anomalous
 % sequences in that window and store the start/stop index pairs that correspond to each

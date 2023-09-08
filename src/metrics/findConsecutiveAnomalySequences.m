@@ -1,4 +1,4 @@
-function seq = findConsecutiveSequences(A)
+function seq = findConsecutiveAnomalySequences(A)
 %FINDCONSECUTIVESEQUENCES Finds consecutive sequences of anomalies
 
 A(end + 1) = 2;   % adds new endpoint to very end of A so code picks up end of last group of consecutive values

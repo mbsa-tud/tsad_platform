@@ -1,7 +1,5 @@
-function thr = calcStaticThreshold(anomalyScores, labels, threshold, modelName)
-%CALCSTATICTHRESHOLD Calculates the static threshold on the testing data
-%   Compute the static threshold using the anomaly scores after running
-%   test on the test data
+function thr = computeStaticThreshold(anomalyScores, labels, threshold, modelName)
+%COMPUTESTATICTHRESHOLD
 
 if ~isempty(labels)
     numAnoms = sum(labels == 1);
@@ -9,7 +7,7 @@ if ~isempty(labels)
 end
 
 switch threshold
-    case "bestF1ScorePointwise"
+    case "best-point-wise-f1-score"
         thr = computeBestF1ScoreThreshold(anomalyScores, labels, "point-wise");
     case "bestF1ScoreEventwise"
         thr = computeBestF1ScoreThreshold(anomalyScores, labels, "event-wise");

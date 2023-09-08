@@ -7,8 +7,8 @@ try
     tp = 0;
 
 
-    predictedSequences = findConsecutiveSequences(find(predictedLabels == 1));
-    trueSequences = findConsecutiveSequences(find(labels == 1));
+    predictedSequences = findConsecutiveAnomalySequences(find(predictedLabels == 1));
+    trueSequences = findConsecutiveAnomalySequences(find(labels == 1));
     
     for i = 1:numel(trueSequences)
         if any(predictedLabels(trueSequences{i}))
