@@ -14,14 +14,18 @@ if ~isempty(rawTestingData)
     mu = mean(fullData);
 
     switch method
-        case "white noise"
+        case "none"
+            augmentedTestingData = rawTestingData;
+        case "white_noise"
             augmentedTestingData = addWhiteNoise(rawTestingData, maximum, minimum, level);
-        case "random walk"
+        case "random_walk"
             augmentedTestingData = addRandomWalk(rawTestingData, maximum, minimum, level);
-        case "global shift"
+        case "global_shift"
             augmentedTestingData = shiftData(rawTestingData, maximum, level);
-        case "attenuate extremum"
+        case "attenuate_extremum"
             augmentedTestingData = attenuateExtremum(rawTestingData, mu, level);
+        otherwise
+            error("unknown augmentation method");
     end
 end
 
@@ -37,14 +41,18 @@ if augmentTrainingData
         mu = mean(fullData);
 
         switch method
-            case "white noise"
+            case "none"
+                augmentedTrainingData = rawTrainingData;
+            case "white_noise"
                 augmentedTrainingData = addWhiteNoise(rawTrainingData, maximum, minimum, level);
-            case "random walk"
+            case "random_walk"
                 augmentedTrainingData = addRandomWalk(rawTrainingData, maximum, minimum, level);
-            case "global shift"
+            case "global_shift"
                 augmentedTrainingData = shiftData(rawTrainingData, maximum, level);
-            case "attenuate extremum"
+            case "attenuate_extremum"
                 augmentedTrainingData = attenuateExtremum(rawTrainingData, mu, level);
+            otherwise
+                error("unknown augmentation method");
         end
     end
 end

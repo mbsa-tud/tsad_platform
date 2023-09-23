@@ -11,7 +11,7 @@ preprocParams.mu = [];
 preprocParams.sigma = [];
 
 switch method
-    case "rescale (min=0, max=1)"
+    case "min_max_normalization"
         if ~isempty(rawTrainingData)
             if usePrevious
                 preprocParams.maximum = paramsPrevious.maximum;
@@ -44,7 +44,7 @@ switch method
             
             preprocessedTestingData = rescaleData(rawTestingData, preprocParams.maximum, preprocParams.minimum);
         end
-    case "standardize (mean=0, std=1)"
+    case "standardization"
         if ~isempty(rawTrainingData)
             if usePrevious
                 preprocParams.mu = paramsPrevious.mu;
@@ -75,8 +75,10 @@ switch method
             
             preprocessedTestingData = standardizeData(rawTestingData, preprocParams.mu, preprocParams.sigma);
         end
-    case "raw data"
+    case "raw_data"
         preprocessedTrainingData = rawTrainingData;
         preprocessedTestingData = rawTestingData;
+    otherwise
+        error("unknown preprocessing method");
 end
 

@@ -7,15 +7,15 @@ if ~isempty(labels)
 end
 
 switch threshold
-    case "best-point-wise-f1-score"
+    case "best_pointwise_f1_score"
         thr = computeBestF1ScoreThreshold(anomalyScores, labels, "point-wise");
-    case "bestF1ScoreEventwise"
+    case "best_eventwise_f1_score"
         thr = computeBestF1ScoreThreshold(anomalyScores, labels, "event-wise");
-    case "bestF1ScorePointAdjusted"
+    case "best_pointadjusted_f1_score"
         thr = computeBestF1ScoreThreshold(anomalyScores, labels, "point-adjusted");
-    case "bestF1ScoreComposite"
+    case "best_composite_f1_score"
         thr = computeBestF1ScoreThreshold(anomalyScores, labels, "composite");
-    case "topK"        
+    case "top_k"        
         numChannels = size(anomalyScores, 2);
 
         if numChannels > 1
@@ -37,11 +37,11 @@ switch threshold
         else
             thr = quantile(anomalyScores, 1 - contaminationFraction);
         end
-    case "meanStd"
+    case "probabilistic"
         % The outer mean is required for separate anomaly Scores
         % for each channel.
         thr = mean(mean(anomalyScores)) + 4 * mean(std(anomalyScores));
-    case "pointFive"
+    case "0.5"
         thr = 0.5;
     case "custom"
         switch modelName

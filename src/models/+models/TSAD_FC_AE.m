@@ -6,10 +6,10 @@ classdef TSAD_FC_AE < TSADModel
             %INITMODELINFO Initializes the modelInfo of this model
             
             obj.modelInfo.name = "FC-AE";
-            obj.modelInfo.type = "deep-learning";
+            obj.modelInfo.type = "deep_learning";
             obj.modelInfo.modelType = "reconstruction";
-            obj.modelInfo.learningType = "semi-supervised";
-            obj.modelInfo.outputType = "anomaly-scores";
+            obj.modelInfo.learningType = "semi_supervised";
+            obj.modelInfo.outputType = "anomaly_scores";
             obj.modelInfo.dimensionality = "multivariate";
         end
 

@@ -70,10 +70,10 @@ classdef TSADModel
             end
         end
     
-        function obj = trainingWrapper(obj, dataTrain, labelsTrain, dataTestVal, labelsTestVal, thresholds, plots, verbose)
+        function obj = trainingWrapper(obj, dataTrain, labelsTrain, dataTestVal, labelsTestVal, plots, verbose)
             %TRAININGWRAPPER Main wrapper function for model training
             
-            % Check learning type and fit if "semi-supervised" or
+            % Check learning type and fit if "semi_supervised" or
             % "supervised"
             if ~strcmp(obj.modelInfo.learningType, "unsupervised")
                     if isempty(dataTrain)
@@ -105,12 +105,12 @@ classdef TSADModel
                     end
                     
                     % Get static thresholds and training anomaly scores
-                    if strcmp(obj.modelInfo.outputType, "anomaly-scores")
+                    if strcmp(obj.modelInfo.outputType, "anomaly_scores")
                         obj.getTrainingAnomalyScoreFeatures(dataTrain, labelsTrain);
                         
                         % Compute thresholds for semi-supervised models
-                        if strcmp(obj.modelInfo.learningType, "semi-supervised")
-                            obj.getStaticThresholds(dataTestVal, labelsTestVal, thresholds);
+                        if strcmp(obj.modelInfo.learningType, "semi_supervised")
+                            obj.computeStaticThresholds(dataTestVal, labelsTestVal);
                         end
                     end
             end
@@ -119,7 +119,7 @@ classdef TSADModel
             obj.isTrained = true;
         end
 
-        function obj = optimizationWrapper(obj, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, metric, thresholds, thresholdForOptimization, dynamicThresholdSettings, iterations, trainingPlots, parallelEnabled)
+        function obj = optimizationWrapper(obj, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, metric, threshold, dynamicThresholdSettings, iterations, trainingPlots, parallelEnabled)
             %OPTIMIZATIONWRAPPER Runs the auto optimization using bayesian
             %optimization
             
@@ -132,7 +132,7 @@ classdef TSADModel
                 % Optimization
                 results = obj.optimize(optVars, dataTrain, labelsTrain, ...
                                        dataValTest, labelsValTest, ...
-                                       dataTest, labelsTest, thresholdForOptimization, ...
+                                       dataTest, labelsTest, threshold, ...
                                        dynamicThresholdSettings, ...
                                        metric, iterations, trainingPlots, ...
                                        parallelEnabled);
@@ -148,7 +148,7 @@ classdef TSADModel
             
             % Train model with optimal hyperparameters
             obj.trainingWrapper(dataTrain, labelsTrain, dataValTest, ...
-                                labelsValTest, thresholds, trainingPlots, true);
+                                labelsValTest, trainingPlots, true);
         end
         
         function [anomalyScores, TSTest, labelsTest, computationTime] = detectionWrapper(obj, data, labels, getComputationTime, applyScoringFunction)
@@ -200,7 +200,7 @@ classdef TSADModel
             
             % Bypass scoring function for models which output binary
             % classification instead of anomaly scores
-            if ~strcmp(obj.modelInfo.outputType, "anomaly-scores")
+            if ~strcmp(obj.modelInfo.outputType, "anomaly_scores")
                 anomalyScores = any(anomalyScores, 2);
                 return;
             end
@@ -322,8 +322,9 @@ classdef TSADModel
             end
         end
 
-        function obj = getStaticThresholds(obj, data, labels, thresholds)
-            %GETSTATICTHRESHOLDS Computes static thresholds
+        function obj = computeStaticThresholds(obj, data, labels)
+            %GETSTATICTHRESHOLDS Computes static thresholds using training-
+            %and anomalous validation set anomaly scores
                         
             obj.staticThresholds = [];
             
@@ -335,60 +336,39 @@ classdef TSADModel
                     numAnoms = numAnoms + sum(labels{file_idx} == 1);
                 end
             
-                anomalyScoresTest = [];
-                labelsTest = [];
+                anomalyScoresMerged = [];
+                labelsMerged = [];
                 
                 % Merge anomaly scores for all files in data
                 for file_idx = 1:numel(data)
-                    [anomalyScores_tmp, ~, labelsTest_tmp, ~] = obj.detectionWrapper(data(file_idx), labels(file_idx), false, true);
-                    anomalyScoresTest = [anomalyScoresTest; anomalyScores_tmp];
-                    labelsTest = [labelsTest; labelsTest_tmp];
+                    [anomalyScores_tmp, ~, labels_tmp, ~] = obj.detectionWrapper(data(file_idx), labels(file_idx), false, true);
+                    anomalyScoresMerged = [anomalyScoresMerged; anomalyScores_tmp];
+                    labelsMerged = [labelsMerged; labels_tmp];
                 end
                 
                 % Compute all thresholds which are set using anomaly scores for test validation data
                 if numAnoms ~= 0
-                    if ismember("bestF1ScorePointwise", thresholds)
-                        obj.staticThresholds.bestF1ScorePointwise = computeStaticThreshold(anomalyScoresTest, labelsTest, "bestF1ScorePointwise", obj.modelInfo.name);
-                    end
-                    if ismember("bestF1ScoreEventwise", thresholds)
-                        obj.staticThresholds.bestF1ScoreEventwise = computeStaticThreshold(anomalyScoresTest, labelsTest, "bestF1ScoreEventwise", obj.modelInfo.name);
-                    end
-                    if ismember("bestF1ScorePointAdjusted", thresholds)
-                        obj.staticThresholds.bestF1ScorePointAdjusted = computeStaticThreshold(anomalyScoresTest, labelsTest, "bestF1ScorePointAdjusted", obj.modelInfo.name);
-                    end
-                    if ismember("bestF1ScoreComposite", thresholds)
-                        obj.staticThresholds.bestF1ScoreComposite = computeStaticThreshold(anomalyScoresTest, labelsTest, "bestF1ScoreComposite", obj.modelInfo.name);
-                    end            
+                    obj.staticThresholds.best_pointwise_f1_score = computeStaticThreshold(anomalyScoresMerged, labelsMerged, "best_pointwise_f1_score", obj.modelInfo.name);
+                    obj.staticThresholds.best_eventwise_f1_score = computeStaticThreshold(anomalyScoresMerged, labelsMerged, "best_eventwise_f1_score", obj.modelInfo.name);
+                    obj.staticThresholds.best_pointadjusted_f1_score = computeStaticThreshold(anomalyScoresMerged, labelsMerged, "best_pointadjusted_f1_score", obj.modelInfo.name);
+                    obj.staticThresholds.best_composite_f1_score = computeStaticThreshold(anomalyScoresMerged, labelsMerged, "best_composite_f1_score", obj.modelInfo.name);
                 else
                     warning("Warning! Anomalous validation set doesn't contain anomalies, possibly couldn't calculate some static thresholds.");
                 end
         
-                if ismember("topK", thresholds)
-                    obj.staticThresholds.topK = computeStaticThreshold(anomalyScoresTest, labelsTest, "topK", obj.modelInfo.name);
-                end
+                obj.staticThresholds.topK = computeStaticThreshold(anomalyScoresMerged, labelsMerged, "top_k", obj.modelInfo.name);
             end
             
             % Get all thresholds which are set using anomaly scores for fit data
             if ~isempty(obj.trainingAnomalyScoresRaw)
-                if ismember("meanStdTrain", thresholds) || ismember("maxTrainAnomalyScore", thresholds)    
-                    anomalyScoresTrain = obj.applyScoringFunction(obj.trainingAnomalyScoresRaw);
-                end
+                anomalyScoresTrain = obj.applyScoringFunction(obj.trainingAnomalyScoresRaw);
                 
-                if ismember("meanStdTrain", thresholds)
-                    obj.staticThresholds.meanStdTrain = mean(mean(anomalyScoresTrain)) + 4 * mean(std(anomalyScoresTrain));
-                end
-                if ismember("maxTrainAnomalyScore", thresholds)
-                    obj.staticThresholds.maxTrainAnomalyScore = max(max(anomalyScoresTrain));
-                end
+                obj.staticThresholds.meanStdTrain = mean(mean(anomalyScoresTrain)) + 4 * mean(std(anomalyScoresTrain));
+                obj.staticThresholds.maxTrainAnomalyScore = max(max(anomalyScoresTrain));
             end
             
             % Get all thresholds which don't require anomaly scores
-            if ismember("pointFive", thresholds)
-                obj.staticThresholds.pointFive = computeStaticThreshold([], [], "pointFive", obj.modelInfo.name);
-            end
-            if ismember("custom", thresholds)
-                obj.staticThresholds.custom = computeStaticThreshold([], [], "custom", obj.modelInfo.name);
-            end
+            obj.staticThresholds.custom = computeStaticThreshold([], [], "custom", obj.modelInfo.name);
         end
     
         function obj = getTrainingAnomalyScoreFeatures(obj, data, labels)
@@ -420,17 +400,17 @@ classdef TSADModel
             end
 
             switch obj.hyperparameters.scoringFunction
-                case "Aggregated"
+                case "aggregated"
                     anomalyScores = aggregatedScoring(anomalyScores, obj.trainingAnomalyScoreFeatures.mu);
-                case "Channel-wise"
+                case "channelwise"
                     anomalyScores = channelwiseScoring(anomalyScores, obj.trainingAnomalyScoreFeatures.mu);
-                case "Gauss"
+                case "gauss"
                     anomalyScores = gaussianScoring(anomalyScores, obj.trainingAnomalyScoreFeatures.mu, obj.trainingAnomalyScoreFeatures.covar);
-                case "Gauss (aggregated)"
+                case "gauss_aggregated"
                     anomalyScores = aggregatedGaussianScoring(anomalyScores, obj.trainingAnomalyScoreFeatures.mu, obj.trainingAnomalyScoreFeatures.covar);
-                case "Gauss (channel-wise)"
+                case "gauss_channelwise"
                     anomalyScores = channelwiseGaussianScoring(anomalyScores, obj.trainingAnomalyScoreFeatures.mu, obj.trainingAnomalyScoreFeatures.covar);
-                case "EWMA"
+                case "ewma"
                     anomalyScores = EWMAScoring(anomalyScores, 0.3);
                 otherwise
                     error("Undefined scoring function");
@@ -442,7 +422,7 @@ classdef TSADModel
             %applying a threshold
             
             % Retrun immediately if model already outputs labels
-            if ~strcmp(obj.modelInfo.outputType, "anomaly-scores")
+            if ~strcmp(obj.modelInfo.outputType, "anomaly_scores")
                 predictedLabels = anomalyScores;
                 threshold = NaN;
                 return;
@@ -534,8 +514,7 @@ classdef TSADModel
             % Train model
             trainedModel = obj.trainingWrapper(dataTrain, ...
                                                labelsTrain, dataValTest, ...
-                                               labelsValTest, threshold, ...
-                                               trainingPlots, verbose);
+                                               labelsValTest, trainingPlots, verbose);
             
             % Run detection for all test files
             for data_idx = 1:numel(dataTest)
@@ -565,7 +544,7 @@ classdef TSADModel
             score = 1 - avgScore;
         end
 
-        function results = optimize(obj, optVars, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, thresholds, dynamicThresholdSettings, cmpScore, iterations, trainingPlots, parallelEnabled)
+        function results = optimize(obj, optVars, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, threshold, dynamicThresholdSettings, metric, iterations, trainingPlots, parallelEnabled)
             %OPTIMIZE Runs the byesian optimization
             %   Sets the optVars, defines the opt_fun and calls the bayesopt function
             
@@ -584,9 +563,9 @@ classdef TSADModel
                                             labelsValTest, ...
                                             dataTest, ...
                                             labelsTest, ...
-                                            thresholds, ...
+                                            threshold, ...
                                             dynamicThresholdSettings, ...
-                                            cmpScore, ...
+                                            metric, ...
                                             x, ...
                                             trainingPlots);
             

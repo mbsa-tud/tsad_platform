@@ -47,12 +47,12 @@
                 },
                 "reconstructionErrorType": {
                     "type": "categorical",
-                    "value": ["median point-wise values", "median point-wise errors", "mean subsequence RMSE"],
-                    "initialValue": "median point-wise values"
+                    "value": ["median_pointwise_values", "median_pointwise_errors", "mean_subsequence_rmse"],
+                    "initialValue": "median_pointwise_values"
                 },
                 "scoringFunction": {
                     "type": "categorical",
-                    "value": ["aggregated", "channel-wise", "gauss", "gauss (aggregated)", "gauss (channel-wise)", "EWMA"],
+                    "value": ["aggregated", "channelwise", "gauss", "gauss_aggregated", "gauss_channelwise", "ewma"],
                     "initialValue": "aggregated"
                 }
             }
