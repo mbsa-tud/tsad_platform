@@ -1,15 +1,20 @@
 {
     "TSAD_FC_AE": {
-        "name": "FC-AE",
-        "configurables": {
-            "modelInfo": {
+        "parameters": {
+            "static": {
+                "name": "FC-AE",
+                "type": "deep_learning",
+                "modelType": "reconstruction",
+                "learningType": "semi_supervised",
+                "outputType": "anomaly_scores",
+                "className": "TSAD_FC_AE"
+            },
+            "configurable": {
                 "dimensionality": {
                     "type": "categorical",
                     "value": ["univariate", "multivariate"],
                     "initialValue": "univariate"
-                }
-            },
-            "hyperparameters": {
+                },
                 "neurons": {
                     "type": "integer",
                     "value": [1, 2048],

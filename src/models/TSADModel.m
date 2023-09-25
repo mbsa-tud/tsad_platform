@@ -6,64 +6,50 @@ classdef TSADModel
     properties (GetAccess = public, SetAccess = protected)
         % Contains information about model like: name, dimensionality,
         % learning-type, etc.
-        modelInfo % Struct
-
-        % Contains configurable hyperparameters of the model
-        hyperparameters % Struct
+        
+        % Contains static and configurable parameters of the model
+        parameters; % Struct
 
         % Required to differentiate between multiple instances of same
         % model
-        instanceInfo % Struct
-
-
+        instanceInfo; % Struct
 
         % Trained model (empty for unsupervised models)
-        Mdl = 23
+        Mdl = [];
         
         % Static thresholds, possibly learned during training (if anomalous
         % validation data is used)
-        staticThresholds % Struct
+        staticThresholds; % Struct
 
         % Determines wether model has been trained and is ready for
         % tetsting
-        isTrained % Bool
+        isTrained; % Bool
 
         % Determines input dimension model was trained on (Avoids errors
         % later on)
-        trainedDimensionality % Int
+        trainedDimensionality; % Int
 
         % Training anomaly scores, possibly required for scoring functions,
         % threshold calculation, etc.
-        trainingAnomalyScoresRaw % Nxd double array
-        trainingAnomalyScoreFeatures % Struct
-        trainingLabels % Nx1 logical array
+        trainingAnomalyScoresRaw; % Nxd double array
+        trainingAnomalyScoreFeatures; % Struct
+        trainingLabels; % Nx1 logical array
     end
     
     %% Public methods which can be called outside of the class
     methods (Access = public)
-        function obj = TSADModel(config, instanceInfo)
+        function obj = TSADModel(parameters, instanceInfo)
             %TSADMODEL Construct an instance of this class
-            obj = obj.initModelInfo();
 
-            % If provided, assign hyperparameters
-            if isfield(config, "hyperparameters")
-                obj.hyperparameters = config.hyperparameters;
-            end
-
+            % If provided, assign parameters
+            obj.parameters = parameters;
+            
             % Assign instance info
             obj.instanceInfo = instanceInfo;
-            
-            % If provided, assign/reassign modelInfo fields
-            if (isfield(config, "modelInfo"))
-                infoFields = fieldnames(config.modelInfo);
-                for i = 1:length(infoFields)
-                    obj.modelInfo.(infoFields{i}) = config.modelInfo.(infoFields{i});
-                end
-            end
 
             % For unsupervised models, set isTrained to True to enable
             % testing right away (no training step needed)
-            if strcmp(obj.modelInfo.learningType, "unsupervised")
+            if strcmp(obj.parameters.learningType, "unsupervised")
                 obj.isTrained = true;
             else
                 obj.isTrained = false;
@@ -75,7 +61,7 @@ classdef TSADModel
             
             % Check learning type and fit if "semi_supervised" or
             % "supervised"
-            if ~strcmp(obj.modelInfo.learningType, "unsupervised")
+            if ~strcmp(obj.parameters.learningType, "unsupervised")
                     if isempty(dataTrain)
                         error("The %s model requires prior training, but the dataset doesn't contain training data (fit folder).", obj.instanceInfo.label);
                     end
@@ -85,7 +71,7 @@ classdef TSADModel
                     
                     % fit model
                     [XTrain, YTrain, XVal, YVal] = obj.dataTrainPreparationWrapper(dataTrain, labelsTrain);
-                    if strcmp(obj.modelInfo.dimensionality, "multivariate")
+                    if strcmp(obj.parameters.dimensionality, "multivariate")
                         % fit single model on entire data if model is
                         % multivariate
 
@@ -105,11 +91,11 @@ classdef TSADModel
                     end
                     
                     % Get static thresholds and training anomaly scores
-                    if strcmp(obj.modelInfo.outputType, "anomaly_scores")
+                    if strcmp(obj.parameters.outputType, "anomaly_scores")
                         obj.getTrainingAnomalyScoreFeatures(dataTrain, labelsTrain);
                         
                         % Compute thresholds for semi-supervised models
-                        if strcmp(obj.modelInfo.learningType, "semi_supervised")
+                        if strcmp(obj.parameters.learningType, "semi_supervised")
                             obj.computeStaticThresholds(dataTestVal, labelsTestVal);
                         end
                     end
@@ -127,7 +113,7 @@ classdef TSADModel
 
             if isempty(fieldnames(optVars))
                 % Nothing to optimize, just train
-                warning("No optimizable hyperparameters found. Maybe check TSADConfig_optimization.json");
+                warning("No optimizable parameters found. Maybe check TSADConfig_optimization.json");
             else
                 % Optimization
                 results = obj.optimize(optVars, dataTrain, labelsTrain, ...
@@ -140,13 +126,13 @@ classdef TSADModel
                 optimumVars = results.XAtMinObjective;
                 
                 if isempty(optimumVars)
-                    warning("No optimal hyperparameters found.");
+                    warning("No optimal parameters found.");
                 else
-                    obj.updateHyperparameters(optimumVars);
+                    obj.updateParameters(optimumVars);
                 end
             end
             
-            % Train model with optimal hyperparameters
+            % Train model with optimal parameters
             obj.trainingWrapper(dataTrain, labelsTrain, dataValTest, ...
                                 labelsValTest, trainingPlots, true);
         end
@@ -165,7 +151,7 @@ classdef TSADModel
             [XTest, TSTest, labelsTest] = obj.dataTestPreparationWrapper(data, labels);
             
             % Handle detection
-            if strcmp(obj.modelInfo.dimensionality, "multivariate")
+            if strcmp(obj.parameters.dimensionality, "multivariate")
                 % For multivariate models
                 
                 if ~isempty(obj.Mdl)
@@ -200,7 +186,7 @@ classdef TSADModel
             
             % Bypass scoring function for models which output binary
             % classification instead of anomaly scores
-            if ~strcmp(obj.modelInfo.outputType, "anomaly_scores")
+            if ~strcmp(obj.parameters.outputType, "anomaly_scores")
                 anomalyScores = any(anomalyScores, 2);
                 return;
             end
@@ -211,39 +197,41 @@ classdef TSADModel
             end
         end
         
-        function obj = updateHyperparameters(obj, newHyperparameters)
-            %UPDATEHYPERPARAMETERS Converts the hyperparameters provided by
-            %the newHyperparameters
+        function obj = updateParameters(obj, newParameters)
+            %UPDATEPARAMETERS Converts the parameters provided by
+            %the newParameters table (used for optimization only)
             
-            newHyperparameterNames = newHyperparameters.Properties.VariableNames;
-            for i = 1:numel(newHyperparameterNames)
-                if isfield(obj.hyperparameters, newHyperparameterNames{i})
-                    if iscategorical(newHyperparameters{1, i})
-                        if isnumeric(obj.hyperparameters.(newHyperparameterNames{i}))
-                            newValue = double(string(newHyperparameters{1, i}(1)));
+            newParameterNames = newParameters.Properties.VariableNames;
+            for i = 1:numel(newParameterNames)
+                if isfield(obj.parameters, newParameterNames{i})
+                    if iscategorical(newParameters{1, i})
+                        if isnumeric(obj.parameters.(newParameterNames{i}))
+                            newValue = double(string(newParameters{1, i}(1)));
                         else
-                            newValue = string(newHyperparameters{1, i}(1));
+                            newValue = string(newParameters{1, i}(1));
                         end
                     else
-                        newValue = newHyperparameters{1, i};
+                        newValue = newParameters{1, i};
                     end
             
-                    obj.hyperparameters.(newHyperparameterNames{i}) = newValue;
+                    obj.parameters.(newParameterNames{i}) = newValue;
                     continue;
                 else
-                    warning("Your trying to optimize a hyperparameter which is not defined in the hyperparameters struct of your model");
+                    warning("Your trying to optimize a parameter which is not defined in the parameters struct of your model");
                 end
             end
         end
 
-        function obj = setModelInfo(obj, modelInfo)
-            obj.modelInfo = modelInfo;
+        function obj = setParameters(obj, parameters)
+            %SETPARAMETERS Sets the parameters of the model
+
+            obj.parameters = parameters;
         end
     
-        function modelInfo = getModelInfo(obj)
-            %GETMODELINFO Returns the modelInfo of the model
+        function parameters = getParameters(obj)
+            %GETPARAMETERS Returns the parameters of the model
 
-            modelInfo = obj.modelInfo;
+            parameters = obj.parameters;
         end
 
         function layers = getNeuralNetworkLayers(obj)
@@ -251,7 +239,13 @@ classdef TSADModel
             %will return the layers (if getLayers function is implemented
             %in subclass)
 
-            layers = obj.getLayers([], []);
+            dummyXTrain = cell(1, 1);
+            dummyXTrain{1} = 1;
+
+            dummyYTrain = cell(1, 1);
+            dummyYTrain{1} = 1;
+
+            layers = obj.getLayers(dummyXTrain, dummyYTrain);
         end
     end
 
@@ -261,7 +255,7 @@ classdef TSADModel
             %DATATRAINPREPARATIONWRAPPER Main wrapper function for training
             %data preparation
 
-            if strcmp(obj.modelInfo.dimensionality, "multivariate")
+            if strcmp(obj.parameters.dimensionality, "multivariate")
                 % Prepare data for multivariate model
 
                 [XTrain, YTrain, XVal, YVal] = obj.prepareDataTrain(data, labels);
@@ -296,7 +290,7 @@ classdef TSADModel
             %DATATESTPREPARATIONWRAPPER Main wrapper function for testing
             %data preparation
             
-            if strcmp(obj.modelInfo.dimensionality, "multivariate")
+            if strcmp(obj.parameters.dimensionality, "multivariate")
                 % Prepare data for multivariate model
 
                 [XTest, TSTest, labelsTest] = obj.prepareDataTest(data, labels);
@@ -348,15 +342,15 @@ classdef TSADModel
                 
                 % Compute all thresholds which are set using anomaly scores for test validation data
                 if numAnoms ~= 0
-                    obj.staticThresholds.best_pointwise_f1_score = computeStaticThreshold(anomalyScoresMerged, labelsMerged, "best_pointwise_f1_score", obj.modelInfo.name);
-                    obj.staticThresholds.best_eventwise_f1_score = computeStaticThreshold(anomalyScoresMerged, labelsMerged, "best_eventwise_f1_score", obj.modelInfo.name);
-                    obj.staticThresholds.best_pointadjusted_f1_score = computeStaticThreshold(anomalyScoresMerged, labelsMerged, "best_pointadjusted_f1_score", obj.modelInfo.name);
-                    obj.staticThresholds.best_composite_f1_score = computeStaticThreshold(anomalyScoresMerged, labelsMerged, "best_composite_f1_score", obj.modelInfo.name);
+                    obj.staticThresholds.best_pointwise_f1_score = computeStaticThreshold(anomalyScoresMerged, labelsMerged, "best_pointwise_f1_score", obj.parameters.name);
+                    obj.staticThresholds.best_eventwise_f1_score = computeStaticThreshold(anomalyScoresMerged, labelsMerged, "best_eventwise_f1_score", obj.parameters.name);
+                    obj.staticThresholds.best_pointadjusted_f1_score = computeStaticThreshold(anomalyScoresMerged, labelsMerged, "best_pointadjusted_f1_score", obj.parameters.name);
+                    obj.staticThresholds.best_composite_f1_score = computeStaticThreshold(anomalyScoresMerged, labelsMerged, "best_composite_f1_score", obj.parameters.name);
                 else
                     warning("Warning! Anomalous validation set doesn't contain anomalies, possibly couldn't calculate some static thresholds.");
                 end
         
-                obj.staticThresholds.topK = computeStaticThreshold(anomalyScoresMerged, labelsMerged, "top_k", obj.modelInfo.name);
+                obj.staticThresholds.topK = computeStaticThreshold(anomalyScoresMerged, labelsMerged, "top_k", obj.parameters.name);
             end
             
             % Get all thresholds which are set using anomaly scores for fit data
@@ -368,7 +362,7 @@ classdef TSADModel
             end
             
             % Get all thresholds which don't require anomaly scores
-            obj.staticThresholds.custom = computeStaticThreshold([], [], "custom", obj.modelInfo.name);
+            obj.staticThresholds.custom = computeStaticThreshold([], [], "custom", obj.parameters.name);
         end
     
         function obj = getTrainingAnomalyScoreFeatures(obj, data, labels)
@@ -395,11 +389,11 @@ classdef TSADModel
         function anomalyScores = applyScoringFunction(obj, anomalyScores)
             %APPLYSCORINGFUNCTION Applys a scoring function to the anomaly scores
             
-            if ~isfield(obj.hyperparameters, "scoringFunction")
+            if ~isfield(obj.parameters, "scoringFunction")
                 return
             end
 
-            switch obj.hyperparameters.scoringFunction
+            switch obj.parameters.scoringFunction
                 case "aggregated"
                     anomalyScores = aggregatedScoring(anomalyScores, obj.trainingAnomalyScoreFeatures.mu);
                 case "channelwise"
@@ -422,7 +416,7 @@ classdef TSADModel
             %applying a threshold
             
             % Retrun immediately if model already outputs labels
-            if ~strcmp(obj.modelInfo.outputType, "anomaly_scores")
+            if ~strcmp(obj.parameters.outputType, "anomaly_scores")
                 predictedLabels = anomalyScores;
                 threshold = NaN;
                 return;
@@ -488,7 +482,7 @@ classdef TSADModel
             end
 
             % Other static thresholds
-            threshold = computeStaticThreshold(anomalyScores, labels, thresholdId, obj.modelInfo.name);
+            threshold = computeStaticThreshold(anomalyScores, labels, thresholdId, obj.parameters.name);
             
             % Apply threshold. the outer any(..., 2) is used to merge
             % multi-channel anomaly scores
@@ -532,7 +526,7 @@ classdef TSADModel
             %   The objective function runs the training and testing pipeline and
             %   returns the specified metric (/score)
             
-            convertedModel = obj.updateHyperparameters(optVars);
+            convertedModel = obj.updateParameters(optVars);
             
             scoresCell = convertedModel.fullTrainTestPipeline(dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, threshold, dynamicThresholdSettings, trainingPlots, false);
             
@@ -580,10 +574,10 @@ classdef TSADModel
             %the TSADConfig_optimization.json file
             
             % Convert model name to valid matlab struct fieldname
-            tmp = fieldnames(jsondecode(sprintf('{"%s":[]}', obj.modelInfo.name)));
+            tmp = fieldnames(jsondecode(sprintf('{"%s":[]}', obj.parameters.name)));
             modelName = tmp{1};
             
-            % Load hyperparameter optimization configuration
+            % Load parameter optimization configuration
             fid = fopen("TSADConfig_optimization.json");
             raw = fread(fid, inf);
             str = char(raw');
@@ -598,20 +592,20 @@ classdef TSADModel
                 return;
             end
             
-            % Load optimizable hyperparameters
+            % Load optimizable parameters
             for i = 1:numel(vars)
                 optVars.(vars{i}).value = config.(modelName).(vars{i}).value;
                 optVars.(vars{i}).type = config.(modelName).(vars{i}).type;
             end
 
-            % Check for each optVar if it matches a hyperparameter of this
-            % model. Only hyperparameters defined by this model can be
+            % Check for each optVar if it matches a parameter of this
+            % model. Only parameters defined by this model can be
             % optimized.
             if ~isempty(fieldnames(optVars))
                 varNames = fieldnames(optVars);
                 for i = 1:numel(varNames)
                     flag = false;
-                    if isfield(obj.hyperparameters, varNames{i})
+                    if isfield(obj.parameters, varNames{i})
                         flag = true;
                     end
         
@@ -621,15 +615,10 @@ classdef TSADModel
                 end
             end
         end
-
     end
 
     %% Protected methods. Must be overwritten by subclass according to model
     methods (Access = protected)
-        function obj = initModelInfo(obj)
-            obj.modelInfo.name = "You forgot to implement the initModelInfo function";
-        end
-
         function [XTrain, YTrain, XVal, YVal] = prepareDataTrain(obj, data, labels)
             XTrain = [];
             YTrain = [];
