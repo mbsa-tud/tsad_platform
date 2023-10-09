@@ -1,4 +1,4 @@
-function [XTest, TSTest, labelsTest] = splitDataTest(data, labels, windowSize, modelType, dataType)
+function [XTest, timeSeriesTest, labelsTest] = splitDataTest(data, labels, windowSize, modelType, dataType)
 %SPLITDATATEST Splits the data for testing using a sliding window defined
 %by the window size
 
@@ -29,7 +29,7 @@ if strcmp(modelType, "reconstruction")
     end
 
     % TSTest and labels
-    TSTest = data{1};
+    timeSeriesTest = data{1};
     labelsTest = logical(labels{1});
 elseif strcmp(modelType, "forecasting")
     numWindows = size(data{1}, 1) - windowSize;
@@ -61,7 +61,7 @@ elseif strcmp(modelType, "forecasting")
     end
     
     % TSTest and labels
-    TSTest = data{1}((windowSize + 1):end, :);
+    timeSeriesTest = data{1}((windowSize + 1):end, :);
     labelsTest = logical(labels{1}((windowSize + 1):end, 1));
 else
     error("Invalid modelType. Must be one of: forecasting, reconstruction");

@@ -92,11 +92,11 @@ classdef TSADModel
                     
                     % Get static thresholds and training anomaly scores
                     if strcmp(obj.parameters.outputType, "anomaly_scores")
-                        obj.getTrainingAnomalyScoreFeatures(dataTrain, labelsTrain);
+                        [obj.trainingAnomalyScoreFeatures, obj.trainingLabels] = obj.computeAnomalyScoreFeatures(dataTrain, labelsTrain);
                         
                         % Compute thresholds for semi-supervised models
                         if strcmp(obj.parameters.learningType, "semi_supervised")
-                            obj.computeStaticThresholds(dataTestVal, labelsTestVal);
+                            obj.staticThresholds = obj.computeStaticThresholds(dataTestVal, labelsTestVal);
                         end
                     end
             end
@@ -137,7 +137,7 @@ classdef TSADModel
                                 labelsValTest, trainingPlots, true);
         end
         
-        function [anomalyScores, TSTest, labelsTest, computationTime] = detectionWrapper(obj, data, labels, getComputationTime, applyScoringFunction)
+        function [anomalyScores, timeSeriesTest, labelsTest, computationTime] = detectionWrapper(obj, data, labels, getComputationTime, applyScoringFunction)
             %DETECTIONWRAPPER Main detection wrapper function
             
             if ~exist("getComputationTime", "var")
@@ -148,7 +148,7 @@ classdef TSADModel
             end
 
             % Prepare data
-            [XTest, TSTest, labelsTest] = obj.dataTestPreparationWrapper(data, labels);
+            [XTest, timeSeriesTest, labelsTest] = obj.dataTestPreparationWrapper(data, labels);
             
             % Handle detection
             if strcmp(obj.parameters.dimensionality, "multivariate")
@@ -160,7 +160,7 @@ classdef TSADModel
                     Mdl_tmp = [];
                 end
             
-                [anomalyScores, computationTime] = obj.predict(Mdl_tmp, XTest{1}, TSTest{1}, labelsTest, getComputationTime);
+                [anomalyScores, computationTime] = obj.predict(Mdl_tmp, XTest{1}, timeSeriesTest{1}, labelsTest, getComputationTime);
             else
                 % For univariate models which are trained separately for each channel
                 numChannels = numel(XTest);
@@ -175,7 +175,7 @@ classdef TSADModel
                         Mdl_tmp = [];
                     end
                     
-                    [anomalyScores_tmp, compTime_tmp] = obj.predict(Mdl_tmp, XTest{channel_idx}, TSTest{channel_idx}, labelsTest, getComputationTime);
+                    [anomalyScores_tmp, compTime_tmp] = obj.predict(Mdl_tmp, XTest{channel_idx}, timeSeriesTest{channel_idx}, labelsTest, getComputationTime);
                     anomalyScores = [anomalyScores, anomalyScores_tmp];
                     compTimes = [compTimes, compTime_tmp];
                 end
@@ -195,6 +195,85 @@ classdef TSADModel
             if applyScoringFunction
                 anomalyScores = obj.applyScoringFunction(anomalyScores);
             end
+        end
+
+        function [predictedLabels, threshold] = applyThreshold(obj, anomalyScores, labels, thresholdName, dynamicThresholdSettings, storedThresholdValue)
+            %APPLYTHRESHOLD Transform anomaly scores to binary labels by
+            %applying a threshold
+            
+            % Retrun immediately if model already outputs labels
+            if ~strcmp(obj.parameters.outputType, "anomaly_scores")
+                predictedLabels = anomalyScores;
+                threshold = NaN;
+                return;
+            end
+            
+            % The threshold gets selected as follows:
+            % If (storedThresholdsValue is passed and is not empty): its value is used as the threshold.
+            % Else if (thresholdName is found obj.staticThresholds): use learned threshold stored in this model.
+            % Else compute threshold according to selected thresholdName
+
+            % Check if stored threshold is passed
+            if ~exist("storedThresholdValue", "var")
+                storedThresholdValue = [];
+            end
+
+            % Apply stored threshold
+            if ~isempty(storedThresholdValue)
+                threshold = storedThresholdValue;
+
+                % Apply threshold. the outer any(..., 2) is used to merge
+                % multi-channel anomaly scores
+                predictedLabels = any(anomalyScores > threshold, 2);
+                return;
+            end
+            
+            % Apply learned threshold
+            if isfield(obj.staticThresholds, thresholdName)
+                threshold = obj.staticThresholds.(thresholdName);
+                
+                % Apply threshold. the outer any(..., 2) is used to merge
+                % multi-channel anomaly scores
+                predictedLabels = any(anomalyScores > threshold, 2);
+                return;
+            end
+            
+            % Compute new threshold
+
+            % Dynamic threshold
+            if strcmp(thresholdName, "dynamic")
+                % TODO: move this outside        
+                padding = dynamicThresholdSettings.anomalyPadding;
+                windowSize = max(1, floor(length(anomalyScores) * (dynamicThresholdSettings.windowSize / 100)));
+                min_percent = dynamicThresholdSettings.minPercent;
+                z_range = 1:dynamicThresholdSettings.zRange;
+                
+                [anom_times, threshold] = applyDynamicThreshold(anomalyScores, "anomaly_padding", padding, ...
+                    "window_size", windowSize, "min_percent", min_percent, "z_range", z_range);
+                
+                predictedLabels = false(length(labels), 1);
+                for i = 1:size(anom_times, 1)
+                    begIdx = anom_times(i, 1);
+                    endIdx = anom_times(i, 2);
+                    if endIdx > length(predictedLabels)
+                        endIdx = length(predictedLabels);
+                    end
+                    if isnan(begIdx) || isnan(endIdx) || (begIdx > endIdx)
+                        return;
+                    end
+                    predictedLabels(begIdx:endIdx, 1) = 1;
+                end
+                
+                return;
+            end
+
+            % Other static thresholds
+            threshold = computeStaticThreshold(anomalyScores, labels, thresholdName, obj.parameters.name);
+            
+            % Apply threshold. the outer any(..., 2) is used to merge
+            % multi-channel anomaly scores
+            predictedLabels = any(anomalyScores > threshold, 2);
+            return;
         end
         
         function obj = updateParameters(obj, newParameters)
@@ -286,23 +365,23 @@ classdef TSADModel
             end
         end
         
-        function [XTest, TSTest, labelsTest] = dataTestPreparationWrapper(obj, data, labels)
+        function [XTest, timeSeriesTest, labelsTest] = dataTestPreparationWrapper(obj, data, labels)
             %DATATESTPREPARATIONWRAPPER Main wrapper function for testing
             %data preparation
             
             if strcmp(obj.parameters.dimensionality, "multivariate")
                 % Prepare data for multivariate model
 
-                [XTest, TSTest, labelsTest] = obj.prepareDataTest(data, labels);
+                [XTest, timeSeriesTest, labelsTest] = obj.prepareDataTest(data, labels);
                 XTest = {XTest};
-                TSTest = {TSTest};
+                timeSeriesTest = {timeSeriesTest};
             else
                 % Prepare data for univariate model (separte for every
                 % channel)
 
                 numChannels = size(data{1}, 2);
                 XTest = cell(1, numChannels);
-                TSTest = cell(1, numChannels);
+                timeSeriesTest = cell(1, numChannels);
             
                 for channel_idx = 1:numChannels
                     % Get same channel from all files
@@ -311,16 +390,16 @@ classdef TSADModel
                         data_tmp{j} = data{j}(:, channel_idx);
                     end
             
-                    [XTest{channel_idx}, TSTest{channel_idx}, labelsTest] = obj.prepareDataTest(data_tmp, labels);
+                    [XTest{channel_idx}, timeSeriesTest{channel_idx}, labelsTest] = obj.prepareDataTest(data_tmp, labels);
                 end
             end
         end
 
-        function obj = computeStaticThresholds(obj, data, labels)
-            %GETSTATICTHRESHOLDS Computes static thresholds using training-
+        function staticThresholds = computeStaticThresholds(obj, data, labels)
+            %COMPUTESTATICTHRESHOLDS Computes static thresholds using training-
             %and anomalous validation set anomaly scores
                         
-            obj.staticThresholds = [];
+            staticThresholds = [];
             
             if ~isempty(data)
                 % Count anomalies
@@ -342,48 +421,48 @@ classdef TSADModel
                 
                 % Compute all thresholds which are set using anomaly scores for test validation data
                 if numAnoms ~= 0
-                    obj.staticThresholds.best_pointwise_f1_score = computeStaticThreshold(anomalyScoresMerged, labelsMerged, "best_pointwise_f1_score", obj.parameters.name);
-                    obj.staticThresholds.best_eventwise_f1_score = computeStaticThreshold(anomalyScoresMerged, labelsMerged, "best_eventwise_f1_score", obj.parameters.name);
-                    obj.staticThresholds.best_pointadjusted_f1_score = computeStaticThreshold(anomalyScoresMerged, labelsMerged, "best_pointadjusted_f1_score", obj.parameters.name);
-                    obj.staticThresholds.best_composite_f1_score = computeStaticThreshold(anomalyScoresMerged, labelsMerged, "best_composite_f1_score", obj.parameters.name);
+                    staticThresholds.best_pointwise_f1_score = computeStaticThreshold(anomalyScoresMerged, labelsMerged, "best_pointwise_f1_score", obj.parameters.name);
+                    staticThresholds.best_eventwise_f1_score = computeStaticThreshold(anomalyScoresMerged, labelsMerged, "best_eventwise_f1_score", obj.parameters.name);
+                    staticThresholds.best_pointadjusted_f1_score = computeStaticThreshold(anomalyScoresMerged, labelsMerged, "best_pointadjusted_f1_score", obj.parameters.name);
+                    staticThresholds.best_composite_f1_score = computeStaticThreshold(anomalyScoresMerged, labelsMerged, "best_composite_f1_score", obj.parameters.name);
                 else
                     warning("Warning! Anomalous validation set doesn't contain anomalies, possibly couldn't calculate some static thresholds.");
                 end
         
-                obj.staticThresholds.topK = computeStaticThreshold(anomalyScoresMerged, labelsMerged, "top_k", obj.parameters.name);
+                staticThresholds.topK = computeStaticThreshold(anomalyScoresMerged, labelsMerged, "top_k", obj.parameters.name);
             end
             
             % Get all thresholds which are set using anomaly scores for fit data
             if ~isempty(obj.trainingAnomalyScoresRaw)
                 anomalyScoresTrain = obj.applyScoringFunction(obj.trainingAnomalyScoresRaw);
                 
-                obj.staticThresholds.meanStdTrain = mean(mean(anomalyScoresTrain)) + 4 * mean(std(anomalyScoresTrain));
-                obj.staticThresholds.maxTrainAnomalyScore = max(max(anomalyScoresTrain));
+                staticThresholds.meanStdTrain = mean(mean(anomalyScoresTrain)) + 4 * mean(std(anomalyScoresTrain));
+                staticThresholds.maxTrainAnomalyScore = max(max(anomalyScoresTrain));
             end
             
             % Get all thresholds which don't require anomaly scores
-            obj.staticThresholds.custom = computeStaticThreshold([], [], "custom", obj.parameters.name);
+            staticThresholds.custom = computeStaticThreshold([], [], "custom", obj.parameters.name);
         end
     
-        function obj = getTrainingAnomalyScoreFeatures(obj, data, labels)
-            %GETTRAININGANOMALYSCOREFEATURES Get the raw anomaly scores and their
-            %statistical features for the training data
+        function [anomalyScoreFeatures, labelsTrain] = computeAnomalyScoreFeatures(obj, data, labels)
+            %COMPUTEANOMALYSCOREFEATURES Get the raw anomaly scores and their
+            %statistical features
                         
-            obj.trainingAnomalyScoresRaw = [];
-            obj.trainingLabels = [];
+            anomalyScoresTrain = [];
+            labelsTrain = [];
             
             % Get anomaly scores for every file of training data
             for file_idx = 1:numel(data)                            
                 % Get raw anomaly scores and store in one array
                 [trainingAnomalyScores_tmp, ~, trainingLabels_tmp, ~] = obj.detectionWrapper(data, labels, false, false);
-                obj.trainingAnomalyScoresRaw = [obj.trainingAnomalyScoresRaw; trainingAnomalyScores_tmp];
+                anomalyScoresTrain = [anomalyScoresTrain; trainingAnomalyScores_tmp];
                 
                 % Store labels in one array
-                obj.trainingLabels = [obj.trainingLabels; trainingLabels_tmp];
+                labelsTrain = [labelsTrain; trainingLabels_tmp];
             end
     
-            obj.trainingAnomalyScoreFeatures.mu = mean(obj.trainingAnomalyScoresRaw, 1);
-            obj.trainingAnomalyScoreFeatures.covar = cov(obj.trainingAnomalyScoresRaw);
+            anomalyScoreFeatures.mu = mean(obj.trainingAnomalyScoresRaw, 1);
+            anomalyScoreFeatures.covar = cov(obj.trainingAnomalyScoresRaw);
         end
 
         function anomalyScores = applyScoringFunction(obj, anomalyScores)
@@ -410,92 +489,13 @@ classdef TSADModel
                     error("Undefined scoring function");
             end
         end
-
-        function [predictedLabels, threshold] = applyThresholdToAnomalyScores(obj, anomalyScores, labels, thresholdId, dynamicThresholdSettings, storedThresholdValue)
-            %APPLYTHRESHOLDTOANOMALYSCORES Transform anomaly scores to binary labels by
-            %applying a threshold
-            
-            % Retrun immediately if model already outputs labels
-            if ~strcmp(obj.parameters.outputType, "anomaly_scores")
-                predictedLabels = anomalyScores;
-                threshold = NaN;
-                return;
-            end
-            
-            % The threshold gets selected as follows:
-            % If (storedThresholdsValue is passed and is not empty): its value is used as the threshold.
-            % Else if (thresholdId is found obj.staticThresholds): use learned threshold stored in this model.
-            % Else compute threshold according to selected thresholdId
-
-            % Check if stored threshold is passed
-            if ~exist("storedThresholdValue", "var")
-                storedThresholdValue = [];
-            end
-
-            % Apply stored threshold
-            if ~isempty(storedThresholdValue)
-                threshold = storedThresholdValue;
-
-                % Apply threshold. the outer any(..., 2) is used to merge
-                % multi-channel anomaly scores
-                predictedLabels = any(anomalyScores > threshold, 2);
-                return;
-            end
-            
-            % Apply learned threshold
-            if isfield(obj.staticThresholds, thresholdId)
-                threshold = obj.staticThresholds.(thresholdId);
-                
-                % Apply threshold. the outer any(..., 2) is used to merge
-                % multi-channel anomaly scores
-                predictedLabels = any(anomalyScores > threshold, 2);
-                return;
-            end
-            
-            % Compute new threshold
-
-            % Dynamic threshold
-            if strcmp(thresholdId, "dynamic")
-                % TODO: move this outside        
-                padding = dynamicThresholdSettings.anomalyPadding;
-                windowSize = max(1, floor(length(anomalyScores) * (dynamicThresholdSettings.windowSize / 100)));
-                min_percent = dynamicThresholdSettings.minPercent;
-                z_range = 1:dynamicThresholdSettings.zRange;
-                
-                [anom_times, threshold] = applyDynamicThreshold(anomalyScores, "anomaly_padding", padding, ...
-                    "window_size", windowSize, "min_percent", min_percent, "z_range", z_range);
-                
-                predictedLabels = false(length(labels), 1);
-                for i = 1:size(anom_times, 1)
-                    begIdx = anom_times(i, 1);
-                    endIdx = anom_times(i, 2);
-                    if endIdx > length(predictedLabels)
-                        endIdx = length(predictedLabels);
-                    end
-                    if isnan(begIdx) || isnan(endIdx) || (begIdx > endIdx)
-                        return;
-                    end
-                    predictedLabels(begIdx:endIdx, 1) = 1;
-                end
-                
-                return;
-            end
-
-            % Other static thresholds
-            threshold = computeStaticThreshold(anomalyScores, labels, thresholdId, obj.parameters.name);
-            
-            % Apply threshold. the outer any(..., 2) is used to merge
-            % multi-channel anomaly scores
-            predictedLabels = any(anomalyScores > threshold, 2);
-            return;
-        end
         
         function scores = detectAndEvaluate(obj, dataTest, labelsTest, threshold, dynamicThresholdSettings)
             %DETECTANDEVALUATE Runs the detection and returns the scores (not anomaly scores but performance metrics) for the model
 
             [anomalyScores, ~, labels, ~] = obj.detectionWrapper(dataTest, labelsTest, false, false);
             
-            [predictedLabels, ~] = obj.applyThresholdToAnomalyScores(anomalyScores, labels, threshold, dynamicThresholdSettings);
+            [predictedLabels, ~] = obj.applyThreshold(anomalyScores, labels, threshold, dynamicThresholdSettings);
             
             scores = computeMetrics(anomalyScores, predictedLabels, labels);
         end
@@ -574,8 +574,7 @@ classdef TSADModel
             %the TSADConfig_optimization.json file
             
             % Convert model name to valid matlab struct fieldname
-            tmp = fieldnames(jsondecode(sprintf('{"%s":[]}', obj.parameters.name)));
-            modelName = tmp{1};
+            className = obj.parameters.className;
             
             % Load parameter optimization configuration
             fid = fopen("TSADConfig_optimization.json");
@@ -584,7 +583,7 @@ classdef TSADModel
             fclose(fid);
             config = jsondecode(str);
             
-            vars = fieldnames(config.(modelName));
+            vars = fieldnames(config.(className));
 
             % Return empty struct if no optimization config found
             if isempty(vars)
@@ -626,9 +625,9 @@ classdef TSADModel
             YVal = [];
         end
 
-        function [XTest, TSTest, labelsTest] =  prepareDataTest(obj, data, labels)
+        function [XTest, timeSeriesTest, labelsTest] =  prepareDataTest(obj, data, labels)
             XTest = [];
-            TSTest = [];
+            timeSeriesTest = [];
             labelsTest = [];
         end
 
@@ -636,7 +635,7 @@ classdef TSADModel
             Mdl = [];
         end
 
-        function [anomalyScores, computationTime] = predict(obj, Mdl, XTest, TSTest, labelsTest, getComputationTime)
+        function [anomalyScores, computationTime] = predict(obj, Mdl, XTest, timeSeriesTest, labelsTest, getComputationTime)
             anomalyScores = [];
             computationTime = NaN;
         end

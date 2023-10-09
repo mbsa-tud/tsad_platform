@@ -50,7 +50,7 @@ for i = 1:numOfTrainingFiles
     data = readtable(file);
 
     name = strsplit(trainingFiles(i).name, ".");
-    fileNamesTrain(i) = name(1);
+    fileNamesTrain(i) = genvarname(name(1));
     trainingData{i} = data{:, 2:(end - 1)};
     labelsTrain{i} = logical(data{:, end});                
 
@@ -69,7 +69,7 @@ for i = 1:numOfTestingFiles
     data = readtable(file);
 
     name = strsplit(testingFiles(i).name, ".");
-    fileNamesTest(i) = name(1);
+    fileNamesTest(i) = genvarname(name(1));
     testingData{i} = data{:, 2:(end - 1)};
     labelsTest{i} = logical(data{:, end});
 
