@@ -419,7 +419,8 @@ classdef TSADModel
                     labelsMerged = [labelsMerged; labels_tmp];
                 end
                 
-                % Compute all thresholds which are set using anomaly scores for test validation data
+                % Compute all thresholds which are set using anomalous
+                % validation data
                 if numAnoms ~= 0
                     staticThresholds.best_pointwise_f1_score = computeStaticThreshold(anomalyScoresMerged, labelsMerged, "best_pointwise_f1_score", obj.parameters.name);
                     staticThresholds.best_eventwise_f1_score = computeStaticThreshold(anomalyScoresMerged, labelsMerged, "best_eventwise_f1_score", obj.parameters.name);
@@ -428,7 +429,7 @@ classdef TSADModel
                 else
                     warning("Warning! Anomalous validation set doesn't contain anomalies, possibly couldn't calculate some static thresholds.");
                 end
-        
+                
                 staticThresholds.topK = computeStaticThreshold(anomalyScoresMerged, labelsMerged, "top_k", obj.parameters.name);
             end
             
@@ -436,8 +437,7 @@ classdef TSADModel
             if ~isempty(obj.trainingAnomalyScoresRaw)
                 anomalyScoresTrain = obj.applyScoringFunction(obj.trainingAnomalyScoresRaw);
                 
-                staticThresholds.meanStdTrain = mean(mean(anomalyScoresTrain)) + 4 * mean(std(anomalyScoresTrain));
-                staticThresholds.maxTrainAnomalyScore = max(max(anomalyScoresTrain));
+                staticThresholds.max_train = max(max(anomalyScoresTrain));
             end
             
             % Get all thresholds which don't require anomaly scores

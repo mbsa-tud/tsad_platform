@@ -37,12 +37,10 @@ switch threshold
         else
             thr = quantile(anomalyScores, 1 - contaminationFraction);
         end
-    case "probabilistic"
+    case "gauss"
         % The outer mean is required for separate anomaly Scores
         % for each channel.
         thr = mean(mean(anomalyScores)) + 4 * mean(std(anomalyScores));
-    case "0.5"
-        thr = 0.5;
     case "custom"
         switch modelName
             case "Your model name"
