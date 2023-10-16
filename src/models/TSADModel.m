@@ -128,12 +128,12 @@ classdef TSADModel
                 if isempty(optimumVars)
                     warning("No optimal parameters found.");
                 else
-                    obj.updateParameters(optimumVars);
+                    obj = obj.updateParameters(optimumVars);
                 end
             end
             
             % Train model with optimal parameters
-            obj.trainingWrapper(dataTrain, labelsTrain, dataValTest, ...
+            obj = obj.trainingWrapper(dataTrain, labelsTrain, dataValTest, ...
                                 labelsValTest, trainingPlots, true);
         end
         
@@ -513,7 +513,7 @@ classdef TSADModel
             % Run detection for all test files
             for data_idx = 1:numel(dataTest)
                 [anomalyScores, ~, labels, ~] = trainedModel.detectionWrapper(dataTest(data_idx), labelsTest(data_idx), false, false);
-                [predictedLabels, ~] = trainedModel.applyThresholdToAnomalyScores(anomalyScores, labels, threshold, dynamicThresholdSettings);
+                [predictedLabels, ~] = trainedModel.applyThreshold(anomalyScores, labels, threshold, dynamicThresholdSettings);
                 
                 scores = computeMetrics(anomalyScores, predictedLabels, labels);
 
@@ -593,8 +593,8 @@ classdef TSADModel
             
             % Load optimizable parameters
             for i = 1:numel(vars)
-                optVars.(vars{i}).value = config.(modelName).(vars{i}).value;
-                optVars.(vars{i}).type = config.(modelName).(vars{i}).type;
+                optVars.(vars{i}).value = config.(className).(vars{i}).value;
+                optVars.(vars{i}).type = config.(className).(vars{i}).type;
             end
 
             % Check for each optVar if it matches a parameter of this

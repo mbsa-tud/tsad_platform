@@ -6,17 +6,7 @@ switch modelOptions.name
     case "FC-AE"
         
     case "LSTM (reconstruction)"
-        numFeatures = size(XTrain{1, 1}, 1);
-        numResponses = numFeatures;
-
-        layers = [ ...
-            sequenceInputLayer(numFeatures, MinLength=modelOptions.hyperparameters.windowSize)
-            lstmLayer(modelOptions.hyperparameters.hiddenUnits)
-            dropoutLayer(0.3)
-            lstmLayer(modelOptions.hyperparameters.hiddenUnits)
-            fullyConnectedLayer(numResponses)
-            regressionLayer];
-        layers = layerGraph(layers);
+        
     case "Hybrid CNN-LSTM (reconstruction)"
         numFeatures = size(XTrain{1, 1}, 1);
         numResponses = numFeatures;

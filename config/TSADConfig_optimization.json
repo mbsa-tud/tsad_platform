@@ -17,7 +17,7 @@
             "type": "categorical"
         }
     },
-    "FC-AE": {
+    "TSAD_FC_AE": {
         "neurons": {
             "value": ["8", "16", "32", "64", "128", "256"],
             "type": "categorical"
@@ -27,7 +27,7 @@
             "type": "categorical"
         }
     },
-    "LSTM (reconstruction)": {
+    "TSAD_LSTM_R": {
         "hiddenUnits": {
             "value": ["8", "16", "32", "64", "128", "256"],
             "type": "categorical"
