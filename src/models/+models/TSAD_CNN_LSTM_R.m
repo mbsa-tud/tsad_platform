@@ -1,4 +1,4 @@
-classdef TSAD_FC_AE < TSADModel
+classdef TSAD_CNN_LSTM_R < TSADModel
     %TSAD_FC_AE Fully-Connected AutoEncoder
 
     methods (Access = protected)
@@ -10,7 +10,7 @@ classdef TSAD_FC_AE < TSADModel
                                                           obj.parameters.stepSize,  ...
                                                           obj.parameters.valSize, ...
                                                           obj.parameters.modelType, ...
-                                                          1);
+                                                          2);
         end
         
         function [XTest, TSTest, labelsTest] =  prepareDataTest(obj, data, labels)
@@ -20,7 +20,7 @@ classdef TSAD_FC_AE < TSADModel
                                                         labels, ...
                                                         obj.parameters.windowSize, ...
                                                         obj.parameters.modelType, ...
-                                                        1);
+                                                        2);
         end
         
         function Mdl = fit(obj, XTrain, YTrain, XVal, YVal, plots, verbose)
@@ -41,27 +41,27 @@ classdef TSAD_FC_AE < TSADModel
                                                     TSTest, ...
                                                     obj.parameters.reconstructionErrorType, ...
                                                     obj.parameters.windowSize, ...
-                                                    1);
+                                                    2);
         end
 
         function layers = getLayers(obj, XTrain, YTrain)
             %GETLAYERS Returns the layers of the neural network
 
-            numFeatures = size(XTrain, 2);
+            numFeatures = size(XTrain{1}, 1);
             numResponses = numFeatures;
-        
-            neurons = obj.parameters.neurons;
-            layers = [featureInputLayer(numFeatures)
-                      fullyConnectedLayer(neurons)
+            
+            filter = obj.parameters.filter;
+            hiddenUnits = obj.parameters.hiddenUnits;
+            
+            layers = [sequenceInputLayer(numFeatures)
+                      convolution1dLayer(5, filter, Padding="same", DilationFactor=1)
+                      batchNormalizationLayer()
                       reluLayer()
-                      fullyConnectedLayer(floor(neurons / 2))
+                      convolution1dLayer(5, filter, Padding="same", DilationFactor=1)
                       reluLayer()
-                      fullyConnectedLayer(floor(floor(neurons / 2) / 2))
-                      reluLayer()
-                      fullyConnectedLayer(floor(neurons / 2))
-                      reluLayer()
-                      fullyConnectedLayer(neurons)
-                      reluLayer()
+                      lstmLayer(hiddenUnits)
+                      dropoutLayer(0.25)
+                      lstmLayer(hiddenUnits)
                       fullyConnectedLayer(numResponses)
                       regressionLayer()];
             layers = layerGraph(layers);

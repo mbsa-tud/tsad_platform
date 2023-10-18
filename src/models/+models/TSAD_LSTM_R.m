@@ -53,12 +53,12 @@ classdef TSAD_LSTM_R < TSADModel
             hiddenUnits = obj.parameters.hiddenUnits;
             
             layers = [ ...
-                sequenceInputLayer(numFeatures)
-                lstmLayer(hiddenUnits)
-                dropoutLayer(0.3)
-                lstmLayer(hiddenUnits)
-                fullyConnectedLayer(numResponses)
-                regressionLayer];
+                      sequenceInputLayer(numFeatures)
+                      lstmLayer(hiddenUnits)
+                      dropoutLayer(0.3)
+                      lstmLayer(hiddenUnits)
+                      fullyConnectedLayer(numResponses)
+                      regressionLayer];
             layers = layerGraph(layers);
         end
     end

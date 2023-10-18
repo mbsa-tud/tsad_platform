@@ -8,22 +8,7 @@ switch modelOptions.name
     case "LSTM (reconstruction)"
         
     case "Hybrid CNN-LSTM (reconstruction)"
-        numFeatures = size(XTrain{1, 1}, 1);
-        numResponses = numFeatures;
         
-        layers = [ ...
-            sequenceInputLayer(numFeatures, MinLength=modelOptions.hyperparameters.windowSize)
-            convolution1dLayer(5, modelOptions.hyperparameters.filter, Padding="same", WeightsInitializer="he", DilationFactor=1)
-            batchNormalizationLayer()
-            reluLayer()
-            convolution1dLayer(5, modelOptions.hyperparameters.filter, Padding="same", Weightsinitializer="he", DilationFactor=1)
-            reluLayer()
-            lstmLayer(modelOptions.hyperparameters.hiddenUnits, RecurrentWeightsInitializer="He", InputWeightsInitializer="He")
-            dropoutLayer(0.25)
-            lstmLayer(modelOptions.hyperparameters.hiddenUnits, RecurrentWeightsInitializer="He", InputWeightsInitializer="He")
-            fullyConnectedLayer(numResponses)
-            regressionLayer()];
-        layers = layerGraph(layers);
     case "TCN-AE"
         if mod(modelOptions.hyperparameters.windowSize, 4) ~= 0
             error("Window size must be divisible by 4 for the TCN AE.");

@@ -126,5 +126,74 @@
                 }
             }
         }
+    },
+    "TSAD_CNN_LSTM_R": {
+        "parameters": {
+            "static": {
+                "name": "CNN-LSTM (reconstruction)",
+                "type": "deep_learning",
+                "modelType": "reconstruction",
+                "learningType": "semi_supervised",
+                "outputType": "anomaly_scores",
+                "className": "TSAD_CNN_LSTM_R"
+            },
+            "configurable": {
+                "dimensionality": {
+                    "type": "categorical",
+                    "value": ["univariate", "multivariate"],
+                    "initialValue": "univariate"
+                },
+                "filter": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 32
+                },
+                "hiddenUnits": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 64
+                },
+                "windowSize": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 100
+                },
+                "stepSize": {
+                    "type": "integer",
+                    "value": [1, 100],
+                    "initialValue": 1
+                },
+                "epochs": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 50
+                },
+                "learningRate": {
+                    "type": "real",
+                    "value": [0.0001, 1],
+                    "initialValue": 0.001
+                },
+                "minibatchSize": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 64
+                },
+                "valSize": {
+                    "type": "real",
+                    "value": [0, 1],
+                    "initialValue": 0
+                },
+                "reconstructionErrorType": {
+                    "type": "categorical",
+                    "value": ["median_pointwise_values", "median_pointwise_errors", "mean_subsequence_rmse"],
+                    "initialValue": "median_pointwise_values"
+                },
+                "scoringFunction": {
+                    "type": "categorical",
+                    "value": ["aggregated", "channelwise", "gauss", "gauss_aggregated", "gauss_channelwise", "ewma"],
+                    "initialValue": "aggregated"
+                }
+            }
+        }
     }
 }

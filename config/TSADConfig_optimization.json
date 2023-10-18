@@ -1,22 +1,4 @@
 {   
-    "Add your model name here": {
-        "add_the_hyperparameters_you_want_to_be_optimized_and_their_range_of_values": {
-            "value": [0, 0.9],
-            "type": "real"
-        },
-        "hyperparameter1": {
-            "value": [1, 1000],
-            "type": "integer"
-        },
-        "hyperparameter2": {
-            "value": [0, 0.9],
-            "type": "real"
-        },
-        "hyperparameter3": {
-            "value": ["option1", "option2", "option3"],
-            "type": "categorical"
-        }
-    },
     "TSAD_FC_AE": {
         "neurons": {
             "value": ["8", "16", "32", "64", "128", "256"],
@@ -37,7 +19,7 @@
             "type": "categorical"
         }
     },
-    "Hybrid CNN-LSTM (reconstruction)": {
+    "TSAD_CNN_LSTM_R" {
         "hiddenUnits": {
             "value": ["8", "16", "32", "64", "128", "256"],
             "type": "categorical"
