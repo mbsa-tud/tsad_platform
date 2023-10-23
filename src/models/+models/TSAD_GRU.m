@@ -1,5 +1,5 @@
-classdef TSAD_CNN_LSTM_R < TSADModel
-    %TSAD_CNN_LSTM_R CNN-LSTM for reconstruction
+classdef TSAD_GRU < TSADModel
+    %TSAD_GRU GRU for forecasting
 
     methods (Access = protected)
         function [XTrain, YTrain, XVal, YVal] = prepareDataTrain(obj, data, labels)
@@ -36,34 +36,23 @@ classdef TSAD_CNN_LSTM_R < TSADModel
             %PREDICT Makes prediction on test data using the Mdl
             
             [prediction, computationTime] = predictWithDNN(Mdl, XTest, getComputationTime);
-            anomalyScores = getReconstructionErrors(prediction, ...
-                                                    XTest, ...
-                                                    TSTest, ...
-                                                    obj.parameters.reconstructionErrorType, ...
-                                                    obj.parameters.windowSize, ...
-                                                    2);
+            anomalyScores = getForecastingErrors(prediction, XTest, 2);
         end
 
         function layers = getLayers(obj, XTrain, YTrain)
             %GETLAYERS Returns the layers of the neural network
 
-            numFeatures = size(XTrain{1}, 1);
+            numFeatures = size(XTrain{1, 1}, 1);
             numResponses = numFeatures;
-            
-            filter = obj.parameters.filter;
+
             hiddenUnits = obj.parameters.hiddenUnits;
-            
+        
             layers = [sequenceInputLayer(numFeatures)
-                      convolution1dLayer(5, filter, Padding="same", DilationFactor=1)
-                      batchNormalizationLayer()
-                      reluLayer()
-                      convolution1dLayer(5, filter, Padding="same", DilationFactor=1)
-                      reluLayer()
-                      lstmLayer(hiddenUnits)
-                      dropoutLayer(0.25)
-                      lstmLayer(hiddenUnits)
-                      fullyConnectedLayer(numResponses)
-                      regressionLayer()];
+                        gruLayer(hiddenUnits)
+                        dropoutLayer(0.3)
+                        gruLayer(hiddenUnits, OutputMode="last")
+                        fullyConnectedLayer(numResponses)
+                        regressionLayer];
             
             layers = layerGraph(layers);
         end

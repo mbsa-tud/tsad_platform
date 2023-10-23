@@ -1,5 +1,5 @@
-classdef TSAD_CNN_LSTM_R < TSADModel
-    %TSAD_CNN_LSTM_R CNN-LSTM for reconstruction
+classdef TSAD_TCN_AE < TSADModel
+    %TSAD_TCN_AE TCN Autoencoder
 
     methods (Access = protected)
         function [XTrain, YTrain, XVal, YVal] = prepareDataTrain(obj, data, labels)
@@ -47,25 +47,87 @@ classdef TSAD_CNN_LSTM_R < TSADModel
         function layers = getLayers(obj, XTrain, YTrain)
             %GETLAYERS Returns the layers of the neural network
 
-            numFeatures = size(XTrain{1}, 1);
+            if mod(obj.parameters.windowSize, 4) ~= 0
+                error("Window size must be divisible by 4 for the TCN AE.");
+            end
+    
+            numFeatures = size(XTrain{1, 1}, 1);
             numResponses = numFeatures;
-            
+
             filter = obj.parameters.filter;
-            hiddenUnits = obj.parameters.hiddenUnits;
+    
+            layers = [sequenceInputLayer(numFeatures, Name="Input")
             
-            layers = [sequenceInputLayer(numFeatures)
-                      convolution1dLayer(5, filter, Padding="same", DilationFactor=1)
-                      batchNormalizationLayer()
-                      reluLayer()
-                      convolution1dLayer(5, filter, Padding="same", DilationFactor=1)
-                      reluLayer()
-                      lstmLayer(hiddenUnits)
-                      dropoutLayer(0.25)
-                      lstmLayer(hiddenUnits)
-                      fullyConnectedLayer(numResponses)
-                      regressionLayer()];
+                        convolution1dLayer(5, filter, Stride=1, Padding="causal", DilationFactor=1)
+                        reluLayer()
+                        layerNormalizationLayer()
+                        dropoutLayer(0.25)
+                        convolution1dLayer(5, filter, Stride=1, Padding="causal", DilationFactor=1)
+                        reluLayer()
+                        layerNormalizationLayer()
+                        dropoutLayer(0.25)
+                        additionLayer(2, Name="Add_1")
+                        reluLayer()
             
+                        convolution1dLayer(5, filter, Stride=1, Padding="causal", DilationFactor=2)
+                        reluLayer()
+                        layerNormalizationLayer()
+                        dropoutLayer(0.25)
+                        convolution1dLayer(5, filter, Stride=1, Padding="causal", DilationFactor=2)
+                        reluLayer()
+                        layerNormalizationLayer()
+                        dropoutLayer(0.25)
+                        additionLayer(2, Name="Add_2")
+                        reluLayer()
+            
+            
+            
+                        convolution1dLayer(1, ceil(numFeatures / 4), Padding="same")
+                        averagePooling1dLayer(4, Stride=4)
+                        
+                        transposedConv1dLayer(4, ceil(numFeatures / 4), Stride=4, Name="Upsample")
+            
+            
+            
+                        convolution1dLayer(5, filter, Stride=1, Padding="causal", DilationFactor=2)
+                        reluLayer()
+                        layerNormalizationLayer()
+                        dropoutLayer(0.25)
+                        convolution1dLayer(5, filter, Stride=1, Padding="causal", DilationFactor=2)
+                        reluLayer()
+                        layerNormalizationLayer()
+                        dropoutLayer(0.25)
+                        additionLayer(2, Name="Add_3")
+                        reluLayer()
+            
+                        convolution1dLayer(5, filter, Stride=1, Padding="causal", DilationFactor=1)
+                        reluLayer()
+                        layerNormalizationLayer()
+                        dropoutLayer(0.25)
+                        convolution1dLayer(5, filter, Stride=1, Padding="causal", DilationFactor=1)
+                        reluLayer()
+                        layerNormalizationLayer()
+                        dropoutLayer(0.25)
+                        additionLayer(2, Name="Add_4")
+                        reluLayer()
+            
+                        convolution1dLayer(1, numResponses, Padding="same")
+            
+                        regressionLayer(Name="Output")];
+
             layers = layerGraph(layers);
+            layers = addLayers(layers, convolution1dLayer(1, filter, Stride=1, Name="Conv_skip_1"));
+            layers = addLayers(layers, convolution1dLayer(1, filter, Stride=1, Name="Conv_skip_2"));
+            layers = addLayers(layers, convolution1dLayer(1, filter, Stride=1, Name="Conv_skip_3"));
+            layers = addLayers(layers, convolution1dLayer(1, filter, Stride=1, Name="Conv_skip_4"));
+            layers = connectLayers(layers, "Input", "Conv_skip_1");
+            layers = connectLayers(layers, "Conv_skip_1", "Add_1/in2");
+            layers = connectLayers(layers, "Add_1", "Conv_skip_2");
+            layers = connectLayers(layers, "Conv_skip_2", "Add_2/in2");
+            layers = connectLayers(layers, "Upsample", "Conv_skip_3");
+            layers = connectLayers(layers, "Conv_skip_3", "Add_3/in2");
+            layers = connectLayers(layers, "Add_3", "Conv_skip_4");
+            layers = connectLayers(layers, "Conv_skip_4", "Add_4/in2");
         end
     end
 

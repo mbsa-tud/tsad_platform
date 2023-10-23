@@ -1,5 +1,5 @@
 classdef TSAD_LSTM_R < TSADModel
-    %TSAD_FC_AE Fully-Connected AutoEncoder
+    %TSAD_LSTM_R LSTM for reconstruction
 
     methods (Access = protected)
         function [XTrain, YTrain, XVal, YVal] = prepareDataTrain(obj, data, labels)
@@ -59,6 +59,7 @@ classdef TSAD_LSTM_R < TSADModel
                       lstmLayer(hiddenUnits)
                       fullyConnectedLayer(numResponses)
                       regressionLayer];
+            
             layers = layerGraph(layers);
         end
     end

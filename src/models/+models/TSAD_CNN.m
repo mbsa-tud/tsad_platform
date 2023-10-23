@@ -1,5 +1,5 @@
-classdef TSAD_CNN_LSTM_R < TSADModel
-    %TSAD_CNN_LSTM_R CNN-LSTM for reconstruction
+classdef TSAD_CNN < TSADModel
+    %TSAD_CNN CNN for forecasting
 
     methods (Access = protected)
         function [XTrain, YTrain, XVal, YVal] = prepareDataTrain(obj, data, labels)
@@ -10,7 +10,7 @@ classdef TSAD_CNN_LSTM_R < TSADModel
                                                           obj.parameters.stepSize,  ...
                                                           obj.parameters.valSize, ...
                                                           obj.parameters.modelType, ...
-                                                          2);
+                                                          3);
         end
         
         function [XTest, TSTest, labelsTest] =  prepareDataTest(obj, data, labels)
@@ -20,7 +20,7 @@ classdef TSAD_CNN_LSTM_R < TSADModel
                                                         labels, ...
                                                         obj.parameters.windowSize, ...
                                                         obj.parameters.modelType, ...
-                                                        2);
+                                                        3);
         end
         
         function Mdl = fit(obj, XTrain, YTrain, XVal, YVal, plots, verbose)
@@ -36,35 +36,35 @@ classdef TSAD_CNN_LSTM_R < TSADModel
             %PREDICT Makes prediction on test data using the Mdl
             
             [prediction, computationTime] = predictWithDNN(Mdl, XTest, getComputationTime);
-            anomalyScores = getReconstructionErrors(prediction, ...
-                                                    XTest, ...
-                                                    TSTest, ...
-                                                    obj.parameters.reconstructionErrorType, ...
-                                                    obj.parameters.windowSize, ...
-                                                    2);
+            anomalyScores = getForecastingErrors(prediction, XTest, 3);
         end
 
         function layers = getLayers(obj, XTrain, YTrain)
             %GETLAYERS Returns the layers of the neural network
 
-            numFeatures = size(XTrain{1}, 1);
+            numFeatures = size(XTrain{1, 1}, 2);
             numResponses = numFeatures;
-            
+
             filter = obj.parameters.filter;
-            hiddenUnits = obj.parameters.hiddenUnits;
+    
+            layers = [sequenceInputLayer([obj.parameters.windowSize numFeatures]) % 1D image input would be better, but wasn't possible. This is a workaround
+                        
+                        convolution1dLayer(5, filter, Stride=1, Padding="same")
+                        reluLayer()
+                        maxPooling1dLayer(3, Padding="same")
+                        convolution1dLayer(5, filter * 2, Stride=1, Padding="same")
+                        reluLayer()
+                        maxPooling1dLayer(3, Padding="same")
+                        convolution1dLayer(5, filter * 4, Stride=1, Padding="same")
+                        reluLayer()
+                        maxPooling1dLayer(3, Padding="same")
             
-            layers = [sequenceInputLayer(numFeatures)
-                      convolution1dLayer(5, filter, Padding="same", DilationFactor=1)
-                      batchNormalizationLayer()
-                      reluLayer()
-                      convolution1dLayer(5, filter, Padding="same", DilationFactor=1)
-                      reluLayer()
-                      lstmLayer(hiddenUnits)
-                      dropoutLayer(0.25)
-                      lstmLayer(hiddenUnits)
-                      fullyConnectedLayer(numResponses)
-                      regressionLayer()];
-            
+                        flattenLayer()
+                        fullyConnectedLayer(32)
+                        reluLayer()
+                        fullyConnectedLayer(numResponses)
+                        regressionLayer()];
+
             layers = layerGraph(layers);
         end
     end

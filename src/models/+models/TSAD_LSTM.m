@@ -1,5 +1,5 @@
-classdef TSAD_FC_AE < TSADModel
-    %TSAD_FC_AE Fully-Connected AutoEncoder
+classdef TSAD_LSTM < TSADModel
+    %TSAD_LSTM LSTM for forecasting
 
     methods (Access = protected)
         function [XTrain, YTrain, XVal, YVal] = prepareDataTrain(obj, data, labels)
@@ -10,7 +10,7 @@ classdef TSAD_FC_AE < TSADModel
                                                           obj.parameters.stepSize,  ...
                                                           obj.parameters.valSize, ...
                                                           obj.parameters.modelType, ...
-                                                          1);
+                                                          2);
         end
         
         function [XTest, TSTest, labelsTest] =  prepareDataTest(obj, data, labels)
@@ -20,7 +20,7 @@ classdef TSAD_FC_AE < TSADModel
                                                         labels, ...
                                                         obj.parameters.windowSize, ...
                                                         obj.parameters.modelType, ...
-                                                        1);
+                                                        2);
         end
         
         function Mdl = fit(obj, XTrain, YTrain, XVal, YVal, plots, verbose)
@@ -36,34 +36,24 @@ classdef TSAD_FC_AE < TSADModel
             %PREDICT Makes prediction on test data using the Mdl
             
             [prediction, computationTime] = predictWithDNN(Mdl, XTest, getComputationTime);
-            anomalyScores = getReconstructionErrors(prediction, ...
-                                                    XTest, ...
-                                                    TSTest, ...
-                                                    obj.parameters.reconstructionErrorType, ...
-                                                    obj.parameters.windowSize, ...
-                                                    1);
+            anomalyScores = getForecastingErrors(prediction, XTest, 2);
         end
 
         function layers = getLayers(obj, XTrain, YTrain)
             %GETLAYERS Returns the layers of the neural network
 
-            numFeatures = size(XTrain, 2);
+            numFeatures = size(XTrain{1, 1}, 1);
             numResponses = numFeatures;
+
+            hiddenUnits = obj.parameters.hiddenUnits;
         
-            neurons = obj.parameters.neurons;
-            layers = [featureInputLayer(numFeatures)
-                      fullyConnectedLayer(neurons)
-                      reluLayer()
-                      fullyConnectedLayer(floor(neurons / 2))
-                      reluLayer()
-                      fullyConnectedLayer(floor(floor(neurons / 2) / 2))
-                      reluLayer()
-                      fullyConnectedLayer(floor(neurons / 2))
-                      reluLayer()
-                      fullyConnectedLayer(neurons)
-                      reluLayer()
-                      fullyConnectedLayer(numResponses)
-                      regressionLayer()];
+            layers = [sequenceInputLayer(numFeatures)
+                        lstmLayer(hiddenUnits)
+                        dropoutLayer(0.3)
+                        lstmLayer(hiddenUnits, OutputMode="last")
+                        fullyConnectedLayer(numResponses)
+                        regressionLayer];
+            
             layers = layerGraph(layers);
         end
     end

@@ -1,4 +1,4 @@
-function errors = getForecastingErrors(prediction, TSTest)
+function errors = getForecastingErrors(prediction, TSTest, dataType)
 %GETFORECASTINGERRORS Computes errors for forecasting models
 
 % Convert cell predictions to normal array

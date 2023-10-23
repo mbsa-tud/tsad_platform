@@ -1,5 +1,5 @@
 classdef TSAD_FC_AE < TSADModel
-    %TSAD_FC_AE Fully-Connected AutoEncoder
+    %TSAD_FC_AE Fully-Connected Autoencoder
 
     methods (Access = protected)
         function [XTrain, YTrain, XVal, YVal] = prepareDataTrain(obj, data, labels)
@@ -51,6 +51,7 @@ classdef TSAD_FC_AE < TSADModel
             numResponses = numFeatures;
         
             neurons = obj.parameters.neurons;
+
             layers = [featureInputLayer(numFeatures)
                       fullyConnectedLayer(neurons)
                       reluLayer()
@@ -64,6 +65,7 @@ classdef TSAD_FC_AE < TSADModel
                       reluLayer()
                       fullyConnectedLayer(numResponses)
                       regressionLayer()];
+            
             layers = layerGraph(layers);
         end
     end

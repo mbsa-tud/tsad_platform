@@ -469,7 +469,7 @@ classdef TSADModel
             %APPLYSCORINGFUNCTION Applys a scoring function to the anomaly scores
             
             if ~isfield(obj.parameters, "scoringFunction")
-                return
+                return;
             end
 
             switch obj.parameters.scoringFunction
