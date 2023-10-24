@@ -15,28 +15,9 @@ switch modelOptions.name
     case "Your model name"
     case "iForest"
         % iForest supports outlier and novelty detection.
-        if isempty(Mdl)
-            [~, ~, anomalyScores] = iforest(XTest, NumLearners=modelOptions.hyperparameters.iTrees, ...
-                                            NumObservationsPerLearner=modelOptions.hyperparameters.observationsPeriTree);
-        else
-            [~, anomalyScores] = isanomaly(Mdl, XTest);
-        end
-
-        if modelOptions.useSlidingWindow
-            % Merge overlapping scores
-            anomalyScores = mergeOverlappingAnomalyScores(modelOptions, anomalyScores, @mean);
-        end
+        
     case "OC-SVM"
-        if isempty(Mdl)
-            [~, ~, anomalyScores] = ocsvm(XTest, KernelScale="auto");
-        else
-            [~, anomalyScores] = isanomaly(Mdl, XTest);
-        end
-
-        if modelOptions.useSlidingWindow
-            % Merge overlapping scores
-            anomalyScores = mergeOverlappingAnomalyScores(modelOptions, anomalyScores, @mean);
-        end
+        
     case "ABOD"
         [~, anomalyScores] = ABOD(XTest);
 
@@ -45,14 +26,8 @@ switch modelOptions.name
             anomalyScores = mergeOverlappingAnomalyScores(modelOptions, anomalyScores, @mean);
         end
     case "LOF"
-        [~, anomalyScores] = LOF(XTest, modelOptions.hyperparameters.k);
-
-        if modelOptions.useSlidingWindow
-            % Merge overlapping scores
-            anomalyScores = mergeOverlappingAnomalyScores(modelOptions, anomalyScores, @mean);
-        end
+        
     case "LDOF"
-        anomalyScores = LDOF(XTest, modelOptions.hyperparameters.k);
 
         if modelOptions.useSlidingWindow
             % Merge overlapping scores
