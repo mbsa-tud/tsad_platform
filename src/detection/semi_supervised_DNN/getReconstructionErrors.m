@@ -1,4 +1,4 @@
-function errors = getReconstructionErrors(prediction, XTest, TSTest, errorType, windowSize, dataType)
+function errors = getReconstructionErrors(prediction, XTest, timeSeriesTest, errorType, windowSize, dataType)
 %GETRECONSTRUCTIONERRORS Computes reconstruction errors according to
 %selected errorType
 
@@ -6,7 +6,7 @@ switch errorType
     case "median_pointwise_values"
         % calculate median predicted value for each time step and then calculate the errors for the entire time series
         prediction = mergeOverlappingSubsequences(prediction, windowSize, dataType, @median);
-        errors = abs(prediction - TSTest);
+        errors = abs(prediction - timeSeriesTest);
     case "median_pointwise_errors"
         % calulate the point-wise errors for each subsequence and then calculate the median error for each time step
         if dataType == 1

@@ -501,7 +501,7 @@
             }
         }
     },
-    "TSAD_ResNeT": {
+    "TSAD_ResNet": {
         "parameters": {
             "static": {
                 "name": "ResNet",
@@ -509,7 +509,7 @@
                 "modelType": "forecasting",
                 "learningType": "semi_supervised",
                 "outputType": "anomaly_scores",
-                "className": "TSAD_ResNeT"
+                "className": "TSAD_ResNet"
             },
             "configurable": {
                 "dimensionality": {
@@ -698,7 +698,7 @@
             "static": {
                 "name": "LOF",
                 "type": "classic_machine_learning",
-                "learingType": "unsupervised",
+                "learningType": "unsupervised",
                 "outputType": "anomaly_scores",
                 "className": "TSAD_LOF"
             },
@@ -731,7 +731,7 @@
             "static": {
                 "name": "LDOF",
                 "type": "classic_machine_learning",
-                "learingType": "unsupervised",
+                "learningType": "unsupervised",
                 "outputType": "anomaly_scores",
                 "className": "TSAD_LDOF"
             },
@@ -764,7 +764,7 @@
             "static": {
                 "name": "ABOD",
                 "type": "classic_machine_learning",
-                "learingType": "unsupervised",
+                "learningType": "unsupervised",
                 "outputType": "anomaly_scores",
                 "className": "TSAD_ABOD"
             },
@@ -792,7 +792,7 @@
             "static": {
                 "name": "MERLIN",
                 "type": "classic_machine_learning",
-                "learingType": "unsupervised",
+                "learningType": "unsupervised",
                 "dimensionality": "univariate",
                 "outputType": "anomaly_scores",
                 "className": "TSAD_MERLIN"

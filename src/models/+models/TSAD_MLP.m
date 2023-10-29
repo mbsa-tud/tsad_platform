@@ -13,10 +13,10 @@ classdef TSAD_MLP < TSADModel
                                                           1);
         end
         
-        function [XTest, TSTest, labelsTest] =  prepareDataTest(obj, data, labels)
+        function [XTest, timeSeriesTest, labelsTest] =  prepareDataTest(obj, data, labels)
             %PREPAREDATATEST Prepares testing data
 
-            [XTest, TSTest, labelsTest] = splitDataTest(data, ...
+            [XTest, timeSeriesTest, labelsTest] = splitDataTest(data, ...
                                                         labels, ...
                                                         obj.parameters.windowSize, ...
                                                         obj.parameters.modelType, ...
@@ -32,11 +32,11 @@ classdef TSAD_MLP < TSADModel
             Mdl = trainNetwork(XTrain, YTrain, layers, trainOptions);
         end
         
-        function [anomalyScores, computationTime] = predict(obj, Mdl, XTest, TSTest, labelsTest, getComputationTime)
+        function [anomalyScores, computationTime] = predict(obj, Mdl, XTest, timeSeriesTest, labelsTest, getComputationTime)
             %PREDICT Makes prediction on test data using the Mdl
             
             [prediction, computationTime] = predictWithDNN(Mdl, XTest, getComputationTime);
-            anomalyScores = getForecastingErrors(prediction, XTest, 1);
+            anomalyScores = getForecastingErrors(prediction, timeSeriesTest, 1);
         end
 
         function layers = getLayers(obj, XTrain, YTrain)

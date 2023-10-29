@@ -13,10 +13,10 @@ classdef TSAD_TCN_AE < TSADModel
                                                           2);
         end
         
-        function [XTest, TSTest, labelsTest] =  prepareDataTest(obj, data, labels)
+        function [XTest, timeSeriesTest, labelsTest] =  prepareDataTest(obj, data, labels)
             %PREPAREDATATEST Prepares testing data
 
-            [XTest, TSTest, labelsTest] = splitDataTest(data, ...
+            [XTest, timeSeriesTest, labelsTest] = splitDataTest(data, ...
                                                         labels, ...
                                                         obj.parameters.windowSize, ...
                                                         obj.parameters.modelType, ...
@@ -32,13 +32,13 @@ classdef TSAD_TCN_AE < TSADModel
             Mdl = trainNetwork(XTrain, YTrain, layers, trainOptions);
         end
         
-        function [anomalyScores, computationTime] = predict(obj, Mdl, XTest, TSTest, labelsTest, getComputationTime)
+        function [anomalyScores, computationTime] = predict(obj, Mdl, XTest, timeSeriesTest, labelsTest, getComputationTime)
             %PREDICT Makes prediction on test data using the Mdl
             
             [prediction, computationTime] = predictWithDNN(Mdl, XTest, getComputationTime);
             anomalyScores = getReconstructionErrors(prediction, ...
                                                     XTest, ...
-                                                    TSTest, ...
+                                                    timeSeriesTest, ...
                                                     obj.parameters.reconstructionErrorType, ...
                                                     obj.parameters.windowSize, ...
                                                     2);
@@ -56,7 +56,7 @@ classdef TSAD_TCN_AE < TSADModel
 
             filter = obj.parameters.filter;
     
-            layers = [sequenceInputLayer(numFeatures, Name="Input")
+            layers = [sequenceInputLayer(numFeatures, MinLength=obj.parameters.windowSize, Name="Input")
             
                         convolution1dLayer(5, filter, Stride=1, Padding="causal", DilationFactor=1)
                         reluLayer()
@@ -128,6 +128,8 @@ classdef TSAD_TCN_AE < TSADModel
             layers = connectLayers(layers, "Conv_skip_3", "Add_3/in2");
             layers = connectLayers(layers, "Add_3", "Conv_skip_4");
             layers = connectLayers(layers, "Conv_skip_4", "Add_4/in2");
+
+            analyzeNetwork(layers);
         end
     end
 

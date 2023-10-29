@@ -12,15 +12,15 @@ classdef TSAD_OC_SVM < TSADModel
             [XTrain, ~, ~, ~] = splitDataTrain(data, ...
                                                 obj.parameters.windowSize,  ...
                                                 obj.parameters.stepSize,  ...
-                                                0, "reconstructive", 1);
+                                                0, "reconstruction", 1);
         end
         
-        function [XTest, TSTest, labelsTest] =  prepareDataTest(obj, data, labels)
+        function [XTest, timeSeriesTest, labelsTest] =  prepareDataTest(obj, data, labels)
             %PREPAREDATATEST Prepares testing data
 
-            [XTest, TSTest, labelsTest] = splitDataTest(data, labels, ...
+            [XTest, timeSeriesTest, labelsTest] = splitDataTest(data, labels, ...
                                                         obj.parameters.windowSize, ...
-                                                        "reconstructive", 1);
+                                                        "reconstruction", 1);
         end
         
         function Mdl = fit(obj, XTrain, YTrain, XVal, YVal, plots, verbose)
@@ -29,14 +29,14 @@ classdef TSAD_OC_SVM < TSADModel
             Mdl = ocsvm(XTrain, KernelScale="auto");
         end
         
-        function [anomalyScores, computationTime] = predict(obj, Mdl, XTest, TSTest, labelsTest, getComputationTime)
+        function [anomalyScores, computationTime] = predict(obj, Mdl, XTest, timeSeriesTest, labelsTest, getComputationTime)
             %PREDICT Makes prediction on test data using the Mdl
     
             % Ignore comptation time as it is only of interest for DNNs
             computationTime = NaN;
             
             % Either semi-supervised or unsupervised anomlay detection
-            if strcmp(obj.learningType, "unsupervised")
+            if strcmp(obj.parameters.learningType, "unsupervised")
                 [~, ~, anomalyScores] = ocsvm(XTest, KernelScale="auto");
             else
                 [~, anomalyScores] = isanomaly(Mdl, XTest);

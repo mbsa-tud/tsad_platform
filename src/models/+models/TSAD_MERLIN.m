@@ -2,15 +2,15 @@ classdef TSAD_MERLIN < TSADModel
     %TSAD_MERLIN MERLIN
 
     methods (Access = protected)
-        function [XTest, TSTest, labelsTest] =  prepareDataTest(obj, data, labels)
+        function [XTest, timeSeriesTest, labelsTest] =  prepareDataTest(obj, data, labels)
             %PREPAREDATATEST Prepares testing data
 
-            [XTest, TSTest, labelsTest] = splitDataTest(data, labels, ...
-                                                        obj.parameters.windowSize, ...
-                                                        "reconstructive", 1);
+            XTest = cell2mat(data);
+            timeSeriesTest = XTest;
+            labelsTest = cell2mat(labels);
         end
         
-        function [anomalyScores, computationTime] = predict(obj, Mdl, XTest, TSTest, labelsTest, getComputationTime)
+        function [anomalyScores, computationTime] = predict(obj, Mdl, XTest, timeSeriesTest, labelsTest, getComputationTime)
             %PREDICT Makes prediction on test data using the Mdl
             
             % Ignore comptation time as it is only of interest for DNNs
