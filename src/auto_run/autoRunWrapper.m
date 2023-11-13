@@ -1,9 +1,10 @@
-function finalTable = autoRunWrapper(datasetPath, models, preprocMethod, ...
-    ratioTestVal, thresholds, dynamicThresholdSettings, trainingPlots, parallelEnabled, ...
-    augmentationEnabled, augmentationMode, augmentationIntensity, augmentedTrainingEnabled, ...
-    getCompTime)
-%EVALUATEALLFORDATASET Main function for training and testing all specified
-%models on an entire dataset
+function autoRun(datasetPath, models, preprocMethod, ...
+                    ratioTestVal, thresholds, dynamicThresholdSettings, ...
+                    trainingPlots, parallelEnabled, augmentationEnabled, ...
+                    augmentationMode, augmentationIntensity, ...
+                    augmentedTrainingEnabled, getCompTime)
+%AUTORUN Run training and detection for single-or multi-entity datasets (=datasets with multiple subsets) and
+%store the results
 
 fprintf("\n ------------------------- \n");
 fprintf("###  Starting Auto Run  ###");
@@ -48,42 +49,34 @@ allScores = cell(numel(thresholds), 1);
 allTestFileNames = [];
 
 % Get all model names
-if augmentationEnabled
-    finalTableVariableNames = strings(1, numel(models) * 2);
-    finalTableVariableNames(1) = "Metric";
-    
-    for model_idx = 1:numel(models)
-        finalTableVariableNames(model_idx * 2) = models(model_idx).modelOptions.label;
-        finalTableVariableNames(model_idx * 2 + 1) = sprintf("%s  (augmented data)", models(model_idx).modelOptions.label);
-    end
-else
-    finalTableVariableNames = strings(1, numel(models));
-    finalTableVariableNames(1) = "Metric";
-    
-    for model_idx = 1:numel(models)
-        finalTableVariableNames(model_idx + 1) = models(model_idx).modelOptions.label;
-    end
+modelNames = fieldnames(models);
+numModels = numel(modelNames);
+finalTableVariableNames = strings(1, numModels);
+finalTableVariableNames(1) = "Metric";
+
+for i = 1:numel(models)
+    finalTableVariableNames(i + 1) = models.(modelNames{i}).instanceInfo.label;
 end
 
 
 % Evaluate each model for every dataset
-for dataset_idx = 1:numel(indices)    
+for i = 1:numel(indices)    
     if isMultiEntity
-        fprintf("\n\nEvaluating subset %d/%d \n\n", dataset_idx, numel(indices));
-        fprintf("%s\n\n", subFolders(indices(dataset_idx)).name);
-        subsetPath = fullfile(datasetPath, subFolders(indices(dataset_idx)).name);
+        fprintf("\n\nEvaluating subset %d/%d \n\n", i, numel(indices));
+        fprintf("%s\n\n", subFolders(indices(i)).name);
+        subsetPath = fullfile(datasetPath, subFolders(indices(i)).name);
     else
         subsetPath = datasetPath;
     end
     
-    % Run evaluation
-    [subsetScores, testFileNames] = trainAndEvaluateAllModels(subsetPath, models, ...
-                                                              preprocMethod, ratioTestVal, ...
-                                                              thresholds, dynamicThresholdSettings, ...
-                                                              trainingPlots, parallelEnabled, ...
-                                                              augmentationEnabled, augmentationMode, ...
-                                                              augmentationIntensity, augmentedTrainingEnabled, ...
-                                                              getCompTime);
+    % TODO 
+    % Train all models
+    for j = 1:numModels
+        models.(modelNames{i}).train()
+    end
+
+    % Test all models
+
 
     allTestFileNames = [allTestFileNames; testFileNames];
 

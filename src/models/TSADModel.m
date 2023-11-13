@@ -56,8 +56,8 @@ classdef TSADModel < handle
             end
         end
     
-        function trainingWrapper(obj, dataTrain, labelsTrain, dataTestVal, labelsTestVal, plots, verbose)
-            %TRAININGWRAPPER Main wrapper function for model training
+        function train(obj, dataTrain, labelsTrain, dataTestVal, labelsTestVal, plots, verbose)
+            %TRAIN Main function for model training
             
             % Check learning type and fit if "semi_supervised" or
             % "supervised"
@@ -105,9 +105,8 @@ classdef TSADModel < handle
             obj.isTrained = true;
         end
 
-        function optimizationWrapper(obj, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, metric, threshold, dynamicThresholdSettings, iterations, trainingPlots, parallelEnabled)
-            %OPTIMIZATIONWRAPPER Runs the auto optimization using bayesian
-            %optimization
+        function optimize(obj, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, metric, threshold, dynamicThresholdSettings, iterations, trainingPlots, parallelEnabled)
+            %OPTIMIZE Runs the auto optimization
             
             optVars = obj.loadOptimizationVariables();
 
@@ -115,8 +114,8 @@ classdef TSADModel < handle
                 % Nothing to optimize, just train
                 warning("No optimizable parameters found. Maybe check TSADConfig_optimization.json");
             else
-                % Optimization
-                results = obj.optimize(optVars, dataTrain, labelsTrain, ...
+                % Call baesian optimization
+                results = obj.bayesOptimize(optVars, dataTrain, labelsTrain, ...
                                        dataValTest, labelsValTest, ...
                                        dataTest, labelsTest, threshold, ...
                                        dynamicThresholdSettings, ...
@@ -133,12 +132,15 @@ classdef TSADModel < handle
             end
             
             % Train model with optimal parameters
-            obj.trainingWrapper(dataTrain, labelsTrain, dataValTest, ...
-                                labelsValTest, trainingPlots, true);
+            obj.train(dataTrain, labelsTrain, dataValTest, ...
+                        labelsValTest, trainingPlots, true);
         end
         
-        function [anomalyScores, timeSeriesTest, labelsTest, computationTime] = detectionWrapper(obj, data, labels, getComputationTime, applyScoringFunction)
-            %DETECTIONWRAPPER Main detection wrapper function
+        function [anomalyScores, timeSeriesTest, labelsTest, computationTime] = detect(obj, data, labels, getComputationTime, applyScoringFunction)
+            %DETECT Main anomaly detection function (without thresholding
+            %except if the model itself already applies a threshold. In
+            %that case set the outputType of the parameters variable to
+            %"labels"
             
             if ~exist("getComputationTime", "var")
                 getComputationTime = false; % Don't get computation time by default
@@ -414,7 +416,7 @@ classdef TSADModel < handle
                 
                 % Merge anomaly scores for all files in data
                 for file_idx = 1:numel(data)
-                    [anomalyScores_tmp, ~, labels_tmp, ~] = obj.detectionWrapper(data(file_idx), labels(file_idx), false, true);
+                    [anomalyScores_tmp, ~, labels_tmp, ~] = obj.detect(data(file_idx), labels(file_idx), false, true);
                     anomalyScoresMerged = [anomalyScoresMerged; anomalyScores_tmp];
                     labelsMerged = [labelsMerged; labels_tmp];
                 end
@@ -454,7 +456,7 @@ classdef TSADModel < handle
             % Get anomaly scores for every file of training data
             for file_idx = 1:numel(data)                            
                 % Get raw anomaly scores and store in one array
-                [trainingAnomalyScores_tmp, ~, trainingLabels_tmp, ~] = obj.detectionWrapper(data, labels, false, false);
+                [trainingAnomalyScores_tmp, ~, trainingLabels_tmp, ~] = obj.detect(data, labels, false, false);
                 anomalyScoresTrain = [anomalyScoresTrain; trainingAnomalyScores_tmp];
                 
                 % Store labels in one array
@@ -496,7 +498,7 @@ classdef TSADModel < handle
         function scores = detectAndEvaluate(obj, dataTest, labelsTest, threshold, dynamicThresholdSettings)
             %DETECTANDEVALUATE Runs the detection and returns the scores (not anomaly scores but performance metrics) for the model
 
-            [anomalyScores, ~, labels, ~] = obj.detectionWrapper(dataTest, labelsTest, false, false);
+            [anomalyScores, ~, labels, ~] = obj.detect(dataTest, labelsTest, false, false);
             
             [predictedLabels, ~] = obj.applyThreshold(anomalyScores, labels, threshold, dynamicThresholdSettings);
             
@@ -509,13 +511,11 @@ classdef TSADModel < handle
             scoresCell = cell(numel(dataTest), 1);
                         
             % Train model
-            obj.trainingWrapper(dataTrain, ...
-                                labelsTrain, dataValTest, ...
-                                labelsValTest, trainingPlots, verbose);
+            obj.train(dataTrain, labelsTrain, dataValTest, labelsValTest, trainingPlots, verbose);
             
             % Run detection for all test files
             for data_idx = 1:numel(dataTest)
-                [anomalyScores, ~, labels, ~] = obj.detectionWrapper(dataTest(data_idx), labelsTest(data_idx), false, false);
+                [anomalyScores, ~, labels, ~] = obj.detect(dataTest(data_idx), labelsTest(data_idx), false, false);
                 [predictedLabels, ~] = obj.applyThreshold(anomalyScores, labels, threshold, dynamicThresholdSettings);
                 
                 scores = computeMetrics(anomalyScores, predictedLabels, labels);
@@ -541,7 +541,7 @@ classdef TSADModel < handle
             score = 1 - avgScore;
         end
 
-        function results = optimize(obj, optVars, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, threshold, dynamicThresholdSettings, metric, iterations, trainingPlots, parallelEnabled)
+        function results = bayesOptimize(obj, optVars, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, threshold, dynamicThresholdSettings, metric, iterations, trainingPlots, parallelEnabled)
             %OPTIMIZE Runs the byesian optimization
             %   Sets the optVars, defines the opt_fun and calls the bayesopt function
             

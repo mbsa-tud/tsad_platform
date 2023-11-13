@@ -794,7 +794,7 @@
                 "type": "classic_machine_learning",
                 "learningType": "unsupervised",
                 "dimensionality": "univariate",
-                "outputType": "anomaly_scores",
+                "outputType": "labels",
                 "className": "TSAD_MERLIN"
             },
             "configurable": {
