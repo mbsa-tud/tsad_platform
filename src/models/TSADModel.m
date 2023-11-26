@@ -265,17 +265,14 @@ classdef TSADModel < handle
                     end
                     predictedLabels(begIdx:endIdx, 1) = 1;
                 end
+            else
+                % Other static thresholds
+                threshold = computeStaticThreshold(anomalyScores, labels, thresholdName, obj.parameters.name);
                 
-                return;
+                % Apply threshold. the outer any(..., 2) is used to merge
+                % multi-channel anomaly scores
+                predictedLabels = any(anomalyScores > threshold, 2);
             end
-
-            % Other static thresholds
-            threshold = computeStaticThreshold(anomalyScores, labels, thresholdName, obj.parameters.name);
-            
-            % Apply threshold. the outer any(..., 2) is used to merge
-            % multi-channel anomaly scores
-            predictedLabels = any(anomalyScores > threshold, 2);
-            return;
         end
         
         function updateParameters(obj, newParameters)
