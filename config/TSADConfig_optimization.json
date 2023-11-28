@@ -19,7 +19,7 @@
             "type": "categorical"
         }
     },
-    "TSAD_CNN_LSTM_R" {
+    "TSAD_CNN_LSTM_R": {
         "hiddenUnits": {
             "value": ["8", "16", "32", "64", "128", "256"],
             "type": "categorical"
