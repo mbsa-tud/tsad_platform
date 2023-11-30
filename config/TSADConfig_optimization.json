@@ -33,7 +33,7 @@
             "type": "categorical"
         }
     },
-    "TCN-AE": {
+    "TSAD_TCN_AE": {
         "filter": {
             "value": ["8", "16", "32", "64", "128", "256"],
             "type": "categorical"
@@ -43,7 +43,7 @@
             "type": "categorical"
         }
     },
-    "LSTM": {
+    "TSAD_LSTM": {
         "hiddenUnits": {
             "value": ["8", "16", "32", "64", "128", "256"],
             "type": "categorical"
@@ -53,7 +53,7 @@
             "type": "categorical"
         }
     },
-    "Hybrid CNN-LSTM": {
+    "TSAD_Hybrid_CNN_LSTM": {
         "hiddenUnits": {
             "value": ["8", "16", "32", "64", "128", "256"],
             "type": "categorical"
@@ -67,7 +67,7 @@
             "type": "categorical"
         }
     },
-    "GRU": {
+    "TSAD_GRU": {
         "hiddenUnits": {
             "value": ["8", "16", "32", "64", "128", "256"],
             "type": "categorical"
@@ -77,7 +77,7 @@
             "type": "categorical"
         }
     },
-    "CNN (DeepAnT)": {
+    "TSAD_CNN": {
         "filter": {
             "value": ["8", "16", "32", "64", "128", "256"],
             "type": "categorical"
@@ -87,7 +87,7 @@
             "type": "categorical"
         }
     },
-    "ResNet": {
+    "TSAD_ResNet": {
         "filter": {
             "value": ["8", "16", "32", "64", "128", "256"],
             "type": "categorical"
@@ -97,7 +97,7 @@
             "type": "categorical"
         }
     },
-    "MLP": {
+    "TSAD_MLP": {
         "neurons": {
             "value": ["8", "16", "32", "64", "128", "256"],
             "type": "categorical"
@@ -107,12 +107,12 @@
             "type": "categorical"
         }
     },
-    "iForest": {
+    "TSAD_iForest": {
         "iTrees": {
             "value": ["10", "20", "30", "40", "50", "60", "70", "80", "90", "100", "110", "120", "130", "140", "150", "160", "170", "180", "190", "200"],
             "type": "categorical"
         },
-        "observationsPeriTree": {
+        "observationsPerITree": {
             "value": ["8", "16", "32", "64", "128", "256"],
             "type": "categorical"
         },
@@ -121,19 +121,19 @@
             "type": "categorical"
         }
     },
-    "OC-SVM": {
+    "TSAD_OC_SVM": {
         "windowSize": {
             "value": ["8", "16", "32", "64", "128", "256"],
             "type": "categorical"
         }
     },
-    "ABOD": {
+    "TSAD_ABOD": {
         "windowSize": {
             "value": ["8", "16", "32", "64", "128", "256"],
             "type": "categorical"
         }
     },
-    "LOF": {
+    "TSAD_LOF": {
         "k": {
             "value": ["10", "20", "30", "40", "50", "60", "70", "80", "90", "100", "110", "120", "130", "140", "150", "160", "170", "180", "190", "200"],
             "type": "categorical"
@@ -143,7 +143,7 @@
             "type": "categorical"
         }
     },
-    "LDOF": {
+    "TSAD_LDOF": {
         "k": {
             "value": ["10", "20", "30", "40", "50", "60", "70", "80", "90", "100", "110", "120", "130", "140", "150", "160", "170", "180", "190", "200"],
             "type": "categorical"
@@ -153,7 +153,7 @@
             "type": "categorical"
         }
     },
-    "MERLIN": {
+    "TSAD_MERLIN": {
         "maxL": {
             "value": ["50", "75", "100", "125", "150", "175", "200"],
             "type": "categorical"
@@ -161,22 +161,6 @@
         "minL": {
             "value": ["25", "50", "75", "100", "125", "150", "175"],
             "type": "categorical"
-        }
-    },
-    "over-sampling PCA": {
-        "oversamplingRatio": {
-            "value": [0, 1],
-            "type": "real"
-        },
-        "windowSize": {
-            "value": ["8", "16", "32", "64", "128", "256"],
-            "type": "categorical"
-        }
-    },
-    "Grubbs test": {
-        "alpha": {
-            "value": [0, 1],
-            "type": "real"
         }
     }
 }

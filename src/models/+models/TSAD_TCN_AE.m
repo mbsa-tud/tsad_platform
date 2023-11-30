@@ -128,8 +128,6 @@ classdef TSAD_TCN_AE < TSADModel
             layers = connectLayers(layers, "Conv_skip_3", "Add_3/in2");
             layers = connectLayers(layers, "Add_3", "Conv_skip_4");
             layers = connectLayers(layers, "Conv_skip_4", "Add_4/in2");
-
-            analyzeNetwork(layers);
         end
     end
 
