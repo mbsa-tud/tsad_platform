@@ -71,7 +71,7 @@ classdef TSADModel < handle
                     
                     % fit model
                     [XTrain, YTrain, XVal, YVal] = obj.dataTrainPreparationWrapper(dataTrain, labelsTrain);
-                    if strcmp(obj.parameters.dimensionality, "multivariate")
+                    if strcmp(obj.parameters.separateModelForEachChannel, "no")
                         % fit single model on entire data if model is
                         % multivariate
 
@@ -153,7 +153,7 @@ classdef TSADModel < handle
             [XTest, timeSeriesTest, labelsTest] = obj.dataTestPreparationWrapper(data, labels);
             
             % Handle detection
-            if strcmp(obj.parameters.dimensionality, "multivariate")
+            if strcmp(obj.parameters.separateModelForEachChannel, "no")
                 % For multivariate models
                 
                 if ~isempty(obj.Mdl)
@@ -197,6 +197,55 @@ classdef TSADModel < handle
             if applyScoringFunction
                 anomalyScores = obj.applyScoringFunction(anomalyScores);
             end
+        end
+
+        function computeStaticThresholds(obj, data, labels)
+            %COMPUTESTATICTHRESHOLDS Computes static thresholds using training-
+            %and anomalous validation set anomaly scores
+                        
+            obj.staticThresholds = [];
+            
+            if ~isempty(data)
+                % Count anomalies
+                numAnoms = 0;
+            
+                for file_idx = 1:numel(data)            
+                    numAnoms = numAnoms + sum(labels{file_idx} == 1);
+                end
+            
+                anomalyScoresMerged = [];
+                labelsMerged = [];
+                
+                % Merge anomaly scores for all files in data
+                for file_idx = 1:numel(data)
+                    [anomalyScores_tmp, ~, labels_tmp, ~] = obj.detect(data(file_idx), labels(file_idx), false, true);
+                    anomalyScoresMerged = [anomalyScoresMerged; anomalyScores_tmp];
+                    labelsMerged = [labelsMerged; labels_tmp];
+                end
+                
+                % Compute all thresholds which are set using anomalous
+                % validation data
+                if numAnoms ~= 0
+                    obj.staticThresholds.best_pointwise_f1_score = computeStaticThreshold(anomalyScoresMerged, labelsMerged, "best_pointwise_f1_score", obj.parameters.name);
+                    obj.staticThresholds.best_eventwise_f1_score = computeStaticThreshold(anomalyScoresMerged, labelsMerged, "best_eventwise_f1_score", obj.parameters.name);
+                    obj.staticThresholds.best_pointadjusted_f1_score = computeStaticThreshold(anomalyScoresMerged, labelsMerged, "best_pointadjusted_f1_score", obj.parameters.name);
+                    obj.staticThresholds.best_composite_f1_score = computeStaticThreshold(anomalyScoresMerged, labelsMerged, "best_composite_f1_score", obj.parameters.name);
+                else
+                    warning("Warning! Anomalous validation set doesn't contain anomalies, possibly couldn't calculate some static thresholds.");
+                end
+                
+                obj.staticThresholds.topK = computeStaticThreshold(anomalyScoresMerged, labelsMerged, "top_k", obj.parameters.name);
+            end
+            
+            % Get all thresholds which are set using anomaly scores for fit data
+            if ~isempty(obj.trainingAnomalyScoresRaw)
+                anomalyScoresTrain = obj.applyScoringFunction(obj.trainingAnomalyScoresRaw);
+                
+                obj.staticThresholds.max_train = max(max(anomalyScoresTrain));
+            end
+            
+            % Get all thresholds which don't require anomaly scores
+            obj.staticThresholds.custom = computeStaticThreshold([], [], "custom", obj.parameters.name);
         end
 
         function [predictedLabels, threshold] = applyThreshold(obj, anomalyScores, labels, thresholdName, dynamicThresholdSettings, storedThresholdValue)
@@ -333,7 +382,7 @@ classdef TSADModel < handle
             %DATATRAINPREPARATIONWRAPPER Main wrapper function for training
             %data preparation
 
-            if strcmp(obj.parameters.dimensionality, "multivariate")
+            if strcmp(obj.parameters.separateModelForEachChannel, "no")
                 % Prepare data for multivariate model
 
                 [XTrain, YTrain, XVal, YVal] = obj.prepareDataTrain(data, labels);
@@ -368,7 +417,7 @@ classdef TSADModel < handle
             %DATATESTPREPARATIONWRAPPER Main wrapper function for testing
             %data preparation
             
-            if strcmp(obj.parameters.dimensionality, "multivariate")
+            if strcmp(obj.parameters.separateModelForEachChannel, "no")
                 % Prepare data for multivariate model
 
                 [XTest, timeSeriesTest, labelsTest] = obj.prepareDataTest(data, labels);
@@ -392,55 +441,6 @@ classdef TSADModel < handle
                     [XTest{channel_idx}, timeSeriesTest{channel_idx}, labelsTest] = obj.prepareDataTest(data_tmp, labels);
                 end
             end
-        end
-
-        function computeStaticThresholds(obj, data, labels)
-            %COMPUTESTATICTHRESHOLDS Computes static thresholds using training-
-            %and anomalous validation set anomaly scores
-                        
-            obj.staticThresholds = [];
-            
-            if ~isempty(data)
-                % Count anomalies
-                numAnoms = 0;
-            
-                for file_idx = 1:numel(data)            
-                    numAnoms = numAnoms + sum(labels{file_idx} == 1);
-                end
-            
-                anomalyScoresMerged = [];
-                labelsMerged = [];
-                
-                % Merge anomaly scores for all files in data
-                for file_idx = 1:numel(data)
-                    [anomalyScores_tmp, ~, labels_tmp, ~] = obj.detect(data(file_idx), labels(file_idx), false, true);
-                    anomalyScoresMerged = [anomalyScoresMerged; anomalyScores_tmp];
-                    labelsMerged = [labelsMerged; labels_tmp];
-                end
-                
-                % Compute all thresholds which are set using anomalous
-                % validation data
-                if numAnoms ~= 0
-                    obj.staticThresholds.best_pointwise_f1_score = computeStaticThreshold(anomalyScoresMerged, labelsMerged, "best_pointwise_f1_score", obj.parameters.name);
-                    obj.staticThresholds.best_eventwise_f1_score = computeStaticThreshold(anomalyScoresMerged, labelsMerged, "best_eventwise_f1_score", obj.parameters.name);
-                    obj.staticThresholds.best_pointadjusted_f1_score = computeStaticThreshold(anomalyScoresMerged, labelsMerged, "best_pointadjusted_f1_score", obj.parameters.name);
-                    obj.staticThresholds.best_composite_f1_score = computeStaticThreshold(anomalyScoresMerged, labelsMerged, "best_composite_f1_score", obj.parameters.name);
-                else
-                    warning("Warning! Anomalous validation set doesn't contain anomalies, possibly couldn't calculate some static thresholds.");
-                end
-                
-                obj.staticThresholds.topK = computeStaticThreshold(anomalyScoresMerged, labelsMerged, "top_k", obj.parameters.name);
-            end
-            
-            % Get all thresholds which are set using anomaly scores for fit data
-            if ~isempty(obj.trainingAnomalyScoresRaw)
-                anomalyScoresTrain = obj.applyScoringFunction(obj.trainingAnomalyScoresRaw);
-                
-                obj.staticThresholds.max_train = max(max(anomalyScoresTrain));
-            end
-            
-            % Get all thresholds which don't require anomaly scores
-            obj.staticThresholds.custom = computeStaticThreshold([], [], "custom", obj.parameters.name);
         end
     
         function computeAnomalyScoreFeatures(obj, data, labels)

@@ -10,10 +10,10 @@
                 "className": "TSAD_FC_AE"
             },
             "configurable": {
-                "dimensionality": {
+                "separateModelForEachChannel": {
                     "type": "categorical",
-                    "value": ["univariate", "multivariate"],
-                    "initialValue": "multivariate"
+                    "value": ["no", "yes"],
+                    "initialValue": "no"
                 },
                 "neurons": {
                     "type": "integer",
@@ -74,10 +74,10 @@
                 "className": "TSAD_LSTM_R"
             },
             "configurable": {
-                "dimensionality": {
+                "separateModelForEachChannel": {
                     "type": "categorical",
-                    "value": ["univariate", "multivariate"],
-                    "initialValue": "multivariate"
+                    "value": ["no", "yes"],
+                    "initialValue": "no"
                 },
                 "hiddenUnits": {
                     "type": "integer",
@@ -138,10 +138,10 @@
                 "className": "TSAD_CNN_LSTM_R"
             },
             "configurable": {
-                "dimensionality": {
+                "separateModelForEachChannel": {
                     "type": "categorical",
-                    "value": ["univariate", "multivariate"],
-                    "initialValue": "multivariate"
+                    "value": ["no", "yes"],
+                    "initialValue": "no"
                 },
                 "filter": {
                     "type": "integer",
@@ -207,10 +207,10 @@
                 "className": "TSAD_TCN_AE"
             },
             "configurable": {
-                "dimensionality": {
+                "separateModelForEachChannel": {
                     "type": "categorical",
-                    "value": ["univariate", "multivariate"],
-                    "initialValue": "multivariate"
+                    "value": ["no", "yes"],
+                    "initialValue": "no"
                 },
                 "filter": {
                     "type": "integer",
@@ -271,10 +271,10 @@
                 "className": "TSAD_LSTM"
             },
             "configurable": {
-                "dimensionality": {
+                "separateModelForEachChannel": {
                     "type": "categorical",
-                    "value": ["univariate", "multivariate"],
-                    "initialValue": "multivariate"
+                    "value": ["no", "yes"],
+                    "initialValue": "no"
                 },
                 "hiddenUnits": {
                     "type": "integer",
@@ -330,10 +330,10 @@
                 "className": "TSAD_GRU"
             },
             "configurable": {
-                "dimensionality": {
+                "separateModelForEachChannel": {
                     "type": "categorical",
-                    "value": ["univariate", "multivariate"],
-                    "initialValue": "multivariate"
+                    "value": ["no", "yes"],
+                    "initialValue": "no"
                 },
                 "hiddenUnits": {
                     "type": "integer",
@@ -389,10 +389,10 @@
                 "className": "TSAD_CNN_LSTM"
             },
             "configurable": {
-                "dimensionality": {
+                "separateModelForEachChannel": {
                     "type": "categorical",
-                    "value": ["univariate", "multivariate"],
-                    "initialValue": "multivariate"
+                    "value": ["no", "yes"],
+                    "initialValue": "no"
                 },
                 "filter": {
                     "type": "integer",
@@ -453,10 +453,10 @@
                 "className": "TSAD_CNN"
             },
             "configurable": {
-                "dimensionality": {
+                "separateModelForEachChannel": {
                     "type": "categorical",
-                    "value": ["univariate", "multivariate"],
-                    "initialValue": "multivariate"
+                    "value": ["no", "yes"],
+                    "initialValue": "no"
                 },
                 "filter": {
                     "type": "integer",
@@ -512,10 +512,10 @@
                 "className": "TSAD_ResNet"
             },
             "configurable": {
-                "dimensionality": {
+                "separateModelForEachChannel": {
                     "type": "categorical",
-                    "value": ["univariate", "multivariate"],
-                    "initialValue": "multivariate"
+                    "value": ["no", "yes"],
+                    "initialValue": "no"
                 },
                 "filter": {
                     "type": "integer",
@@ -571,10 +571,10 @@
                 "className": "TSAD_MLP"
             },
             "configurable": {
-                "dimensionality": {
+                "separateModelForEachChannel": {
                     "type": "categorical",
-                    "value": ["univariate", "multivariate"],
-                    "initialValue": "multivariate"
+                    "value": ["no", "yes"],
+                    "initialValue": "no"
                 },
                 "neurons": {
                     "type": "integer",
@@ -633,10 +633,10 @@
                     "value": ["unsupervised", "semi_supervised"],
                     "initialValue": "unsupervised"
                 },
-                "dimensionality": {
+                "separateModelForEachChannel": {
                     "type": "categorical",
-                    "value": ["univariate", "multivariate"],
-                    "initialValue": "multivariate"
+                    "value": ["no", "yes"],
+                    "initialValue": "no"
                 },
                 "iTrees": {
                     "type": "integer",
@@ -675,10 +675,10 @@
                     "value": ["unsupervised", "semi_supervised"],
                     "initialValue": "unsupervised"
                 },
-                "dimensionality": {
+                "separateModelForEachChannel": {
                     "type": "categorical",
-                    "value": ["univariate", "multivariate"],
-                    "initialValue": "multivariate"
+                    "value": ["no", "yes"],
+                    "initialValue": "no"
                 },
                 "windowSize": {
                     "type": "integer",
@@ -703,10 +703,10 @@
                 "className": "TSAD_LOF"
             },
             "configurable": {
-                "dimensionality": {
+                "separateModelForEachChannel": {
                     "type": "categorical",
-                    "value": ["univariate", "multivariate"],
-                    "initialValue": "multivariate"
+                    "value": ["no", "yes"],
+                    "initialValue": "no"
                 },
                 "k": {
                     "type": "integer",
@@ -736,10 +736,10 @@
                 "className": "TSAD_LDOF"
             },
             "configurable": {
-                "dimensionality": {
+                "separateModelForEachChannel": {
                     "type": "categorical",
-                    "value": ["univariate", "multivariate"],
-                    "initialValue": "multivariate"
+                    "value": ["no", "yes"],
+                    "initialValue": "no"
                 },
                 "k": {
                     "type": "integer",
@@ -769,10 +769,10 @@
                 "className": "TSAD_ABOD"
             },
             "configurable": {
-                "dimensionality": {
+                "separateModelForEachChannel": {
                     "type": "categorical",
-                    "value": ["univariate", "multivariate"],
-                    "initialValue": "multivariate"
+                    "value": ["no", "yes"],
+                    "initialValue": "no"
                 },
                 "windowSize": {
                     "type": "integer",
@@ -793,7 +793,7 @@
                 "name": "MERLIN",
                 "type": "classic_machine_learning",
                 "learningType": "unsupervised",
-                "dimensionality": "univariate",
+                "separateModelForEachChannel": "yes",
                 "outputType": "labels",
                 "className": "TSAD_MERLIN"
             },
