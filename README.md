@@ -34,11 +34,8 @@ A platform for evaluating time series anomaly detection (TSAD) methods which off
     * `Predictive Maintenance Toolbox`
     * `Statistics and Machine Learning Toolbox`
     * `Deep Learning Toolbox`
-3. Add the `tsad_platform` folder (the main folder of this repository) to the MATLAB path (without subfolders).
-4. Add the `src` folder within the `tsad_platform` folder to the MATLAB path (with subfolders).
-5. Add the `config` folder within the `tsad_platform` folder to the MATLAB path.
-6. Open the `tsad_platform` folder with MATLAB.
-7. Right-click the `TSADPlatform.mlapp` file and click `Run` to start the platform.
+3. The main `tsad_platform` folder and the `src` and `config` subfolders must be added to the MATLAB path.
+4. Run the `TSADPlatform.mlapp` to start the platform or open it in `App Designer` for further development.
 
 ---
 
@@ -48,20 +45,111 @@ A platform for evaluating time series anomaly detection (TSAD) methods which off
 
 ### Overview
 
-what do different panels do
-
 ### Dataset preparation
+
+Use this panel to **load and preprocess a dataset**.
+
+#### Load a dataset
+
+To load a dataset proceed as follows:
+
+1. Press `Browse` button or enter a path directly.
+2. Select dataset from the drop-down menu.
+3. Press `Load Data`.
+
+See appendix
+
+#### Preprocess the dataset
+
+Following data preparation options are available:
+
+* Select a `preprocessing method` from the dropdown menu.
+* Select an `augmentation mode` and configure it.
+* Toggle usage of `anomalous validation set` (used for static thresholds).
+* Toggle splitting of dataset for `dynamic switch`.
+
+See appendix
+
+### Loading and saving models
+
+#### Load untrained models
+
+* Press `Load Default` to load a default configuration of all implemented models.
+* Press `Load Manually` to select and configure the models by hand.
+* Press `Load from File` to load configured models from a file (see [Save untrained models](#save-untrained-models)).
+
+#### Save untrained models
+
+* Press `Export Config` to save a models configuration file.
+
+#### Load trained models
+
+* Press `Import trined` to load previously trained and stored models (see [Save trained models](#save-trained-models)).
+
+#### Save trained models
+
+* Press `Export trained` to save trained models.
+
+### Reconfiguring models
+
+* Right-click a single model and select `View/Update Model Parameters` for reconfiguration.
+
+### Deleting models
+
+* Right-click models and select `Delete` or press `Clear All` at the bottom of the list.
 
 ### Train/optimize models
 
+1. Configure the training process by enabling/disabling `Optimization` and `Training Plots`.
+2. Press `Fit All` or `Fit Selection` to train/optimize all or just the selected models.
+3. If you enabled optimization, you can further configure the `number of iterations`, the `threshold` and the `metric` to optimize in a popup window. Additionally you can open the `optimization config` file and reconfigure the parameter space.
+
 ### Run detection
+
+1. Select which files to run the test on.
+2. Select which models to run the test on
+3. Choose whether to `Get Computation Time` to compute the average computation time for a single window
+4. Choose whether to `Update Thresholds Only`. This doesn't run the entire detection again, but `only applies the selected threshold to all previously selected models and files`.
+5. Choose wheter to run the `Online Simulation` using Simulink (**CURRENTLY NOT IMPLEMENTED**).
+6. Press `Run Detection` to start the anomaly detection on the test data.
+
+### Evaluate results
+
+* `(1)`:  See plots and metrics to evaluate the detection performance of a single model.
+* `(2) and (3)`: See tables of average scores and scores for the currently selected file for all models.
+* `(4)`: See a plot of computation times and select the displayed metrics.
+* Right-click a model and select `Show Detection` to display plots for that model.
+* Select another threshold. This updates the applied threshold **only for the currently displayed model** in the plots. To apply the new threshold to all models, press `Run Detection` again.
 
 ### Auto run
 
+* This trains and tests all configured models on the selected dataset.
+* The results are stored in a new folder called `Auto_Run_Results` within the currently open MATLAB folder.
+
+To start the `Auto Run`, proceed as follows:
+
+1. Select a dataset and configure the dataset preparation
+2. Select/load models
+3. Press `Auto Run All`
+
 ### Dynamic switch: A model selection mechanism
 
+#### Requirements
+
+* A dataset with multiple test files
+
+#### Train and test dynamic switch
+
+1. Check the `Split Dataset for Dynamic Switch` checkbox on the dataset preparation panel.
+2. Select, train and test models on all files.
+3. Click `Train` on the dynamic switch panel to train the model selection mechanism.
+4. Click `Evaluate` to test the dynamic switch.
+5. Evaluate the results.
 
 ## Extending the platform
+
+### Model class
+### Model config
 
 ## Known limitations, issues and possible future upgrades (Mostly relevant for developers)
 
