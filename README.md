@@ -1,6 +1,8 @@
 # TSAD Platform Manual
 
-A platform for evaluating time series anomaly detection (TSAD) methods which offers options to automatically train, test, compare and optimize them.
+**A platform for evaluating time series anomaly detection (TSAD) methods.**
+
+**Automatically train, test, compare and optimize many models or add your custom ones.**
 
 ## Contents
 
@@ -16,7 +18,7 @@ A platform for evaluating time series anomaly detection (TSAD) methods which off
     * [Detection](#detection)
     * [Auto run](#auto-run)
     * [Dynamic switch](#dynamic-switch)
-3. [Extending the platform](#extending-the-platform)
+3. [Adding custom models](#extending-the-platform)
 4. [Known limitations](#known-limitations-issues-and-possible-future-upgrades-mostly-relevant-for-developers)
 5. [Appendix](#appendix)
 
@@ -47,7 +49,7 @@ A platform for evaluating time series anomaly detection (TSAD) methods which off
 
 ### Dataset preparation
 
-Use this panel to **load and preprocess a dataset**.
+For all following steps, got to the `Dataset Preparation panel`.
 
 #### Load a dataset
 
@@ -71,6 +73,8 @@ Following data preparation options are available:
 See appendix
 
 ### Loading and saving models
+
+For all following steps, got to the `Training and Detection panel`.
 
 #### Load untrained models
 
@@ -148,8 +152,15 @@ To start the `Auto Run`, proceed as follows:
 
 ## Extending the platform
 
-### Model class
-### Model config
+To add a new model, you must [create a model class](#create-model-class) and [create a model config](#create-model-config).
+
+### Create Model class
+
+
+
+### Create Model config
+
+
 
 ## Known limitations, issues and possible future upgrades (Mostly relevant for developers)
 
