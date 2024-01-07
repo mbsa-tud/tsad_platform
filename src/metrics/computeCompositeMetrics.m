@@ -11,7 +11,7 @@ try
     
     tp_e = 0;
     fn_e = 0;
-    trueSequences = findConsecutiveSequences(find(labels == 1));
+    trueSequences = findConsecutiveAnomalySequences(find(labels == 1));
     
     for i = 1:numel(trueSequences)
         if any(predictedLabels(trueSequences{i}))

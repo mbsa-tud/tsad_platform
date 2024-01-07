@@ -1,0 +1,814 @@
+{
+    "TSAD_FC_AE": {
+        "parameters": {
+            "static": {
+                "name": "FC-AE",
+                "type": "deep_learning",
+                "modelType": "reconstruction",
+                "learningType": "semi_supervised",
+                "outputType": "anomaly_scores",
+                "className": "TSAD_FC_AE"
+            },
+            "configurable": {
+                "separateModelForEachChannel": {
+                    "type": "categorical",
+                    "value": ["no", "yes"],
+                    "initialValue": "no"
+                },
+                "neurons": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 32
+                },
+                "windowSize": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 100
+                },
+                "stepSize": {
+                    "type": "integer",
+                    "value": [1, 100],
+                    "initialValue": 1
+                },
+                "epochs": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 50
+                },
+                "learningRate": {
+                    "type": "real",
+                    "value": [0.0001, 1],
+                    "initialValue": 0.001
+                },
+                "minibatchSize": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 64
+                },
+                "valSize": {
+                    "type": "real",
+                    "value": [0, 1],
+                    "initialValue": 0
+                },
+                "reconstructionErrorType": {
+                    "type": "categorical",
+                    "value": ["median_pointwise_values", "median_pointwise_errors", "mean_subsequence_rmse"],
+                    "initialValue": "median_pointwise_values"
+                },
+                "scoringFunction": {
+                    "type": "categorical",
+                    "value": ["aggregated", "channelwise", "gauss", "gauss_aggregated", "gauss_channelwise", "ewma"],
+                    "initialValue": "aggregated"
+                }
+            }
+        }
+    },
+    "TSAD_LSTM_R": {
+        "parameters": {
+            "static": {
+                "name": "LSTM (reconstruction)",
+                "type": "deep_learning",
+                "modelType": "reconstruction",
+                "learningType": "semi_supervised",
+                "outputType": "anomaly_scores",
+                "className": "TSAD_LSTM_R"
+            },
+            "configurable": {
+                "separateModelForEachChannel": {
+                    "type": "categorical",
+                    "value": ["no", "yes"],
+                    "initialValue": "no"
+                },
+                "hiddenUnits": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 64
+                },
+                "windowSize": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 100
+                },
+                "stepSize": {
+                    "type": "integer",
+                    "value": [1, 100],
+                    "initialValue": 1
+                },
+                "epochs": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 50
+                },
+                "learningRate": {
+                    "type": "real",
+                    "value": [0.0001, 1],
+                    "initialValue": 0.001
+                },
+                "minibatchSize": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 64
+                },
+                "valSize": {
+                    "type": "real",
+                    "value": [0, 1],
+                    "initialValue": 0
+                },
+                "reconstructionErrorType": {
+                    "type": "categorical",
+                    "value": ["median_pointwise_values", "median_pointwise_errors", "mean_subsequence_rmse"],
+                    "initialValue": "median_pointwise_values"
+                },
+                "scoringFunction": {
+                    "type": "categorical",
+                    "value": ["aggregated", "channelwise", "gauss", "gauss_aggregated", "gauss_channelwise", "ewma"],
+                    "initialValue": "aggregated"
+                }
+            }
+        }
+    },
+    "TSAD_CNN_LSTM_R": {
+        "parameters": {
+            "static": {
+                "name": "CNN-LSTM (reconstruction)",
+                "type": "deep_learning",
+                "modelType": "reconstruction",
+                "learningType": "semi_supervised",
+                "outputType": "anomaly_scores",
+                "className": "TSAD_CNN_LSTM_R"
+            },
+            "configurable": {
+                "separateModelForEachChannel": {
+                    "type": "categorical",
+                    "value": ["no", "yes"],
+                    "initialValue": "no"
+                },
+                "filter": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 32
+                },
+                "hiddenUnits": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 64
+                },
+                "windowSize": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 100
+                },
+                "stepSize": {
+                    "type": "integer",
+                    "value": [1, 100],
+                    "initialValue": 1
+                },
+                "epochs": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 50
+                },
+                "learningRate": {
+                    "type": "real",
+                    "value": [0.0001, 1],
+                    "initialValue": 0.001
+                },
+                "minibatchSize": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 64
+                },
+                "valSize": {
+                    "type": "real",
+                    "value": [0, 1],
+                    "initialValue": 0
+                },
+                "reconstructionErrorType": {
+                    "type": "categorical",
+                    "value": ["median_pointwise_values", "median_pointwise_errors", "mean_subsequence_rmse"],
+                    "initialValue": "median_pointwise_values"
+                },
+                "scoringFunction": {
+                    "type": "categorical",
+                    "value": ["aggregated", "channelwise", "gauss", "gauss_aggregated", "gauss_channelwise", "ewma"],
+                    "initialValue": "aggregated"
+                }
+            }
+        }
+    },
+    "TSAD_TCN_AE": {
+        "parameters": {
+            "static": {
+                "name": "TCN-AE",
+                "type": "deep_learning",
+                "modelType": "reconstruction",
+                "learningType": "semi_supervised",
+                "outputType": "anomaly_scores",
+                "className": "TSAD_TCN_AE"
+            },
+            "configurable": {
+                "separateModelForEachChannel": {
+                    "type": "categorical",
+                    "value": ["no", "yes"],
+                    "initialValue": "no"
+                },
+                "filter": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 32
+                },
+                "windowSize": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 100
+                },
+                "stepSize": {
+                    "type": "integer",
+                    "value": [1, 100],
+                    "initialValue": 1
+                },
+                "epochs": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 50
+                },
+                "learningRate": {
+                    "type": "real",
+                    "value": [0.0001, 1],
+                    "initialValue": 0.001
+                },
+                "minibatchSize": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 64
+                },
+                "valSize": {
+                    "type": "real",
+                    "value": [0, 1],
+                    "initialValue": 0
+                },
+                "reconstructionErrorType": {
+                    "type": "categorical",
+                    "value": ["median_pointwise_values", "median_pointwise_errors", "mean_subsequence_rmse"],
+                    "initialValue": "median_pointwise_values"
+                },
+                "scoringFunction": {
+                    "type": "categorical",
+                    "value": ["aggregated", "channelwise", "gauss", "gauss_aggregated", "gauss_channelwise", "ewma"],
+                    "initialValue": "aggregated"
+                }
+            }
+        }
+    },
+    "TSAD_LSTM": {
+        "parameters": {
+            "static": {
+                "name": "LSTM",
+                "type": "deep_learning",
+                "modelType": "forecasting",
+                "learningType": "semi_supervised",
+                "outputType": "anomaly_scores",
+                "className": "TSAD_LSTM"
+            },
+            "configurable": {
+                "separateModelForEachChannel": {
+                    "type": "categorical",
+                    "value": ["no", "yes"],
+                    "initialValue": "no"
+                },
+                "hiddenUnits": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 64
+                },
+                "windowSize": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 100
+                },
+                "stepSize": {
+                    "type": "integer",
+                    "value": [1, 100],
+                    "initialValue": 1
+                },
+                "epochs": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 50
+                },
+                "learningRate": {
+                    "type": "real",
+                    "value": [0.0001, 1],
+                    "initialValue": 0.001
+                },
+                "minibatchSize": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 64
+                },
+                "valSize": {
+                    "type": "real",
+                    "value": [0, 1],
+                    "initialValue": 0
+                },
+                "scoringFunction": {
+                    "type": "categorical",
+                    "value": ["aggregated", "channelwise", "gauss", "gauss_aggregated", "gauss_channelwise", "ewma"],
+                    "initialValue": "aggregated"
+                }
+            }
+        }
+    },
+    "TSAD_GRU": {
+        "parameters": {
+            "static": {
+                "name": "GRU",
+                "type": "deep_learning",
+                "modelType": "forecasting",
+                "learningType": "semi_supervised",
+                "outputType": "anomaly_scores",
+                "className": "TSAD_GRU"
+            },
+            "configurable": {
+                "separateModelForEachChannel": {
+                    "type": "categorical",
+                    "value": ["no", "yes"],
+                    "initialValue": "no"
+                },
+                "hiddenUnits": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 64
+                },
+                "windowSize": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 100
+                },
+                "stepSize": {
+                    "type": "integer",
+                    "value": [1, 100],
+                    "initialValue": 1
+                },
+                "epochs": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 50
+                },
+                "learningRate": {
+                    "type": "real",
+                    "value": [0.0001, 1],
+                    "initialValue": 0.001
+                },
+                "minibatchSize": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 64
+                },
+                "valSize": {
+                    "type": "real",
+                    "value": [0, 1],
+                    "initialValue": 0
+                },
+                "scoringFunction": {
+                    "type": "categorical",
+                    "value": ["aggregated", "channelwise", "gauss", "gauss_aggregated", "gauss_channelwise", "ewma"],
+                    "initialValue": "aggregated"
+                }
+            }
+        }
+    },
+    "TSAD_CNN_LSTM": {
+        "parameters": {
+            "static": {
+                "name": "CNN-LSTM",
+                "type": "deep_learning",
+                "modelType": "forecasting",
+                "learningType": "semi_supervised",
+                "outputType": "anomaly_scores",
+                "className": "TSAD_CNN_LSTM"
+            },
+            "configurable": {
+                "separateModelForEachChannel": {
+                    "type": "categorical",
+                    "value": ["no", "yes"],
+                    "initialValue": "no"
+                },
+                "filter": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 32
+                },
+                "hiddenUnits": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 64
+                },
+                "windowSize": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 100
+                },
+                "stepSize": {
+                    "type": "integer",
+                    "value": [1, 100],
+                    "initialValue": 1
+                },
+                "epochs": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 50
+                },
+                "learningRate": {
+                    "type": "real",
+                    "value": [0.0001, 1],
+                    "initialValue": 0.001
+                },
+                "minibatchSize": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 64
+                },
+                "valSize": {
+                    "type": "real",
+                    "value": [0, 1],
+                    "initialValue": 0
+                },
+                "scoringFunction": {
+                    "type": "categorical",
+                    "value": ["aggregated", "channelwise", "gauss", "gauss_aggregated", "gauss_channelwise", "ewma"],
+                    "initialValue": "aggregated"
+                }
+            }
+        }
+    },
+    "TSAD_CNN": {
+        "parameters": {
+            "static": {
+                "name": "CNN",
+                "type": "deep_learning",
+                "modelType": "forecasting",
+                "learningType": "semi_supervised",
+                "outputType": "anomaly_scores",
+                "className": "TSAD_CNN"
+            },
+            "configurable": {
+                "separateModelForEachChannel": {
+                    "type": "categorical",
+                    "value": ["no", "yes"],
+                    "initialValue": "no"
+                },
+                "filter": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 32
+                },
+                "windowSize": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 100
+                },
+                "stepSize": {
+                    "type": "integer",
+                    "value": [1, 100],
+                    "initialValue": 1
+                },
+                "epochs": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 50
+                },
+                "learningRate": {
+                    "type": "real",
+                    "value": [0.0001, 1],
+                    "initialValue": 0.001
+                },
+                "minibatchSize": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 64
+                },
+                "valSize": {
+                    "type": "real",
+                    "value": [0, 1],
+                    "initialValue": 0
+                },
+                "scoringFunction": {
+                    "type": "categorical",
+                    "value": ["aggregated", "channelwise", "gauss", "gauss_aggregated", "gauss_channelwise", "ewma"],
+                    "initialValue": "aggregated"
+                }
+            }
+        }
+    },
+    "TSAD_ResNet": {
+        "parameters": {
+            "static": {
+                "name": "ResNet",
+                "type": "deep_learning",
+                "modelType": "forecasting",
+                "learningType": "semi_supervised",
+                "outputType": "anomaly_scores",
+                "className": "TSAD_ResNet"
+            },
+            "configurable": {
+                "separateModelForEachChannel": {
+                    "type": "categorical",
+                    "value": ["no", "yes"],
+                    "initialValue": "no"
+                },
+                "filter": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 32
+                },
+                "windowSize": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 100
+                },
+                "stepSize": {
+                    "type": "integer",
+                    "value": [1, 100],
+                    "initialValue": 1
+                },
+                "epochs": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 50
+                },
+                "learningRate": {
+                    "type": "real",
+                    "value": [0.0001, 1],
+                    "initialValue": 0.001
+                },
+                "minibatchSize": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 64
+                },
+                "valSize": {
+                    "type": "real",
+                    "value": [0, 1],
+                    "initialValue": 0
+                },
+                "scoringFunction": {
+                    "type": "categorical",
+                    "value": ["aggregated", "channelwise", "gauss", "gauss_aggregated", "gauss_channelwise", "ewma"],
+                    "initialValue": "aggregated"
+                }
+            }
+        }
+    },
+    "TSAD_MLP": {
+        "parameters": {
+            "static": {
+                "name": "MLP",
+                "type": "deep_learning",
+                "modelType": "forecasting",
+                "learningType": "semi_supervised",
+                "outputType": "anomaly_scores",
+                "className": "TSAD_MLP"
+            },
+            "configurable": {
+                "separateModelForEachChannel": {
+                    "type": "categorical",
+                    "value": ["no", "yes"],
+                    "initialValue": "no"
+                },
+                "neurons": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 32
+                },
+                "windowSize": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 100
+                },
+                "stepSize": {
+                    "type": "integer",
+                    "value": [1, 100],
+                    "initialValue": 1
+                },
+                "epochs": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 50
+                },
+                "learningRate": {
+                    "type": "real",
+                    "value": [0.0001, 1],
+                    "initialValue": 0.001
+                },
+                "minibatchSize": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 64
+                },
+                "valSize": {
+                    "type": "real",
+                    "value": [0, 1],
+                    "initialValue": 0
+                },
+                "scoringFunction": {
+                    "type": "categorical",
+                    "value": ["aggregated", "channelwise", "gauss", "gauss_aggregated", "gauss_channelwise", "ewma"],
+                    "initialValue": "aggregated"
+                }
+            }
+        }
+    },
+    "TSAD_iForest": {
+        "parameters": {
+            "static": {
+                "name": "iForest",
+                "type": "classic_machine_learning",
+                "outputType": "anomaly_scores",
+                "className": "TSAD_iForest"
+            },
+            "configurable": {
+                "learningType": {
+                    "type": "categorical",
+                    "value": ["unsupervised", "semi_supervised"],
+                    "initialValue": "unsupervised"
+                },
+                "separateModelForEachChannel": {
+                    "type": "categorical",
+                    "value": ["no", "yes"],
+                    "initialValue": "no"
+                },
+                "iTrees": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 100
+                },
+                "observationsPerITree": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 256
+                },
+                "windowSize": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 100
+                },
+                "stepSize": {
+                    "type": "integer",
+                    "value": [1, 100],
+                    "initialValue": 1
+                }
+            }
+        }
+    },
+    "TSAD_OC_SVM": {
+        "parameters": {
+            "static": {
+                "name": "OC-SVM",
+                "type": "classic_machine_learning",
+                "outputType": "anomaly_scores",
+                "className": "TSAD_OC_SVM"
+            },
+            "configurable": {
+                "learningType": {
+                    "type": "categorical",
+                    "value": ["unsupervised", "semi_supervised"],
+                    "initialValue": "unsupervised"
+                },
+                "separateModelForEachChannel": {
+                    "type": "categorical",
+                    "value": ["no", "yes"],
+                    "initialValue": "no"
+                },
+                "windowSize": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 100
+                },
+                "stepSize": {
+                    "type": "integer",
+                    "value": [1, 100],
+                    "initialValue": 1
+                }
+            }
+        }
+    },
+    "TSAD_LOF": {
+        "parameters": {
+            "static": {
+                "name": "LOF",
+                "type": "classic_machine_learning",
+                "learningType": "unsupervised",
+                "outputType": "anomaly_scores",
+                "className": "TSAD_LOF"
+            },
+            "configurable": {
+                "separateModelForEachChannel": {
+                    "type": "categorical",
+                    "value": ["no", "yes"],
+                    "initialValue": "no"
+                },
+                "k": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 10
+                },
+                "windowSize": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 100
+                },
+                "stepSize": {
+                    "type": "integer",
+                    "value": [1, 100],
+                    "initialValue": 1
+                }
+            }
+        }
+    },
+    "TSAD_LDOF": {
+        "parameters": {
+            "static": {
+                "name": "LDOF",
+                "type": "classic_machine_learning",
+                "learningType": "unsupervised",
+                "outputType": "anomaly_scores",
+                "className": "TSAD_LDOF"
+            },
+            "configurable": {
+                "separateModelForEachChannel": {
+                    "type": "categorical",
+                    "value": ["no", "yes"],
+                    "initialValue": "no"
+                },
+                "k": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 10
+                },
+                "windowSize": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 100
+                },
+                "stepSize": {
+                    "type": "integer",
+                    "value": [1, 100],
+                    "initialValue": 1
+                }
+            }
+        }
+    },
+    "TSAD_ABOD": {
+        "parameters": {
+            "static": {
+                "name": "ABOD",
+                "type": "classic_machine_learning",
+                "learningType": "unsupervised",
+                "outputType": "anomaly_scores",
+                "className": "TSAD_ABOD"
+            },
+            "configurable": {
+                "separateModelForEachChannel": {
+                    "type": "categorical",
+                    "value": ["no", "yes"],
+                    "initialValue": "no"
+                },
+                "windowSize": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 100
+                },
+                "stepSize": {
+                    "type": "integer",
+                    "value": [1, 100],
+                    "initialValue": 1
+                }
+            }
+        }
+    },
+    "TSAD_MERLIN": {
+        "parameters": {
+            "static": {
+                "name": "MERLIN",
+                "type": "classic_machine_learning",
+                "learningType": "unsupervised",
+                "separateModelForEachChannel": "yes",
+                "outputType": "labels",
+                "className": "TSAD_MERLIN"
+            },
+            "configurable": {
+                "minL": {
+                    "type": "integer",
+                    "value": [1, 2048],
+                    "initialValue": 90
+                },
+                "maxL": {
+                    "type": "integer",
+                    "value": [2, 2048],
+                    "initialValue": 100
+                }
+            }
+        }
+    }
+}

@@ -2,7 +2,7 @@ function [pre, rec, f1, f05] = computePointAdjustedMetrics(predictedLabels, labe
 %COMPUTEPOINTADJUSTEDMETRICS Computes poin-adjusted metrics
 
 try
-    sequences = findConsecutiveSequences(find(labels == 1));
+    sequences = findConsecutiveAnomalySequences(find(labels == 1));
 
     for i = 1:numel(sequences)
         if any(predictedLabels(sequences{i}))
