@@ -1,10 +1,11 @@
-function autoRun(datasetPath, outputPath, models, preprocMethod, ...
+function autoRun(datasetPath, outputPath, models, preprocessingMethod, ...
                     ratioTestVal, dynamicThresholdSettings, ...
                     trainingPlots, parallelEnabled, ...
                     augmentationMode, augmentationIntensity, ...
                     augmentedTrainingEnabled, getCompTime)
 %AUTORUN Run training and detection for single-or multi-entity datasets (=datasets with multiple subsets) and
 %store the results
+
 
 fprintf("\n ------------------------- \n");
 fprintf("###  Starting Auto Run  ###");
@@ -23,22 +24,22 @@ datasetName = datasetPath_split{end};
 
 fprintf("Selected dataset: %s\n", datasetName);
 
-% Get all dataset files
-if exist(fullfile(datasetPath, "test"), "dir")
-    % For single entity datasets
-    indices = 1;
-    isMultiEntity = false;
-else
-    % For multiple entity datasets
+% Check if a multi-entity dataset was selected
+if ~exist(fullfile(datasetPath, "train"), "dir") && ~exist(fullfile(datasetPath, "test"), "dir")
+     % For multiple entity datasets
     d = dir(datasetPath);
     subFolders = d([d(:).isdir]);
     subFolders = subFolders(~ismember({subFolders(:).name},{'.', '..'}));
     
-    indices = randperm(numel(subFolders));
+    subsetIndices = randperm(numel(subFolders));
     isMultiEntity = true;
+else
+   % For single entity datasets
+    subsetIndices = 1;
+    isMultiEntity = false;
 end
 
-if isempty(indices)
+if isempty(subsetIndices)
     error("Invalid dataset selected");
 end
 
@@ -60,11 +61,11 @@ end
 
 
 % Evaluate each model for every dataset
-for i = 1:numel(indices)    
+for i = 1:numel(subsetIndices)    
     if isMultiEntity
-        fprintf("\n\nEvaluating subset %d/%d \n\n", i, numel(indices));
-        fprintf("%s\n\n", subFolders(indices(i)).name);
-        subsetPath = fullfile(datasetPath, subFolders(indices(i)).name);
+        fprintf("\n\nEvaluating subset %d/%d \n\n", i, numel(subsetIndices));
+        fprintf("%s\n\n", subFolders(subsetIndices(i)).name);
+        subsetPath = fullfile(datasetPath, subFolders(subsetIndices(i)).name);
     else
         subsetPath = datasetPath;
     end
@@ -80,12 +81,16 @@ for i = 1:numel(indices)
 
     % Preprocessing
 
-    fprintf("\nPreprocessing data with method: %s\n", preprocMethod);
-    [dataTrain, dataTest, ~] = preprocessData(dataTrainRaw, dataTestRaw, preprocMethod, false, []);
+    fprintf("\nPreprocessing data with method: %s\n\n", preprocessingMethod);
+    [dataTrain, dataTest, ~] = preprocessData(dataTrainRaw, dataTestRaw, preprocessingMethod, false, []);
     
     [dataTrain, dataTest] = augmentData(dataTrain, dataTest, augmentationMode, augmentationIntensity, augmentedTrainingEnabled);
     [dataTest, labelsTest, fileNamesTest, dataTestVal, labelsTestVal, ~] = splitTestVal(dataTest, labelsTest, fileNamesTest, ratioTestVal);    
     
+    if numel(fileNamesTest) == 0
+        error("No testing data found");
+    end
+
     % Init subset score table
     subsetScores = cell(numThresholds, 1);
     for j = 1:numel(subsetScores)

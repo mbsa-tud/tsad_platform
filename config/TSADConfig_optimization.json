@@ -1,166 +1,18 @@
 {   
-    "TSAD_FC_AE": {
-        "neurons": {
-            "value": ["8", "16", "32", "64", "128", "256"],
-            "type": "categorical"
-        },
-        "windowSize": {
-            "value": ["8", "16", "32", "64", "128", "256"],
-            "type": "categorical"
-        }
-    },
-    "TSAD_LSTM_R": {
-        "hiddenUnits": {
-            "value": ["8", "16", "32", "64", "128", "256"],
-            "type": "categorical"
-        },
-        "windowSize": {
-            "value": ["8", "16", "32", "64", "128", "256"],
-            "type": "categorical"
-        }
-    },
-    "TSAD_CNN_LSTM_R": {
-        "hiddenUnits": {
-            "value": ["8", "16", "32", "64", "128", "256"],
-            "type": "categorical"
-        },
-        "filter": {
-            "value": ["8", "16", "32", "64", "128", "256"],
-            "type": "categorical"
-        },
-        "windowSize": {
-            "value": ["8", "16", "32", "64", "128", "256"],
-            "type": "categorical"
-        }
-    },
-    "TSAD_TCN_AE": {
-        "filter": {
-            "value": ["8", "16", "32", "64", "128", "256"],
-            "type": "categorical"
-        },
-        "windowSize": {
-            "value": ["8", "16", "32", "64", "128", "256"],
-            "type": "categorical"
-        }
-    },
-    "TSAD_LSTM": {
-        "hiddenUnits": {
-            "value": ["8", "16", "32", "64", "128", "256"],
-            "type": "categorical"
-        },
-        "windowSize": {
-            "value": ["8", "16", "32", "64", "128", "256"],
-            "type": "categorical"
-        }
-    },
-    "TSAD_Hybrid_CNN_LSTM": {
-        "hiddenUnits": {
-            "value": ["8", "16", "32", "64", "128", "256"],
-            "type": "categorical"
-        },
-        "filter": {
-            "value": ["8", "16", "32", "64", "128", "256"],
-            "type": "categorical"
-        },
-        "windowSize": {
-            "value": ["8", "16", "32", "64", "128", "256"],
-            "type": "categorical"
-        }
-    },
-    "TSAD_GRU": {
-        "hiddenUnits": {
-            "value": ["8", "16", "32", "64", "128", "256"],
-            "type": "categorical"
-        },
-        "windowSize": {
-            "value": ["8", "16", "32", "64", "128", "256"],
-            "type": "categorical"
-        }
-    },
-    "TSAD_CNN": {
-        "filter": {
-            "value": ["8", "16", "32", "64", "128", "256"],
-            "type": "categorical"
-        },
-        "windowSize": {
-            "value": ["8", "16", "32", "64", "128", "256"],
-            "type": "categorical"
-        }
-    },
-    "TSAD_ResNet": {
-        "filter": {
-            "value": ["8", "16", "32", "64", "128", "256"],
-            "type": "categorical"
-        },
-        "windowSize": {
-            "value": ["8", "16", "32", "64", "128", "256"],
-            "type": "categorical"
-        }
-    },
-    "TSAD_MLP": {
-        "neurons": {
-            "value": ["8", "16", "32", "64", "128", "256"],
-            "type": "categorical"
-        },
-        "windowSize": {
-            "value": ["8", "16", "32", "64", "128", "256"],
-            "type": "categorical"
-        }
-    },
-    "TSAD_iForest": {
-        "iTrees": {
-            "value": ["10", "20", "30", "40", "50", "60", "70", "80", "90", "100", "110", "120", "130", "140", "150", "160", "170", "180", "190", "200"],
-            "type": "categorical"
-        },
-        "observationsPerITree": {
-            "value": ["8", "16", "32", "64", "128", "256"],
-            "type": "categorical"
-        },
-        "windowSize": {
-            "value": ["8", "16", "32", "64", "128", "256"],
-            "type": "categorical"
-        }
-    },
-    "TSAD_OC_SVM": {
-        "windowSize": {
-            "value": ["8", "16", "32", "64", "128", "256"],
-            "type": "categorical"
-        }
-    },
-    "TSAD_ABOD": {
-        "windowSize": {
-            "value": ["8", "16", "32", "64", "128", "256"],
-            "type": "categorical"
-        }
-    },
-    "TSAD_LOF": {
-        "k": {
-            "value": ["10", "20", "30", "40", "50", "60", "70", "80", "90", "100", "110", "120", "130", "140", "150", "160", "170", "180", "190", "200"],
-            "type": "categorical"
-        },
-        "windowSize": {
-            "value": ["8", "16", "32", "64", "128", "256"],
-            "type": "categorical"
-        }
-    },
-    "TSAD_LDOF": {
-        "k": {
-            "value": ["10", "20", "30", "40", "50", "60", "70", "80", "90", "100", "110", "120", "130", "140", "150", "160", "170", "180", "190", "200"],
-            "type": "categorical"
-        },
-        "windowSize": {
-            "value": ["8", "16", "32", "64", "128", "256"],
-            "type": "categorical"
-        }
-    },
-    "TSAD_MERLIN": {
-        "maxL": {
-            "value": ["50", "75", "100", "125", "150", "175", "200"],
-            "type": "categorical"
-        },
-        "minL": {
-            "value": ["25", "50", "75", "100", "125", "150", "175"],
-            "type": "categorical"
-        }
-    }
+    "TSAD_FC_AE": ["neurons", "windowSize"],
+    "TSAD_LSTM_R": ["hiddenUnits", "windowSize"],
+    "TSAD_CNN_LSTM_R": ["hiddenUnits", "filter", "windowSize"],
+    "TSAD_TCN_AE": ["filter", "windowSize"],
+    "TSAD_LSTM": ["hiddenUnits", "windowSize"],
+    "TSAD_Hybrid_CNN_LSTM": ["hiddenUnits", "filter", "windowSize"],
+    "TSAD_GRU": ["hiddenUnits", "windowSize"],
+    "TSAD_CNN": ["filter", "windowSize"],
+    "TSAD_ResNet": ["filter", "windowSize"],
+    "TSAD_MLP": ["neurons", "windowSize"],
+    "TSAD_iForest": ["iTrees", "observationsPerITree", "windowSize"],
+    "TSAD_OC_SVM": ["windowSize"],
+    "TSAD_ABOD": ["windowSize"],
+    "TSAD_LOF": ["k", "windowSize"],
+    "TSAD_LDOF": ["k", "windowSize"],
+    "TSAD_MERLIN": ["minL", "maxL"]
 }

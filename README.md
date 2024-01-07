@@ -156,9 +156,42 @@ To add a new model, you must [create a model class](#create-model-class) and [cr
 
 ### Create Model class
 
-
+1. Navigate to the folder: `models/+models`.
+2. Copy the `TSAD__MODEL_TEMPLATE` file and rename it to `TSAD_<your model name>`.
+3. Open the file and rename the class as above
+4. You **must** implement the `prepareDataTest` and `predict` functions.
+5. You **can** implement the `prepareDataTrain` and `fit` functions if your model needs a training step.
+6. You **can** implement the `getLayers` function if you want the platform to be able to display the layers of your model.
 
 ### Create Model config
+
+You **must** add your model to the `TSADConfig_models.json` file, otherwise the platform will not recognize it.
+
+To do so simply add the following template to the file and configure it to your needs:
+
+```json
+"your model's class name": {
+        "parameters": {
+            "static": {
+                "name": "model name used for displaying",
+                "learningType": "learning type of your model. one of 'unsupervised', 'semi_supervised', 'supervised'",
+                "outputType": "output type of your model. one of 'anomaly_scores', 'labels'",
+                "className": "your model's class name"
+            },
+            "configurable": {
+                "your custom parameter": {
+                    "type": "one of 'real', 'integer',  'categorical'",
+                    "value": ["array of possible values for categorical parameters. Upper and lower limit for real and integer parameters"],
+                    "initialValue": "Default value for parameter, must be within defined 'value' range (see above)"
+                }
+            }
+        }
+    }
+```
+
+* All `static` parameters shown above are **mandatory**.
+* You **can** add as many `configurable` parameters as you wish. These must all follow the shown template.
+
 
 
 

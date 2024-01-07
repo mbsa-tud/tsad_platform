@@ -572,46 +572,27 @@ classdef TSADModel < handle
         function optVars = loadOptimizationVariables(obj)
             %LOADOPTIMIZATIONVARIABLES Load the optimization variables from
             %the TSADConfig_optimization.json file
+
+            optVars = struct();
             
             % Convert model name to valid matlab struct fieldname
             className = obj.parameters.className;
             
             % Load parameter optimization configuration
-            fid = fopen("TSADConfig_optimization.json");
-            raw = fread(fid, inf);
-            str = char(raw');
-            fclose(fid);
-            config = jsondecode(str);
+            optimizationConfig = loadJsonFromFile("TSADConfig_optimization.json");
+            modelConfig = loadJsonFromFile("TSADConfig_models.json");
             
-            vars = fieldnames(config.(className));
+            parametersToOptimize = string(optimizationConfig.(className));
 
             % Return empty struct if no optimization config found
-            if isempty(vars)
-                optVars = struct();
+            if isempty(parametersToOptimize)
                 return;
             end
             
             % Load optimizable parameters
-            for i = 1:numel(vars)
-                optVars.(vars{i}).value = config.(className).(vars{i}).value;
-                optVars.(vars{i}).type = config.(className).(vars{i}).type;
-            end
-
-            % Check for each optVar if it matches a parameter of this
-            % model. Only parameters defined by this model can be
-            % optimized.
-            if ~isempty(fieldnames(optVars))
-                varNames = fieldnames(optVars);
-                for i = 1:numel(varNames)
-                    flag = false;
-                    if isfield(obj.parameters, varNames{i})
-                        flag = true;
-                    end
-        
-                    if ~flag
-                        optVars = rmfield(optVars, varNames{i});
-                    end
-                end
+            for i = 1:numel(parametersToOptimize)
+                optVars.(parametersToOptimize(i)).value = modelConfig.(className).parameters.configurable.(parametersToOptimize(i)).value;
+                optVars.(parametersToOptimize(i)).type = modelConfig.(className).parameters.configurable.(parametersToOptimize(i)).type;
             end
         end
     end
