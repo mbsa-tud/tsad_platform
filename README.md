@@ -181,7 +181,7 @@ To do so simply add the following template to the file and configure it to your 
             "configurable": {
                 "your custom parameter": {
                     "type": "one of 'real', 'integer',  'categorical'",
-                    "value": ["array of possible values for categorical parameters. Upper and lower limit for real and integer parameters"],
+                    "value": ["array of possible values for categorical parameters (can be numeric array or string array). Upper and lower limit for real and integer parameters (numeric 2-element array)"],
                     "initialValue": "Default value for parameter, must be within defined 'value' range (see above)"
                 }
             }

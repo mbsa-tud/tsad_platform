@@ -16,38 +16,38 @@
                     "initialValue": "no"
                 },
                 "neurons": {
-                    "type": "integer",
-                    "value": [1, 2048],
-                    "initialValue": 32
+                    "type": "categorical",
+                    "value": [8, 16, 32, 64, 128, 256, 512, 1028],
+                    "initialValue": 64
                 },
                 "windowSize": {
-                    "type": "integer",
-                    "value": [1, 2048],
+                    "type": "categorical",
+                    "value": [10, 25, 50, 75, 100, 150, 200, 250, 500, 1000],
                     "initialValue": 100
                 },
                 "stepSize": {
-                    "type": "integer",
-                    "value": [1, 100],
+                    "type": "categorical",
+                    "value": [1, 10, 25, 50, 75, 100],
                     "initialValue": 1
                 },
                 "epochs": {
-                    "type": "integer",
-                    "value": [1, 2048],
+                    "type": "categorical",
+                    "value": [1, 10, 25, 50, 100, 500, 1000],
                     "initialValue": 50
                 },
                 "learningRate": {
-                    "type": "real",
-                    "value": [0.0001, 1],
+                    "type": "categorical",
+                    "value": [0.0001, 0.001, 0.01, 0.1],
                     "initialValue": 0.001
                 },
                 "minibatchSize": {
-                    "type": "integer",
-                    "value": [1, 2048],
+                    "type": "categorical",
+                    "value": [8, 16, 32, 64, 128, 256, 512, 1028],
                     "initialValue": 64
                 },
                 "valSize": {
-                    "type": "real",
-                    "value": [0, 1],
+                    "type": "categorical",
+                    "value": [0, 0.1, 0.2, 0.3, 0.4, 0.5],
                     "initialValue": 0
                 },
                 "reconstructionErrorType": {
@@ -80,38 +80,38 @@
                     "initialValue": "no"
                 },
                 "hiddenUnits": {
-                    "type": "integer",
-                    "value": [1, 2048],
+                    "type": "categorical",
+                    "value": [8, 16, 32, 64, 128, 256, 512, 1028],
                     "initialValue": 64
                 },
                 "windowSize": {
-                    "type": "integer",
-                    "value": [1, 2048],
+                    "type": "categorical",
+                    "value": [10, 25, 50, 75, 100, 150, 200, 250, 500, 1000],
                     "initialValue": 100
                 },
                 "stepSize": {
-                    "type": "integer",
-                    "value": [1, 100],
+                    "type": "categorical",
+                    "value": [1, 10, 25, 50, 75, 100],
                     "initialValue": 1
                 },
                 "epochs": {
-                    "type": "integer",
-                    "value": [1, 2048],
+                    "type": "categorical",
+                    "value": [1, 10, 25, 50, 100, 500, 1000],
                     "initialValue": 50
                 },
                 "learningRate": {
-                    "type": "real",
-                    "value": [0.0001, 1],
+                    "type": "categorical",
+                    "value": [0.0001, 0.001, 0.01, 0.1],
                     "initialValue": 0.001
                 },
                 "minibatchSize": {
-                    "type": "integer",
-                    "value": [1, 2048],
+                    "type": "categorical",
+                    "value": [8, 16, 32, 64, 128, 256, 512, 1028],
                     "initialValue": 64
                 },
                 "valSize": {
-                    "type": "real",
-                    "value": [0, 1],
+                    "type": "categorical",
+                    "value": [0, 0.1, 0.2, 0.3, 0.4, 0.5],
                     "initialValue": 0
                 },
                 "reconstructionErrorType": {
@@ -144,43 +144,43 @@
                     "initialValue": "no"
                 },
                 "filter": {
-                    "type": "integer",
-                    "value": [1, 2048],
-                    "initialValue": 32
+                    "type": "categorical",
+                    "value": [8, 16, 32, 64, 128, 256, 512, 1028],
+                    "initialValue": 64
                 },
                 "hiddenUnits": {
-                    "type": "integer",
-                    "value": [1, 2048],
+                    "type": "categorical",
+                    "value": [8, 16, 32, 64, 128, 256, 512, 1028],
                     "initialValue": 64
                 },
                 "windowSize": {
-                    "type": "integer",
-                    "value": [1, 2048],
+                    "type": "categorical",
+                    "value": [10, 25, 50, 75, 100, 150, 200, 250, 500, 1000],
                     "initialValue": 100
                 },
                 "stepSize": {
-                    "type": "integer",
-                    "value": [1, 100],
+                    "type": "categorical",
+                    "value": [1, 10, 25, 50, 75, 100],
                     "initialValue": 1
                 },
                 "epochs": {
-                    "type": "integer",
-                    "value": [1, 2048],
+                    "type": "categorical",
+                    "value": [1, 10, 25, 50, 100, 500, 1000],
                     "initialValue": 50
                 },
                 "learningRate": {
-                    "type": "real",
-                    "value": [0.0001, 1],
+                    "type": "categorical",
+                    "value": [0.0001, 0.001, 0.01, 0.1],
                     "initialValue": 0.001
                 },
                 "minibatchSize": {
-                    "type": "integer",
-                    "value": [1, 2048],
+                    "type": "categorical",
+                    "value": [8, 16, 32, 64, 128, 256, 512, 1028],
                     "initialValue": 64
                 },
                 "valSize": {
-                    "type": "real",
-                    "value": [0, 1],
+                    "type": "categorical",
+                    "value": [0, 0.1, 0.2, 0.3, 0.4, 0.5],
                     "initialValue": 0
                 },
                 "reconstructionErrorType": {
@@ -213,38 +213,38 @@
                     "initialValue": "no"
                 },
                 "filter": {
-                    "type": "integer",
-                    "value": [1, 2048],
-                    "initialValue": 32
+                    "type": "categorical",
+                    "value": [8, 16, 32, 64, 128, 256, 512, 1028],
+                    "initialValue": 64
                 },
                 "windowSize": {
-                    "type": "integer",
-                    "value": [1, 2048],
+                    "type": "categorical",
+                    "value": [10, 25, 50, 75, 100, 150, 200, 250, 500, 1000],
                     "initialValue": 100
                 },
                 "stepSize": {
-                    "type": "integer",
-                    "value": [1, 100],
+                    "type": "categorical",
+                    "value": [1, 10, 25, 50, 75, 100],
                     "initialValue": 1
                 },
                 "epochs": {
-                    "type": "integer",
-                    "value": [1, 2048],
+                    "type": "categorical",
+                    "value": [1, 10, 25, 50, 100, 500, 1000],
                     "initialValue": 50
                 },
                 "learningRate": {
-                    "type": "real",
-                    "value": [0.0001, 1],
+                    "type": "categorical",
+                    "value": [0.0001, 0.001, 0.01, 0.1],
                     "initialValue": 0.001
                 },
                 "minibatchSize": {
-                    "type": "integer",
-                    "value": [1, 2048],
+                    "type": "categorical",
+                    "value": [8, 16, 32, 64, 128, 256, 512, 1028],
                     "initialValue": 64
                 },
                 "valSize": {
-                    "type": "real",
-                    "value": [0, 1],
+                    "type": "categorical",
+                    "value": [0, 0.1, 0.2, 0.3, 0.4, 0.5],
                     "initialValue": 0
                 },
                 "reconstructionErrorType": {
@@ -277,38 +277,38 @@
                     "initialValue": "no"
                 },
                 "hiddenUnits": {
-                    "type": "integer",
-                    "value": [1, 2048],
+                    "type": "categorical",
+                    "value": [8, 16, 32, 64, 128, 256, 512, 1028],
                     "initialValue": 64
                 },
                 "windowSize": {
-                    "type": "integer",
-                    "value": [1, 2048],
+                    "type": "categorical",
+                    "value": [10, 25, 50, 75, 100, 150, 200, 250, 500, 1000],
                     "initialValue": 100
                 },
                 "stepSize": {
-                    "type": "integer",
-                    "value": [1, 100],
+                    "type": "categorical",
+                    "value": [1, 10, 25, 50, 75, 100],
                     "initialValue": 1
                 },
                 "epochs": {
-                    "type": "integer",
-                    "value": [1, 2048],
+                    "type": "categorical",
+                    "value": [1, 10, 25, 50, 100, 500, 1000],
                     "initialValue": 50
                 },
                 "learningRate": {
-                    "type": "real",
-                    "value": [0.0001, 1],
+                    "type": "categorical",
+                    "value": [0.0001, 0.001, 0.01, 0.1],
                     "initialValue": 0.001
                 },
                 "minibatchSize": {
-                    "type": "integer",
-                    "value": [1, 2048],
+                    "type": "categorical",
+                    "value": [8, 16, 32, 64, 128, 256, 512, 1028],
                     "initialValue": 64
                 },
                 "valSize": {
-                    "type": "real",
-                    "value": [0, 1],
+                    "type": "categorical",
+                    "value": [0, 0.1, 0.2, 0.3, 0.4, 0.5],
                     "initialValue": 0
                 },
                 "scoringFunction": {
@@ -336,38 +336,38 @@
                     "initialValue": "no"
                 },
                 "hiddenUnits": {
-                    "type": "integer",
-                    "value": [1, 2048],
+                    "type": "categorical",
+                    "value": [8, 16, 32, 64, 128, 256, 512, 1028],
                     "initialValue": 64
                 },
                 "windowSize": {
-                    "type": "integer",
-                    "value": [1, 2048],
+                    "type": "categorical",
+                    "value": [10, 25, 50, 75, 100, 150, 200, 250, 500, 1000],
                     "initialValue": 100
                 },
                 "stepSize": {
-                    "type": "integer",
-                    "value": [1, 100],
+                    "type": "categorical",
+                    "value": [1, 10, 25, 50, 75, 100],
                     "initialValue": 1
                 },
                 "epochs": {
-                    "type": "integer",
-                    "value": [1, 2048],
+                    "type": "categorical",
+                    "value": [1, 10, 25, 50, 100, 500, 1000],
                     "initialValue": 50
                 },
                 "learningRate": {
-                    "type": "real",
-                    "value": [0.0001, 1],
+                    "type": "categorical",
+                    "value": [0.0001, 0.001, 0.01, 0.1],
                     "initialValue": 0.001
                 },
                 "minibatchSize": {
-                    "type": "integer",
-                    "value": [1, 2048],
+                    "type": "categorical",
+                    "value": [8, 16, 32, 64, 128, 256, 512, 1028],
                     "initialValue": 64
                 },
                 "valSize": {
-                    "type": "real",
-                    "value": [0, 1],
+                    "type": "categorical",
+                    "value": [0, 0.1, 0.2, 0.3, 0.4, 0.5],
                     "initialValue": 0
                 },
                 "scoringFunction": {
@@ -395,43 +395,43 @@
                     "initialValue": "no"
                 },
                 "filter": {
-                    "type": "integer",
-                    "value": [1, 2048],
-                    "initialValue": 32
+                    "type": "categorical",
+                    "value": [8, 16, 32, 64, 128, 256, 512, 1028],
+                    "initialValue": 64
                 },
                 "hiddenUnits": {
-                    "type": "integer",
-                    "value": [1, 2048],
+                    "type": "categorical",
+                    "value": [8, 16, 32, 64, 128, 256, 512, 1028],
                     "initialValue": 64
                 },
                 "windowSize": {
-                    "type": "integer",
-                    "value": [1, 2048],
+                    "type": "categorical",
+                    "value": [10, 25, 50, 75, 100, 150, 200, 250, 500, 1000],
                     "initialValue": 100
                 },
                 "stepSize": {
-                    "type": "integer",
-                    "value": [1, 100],
+                    "type": "categorical",
+                    "value": [1, 10, 25, 50, 75, 100],
                     "initialValue": 1
                 },
                 "epochs": {
-                    "type": "integer",
-                    "value": [1, 2048],
+                    "type": "categorical",
+                    "value": [1, 10, 25, 50, 100, 500, 1000],
                     "initialValue": 50
                 },
                 "learningRate": {
-                    "type": "real",
-                    "value": [0.0001, 1],
+                    "type": "categorical",
+                    "value": [0.0001, 0.001, 0.01, 0.1],
                     "initialValue": 0.001
                 },
                 "minibatchSize": {
-                    "type": "integer",
-                    "value": [1, 2048],
+                    "type": "categorical",
+                    "value": [8, 16, 32, 64, 128, 256, 512, 1028],
                     "initialValue": 64
                 },
                 "valSize": {
-                    "type": "real",
-                    "value": [0, 1],
+                    "type": "categorical",
+                    "value": [0, 0.1, 0.2, 0.3, 0.4, 0.5],
                     "initialValue": 0
                 },
                 "scoringFunction": {
@@ -459,38 +459,38 @@
                     "initialValue": "no"
                 },
                 "filter": {
-                    "type": "integer",
-                    "value": [1, 2048],
-                    "initialValue": 32
+                    "type": "categorical",
+                    "value": [8, 16, 32, 64, 128, 256, 512, 1028],
+                    "initialValue": 64
                 },
                 "windowSize": {
-                    "type": "integer",
-                    "value": [1, 2048],
+                    "type": "categorical",
+                    "value": [10, 25, 50, 75, 100, 150, 200, 250, 500, 1000],
                     "initialValue": 100
                 },
                 "stepSize": {
-                    "type": "integer",
-                    "value": [1, 100],
+                    "type": "categorical",
+                    "value": [1, 10, 25, 50, 75, 100],
                     "initialValue": 1
                 },
                 "epochs": {
-                    "type": "integer",
-                    "value": [1, 2048],
+                    "type": "categorical",
+                    "value": [1, 10, 25, 50, 100, 500, 1000],
                     "initialValue": 50
                 },
                 "learningRate": {
-                    "type": "real",
-                    "value": [0.0001, 1],
+                    "type": "categorical",
+                    "value": [0.0001, 0.001, 0.01, 0.1],
                     "initialValue": 0.001
                 },
                 "minibatchSize": {
-                    "type": "integer",
-                    "value": [1, 2048],
+                    "type": "categorical",
+                    "value": [8, 16, 32, 64, 128, 256, 512, 1028],
                     "initialValue": 64
                 },
                 "valSize": {
-                    "type": "real",
-                    "value": [0, 1],
+                    "type": "categorical",
+                    "value": [0, 0.1, 0.2, 0.3, 0.4, 0.5],
                     "initialValue": 0
                 },
                 "scoringFunction": {
@@ -518,38 +518,38 @@
                     "initialValue": "no"
                 },
                 "filter": {
-                    "type": "integer",
-                    "value": [1, 2048],
-                    "initialValue": 32
+                    "type": "categorical",
+                    "value": [8, 16, 32, 64, 128, 256, 512, 1028],
+                    "initialValue": 64
                 },
                 "windowSize": {
-                    "type": "integer",
-                    "value": [1, 2048],
+                    "type": "categorical",
+                    "value": [10, 25, 50, 75, 100, 150, 200, 250, 500, 1000],
                     "initialValue": 100
                 },
                 "stepSize": {
-                    "type": "integer",
-                    "value": [1, 100],
+                    "type": "categorical",
+                    "value": [1, 10, 25, 50, 75, 100],
                     "initialValue": 1
                 },
                 "epochs": {
-                    "type": "integer",
-                    "value": [1, 2048],
+                    "type": "categorical",
+                    "value": [1, 10, 25, 50, 100, 500, 1000],
                     "initialValue": 50
                 },
                 "learningRate": {
-                    "type": "real",
-                    "value": [0.0001, 1],
+                    "type": "categorical",
+                    "value": [0.0001, 0.001, 0.01, 0.1],
                     "initialValue": 0.001
                 },
                 "minibatchSize": {
-                    "type": "integer",
-                    "value": [1, 2048],
+                    "type": "categorical",
+                    "value": [8, 16, 32, 64, 128, 256, 512, 1028],
                     "initialValue": 64
                 },
                 "valSize": {
-                    "type": "real",
-                    "value": [0, 1],
+                    "type": "categorical",
+                    "value": [0, 0.1, 0.2, 0.3, 0.4, 0.5],
                     "initialValue": 0
                 },
                 "scoringFunction": {
@@ -577,38 +577,38 @@
                     "initialValue": "no"
                 },
                 "neurons": {
-                    "type": "integer",
-                    "value": [1, 2048],
-                    "initialValue": 32
+                    "type": "categorical",
+                    "value": [8, 16, 32, 64, 128, 256, 512, 1028],
+                    "initialValue": 64
                 },
                 "windowSize": {
-                    "type": "integer",
-                    "value": [1, 2048],
+                    "type": "categorical",
+                    "value": [10, 25, 50, 75, 100, 150, 200, 250, 500, 1000],
                     "initialValue": 100
                 },
                 "stepSize": {
-                    "type": "integer",
-                    "value": [1, 100],
+                    "type": "categorical",
+                    "value": [1, 10, 25, 50, 75, 100],
                     "initialValue": 1
                 },
                 "epochs": {
-                    "type": "integer",
-                    "value": [1, 2048],
+                    "type": "categorical",
+                    "value": [1, 10, 25, 50, 100, 500, 1000],
                     "initialValue": 50
                 },
                 "learningRate": {
-                    "type": "real",
-                    "value": [0.0001, 1],
+                    "type": "categorical",
+                    "value": [0.0001, 0.001, 0.01, 0.1],
                     "initialValue": 0.001
                 },
                 "minibatchSize": {
-                    "type": "integer",
-                    "value": [1, 2048],
+                    "type": "categorical",
+                    "value": [8, 16, 32, 64, 128, 256, 512, 1028],
                     "initialValue": 64
                 },
                 "valSize": {
-                    "type": "real",
-                    "value": [0, 1],
+                    "type": "categorical",
+                    "value": [0, 0.1, 0.2, 0.3, 0.4, 0.5],
                     "initialValue": 0
                 },
                 "scoringFunction": {
@@ -639,23 +639,23 @@
                     "initialValue": "no"
                 },
                 "iTrees": {
-                    "type": "integer",
-                    "value": [1, 2048],
-                    "initialValue": 100
+                    "type": "categorical",
+                    "value": [8, 16, 32, 64, 128, 256, 512, 1028],
+                    "initialValue": 64
                 },
                 "observationsPerITree": {
-                    "type": "integer",
-                    "value": [1, 2048],
+                    "type": "categorical",
+                    "value": [8, 16, 32, 64, 128, 256, 512, 1028],
                     "initialValue": 256
                 },
                 "windowSize": {
-                    "type": "integer",
-                    "value": [1, 2048],
+                    "type": "categorical",
+                    "value": [10, 25, 50, 75, 100, 150, 200, 250, 500, 1000],
                     "initialValue": 100
                 },
                 "stepSize": {
-                    "type": "integer",
-                    "value": [1, 100],
+                    "type": "categorical",
+                    "value": [1, 10, 25, 50, 75, 100],
                     "initialValue": 1
                 }
             }
@@ -681,13 +681,13 @@
                     "initialValue": "no"
                 },
                 "windowSize": {
-                    "type": "integer",
-                    "value": [1, 2048],
+                    "type": "categorical",
+                    "value": [10, 25, 50, 75, 100, 150, 200, 250, 500, 1000],
                     "initialValue": 100
                 },
                 "stepSize": {
-                    "type": "integer",
-                    "value": [1, 100],
+                    "type": "categorical",
+                    "value": [1, 10, 25, 50, 75, 100],
                     "initialValue": 1
                 }
             }
@@ -709,18 +709,18 @@
                     "initialValue": "no"
                 },
                 "k": {
-                    "type": "integer",
-                    "value": [1, 2048],
+                    "type": "categorical",
+                    "value": [10, 25, 50, 75, 100, 150, 200, 250],
                     "initialValue": 10
                 },
                 "windowSize": {
-                    "type": "integer",
-                    "value": [1, 2048],
+                    "type": "categorical",
+                    "value": [10, 25, 50, 75, 100, 150, 200, 250, 500, 1000],
                     "initialValue": 100
                 },
                 "stepSize": {
-                    "type": "integer",
-                    "value": [1, 100],
+                    "type": "categorical",
+                    "value": [1, 10, 25, 50, 75, 100],
                     "initialValue": 1
                 }
             }
@@ -743,17 +743,17 @@
                 },
                 "k": {
                     "type": "integer",
-                    "value": [1, 2048],
+                    "value": [10, 25, 50, 75, 100, 150, 200, 250],
                     "initialValue": 10
                 },
                 "windowSize": {
-                    "type": "integer",
-                    "value": [1, 2048],
+                    "type": "categorical",
+                    "value": [10, 25, 50, 75, 100, 150, 200, 250, 500, 1000],
                     "initialValue": 100
                 },
                 "stepSize": {
-                    "type": "integer",
-                    "value": [1, 100],
+                    "type": "categorical",
+                    "value": [1, 10, 25, 50, 75, 100],
                     "initialValue": 1
                 }
             }
@@ -775,13 +775,13 @@
                     "initialValue": "no"
                 },
                 "windowSize": {
-                    "type": "integer",
-                    "value": [1, 2048],
+                    "type": "categorical",
+                    "value": [10, 25, 50, 75, 100, 150, 200, 250, 500, 1000],
                     "initialValue": 100
                 },
                 "stepSize": {
-                    "type": "integer",
-                    "value": [1, 100],
+                    "type": "categorical",
+                    "value": [1, 10, 25, 50, 75, 100],
                     "initialValue": 1
                 }
             }
@@ -799,14 +799,14 @@
             },
             "configurable": {
                 "minL": {
-                    "type": "integer",
-                    "value": [1, 2048],
-                    "initialValue": 90
+                    "type": "categorical",
+                    "value": [10, 25, 50, 75, 100, 150, 200, 250],
+                    "initialValue": 25
                 },
                 "maxL": {
-                    "type": "integer",
-                    "value": [2, 2048],
-                    "initialValue": 100
+                    "type": "categorical",
+                    "value": [25, 50, 75, 100, 150, 200, 250],
+                    "initialValue": 50
                 }
             }
         }

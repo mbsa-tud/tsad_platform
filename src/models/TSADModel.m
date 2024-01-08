@@ -329,23 +329,24 @@ classdef TSADModel < handle
             %the newParameters table (used for optimization only)
             
             newParameterNames = newParameters.Properties.VariableNames;
+
             for i = 1:numel(newParameterNames)
-                if isfield(obj.parameters, newParameterNames{i})
-                    if iscategorical(newParameters{1, i})
-                        if isnumeric(obj.parameters.(newParameterNames{i}))
-                            newValue = double(string(newParameters{1, i}(1)));
-                        else
-                            newValue = string(newParameters{1, i}(1));
-                        end
-                    else
-                        newValue = newParameters{1, i};
-                    end
-            
-                    obj.parameters.(newParameterNames{i}) = newValue;
-                    continue;
-                else
+                if ~isfield(obj.parameters, newParameterNames{i})
                     warning("Your trying to optimize a parameter which is not defined in the parameters struct of your model");
+                    continue;
                 end
+
+                if iscategorical(newParameters{1, i})
+                    if isnumeric(obj.parameters.(newParameterNames{i}))
+                        newValue = double(string(newParameters{1, i}(1)));
+                    else
+                        newValue = string(newParameters{1, i}(1));
+                    end
+                else
+                    newValue = newParameters{1, i};
+                end
+        
+                obj.parameters.(newParameterNames{i}) = newValue;
             end
         end
 
@@ -539,7 +540,7 @@ classdef TSADModel < handle
         end
 
         function results = bayesOptimize(obj, optVars, dataTrain, labelsTrain, dataValTest, labelsValTest, dataTest, labelsTest, threshold, dynamicThresholdSettings, metric, iterations, trainingPlots, parallelEnabled)
-            %OPTIMIZE Runs the byesian optimization
+            %BAYESOPTIMIZE Runs the byesian optimization
             %   Sets the optVars, defines the opt_fun and calls the bayesopt function
             
             optVariables = [];
@@ -591,8 +592,17 @@ classdef TSADModel < handle
             
             % Load optimizable parameters
             for i = 1:numel(parametersToOptimize)
-                optVars.(parametersToOptimize(i)).value = modelConfig.(className).parameters.configurable.(parametersToOptimize(i)).value;
-                optVars.(parametersToOptimize(i)).type = modelConfig.(className).parameters.configurable.(parametersToOptimize(i)).type;
+                param = modelConfig.(className).parameters.configurable.(parametersToOptimize(i));
+                
+                type = param.type;
+                if strcmp(type, "categorical")
+                    value = string(param.value); % The string() is to convert potential double array to string array
+                else
+                    value = param.value;
+                end
+
+                optVars.(parametersToOptimize(i)).type = type;
+                optVars.(parametersToOptimize(i)).value = value;
             end
         end
     end
