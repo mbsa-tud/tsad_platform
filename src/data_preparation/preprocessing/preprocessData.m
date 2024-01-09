@@ -75,7 +75,7 @@ switch method
             
             preprocessedTestingData = standardizeData(rawTestingData, preprocParams.mu, preprocParams.sigma);
         end
-    case "raw_data"
+    case "none"
         preprocessedTrainingData = rawTrainingData;
         preprocessedTestingData = rawTestingData;
     otherwise

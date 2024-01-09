@@ -54,17 +54,16 @@ classdef TSAD_FC_AE < TSADModel
 
             layers = [featureInputLayer(numFeatures)
                       fullyConnectedLayer(neurons)
-                      leakyReluLayer()
+                      reluLayer()
                       fullyConnectedLayer(floor(neurons / 2))
-                      leakyReluLayer()
+                      reluLayer()
                       fullyConnectedLayer(floor(floor(neurons / 2) / 2))
-                      leakyReluLayer()
+                      reluLayer()
                       fullyConnectedLayer(floor(neurons / 2))
-                      leakyReluLayer()
+                      reluLayer()
                       fullyConnectedLayer(neurons)
-                      leakyReluLayer()
+                      reluLayer()
                       fullyConnectedLayer(numResponses)
-                      leakyReluLayer()
                       regressionLayer()];
             
             layers = layerGraph(layers);

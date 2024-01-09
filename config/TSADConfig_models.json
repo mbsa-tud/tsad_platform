@@ -650,7 +650,7 @@
                 },
                 "windowSize": {
                     "type": "categorical",
-                    "value": [10, 25, 50, 75, 100, 150, 200, 250, 500, 1000],
+                    "value": [1, 10, 25, 50, 75, 100, 150, 200, 250, 500, 1000],
                     "initialValue": 100
                 },
                 "stepSize": {
@@ -682,7 +682,7 @@
                 },
                 "windowSize": {
                     "type": "categorical",
-                    "value": [10, 25, 50, 75, 100, 150, 200, 250, 500, 1000],
+                    "value": [1, 10, 25, 50, 75, 100, 150, 200, 250, 500, 1000],
                     "initialValue": 100
                 },
                 "stepSize": {
@@ -715,7 +715,7 @@
                 },
                 "windowSize": {
                     "type": "categorical",
-                    "value": [10, 25, 50, 75, 100, 150, 200, 250, 500, 1000],
+                    "value": [1, 10, 25, 50, 75, 100, 150, 200, 250, 500, 1000],
                     "initialValue": 100
                 },
                 "stepSize": {
@@ -748,7 +748,7 @@
                 },
                 "windowSize": {
                     "type": "categorical",
-                    "value": [10, 25, 50, 75, 100, 150, 200, 250, 500, 1000],
+                    "value": [1, 10, 25, 50, 75, 100, 150, 200, 250, 500, 1000],
                     "initialValue": 100
                 },
                 "stepSize": {
@@ -776,7 +776,7 @@
                 },
                 "windowSize": {
                     "type": "categorical",
-                    "value": [10, 25, 50, 75, 100, 150, 200, 250, 500, 1000],
+                    "value": [1, 10, 25, 50, 75, 100, 150, 200, 250, 500, 1000],
                     "initialValue": 100
                 },
                 "stepSize": {

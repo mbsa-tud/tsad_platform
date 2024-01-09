@@ -100,15 +100,15 @@ for i = 1:numel(subsetIndices)
     % Train and test models
 
     for j = 1:numModels
-        models.(modelIDs{i}).train(dataTrain, labelsTrain, dataTestVal, labelsTestVal, trainingPlots, true);
+        models.(modelIDs{j}).train(dataTrain, labelsTrain, dataTestVal, labelsTestVal, trainingPlots, true);
 
         % For all test files
         for k = 1:numel(fileNamesTest)                
-            [anomalyScores, ~, labels, compTime] = models.(modelIDs{i}).detect(dataTest, labelsTest);
+            [anomalyScores, ~, labels, compTime] = models.(modelIDs{j}).detect(dataTest, labelsTest);
             
             % For all thresholds in the thresholds variable
             for l = 1:numThresholds
-                [predictedLabels, ~] = models.(modelIDs{i}).applyThreshold(anomalyScores, labels, thresholds(l), dynamicThresholdSettings, []);
+                [predictedLabels, ~] = models.(modelIDs{j}).applyThreshold(anomalyScores, labels, thresholds(l), dynamicThresholdSettings, []);
         
                 scores = [compTime; computeMetrics(anomalyScores, predictedLabels, labels)];
                 tmp = subsetScores{l};
@@ -121,13 +121,13 @@ for i = 1:numel(subsetIndices)
 
     allTestFileNames = [allTestFileNames; fileNamesTest];
 
-    for l = 1:numThresholds
-        allScores{l} = [allScores{l}; subsetScores{l}];
+    for j = 1:numThresholds
+        allScores{j} = [allScores{j}; subsetScores{j}];
     end
     fprintf("\n ----------------------------- \n");
 end
 
-datasetOutputFolder = fullfile(pwd, "Auto_Run_Results");
+datasetOutputFolder = fullfile(outputPath, "Auto_Run_Results");
 if ~exist(datasetOutputFolder, "dir")
     mkdir(datasetOutputFolder);
 end
@@ -141,33 +141,33 @@ end
 
 thresholdSubfolders = strings(numThresholds, 1);
 
-for l = 1:numThresholds
-    thresholdSubfolders(l) = fullfile(datasetOutputFolder, sprintf("THRESHOLD--%s", thresholds(l)));
-    if ~exist(thresholdSubfolders(l), "dir")
-        mkdir(thresholdSubfolders(l));
+for i = 1:numThresholds
+    thresholdSubfolders(i) = fullfile(datasetOutputFolder, sprintf("THRESHOLD--%s", thresholds(i)));
+    if ~exist(thresholdSubfolders(i), "dir")
+        mkdir(thresholdSubfolders(i));
     end
 end
 
 % Score calculations and saving of results
 fprintf("\nCalculating max, min, average and standard deviation of scores\n\n")
-for l = 1:numel(allScores)
-    scoreMatrix_tmp = allScores{l};
+for i = 1:numel(allScores)
+    scoreMatrix_tmp = allScores{i};
 
     numTestedFiles = numel(scoreMatrix_tmp);
     
     % Calc average scores
     avgScores = calcAverageScores(scoreMatrix_tmp);
     
-    outputFolder = thresholdSubfolders(l);
+    outputFolder = thresholdSubfolders(i);
 
     allResultsFolder = fullfile(outputFolder, "all_results");
     if ~exist(allResultsFolder, "dir")
         mkdir(allResultsFolder);
     end
     
-    for k = 1:numTestedFiles
-        allResultsFileName = fullfile(allResultsFolder, sprintf("%s_%s.csv", allTestFileNames(k), datetime("now", 'Format','MMMM_d_yyyy_HH_mm_ss')));
-        scoreTable_tmp = array2table(scoreMatrix_tmp{k});
+    for j = 1:numTestedFiles
+        allResultsFileName = fullfile(allResultsFolder, sprintf("%s_%s.csv", allTestFileNames(j), datetime("now", 'Format','MMMM_d_yyyy_HH_mm_ss')));
+        scoreTable_tmp = array2table(scoreMatrix_tmp{j});
         scoreTable = [scoreNames scoreTable_tmp];
         scoreTable.Properties.VariableNames = finalTableVariableNames;
         writetable(scoreTable, allResultsFileName);
