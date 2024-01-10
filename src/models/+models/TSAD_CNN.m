@@ -45,17 +45,17 @@ classdef TSAD_CNN < TSADModel
             numFeatures = size(XTrain{1, 1}, 2);
             numResponses = numFeatures;
 
-            filter = obj.parameters.filter;
+            firstLayerFilter = obj.parameters.firstLayerFilter;
     
             layers = [sequenceInputLayer([obj.parameters.windowSize numFeatures]) % 1D image input would be better, but wasn't possible. This is a workaround
                         
-                        convolution1dLayer(5, filter, Stride=1, Padding="same")
+                        convolution1dLayer(5, firstLayerFilter, Stride=1, Padding="same")
                         reluLayer()
                         maxPooling1dLayer(3, Padding="same")
-                        convolution1dLayer(5, filter * 2, Stride=1, Padding="same")
+                        convolution1dLayer(5, firstLayerFilter * 2, Stride=1, Padding="same")
                         reluLayer()
                         maxPooling1dLayer(3, Padding="same")
-                        convolution1dLayer(5, filter * 4, Stride=1, Padding="same")
+                        convolution1dLayer(5, firstLayerFilter * 4, Stride=1, Padding="same")
                         reluLayer()
                         maxPooling1dLayer(3, Padding="same")
             

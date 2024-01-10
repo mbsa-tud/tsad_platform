@@ -4,24 +4,6 @@
 
 **Automatically train, test, compare and optimize many models or add your custom ones.**
 
-## Contents
-
-1. [Getting started](#getting-started)
-2. [Usage](#usage)
-    * [Overview](#overview)
-    * [Dataset preparation](#dataset-preparation)
-        * [Loading a dataset](#loading-a-dataset-1)
-        * [Preprocessing the dataset](#preprocessing-and-splitting-the-dataset-2)
-    * [Training and optimization](#training-and-optimization)
-        * [Load/configure models](#loadconfigure-models-1)
-        * [Train and/or optimize models](#train-andor-optimize-models-2)
-    * [Detection](#detection)
-    * [Auto run](#auto-run)
-    * [Dynamic switch](#dynamic-switch)
-3. [Adding custom models](#extending-the-platform)
-4. [Known limitations](#known-limitations-issues-and-possible-future-upgrades-mostly-relevant-for-developers)
-5. [Appendix](#appendix)
-
 ---
 
 ## Getting started
@@ -47,6 +29,10 @@
 
 ### Overview
 
+1. Import, preprocess and transfrom a dataset on the `Dataset Preparation` panel.
+2. Configure, train/optimize and test models on the `Training and Detection` panel.
+3. Train and test a smart model-selection mechanism (`"Dynamic Switch"`) on the `Dynamic Switch` panel.
+
 ### Dataset preparation
 
 For all following steps, got to the `Dataset Preparation panel`.
@@ -59,7 +45,18 @@ To load a dataset proceed as follows:
 2. Select dataset from the drop-down menu.
 3. Press `Load Data`.
 
-See appendix
+A dataset is a folder with two subfolders called `train` and `test`. At least on of the folders must be available.
+The folders contain an arbitrary amount of `CSV` files, which must be formatted as such:
+
+| timestamp | value1 | value2 | is_anomaly |
+|-----------|--------|--------|------------|
+| 1         | 5      | 2      | 0          |
+| 2         | 234    | 2      | 1          |
+| 3         | 5      | 2      | 0          |
+
+**NOTE** The column names don't need to be as shown here. The first column is always considered to be the timestamps and the last column is for the anomaly indicators (0=normal, 1=anomaly).
+
+
 
 #### Preprocess the dataset
 
@@ -69,8 +66,6 @@ Following data preparation options are available:
 * Select an `augmentation mode` and configure it.
 * Toggle usage of `anomalous validation set` (used for static thresholds).
 * Toggle splitting of dataset for `dynamic switch`.
-
-See appendix
 
 ### Loading and saving models
 
@@ -82,17 +77,17 @@ For all following steps, got to the `Training and Detection panel`.
 * Press `Load Manually` to select and configure the models by hand.
 * Press `Load from File` to load configured models from a file (see [Save untrained models](#save-untrained-models)).
 
-#### Save untrained models
+#### Save configuration
 
-* Press `Export Config` to save a models configuration file.
+* Press `Export Config` to save a models configuration file, which can be loaded again.
 
-#### Load trained models
+#### Import models
 
-* Press `Import trined` to load previously trained and stored models (see [Save trained models](#save-trained-models)).
+* Press `Import Models` to load previously trained and stored models (see [Save trained models](#save-trained-models)).
 
-#### Save trained models
+#### Export models
 
-* Press `Export trained` to save trained models.
+* Press `Export Models` to save trained models.
 
 ### Reconfiguring models
 
@@ -165,7 +160,7 @@ To add a new model, you must [create a model class](#create-model-class) and [cr
 
 ### Create Model config
 
-You **must** add your model to the `TSADConfig_models.json` file, otherwise the platform will not recognize it.
+You **must** add your model to the `TSADConfig_models.json` file (within the `config` folder), otherwise the platform will not recognize it.
 
 To do so simply add the following template to the file and configure it to your needs:
 
@@ -192,6 +187,14 @@ To do so simply add the following template to the file and configure it to your 
 * All `static` parameters shown above are **mandatory**.
 * You **can** add as many `configurable` parameters as you wish. These must all follow the shown template.
 
+
+**To enable optimization** for your model, add it to the `TSADConfig_optimization.json` (within the `config` folder):
+
+```json
+"your model's class name": ["parameter1", "parameter2"]
+```
+
+Simply list the parameters you want to be optimizable by the platform.
 
 
 

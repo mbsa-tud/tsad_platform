@@ -50,18 +50,18 @@ classdef TSAD_FC_AE < TSADModel
             numFeatures = size(XTrain, 2);
             numResponses = numFeatures;
         
-            neurons = obj.parameters.neurons;
+            firstLayerNeurons = obj.parameters.firstLayerNeurons;
 
             layers = [featureInputLayer(numFeatures)
-                      fullyConnectedLayer(neurons)
+                      fullyConnectedLayer(firstLayerNeurons)
                       reluLayer()
-                      fullyConnectedLayer(floor(neurons / 2))
+                      fullyConnectedLayer(floor(firstLayerNeurons / 2))
                       reluLayer()
-                      fullyConnectedLayer(floor(floor(neurons / 2) / 2))
+                      fullyConnectedLayer(floor(floor(firstLayerNeurons / 2) / 2))
                       reluLayer()
-                      fullyConnectedLayer(floor(neurons / 2))
+                      fullyConnectedLayer(floor(firstLayerNeurons / 2))
                       reluLayer()
-                      fullyConnectedLayer(neurons)
+                      fullyConnectedLayer(firstLayerNeurons)
                       reluLayer()
                       fullyConnectedLayer(numResponses)
                       regressionLayer()];

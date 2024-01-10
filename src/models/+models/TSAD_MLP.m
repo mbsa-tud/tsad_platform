@@ -45,14 +45,14 @@ classdef TSAD_MLP < TSADModel
             numFeatures = size(XTrain, 2);
             numResponses = size(YTrain, 2);
 
-            neurons = obj.parameters.neurons;
+            firstLayerNeurons = obj.parameters.firstLayerNeurons;
     
             layers = [featureInputLayer(numFeatures)
-                        fullyConnectedLayer(neurons)
+                        fullyConnectedLayer(firstLayerNeurons)
                         reluLayer()
-                        fullyConnectedLayer(floor(neurons / 2))
+                        fullyConnectedLayer(floor(firstLayerNeurons / 2))
                         reluLayer()
-                        fullyConnectedLayer(floor(neurons / 4))
+                        fullyConnectedLayer(floor(firstLayerNeurons / 4))
                         reluLayer()
                         fullyConnectedLayer(numResponses)
                         regressionLayer()];
