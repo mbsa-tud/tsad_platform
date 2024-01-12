@@ -71,11 +71,11 @@ Following data preparation options are available:
 
 For all following steps, got to the `Training and Detection panel`.
 
-#### Load untrained models
+#### Load new models
 
 * Press `Load Default` to load a default configuration of all implemented models.
 * Press `Load Manually` to select and configure the models by hand.
-* Press `Load from File` to load configured models from a file (see [Save untrained models](#save-untrained-models)).
+* Press `Load from File` to load configured models from a file (see [Save configuration](#save-configuration)).
 
 #### Save configuration
 
@@ -83,7 +83,7 @@ For all following steps, got to the `Training and Detection panel`.
 
 #### Import models
 
-* Press `Import Models` to load previously trained and stored models (see [Save trained models](#save-trained-models)).
+* Press `Import Models` to load previously trained and stored models (see [Export models](#export-models)).
 
 #### Export models
 
@@ -95,18 +95,18 @@ For all following steps, got to the `Training and Detection panel`.
 
 ### Deleting models
 
-* Right-click models and select `Delete` or press `Clear All` at the bottom of the list.
+* To delete models, select and right-click models and press `Delete` or press `Clear All` at the bottom of the list.
 
 ### Train/optimize models
 
 1. Configure the training process by enabling/disabling `Optimization` and `Training Plots`.
 2. Press `Fit All` or `Fit Selection` to train/optimize all or just the selected models.
-3. If you enabled optimization, you can further configure the `number of iterations`, the `threshold` and the `metric` to optimize in a popup window. Additionally you can open the `optimization config` file and reconfigure the parameter space.
+3. If you enabled optimization, you can further configure the `number of iterations`, the `threshold` and the `metric` to optimize in a popup window. Additionally you can open the `optimization config` file and reconfigure the parameters to be optimized.
 
 ### Run detection
 
 1. Select which files to run the test on.
-2. Select which models to run the test on
+2. Select which models to run the test on.
 3. Choose whether to `Get Computation Time` to compute the average computation time for a single window
 4. Choose whether to `Update Thresholds Only`. This doesn't run the entire detection again, but `only applies the selected threshold to all previously selected models and files`.
 5. Choose wheter to run the `Online Simulation` using Simulink (**CURRENTLY NOT IMPLEMENTED**).
@@ -114,24 +114,27 @@ For all following steps, got to the `Training and Detection panel`.
 
 ### Evaluate results
 
-* `(1)`:  See plots and metrics to evaluate the detection performance of a single model.
-* `(2) and (3)`: See tables of average scores and scores for the currently selected file for all models.
-* `(4)`: See a plot of computation times and select the displayed metrics.
+You can:
+* See plots and metrics to evaluate the detection performance of a single model.
+* See tables of average scores and scores for the currently selected file for all models.
+* See a plot of computation times and select the displayed metrics.
 * Right-click a model and select `Show Detection` to display plots for that model.
-* Select another threshold. This updates the applied threshold **only for the currently displayed model** in the plots. To apply the new threshold to all models, press `Run Detection` again.
+* Select another threshold. This updates the applied threshold **only for the currently displayed model** in the plots. To apply the new threshold to all models, press `Run Detection` again (and configure it to be done for all models/files).
 
 ### Auto run
 
 * This trains and tests all configured models on the selected dataset.
-* The results are stored in a new folder called `Auto_Run_Results` within the currently open MATLAB folder.
 
 To start the `Auto Run`, proceed as follows:
 
-1. Select a dataset and configure the dataset preparation
-2. Select/load models
-3. Press `Auto Run All`
+1. Select a dataset and configure the dataset preparation/preprocessing.
+2. Select/load models.
+3. Press `Auto Run All`.
+4. Select a folder to store the results (stored in `CSV` files).
 
 ### Dynamic switch: A model selection mechanism
+
+The dynamic switch is a model selection mechanism. It learns to select the optimal model for anomaly detection according to the current statistical time series features. It currently only works on separate files and cannot switch the applied model within a single time series.
 
 #### Requirements
 
@@ -148,6 +151,7 @@ To start the `Auto Run`, proceed as follows:
 ## Extending the platform
 
 To add a new model, you must [create a model class](#create-model-class) and [create a model config](#create-model-config).
+You can also [enable optimization](#enable-optimization) for your model.
 
 ### Create Model class
 
@@ -187,8 +191,9 @@ To do so simply add the following template to the file and configure it to your 
 * All `static` parameters shown above are **mandatory**.
 * You **can** add as many `configurable` parameters as you wish. These must all follow the shown template.
 
+### Enable optimization
 
-**To enable optimization** for your model, add it to the `TSADConfig_optimization.json` (within the `config` folder):
+To enable optimization for your model, add it to the `TSADConfig_optimization.json` (within the `config` folder):
 
 ```json
 "your model's class name": ["parameter1", "parameter2"]
