@@ -100,7 +100,11 @@ for i = 1:numel(subsetIndices)
     % Train and test models
 
     for j = 1:numModels
+        fprintf("\nTraining model (%d/%d)\n\n", j, numModels);
+
         models.(modelIDs{j}).train(dataTrain, labelsTrain, dataTestVal, labelsTestVal, trainingPlots, true);
+        
+        fprintf("\nDetecting anomalies with model (%d/%d)...", j, numModels);
 
         % For all test files
         for k = 1:numel(fileNamesTest)                
@@ -116,6 +120,8 @@ for i = 1:numel(subsetIndices)
                 subsetScores{l} = tmp;
             end
         end
+
+        fprintf("Done!\n\n");
     end
 
 
