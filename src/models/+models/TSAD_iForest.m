@@ -29,11 +29,11 @@ classdef TSAD_iForest < TSADModel
             [Mdl, ~, ~] = iforest(XTrain, NumLearners=obj.parameters.iTrees, NumObservationsPerLearner=obj.parameters.observationsPerITree);
         end
         
-        function [anomalyScores, computationTime] = predict(obj, Mdl, XTest, timeSeriesTest, labelsTest, getComputationTime)
+        function [anomalyScores, windowComputationTime] = predict(obj, Mdl, XTest, timeSeriesTest, labelsTest, getWindowComputationTime)
             %PREDICT Makes prediction on test data using the Mdl
             
             % Ignore comptation time as it is only of interest for DNNs
-            computationTime = NaN;
+            windowComputationTime = NaN;
             
             % Either semi-supervised or unsupervised anomlay detection
             if strcmp(obj.parameters.learningType, "unsupervised")

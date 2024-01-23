@@ -34,11 +34,11 @@ classdef TSAD__MODEL_TEMPLATE < TSADModel
             % Train your model here and store it in the Mdl variable.
         end
         
-        function [anomalyScores, computationTime] = predict(obj, Mdl, XTest, timeSeriesTest, labelsTest, getComputationTime)
+        function [anomalyScores, windowComputationTime] = predict(obj, Mdl, XTest, timeSeriesTest, labelsTest, getWindowComputationTime)
             %PREDICT Makes prediction on test data using the Mdl
             
             anomalyScores = []; % The anomaly scores for the time series
-            computationTime = NaN; % The mean computation time per window
+            windowComputationTime = NaN; % The mean computation time per window (only relevant for DNNs)
 
             % Your prediction code goes here. It should either return
             % anomaly scores or detected anomalies as binary labels. In the

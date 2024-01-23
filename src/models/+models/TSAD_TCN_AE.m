@@ -32,10 +32,10 @@ classdef TSAD_TCN_AE < TSADModel
             Mdl = trainNetwork(XTrain, YTrain, layers, trainOptions);
         end
         
-        function [anomalyScores, computationTime] = predict(obj, Mdl, XTest, timeSeriesTest, labelsTest, getComputationTime)
+        function [anomalyScores, windowComputationTime] = predict(obj, Mdl, XTest, timeSeriesTest, labelsTest, getWindowComputationTime)
             %PREDICT Makes prediction on test data using the Mdl
             
-            [prediction, computationTime] = predictWithDNN(Mdl, XTest, getComputationTime);
+            [prediction, windowComputationTime] = predictWithDNN(Mdl, XTest, getWindowComputationTime);
             anomalyScores = getReconstructionErrors(prediction, ...
                                                     XTest, ...
                                                     timeSeriesTest, ...

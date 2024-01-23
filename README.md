@@ -64,8 +64,8 @@ Following data preparation options are available:
 
 * Select a `preprocessing method` from the dropdown menu.
 * Select an `augmentation mode` and configure it.
-* Toggle usage of `anomalous validation set` (used for static thresholds).
-* Toggle splitting of dataset for `dynamic switch`.
+* Configure the splitting of the `test set for thresholding` (used for computing supervised static thresholds).
+* Configure the splitting of the test set for the `dynamic switch`.
 
 ### Loading and saving models
 
@@ -101,7 +101,7 @@ For all following steps, got to the `Training and Detection panel`.
 
 1. Configure the training process by enabling/disabling `Optimization` and `Training Plots`.
 2. Press `Fit All` or `Fit Selection` to train/optimize all or just the selected models.
-3. If you enabled optimization, you can further configure the `number of iterations`, the `threshold` and the `metric` to optimize in a popup window. Additionally you can open the `optimization config` file and reconfigure the parameters to be optimized.
+3. If you enabled optimization, you can further configure the `number of iterations`, the `metric` and the `threshold` to optimize in a popup window. Additionally you can open the `optimization config` file and reconfigure the parameters to be optimized.
 
 ### Run detection
 
@@ -129,8 +129,10 @@ To start the `Auto Run`, proceed as follows:
 
 1. Select a dataset and configure the dataset preparation/preprocessing.
 2. Select/load models.
-3. Press `Auto Run All`.
+3. Press `Auto Run All` -> A popup window is shown
 4. Select a folder to store the results (stored in `CSV` files).
+5. If you previously checked the `optimize` checkbox, you can configure the optimization.
+6. Pres `Start Auto Run`.
 
 ### Dynamic switch: A model selection mechanism
 

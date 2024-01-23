@@ -136,14 +136,14 @@ classdef TSADModel < handle
                         labelsValTest, trainingPlots, true);
         end
         
-        function [anomalyScores, timeSeriesTest, labelsTest, computationTime] = detect(obj, data, labels, getComputationTime, applyScoringFunction)
+        function [anomalyScores, timeSeriesTest, labelsTest, windowComputationTime] = detect(obj, data, labels, getWindowComputationTime, applyScoringFunction)
             %DETECT Main anomaly detection function (without thresholding
             %except if the model itself already applies a threshold. In
             %that case set the outputType of the parameters variable to
             %"labels"
             
-            if ~exist("getComputationTime", "var")
-                getComputationTime = false; % Don't get computation time by default
+            if ~exist("getWindowComputationTime", "var")
+                getWindowComputationTime = false; % Don't get computation time by default
             end
             if ~exist("applyScoringFunction", "var")
                 applyScoringFunction = true; % Apply scoring function by default
@@ -162,13 +162,13 @@ classdef TSADModel < handle
                     Mdl_tmp = [];
                 end
             
-                [anomalyScores, computationTime] = obj.predict(Mdl_tmp, XTest{1}, timeSeriesTest{1}, labelsTest, getComputationTime);
+                [anomalyScores, windowComputationTime] = obj.predict(Mdl_tmp, XTest{1}, timeSeriesTest{1}, labelsTest, getWindowComputationTime);
             else
                 % For univariate models which are trained separately for each channel
                 numChannels = numel(XTest);
             
                 anomalyScores = [];
-                compTimes = [];
+                windowComputationTimes = [];
 
                 for channel_idx = 1:numChannels
                     if ~isempty(obj.Mdl)
@@ -177,12 +177,12 @@ classdef TSADModel < handle
                         Mdl_tmp = [];
                     end
                     
-                    [anomalyScores_tmp, compTime_tmp] = obj.predict(Mdl_tmp, XTest{channel_idx}, timeSeriesTest{channel_idx}, labelsTest, getComputationTime);
+                    [anomalyScores_tmp, windowComputationTime_tmp] = obj.predict(Mdl_tmp, XTest{channel_idx}, timeSeriesTest{channel_idx}, labelsTest, getWindowComputationTime);
                     anomalyScores = [anomalyScores, anomalyScores_tmp];
-                    compTimes = [compTimes, compTime_tmp];
+                    windowComputationTimes = [windowComputationTimes, windowComputationTime_tmp];
                 end
                 
-                computationTime = sum(compTimes);
+                windowComputationTime = sum(windowComputationTimes);
             end
 
             
@@ -626,9 +626,9 @@ classdef TSADModel < handle
             Mdl = [];
         end
 
-        function [anomalyScores, computationTime] = predict(obj, Mdl, XTest, timeSeriesTest, labelsTest, getComputationTime)
+        function [anomalyScores, windowComputationTime] = predict(obj, Mdl, XTest, timeSeriesTest, labelsTest, getWindowComputationTime)
             anomalyScores = [];
-            computationTime = NaN;
+            windowComputationTime = NaN;
         end
 
         function layers = getLayers(obj, XTrain, YTrain)

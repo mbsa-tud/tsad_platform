@@ -10,11 +10,11 @@ classdef TSAD_MERLIN < TSADModel
             labelsTest = cell2mat(labels);
         end
         
-        function [anomalyScores, computationTime] = predict(obj, Mdl, XTest, timeSeriesTest, labelsTest, getComputationTime)
+        function [anomalyScores, windowComputationTime] = predict(obj, Mdl, XTest, timeSeriesTest, labelsTest, getWindowComputationTime)
             %PREDICT Makes prediction on test data using the Mdl
             
             % Ignore comptation time as it is only of interest for DNNs
-            computationTime = NaN;
+            windowComputationTime = NaN;
             
             % Find number of anomalies (required for MERLIN)
             numAnomalies = findNumAnomalies(labelsTest);

@@ -1,11 +1,18 @@
-function autoRun(datasetPath, outputPath, models, preprocessingMethod, ...
-                    ratioTestVal, dynamicThresholdSettings, ...
-                    trainingPlots, parallelEnabled, ...
-                    augmentationMode, augmentationIntensity, ...
-                    augmentedTrainingEnabled, getCompTime)
+function autoRun(datasetPath, outputPath, models, options)
 %AUTORUN Run training and detection for single-or multi-entity datasets (=datasets with multiple subsets) and
 %store the results
 
+% extract options into separate variables
+preprocessingMethod = options.preprocessingMethod;
+ratioTestVal = options.ratioTestVal;
+dynamicThresholdSettings = options.dynamicThresholdSettings;
+trainingPlots = options.trainingPlots;
+parallelEnabled = options.parallelEnabled;
+augmentationMode = options.augmentationMode;
+augmentationIntensity = options.augmentationIntensity;
+augmentedTrainingEnabled = options.augmentedTrainingEnabled;
+getWindowComputationTime = options.getWindowComputationTime;
+optimizationEnabled = options.optimizationEnabled;
 
 fprintf("\n ------------------------- \n");
 fprintf("###  Starting Auto Run  ###");
@@ -15,7 +22,12 @@ thresholds = THRESHOLD_NAMES;
 numThresholds = numel(thresholds);
 
 % Variable initialization
-scoreNames = table(METRIC_NAMES_WITH_COMP_TIME);
+if getWindowComputationTime
+    scoreNames = table(METRIC_NAMES_WITH_COMP_TIME);
+else
+    scoreNames = table(METRIC_NAMES);
+end
+    
 scoreNames.Properties.VariableNames = "Metric";
 
 % Create folders to store results in .csv tables
@@ -99,22 +111,35 @@ for i = 1:numel(subsetIndices)
 
     % Train and test models
 
-    for j = 1:numModels
-        fprintf("\nTraining model (%d/%d)\n\n", j, numModels);
+    for j = 1:numModels        
+        if optimizationEnabled
+            fprintf("\nOptimizing model (%d/%d)\n\n", j, numModels);
 
-        models.(modelIDs{j}).train(dataTrain, labelsTrain, dataTestVal, labelsTestVal, trainingPlots, true);
+            models.(modelIDs{j}).optimize(dataTrain, labelsTrain, dataTestVal, labelsTestVal, dataTest, labelsTest, ...
+                                          options.optimizationMetric, options.optimizationThreshold, dynamicThresholdSettings, ...
+                                          options.optimizationIterations, trainingPlots, parallelEnabled);
+        else
+            fprintf("\nTraining model (%d/%d)\n\n", j, numModels);
+
+            models.(modelIDs{j}).train(dataTrain, labelsTrain, dataTestVal, labelsTestVal, trainingPlots, true);
+        end
         
         fprintf("\nDetecting anomalies with model (%d/%d)...", j, numModels);
 
         % For all test files
         for k = 1:numel(fileNamesTest)                
-            [anomalyScores, ~, labels, compTime] = models.(modelIDs{j}).detect(dataTest, labelsTest);
+            [anomalyScores, ~, labels, compTime] = models.(modelIDs{j}).detect(dataTest, labelsTest, getWindowComputationTime);
             
             % For all thresholds in the thresholds variable
             for l = 1:numThresholds
                 [predictedLabels, ~] = models.(modelIDs{j}).applyThreshold(anomalyScores, labels, thresholds(l), dynamicThresholdSettings, []);
-        
-                scores = [compTime; computeMetrics(anomalyScores, predictedLabels, labels)];
+                
+                if getWindowComputationTime
+                    scores = [compTime; computeMetrics(anomalyScores, predictedLabels, labels)];
+                else
+                    scores = computeMetrics(anomalyScores, predictedLabels, labels); 
+                end
+
                 tmp = subsetScores{l};
                 tmp{k} = [tmp{k}, scores];
                 subsetScores{l} = tmp;

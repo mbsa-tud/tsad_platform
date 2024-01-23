@@ -10,11 +10,11 @@ classdef TSAD_ABOD < TSADModel
                                                         "reconstruction", 1);
         end
         
-        function [anomalyScores, computationTime] = predict(obj, Mdl, XTest, timeSeriesTest, labelsTest, getComputationTime)
+        function [anomalyScores, windowComputationTime] = predict(obj, Mdl, XTest, timeSeriesTest, labelsTest, getWindowComputationTime)
             %PREDICT Makes prediction on test data using the Mdl
             
             % Ignore comptation time as it is only of interest for DNNs
-            computationTime = NaN;
+            windowComputationTime = NaN;
             
             % Rund ABOD
             [~, anomalyScores] = ABOD(XTest);
