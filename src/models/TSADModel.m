@@ -480,11 +480,11 @@ classdef TSADModel < handle
                     anomalyScores = aggregatedScoring(anomalyScores, obj.trainingAnomalyScoreFeatures.mu);
                 case "channelwise"
                     anomalyScores = channelwiseScoring(anomalyScores, obj.trainingAnomalyScoreFeatures.mu);
-                case "gauss"
+                case "multivariate_gauss"
                     anomalyScores = gaussianScoring(anomalyScores, obj.trainingAnomalyScoreFeatures.mu, obj.trainingAnomalyScoreFeatures.covar);
-                case "gauss_aggregated"
+                case "univariate_gauss_aggregated"
                     anomalyScores = aggregatedGaussianScoring(anomalyScores, obj.trainingAnomalyScoreFeatures.mu, obj.trainingAnomalyScoreFeatures.covar);
-                case "gauss_channelwise"
+                case "univariate_gauss_channelwise"
                     anomalyScores = channelwiseGaussianScoring(anomalyScores, obj.trainingAnomalyScoreFeatures.mu, obj.trainingAnomalyScoreFeatures.covar);
                 case "ewma"
                     anomalyScores = EWMAScoring(anomalyScores, 0.3);
@@ -583,6 +583,11 @@ classdef TSADModel < handle
             optimizationConfig = loadJsonFromFile("TSADConfig_optimization.json");
             modelConfig = loadJsonFromFile("TSADConfig_models.json");
             
+            % Retrun if model is not found in optimization config
+            if ~ismember(className, fieldnames(optimizationConfig))
+                return;
+            end
+
             parametersToOptimize = string(optimizationConfig.(className));
 
             % Return empty struct if no optimization config found

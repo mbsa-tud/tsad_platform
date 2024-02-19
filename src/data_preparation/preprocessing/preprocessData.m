@@ -11,7 +11,7 @@ preprocParams.mu = [];
 preprocParams.sigma = [];
 
 switch method
-    case "0_1_normalization"
+    case "normalization_0_1"
         if ~isempty(rawTrainingData)
             if usePrevious
                 preprocParams.maximum = paramsPrevious.maximum;
