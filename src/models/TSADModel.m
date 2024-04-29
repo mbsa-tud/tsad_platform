@@ -362,18 +362,19 @@ classdef TSADModel < handle
             parameters = obj.parameters;
         end
 
-        function layers = getNeuralNetworkLayers(obj)
+        function analyzeNeuralNetwork(obj, dataTrain, labelsTrain)
             %GETNEURALNETWORKLAYERS If the model is a neural network, it
             %will return the layers (if getLayers function is implemented
             %in subclass)
-
-            dummyXTrain = cell(1, 1);
-            dummyXTrain{1} = 1;
-
-            dummyYTrain = cell(1, 1);
-            dummyYTrain{1} = 1;
-
-            layers = obj.getLayers(dummyXTrain, dummyYTrain);
+            
+            [XTrain, YTrain, ~, ~] = obj.dataTrainPreparationWrapper(dataTrain, labelsTrain);
+            
+            try
+                layers = obj.getLayers(XTrain, YTrain);
+                analyzeNetwork(layers);
+            catch
+                warning("Can't analyze Network. Your model doesn't implement the getLayers() function");
+            end
         end
     end
 
@@ -476,18 +477,23 @@ classdef TSADModel < handle
             end
 
             switch obj.parameters.scoringFunction
-                case "aggregated"
-                    anomalyScores = aggregatedScoring(anomalyScores, obj.trainingAnomalyScoreFeatures.mu);
-                case "channelwise"
-                    anomalyScores = channelwiseScoring(anomalyScores, obj.trainingAnomalyScoreFeatures.mu);
+                case "none"
+                case "rms"
+                    anomalyScores = rms(anomalyScores, 2);
+                case "normalized_errors"
+                    anomalyScores = normalizedErrorsScoring(anomalyScores, obj.trainingAnomalyScoreFeatures.mu, false);
+                case "normalized_errors_channelwise"
+                    anomalyScores = normalizedErrorsScoring(anomalyScores, obj.trainingAnomalyScoreFeatures.mu, true);
                 case "multivariate_gauss"
-                    anomalyScores = gaussianScoring(anomalyScores, obj.trainingAnomalyScoreFeatures.mu, obj.trainingAnomalyScoreFeatures.covar);
-                case "univariate_gauss_aggregated"
-                    anomalyScores = aggregatedGaussianScoring(anomalyScores, obj.trainingAnomalyScoreFeatures.mu, obj.trainingAnomalyScoreFeatures.covar);
+                    anomalyScores = multivariateGaussianScoring(anomalyScores, obj.trainingAnomalyScoreFeatures.mu, obj.trainingAnomalyScoreFeatures.covar);
+                case "univariate_gauss"
+                    anomalyScores = univariateGaussianScoring(anomalyScores, obj.trainingAnomalyScoreFeatures.mu, obj.trainingAnomalyScoreFeatures.covar, false);
                 case "univariate_gauss_channelwise"
-                    anomalyScores = channelwiseGaussianScoring(anomalyScores, obj.trainingAnomalyScoreFeatures.mu, obj.trainingAnomalyScoreFeatures.covar);
+                    anomalyScores = univariateGaussianScoring(anomalyScores, obj.trainingAnomalyScoreFeatures.mu, obj.trainingAnomalyScoreFeatures.covar, true);
                 case "ewma"
-                    anomalyScores = EWMAScoring(anomalyScores, 0.3);
+                    anomalyScores = EWMAScoring(anomalyScores, 0.3, false);
+                case "ewma_channelwise"
+                    anomalyScores = EWMAScoring(anomalyScores, 0.3, true);
                 otherwise
                     error("Undefined scoring function");
             end

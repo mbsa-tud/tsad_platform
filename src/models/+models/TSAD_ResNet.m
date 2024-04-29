@@ -5,31 +5,30 @@ classdef TSAD_ResNet < TSADModel
         function [XTrain, YTrain, XVal, YVal] = prepareDataTrain(obj, data, labels)
             %PREPAREDATATRAIN Prepares training data
 
-            [XTrain, YTrain, XVal, YVal] = splitDataTrain(data, ...
-                                                          obj.parameters.windowSize, ...
-                                                          obj.parameters.stepSize,  ...
-                                                          obj.parameters.valSize, ...
-                                                          "forecasting", ...
-                                                          3);
+            [XTrain, YTrain, XVal, YVal] = applySlidingWindowForTrain(data, ...
+                                                                      obj.parameters.windowSize, ...
+                                                                      obj.parameters.stepSize,  ...
+                                                                      obj.parameters.valSize, ...
+                                                                      "forecasting", ...
+                                                                      "array");
         end
         
         function [XTest, timeSeriesTest, labelsTest] =  prepareDataTest(obj, data, labels)
             %PREPAREDATATEST Prepares testing data
 
-            [XTest, timeSeriesTest, labelsTest] = splitDataTest(data, ...
-                                                        labels, ...
-                                                        obj.parameters.windowSize, ...
-                                                        "forecasting", ...
-                                                        3);
+            [XTest, timeSeriesTest, labelsTest] = applySlidingWindowForTest(data, ...
+                                                                            labels, ...
+                                                                            obj.parameters.windowSize, ...
+                                                                            "forecasting", ...
+                                                                            "array");
         end
         
         function Mdl = fit(obj, XTrain, YTrain, XVal, YVal, plots, verbose)
             %FIT Trains the model
 
             layers = obj.getLayers(XTrain, YTrain);
-            trainOptions = obj.getTrainOptions(XVal, YVal, size(XTrain, 1), plots, verbose);
-            
-            Mdl = trainNetwork(XTrain, YTrain, layers, trainOptions);
+            trainOptions = obj.getTrainOptions(XVal, YVal, size(XTrain, 3), plots, verbose);
+            Mdl = trainnet(XTrain, YTrain, layers, "mean-squared-error", trainOptions);
         end
         
         function [anomalyScores, windowComputationTime] = predict(obj, Mdl, XTest, timeSeriesTest, labelsTest, getWindowComputationTime)
@@ -39,15 +38,15 @@ classdef TSAD_ResNet < TSADModel
             anomalyScores = getForecastingErrors(prediction, timeSeriesTest, 3);
         end
 
-        function layers = getLayers(obj, XTrain, YTrain)
+        function net = getLayers(obj, XTrain, YTrain)
             %GETLAYERS Returns the layers of the neural network
 
-            numFeatures = size(XTrain{1, 1}, 2);
+            numFeatures = size(XTrain, 2);
             numResponses = numFeatures;
 
             filter = obj.parameters.filter;
             
-            layers = [sequenceInputLayer([obj.parameters.windowSize numFeatures]) % 1D image input would be better, but wasn't possible. This is a workaround
+            layers = [inputLayer([obj.parameters.windowSize, numFeatures, obj.parameters.minibatchSize], "SCB")
             
                         convolution1dLayer(5, filter, Stride=1, Padding="same")
                         reluLayer(Name="ReLU 1")
@@ -63,11 +62,11 @@ classdef TSAD_ResNet < TSADModel
                         flattenLayer()
                         fullyConnectedLayer(32)
                         reluLayer()
-                        fullyConnectedLayer(numResponses)
-                        regressionLayer()];
-
-            layers = layerGraph(layers);
-            layers = connectLayers(layers, "ReLU 1", "Add/in2");
+                        fullyConnectedLayer(numResponses)];
+            
+            net = dlnetwork;
+            net = addLayers(net, layers);
+            net = connectLayers(net, "ReLU 1", "Add/in2");
         end
     end
 

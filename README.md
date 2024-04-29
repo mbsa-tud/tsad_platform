@@ -67,7 +67,7 @@ Following data preparation options are available:
 * Configure the splitting of the `test set for thresholding` (used for computing supervised static thresholds).
 * Configure the splitting of the test set for the `dynamic switch`.
 
-### Loading and saving models
+### Loading and saving models 
 
 For all following steps, got to the `Training and Detection panel`.
 
@@ -227,19 +227,18 @@ The thresholds are set as follows:
 
 ### Scoring functions
 
-The `scoring function` can be used to transform the anomaly scores produced by a Model (**channel-wise reconstruction/prediction errors for DL models**). This can include aggregation of channel-wise scores or further transformation.
-These are currently **only used for deep-learning models**.
+The `scoring function` can be used to further transform the anomaly scores produced by a Model. This can include aggregation of channel-wise scores or further transformation.
+The anomaly scores produced by a model must be as such: either 1 value for every timestamp or one value for every channel of the data at every timestamp.
 
 Following scoring functions are currently available:
 
 | Scoring Function | Description |
 |-|-|
-| aggregated | The mean training anomaly score gets subtracted from the channel-wise anomaly scores. Afterwards, the Root Mean Square is taken across channels. **For univariate datasets nothing is done.** |
-| channelwise | The mean training anomaly score gets subtracted from the channel-wise anomaly scores. **For univariate datasets nothing is done.** |
-| gauss | A multivariate gaussian distribution is fitted to the trainig anomaly scores and used to compute -log(1 - cdf) of the anomaly scores. **The max supported number of channels in the dataset is 25** |
-| gauss_aggregated | The channel-wise mean and standard deviation of the training anomaly score distribution is used to compute -log(1 - cdf) of the channel-wise anomaly scores. Afterwards, the channel-wise anomaly scores are added. |
-| gauss_channelwise | The channel-wise mean and standard deviation of the training anomaly score distribution is used to compute -log(1 - cdf) of the channel-wise anomaly scores. |
+| none | Directly uses the scores produced by the model. If they are seperate for every channel of the data, the Root Mean Square is taken across channels |
 | ewma | The Root Mean Square is taken across the channels of the anomaly scores before computing the Exponentially Weighted Moving Average. |
+| normalized_errors | **Only for semi-supervised DNNs on multivariate data**: The mean training anomaly score gets subtracted from the channel-wise anomaly scores. Afterwards, the Root Mean Square is taken across channels. |
+| multivariate_gauss | **Only for semi-supervised DNNs**: A multivariate gaussian distribution is fitted to the trainig anomaly scores and used to compute -log(1 - cdf) of the anomaly scores. **The max supported number of channels in the dataset is 25** |
+| univariate_gauss | **Only for semi-supervised DNNs**: The channel-wise mean and standard deviation of the training anomaly score distribution is used to compute -log(1 - cdf) of the channel-wise anomaly scores. Afterwards, the channel-wise anomaly scores are added. |
 
 **NOTE** For the channel-wise scoring functions (labeled "channel-wise"), the output consits of anomaly scores for every channel of the dataset.
 In this case, a common threshold gets applied across all channels during testing. A single observation only needs to be labeled as anomalous in one of the channels to be considered an anomaly.

@@ -21,7 +21,7 @@ classdef TSAD_MERLIN < TSADModel
     
             if obj.parameters.minL < obj.parameters.maxL
                 % Run MERLIN if minL is smaller than maxL
-                [~, indices, ~] = run_MERLIN(XTest,  obj.parameters.minL, ...
+                [~, indices, ~] = runMERLIN(XTest, obj.parameters.minL, ...
                                                 obj.parameters.maxL, numAnomalies);
                 indices = sort(indices, 2);
                 

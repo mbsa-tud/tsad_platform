@@ -1,6 +1,11 @@
-function anomalyScores = channelwiseGaussianScoring(anomalyScores, mu, covar)
-%CHANNELWISEGAUSSIANSCORING Applies -log(1 - cdf) to each channel of raw anomaly scores separately.
+function anomalyScores = univariateGaussianScoring(anomalyScores, mu, covar)
+%UNIVARIATEGAUSSIANSCORING Applies -log(1 - cdf) to each channel of raw anomaly
+%scores separately. Then channelwise scores are summed.
 %mu and covar is the raw training anomaly scores distribution.
+
+if ~exist("channelwise", "var")
+    channelwise = false;
+end
 
 numChannels = size(anomalyScores, 2);
 
@@ -9,5 +14,9 @@ for channel_idx = 1:numChannels
                                          mu(channel_idx), sqrt(covar(channel_idx, channel_idx))));
 end
 anomalyScores(isinf(anomalyScores)) = 100; % Cap scores
+
+if ~channelwise
+    anomalyScores = sum(anomalyScores, 2);
+end
 end
 

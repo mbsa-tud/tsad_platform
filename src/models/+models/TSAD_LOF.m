@@ -5,9 +5,9 @@ classdef TSAD_LOF < TSADModel
         function [XTest, timeSeriesTest, labelsTest] =  prepareDataTest(obj, data, labels)
             %PREPAREDATATEST Prepares testing data
 
-            [XTest, timeSeriesTest, labelsTest] = splitDataTest(data, labels, ...
+            [XTest, timeSeriesTest, labelsTest] = applySlidingWindowForTest(data, labels, ...
                                                         obj.parameters.windowSize, ...
-                                                        "reconstruction", 1);
+                                                        "reconstruction", "flattened");
         end
         
         function [anomalyScores, windowComputationTime] = predict(obj, Mdl, XTest, timeSeriesTest, labelsTest, getWindowComputationTime)

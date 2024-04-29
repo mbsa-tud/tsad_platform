@@ -1,5 +1,5 @@
-function [distances, indices, lengths] = run_MERLIN(T, MinL, MaxL, K)
-%RUN_MERLIN Runs the merlin algorithm
+function [distances, indices, lengths] = runMERLIN(T, MinL, MaxL, K)
+%RUNMERLIN Runs the merlin algorithm
 
 sumnan = sum(isnan(T));
 if( sumnan> 0)
