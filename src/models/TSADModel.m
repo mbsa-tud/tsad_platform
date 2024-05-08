@@ -61,44 +61,47 @@ classdef TSADModel < handle
             
             % Check learning type and fit if "semi_supervised" or
             % "supervised"
-            if ~strcmp(obj.parameters.learningType, "unsupervised")
-                    if isempty(dataTrain)
-                        error("The %s model requires prior training, but the dataset doesn't contain training data (fit folder).", obj.instanceInfo.label);
-                    end
-                    
-                    % Save dimensionality of data
-                    obj.trainedDimensionality = size(dataTrain{1}, 2);
-                    
-                    % fit model
-                    [XTrain, YTrain, XVal, YVal] = obj.dataTrainPreparationWrapper(dataTrain, labelsTrain);
-                    if strcmp(obj.parameters.separateModelForEachChannel, "no")
-                        % fit single model on entire data if model is
-                        % multivariate
+            if strcmp(obj.parameters.learningType, "unsupervised")
+                return
+            end
 
-                        mdl = obj.fit(XTrain{1}, YTrain{1}, XVal{1}, YVal{1}, plots, verbose);
+            if isempty(dataTrain)
+                error("The %s model requires prior training, but the dataset doesn't contain training data (fit folder).", obj.instanceInfo.label);
+            end
+            
+            % Save dimensionality of data
+            obj.trainedDimensionality = size(dataTrain{1}, 2);
+            
+            % fit model
+            [XTrain, YTrain, XVal, YVal] = obj.dataTrainPreparationWrapper(dataTrain, labelsTrain);
 
-                        obj.Mdl = {mdl};
-                    else
-                        % Else fit the same model for each channel seperately
-                        
-                        numChannels = numel(XTrain);
-                        mdl = cell(numChannels, 1);
-                    
-                        for channel_idx = 1:numChannels
-                            mdl{channel_idx} = obj.fit(XTrain{channel_idx}, YTrain{channel_idx}, XVal{channel_idx}, YVal{channel_idx}, plots, verbose);
-                        end
-                        obj.Mdl = mdl;
-                    end
-                    
-                    % Get static thresholds and training anomaly scores
-                    if strcmp(obj.parameters.outputType, "anomaly_scores")
-                        obj.computeAnomalyScoreFeatures(dataTrain, labelsTrain);
-                        
-                        % Compute thresholds for semi-supervised models
-                        if strcmp(obj.parameters.learningType, "semi_supervised")
-                            obj.computeStaticThresholds(dataTestVal, labelsTestVal);
-                        end
-                    end
+            if strcmp(obj.parameters.separateModelForEachChannel, "no")
+                % fit single model on entire data if model is
+                % multivariate
+
+                mdl = obj.fit(XTrain{1}, YTrain{1}, XVal{1}, YVal{1}, plots, verbose);
+
+                obj.Mdl = {mdl};
+            else
+                % Else fit the same model for each channel seperately
+                
+                numChannels = numel(XTrain);
+                mdl = cell(numChannels, 1);
+            
+                for channel_idx = 1:numChannels
+                    mdl{channel_idx} = obj.fit(XTrain{channel_idx}, YTrain{channel_idx}, XVal{channel_idx}, YVal{channel_idx}, plots, verbose);
+                end
+                obj.Mdl = mdl;
+            end
+            
+            % Get static thresholds and training anomaly scores
+            if strcmp(obj.parameters.outputType, "anomaly_scores")
+                obj.computeAnomalyScoreFeatures(dataTrain, labelsTrain);
+                
+                % Compute thresholds for semi-supervised models
+                if strcmp(obj.parameters.learningType, "semi_supervised")
+                    obj.computeStaticThresholds(dataTestVal, labelsTestVal);
+                end
             end
             
             % Training finished
@@ -382,6 +385,11 @@ classdef TSADModel < handle
         function [XTrain, YTrain, XVal, YVal] = dataTrainPreparationWrapper(obj, data, labels)
             %DATATRAINPREPARATIONWRAPPER Main wrapper function for training
             %data preparation
+            % Data must be Nx1 a cell array with one cell for every file.
+            % Each cell contains the Observations x Channels time series
+            % data. Labels is also a Nx1 cell array, but with a
+            % Observations x 1 logical array (indicating anomalies and
+            % normal points)
 
             if strcmp(obj.parameters.separateModelForEachChannel, "no")
                 % Prepare data for multivariate model

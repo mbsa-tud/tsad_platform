@@ -7,50 +7,46 @@ if (~ismember(dataType, ["CBT", "BC"]))
     error("invalid dataType, must be either CBT or BC");
 end
 
-switch errorType
-    case "median_pointwise_values"
-        % calculate median predicted value for each time step and then calculate the errors for the entire time series
-        prediction = mergeOverlappingSubsequences(prediction, windowSize, dataType, @median);
-        errors = abs(prediction - timeSeriesTest);
-    case "median_pointwise_errors"
-        % calulate the point-wise errors for each subsequence and then calculate the median error for each time step
-        if strcmp(dataType, "BC")
-            errors = abs(prediction - XTest);
-        elseif strcmp(dataType, "CBT")
-            errors = cell(numel(prediction), 1);
-            for i = 1:numel(prediction)
-                errors{i} = abs(prediction{i} - XTest{i});
-            end
+% Convert BC to CBT
+if strcmp(dataType, "BC")
+    numChannels = round(size(prediction, 2) / windowSize);
+    numWindows = size(prediction, 1);
+
+    predictionTmp = zeros(numChannels, numWindows, windowSize);
+    XTestTmp = zeros(numChannels, numWindows, windowSize);
+
+    for i = 1:numWindows
+        for j = 1:numChannels
+            predictionTmp(j, i, :) = reshape(prediction(i, ((j - 1) * windowSize + 1):((j - 1) * windowSize + windowSize)), [1, 1, windowSize]);
+            XTestTmp(j, i, :) = reshape(XTest(i, ((j - 1) * windowSize + 1):((j - 1) * windowSize + windowSize)), [1, 1, windowSize]);
         end
-                
-        errors = mergeOverlappingSubsequences(errors, windowSize, dataType, @median);
-    case "mean_subsequence_rmse"
+    end
+
+    prediction = predictionTmp;
+    XTest = XTestTmp;
+end
+
+% Compute error
+switch errorType
+    case "pointwise"
+        % calulate the point-wise errors for each subsequence and then calculate the median error for each time step
+        errors = abs(prediction - XTest);                
+        errors = mergeOverlappingSubsequences(errors, windowSize, @median);
+    case "subsequencewise"
         % calulate the RMSE for each subsequence and channel and
         % then calculate the mean error for each time step
-        if strcmp(dataType, "BC")
-            errors = abs(prediction - XTest);
-            numChannels = round(size(errors, 2) / windowSize);                        
-            for channel_idx = 1:numChannels
+        errors = abs(prediction - XTest);
+        numChannels = size(prediction, 1);
+        numWindows = size(prediction, 2);        
+
+        for i = 1:numWindows
+            for j = 1:numChannels
                 % Assign RMSE to each poit of every subsequence
-                for i = 1:size(prediction, 1)
-                    errors(i, ((channel_idx - 1) * windowSize + 1):((channel_idx - 1) * windowSize + windowSize)) = ...
-                        sqrt(mean((errors(i, ((channel_idx - 1) * windowSize + 1):((channel_idx - 1) * windowSize + windowSize))).^2));
-                end
+                errors(j, i, :) = rms(errors(j, i, :));
             end
-        elseif strcmp(dataType, "CBT")
-            errors = cell(size(prediction, 1), 1);
-            numChannels = size(prediction{1}, 1);
-            for i = 1:numel(prediction)
-                errors{i} = abs(prediction{i} - XTest{i});
+        end            
 
-                for channel_idx = 1:numChannels
-                    % Assign RMSE to each poit of every subsequence
-                    errors{i}(channel_idx, :) = sqrt(mean(errors{i}(channel_idx, :).^2));
-                end
-            end            
-        end
-
-        errors = mergeOverlappingSubsequences(errors, windowSize, dataType, @mean);
+        errors = mergeOverlappingSubsequences(errors, windowSize, @mean);
     otherwise
         error("Unknown reconstructionErrorType");
 end

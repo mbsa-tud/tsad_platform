@@ -162,7 +162,7 @@ You can also [enable optimization](#enable-optimization) for your model.
 3. Open the file and rename the class as above
 4. You **must** implement the `prepareDataTest` and `predict` functions.
 5. You **can** implement the `prepareDataTrain` and `fit` functions if your model needs a training step.
-6. You **can** implement the `getLayers` function if you want the platform to be able to display the layers of your model.
+6. You **can** implement the `getNetwork` function if you want the platform to be able to display the layers of your model.
 
 ### Create Model config
 
@@ -235,10 +235,10 @@ Following scoring functions are currently available:
 | Scoring Function | Description |
 |-|-|
 | none | Directly uses the scores produced by the model. If they are seperate for every channel of the data, the Root Mean Square is taken across channels |
-| ewma | The Root Mean Square is taken across the channels of the anomaly scores before computing the Exponentially Weighted Moving Average. |
-| normalized_errors | **Only for semi-supervised DNNs on multivariate data**: The mean training anomaly score gets subtracted from the channel-wise anomaly scores. Afterwards, the Root Mean Square is taken across channels. |
+| ewma / ewma_channlwise | (For non-channelwise version, the Root Mean Square is taken across the channels of the anomaly scores, then...) The Exponentially Weighted Moving Average is computed (seperately for every channel for the channelwise version). |
+| normalized_errors / normalized_errors_channelwise | **Only for semi-supervised DNNs on multivariate data**: The mean training anomaly score gets subtracted from the channel-wise anomaly scores. Afterwards, the Root Mean Square is taken across channels (only for non-channelwise version). |
 | multivariate_gauss | **Only for semi-supervised DNNs**: A multivariate gaussian distribution is fitted to the trainig anomaly scores and used to compute -log(1 - cdf) of the anomaly scores. **The max supported number of channels in the dataset is 25** |
-| univariate_gauss | **Only for semi-supervised DNNs**: The channel-wise mean and standard deviation of the training anomaly score distribution is used to compute -log(1 - cdf) of the channel-wise anomaly scores. Afterwards, the channel-wise anomaly scores are added. |
+| univariate_gauss / univariate_gauss_channelwise | **Only for semi-supervised DNNs**: The channel-wise mean and standard deviation of the training anomaly score distribution is used to compute -log(1 - cdf) of the channel-wise anomaly scores. Afterwards, the channel-wise anomaly scores are added (only for non-channelwise version). |
 
 **NOTE** For the channel-wise scoring functions (labeled "channel-wise"), the output consits of anomaly scores for every channel of the dataset.
 In this case, a common threshold gets applied across all channels during testing. A single observation only needs to be labeled as anomalous in one of the channels to be considered an anomaly.
@@ -249,6 +249,5 @@ The `reconstruction error type` defines how the errors are computed **for recons
 
 | Reconstruction Error Type | Description |
 |-|-|
-| median_pointwise_values | Calculates the median predicted value for each time step and then calculates the absolute errors for the entire time series. This is done for each channel separately. |
-| median_pointwise_errors | Calulates the point-wise absolute errors for each subsequence and then calculates the median error for each time step. This is done for each channel separately. |
-| mean_subsequence_rmse | Calulates the Root Mean Squared Errors (RMSE) for each subsequence and then calculates the mean for each time step. This is done for each channel separately. |
+| pointwise | Calulates the point-wise absolute errors for each subsequence and then calculates the median error for each time step. This is done for each channel separately. |
+| subsequencewise | Calulates the Root Mean Squared Errors (RMSE) for each subsequence and then calculates the mean for each time step. This is done for each channel separately. |

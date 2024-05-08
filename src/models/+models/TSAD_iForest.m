@@ -12,7 +12,7 @@ classdef TSAD_iForest < TSADModel
             [XTrain, ~, ~, ~] = applySlidingWindowForTrain(data, ...
                                                 obj.parameters.windowSize,  ...
                                                 obj.parameters.stepSize,  ...
-                                                0, "reconstruction", "flattened");
+                                                0, "reconstruction", "BC");
         end
         
         function [XTest, timeSeriesTest, labelsTest] =  prepareDataTest(obj, data, labels)
@@ -20,7 +20,7 @@ classdef TSAD_iForest < TSADModel
 
             [XTest, timeSeriesTest, labelsTest] = applySlidingWindowForTest(data, labels, ...
                                                         obj.parameters.windowSize, ...
-                                                        "reconstruction", "flattened");
+                                                        "reconstruction", "BC");
         end
         
         function Mdl = fit(obj, XTrain, YTrain, XVal, YVal, plots, verbose)
