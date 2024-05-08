@@ -10,7 +10,7 @@ classdef TSAD_FC_AE < TSADModel
                                                                       obj.parameters.stepSize,  ...
                                                                       obj.parameters.valSize, ...
                                                                       "reconstruction", ...
-                                                                      "array_flattened");
+                                                                      "BC");
         end
         
         function [XTest, timeSeriesTest, labelsTest] =  prepareDataTest(obj, data, labels)
@@ -20,16 +20,16 @@ classdef TSAD_FC_AE < TSADModel
                                                                             labels, ...
                                                                             obj.parameters.windowSize, ...
                                                                             "reconstruction", ...
-                                                                            "array_flattened");
+                                                                            "BC");
         end
         
         function Mdl = fit(obj, XTrain, YTrain, XVal, YVal, plots, verbose)
             %FIT Trains the model
 
-            layers = obj.getLayers(XTrain, YTrain);
+            network = obj.getNetwork(XTrain, YTrain);
             trainOptions = obj.getTrainOptions(XVal, YVal, size(XTrain, 1), plots, verbose);
             
-            Mdl = trainNetwork(XTrain, YTrain, layers, trainOptions);
+            Mdl = trainnet(XTrain, YTrain, network, "mean-squared-error", trainOptions);
         end
         
         function [anomalyScores, windowComputationTime] = predict(obj, Mdl, XTest, timeSeriesTest, labelsTest, getWindowComputationTime)
@@ -41,18 +41,18 @@ classdef TSAD_FC_AE < TSADModel
                                                     timeSeriesTest, ...
                                                     obj.parameters.reconstructionErrorType, ...
                                                     obj.parameters.windowSize, ...
-                                                    1);
+                                                    "BC");
         end
 
-        function layers = getLayers(obj, XTrain, YTrain)
-            %GETLAYERS Returns the layers of the neural network
+        function network = getNetwork(obj, XTrain, YTrain)
+            %GETNETWORK Returns the dlnetwork architecture
 
             numFeatures = size(XTrain, 2);
             numResponses = numFeatures;
         
             firstLayerNeurons = obj.parameters.firstLayerNeurons;
 
-            layers = [featureInputLayer(numFeatures)
+            layers = [inputLayer([obj.parameters.minibatchSize, numFeatures], "BC", Name="Input")
                       fullyConnectedLayer(firstLayerNeurons)
                       reluLayer()
                       fullyConnectedLayer(floor(firstLayerNeurons / 2))
@@ -63,10 +63,9 @@ classdef TSAD_FC_AE < TSADModel
                       reluLayer()
                       fullyConnectedLayer(firstLayerNeurons)
                       reluLayer()
-                      fullyConnectedLayer(numResponses)
-                      regressionLayer()];
+                      fullyConnectedLayer(numResponses)];
             
-            layers = layerGraph(layers);
+            network = dlnetwork(layers);
         end
     end
 

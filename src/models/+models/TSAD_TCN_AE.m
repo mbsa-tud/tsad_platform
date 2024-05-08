@@ -10,7 +10,7 @@ classdef TSAD_TCN_AE < TSADModel
                                                                       obj.parameters.stepSize,  ...
                                                                       obj.parameters.valSize, ...
                                                                       "reconstruction", ...
-                                                                      "cell_array");
+                                                                      "CBT");
         end
         
         function [XTest, timeSeriesTest, labelsTest] =  prepareDataTest(obj, data, labels)
@@ -20,16 +20,16 @@ classdef TSAD_TCN_AE < TSADModel
                                                                             labels, ...
                                                                             obj.parameters.windowSize, ...
                                                                             "reconstruction", ...
-                                                                            "cell_array");
+                                                                            "CBT");
         end
         
         function Mdl = fit(obj, XTrain, YTrain, XVal, YVal, plots, verbose)
             %FIT Trains the model
 
-            layers = obj.getLayers(XTrain, YTrain);
+            network = obj.getNetwork(XTrain, YTrain);
             trainOptions = obj.getTrainOptions(XVal, YVal, size(XTrain, 1), plots, verbose);
             
-            Mdl = trainNetwork(XTrain, YTrain, layers, trainOptions);
+            Mdl = trainnet(XTrain, YTrain, network, "mean-squared-error", trainOptions);
         end
         
         function [anomalyScores, windowComputationTime] = predict(obj, Mdl, XTest, timeSeriesTest, labelsTest, getWindowComputationTime)
@@ -41,22 +41,22 @@ classdef TSAD_TCN_AE < TSADModel
                                                     timeSeriesTest, ...
                                                     obj.parameters.reconstructionErrorType, ...
                                                     obj.parameters.windowSize, ...
-                                                    2);
+                                                    "CBT");
         end
 
-        function layers = getLayers(obj, XTrain, YTrain)
-            %GETLAYERS Returns the layers of the neural network
+        function network = getNetwork(obj, XTrain, YTrain)
+            %GETNETWORK Returns the dlnetwork architecture
 
             if mod(obj.parameters.windowSize, 4) ~= 0
                 error("Window size must be divisible by 4 for the TCN AE.");
             end
     
-            numFeatures = size(XTrain{1, 1}, 1);
+            numFeatures = size(XTrain, 1);
             numResponses = numFeatures;
 
             filter = obj.parameters.filter;
     
-            layers = [sequenceInputLayer(numFeatures, MinLength=obj.parameters.windowSize, Name="Input")
+            layers = [inputLayer([numFeatures, obj.parameters.minibatchSize, obj.parameters.windowSize], "CBT", Name="Input")
             
                         convolution1dLayer(5, filter, Stride=1, Padding="causal", DilationFactor=1)
                         reluLayer()
@@ -111,23 +111,22 @@ classdef TSAD_TCN_AE < TSADModel
                         additionLayer(2, Name="Add_4")
                         reluLayer()
             
-                        convolution1dLayer(1, numResponses, Padding="same")
-            
-                        regressionLayer(Name="Output")];
+                        convolution1dLayer(1, numResponses, Padding="same")];
 
-            layers = layerGraph(layers);
-            layers = addLayers(layers, convolution1dLayer(1, filter, Stride=1, Name="Conv_skip_1"));
-            layers = addLayers(layers, convolution1dLayer(1, filter, Stride=1, Name="Conv_skip_2"));
-            layers = addLayers(layers, convolution1dLayer(1, filter, Stride=1, Name="Conv_skip_3"));
-            layers = addLayers(layers, convolution1dLayer(1, filter, Stride=1, Name="Conv_skip_4"));
-            layers = connectLayers(layers, "Input", "Conv_skip_1");
-            layers = connectLayers(layers, "Conv_skip_1", "Add_1/in2");
-            layers = connectLayers(layers, "Add_1", "Conv_skip_2");
-            layers = connectLayers(layers, "Conv_skip_2", "Add_2/in2");
-            layers = connectLayers(layers, "Upsample", "Conv_skip_3");
-            layers = connectLayers(layers, "Conv_skip_3", "Add_3/in2");
-            layers = connectLayers(layers, "Add_3", "Conv_skip_4");
-            layers = connectLayers(layers, "Conv_skip_4", "Add_4/in2");
+            network = dlnetwork;
+    	    network = addLayers(network, layers);
+            network = addLayers(network, convolution1dLayer(1, filter, Stride=1, Name="Conv_skip_1"));
+            network = addLayers(network, convolution1dLayer(1, filter, Stride=1, Name="Conv_skip_2"));
+            network = addLayers(network, convolution1dLayer(1, filter, Stride=1, Name="Conv_skip_3"));
+            network = addLayers(network, convolution1dLayer(1, filter, Stride=1, Name="Conv_skip_4"));
+            network = connectLayers(network, "Input", "Conv_skip_1");
+            network = connectLayers(network, "Conv_skip_1", "Add_1/in2");
+            network = connectLayers(network, "Add_1", "Conv_skip_2");
+            network = connectLayers(network, "Conv_skip_2", "Add_2/in2");
+            network = connectLayers(network, "Upsample", "Conv_skip_3");
+            network = connectLayers(network, "Conv_skip_3", "Add_3/in2");
+            network = connectLayers(network, "Add_3", "Conv_skip_4");
+            network = connectLayers(network, "Conv_skip_4", "Add_4/in2");
         end
     end
 

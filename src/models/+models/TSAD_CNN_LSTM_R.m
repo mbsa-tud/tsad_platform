@@ -10,7 +10,7 @@ classdef TSAD_CNN_LSTM_R < TSADModel
                                                                       obj.parameters.stepSize,  ...
                                                                       obj.parameters.valSize, ...
                                                                       "reconstruction", ...
-                                                                      "cell_array");
+                                                                      "CBT");
         end
         
         function [XTest, timeSeriesTest, labelsTest] =  prepareDataTest(obj, data, labels)
@@ -20,16 +20,16 @@ classdef TSAD_CNN_LSTM_R < TSADModel
                                                                             labels, ...
                                                                             obj.parameters.windowSize, ...
                                                                             "reconstruction", ...
-                                                                            "cell_array");
+                                                                            "CBT");
         end
         
         function Mdl = fit(obj, XTrain, YTrain, XVal, YVal, plots, verbose)
             %FIT Trains the model
 
-            layers = obj.getLayers(XTrain, YTrain);
+            network = obj.getNetwork(XTrain, YTrain);
             trainOptions = obj.getTrainOptions(XVal, YVal, size(XTrain, 1), plots, verbose);
             
-            Mdl = trainNetwork(XTrain, YTrain, layers, trainOptions);
+            Mdl = trainnet(XTrain, YTrain, network, "mean-squared-error", trainOptions);
         end
         
         function [anomalyScores, windowComputationTime] = predict(obj, Mdl, XTest, timeSeriesTest, labelsTest, getWindowComputationTime)
@@ -41,19 +41,19 @@ classdef TSAD_CNN_LSTM_R < TSADModel
                                                     timeSeriesTest, ...
                                                     obj.parameters.reconstructionErrorType, ...
                                                     obj.parameters.windowSize, ...
-                                                    2);
+                                                    "CBT");
         end
 
-        function layers = getLayers(obj, XTrain, YTrain)
-            %GETLAYERS Returns the layers of the neural network
+        function network = getNetwork(obj, XTrain, YTrain)
+            %GETNETWORK Returns the dlnetwork architecture
 
-            numFeatures = size(XTrain{1}, 1);
+            numFeatures = size(XTrain, 1);
             numResponses = numFeatures;
             
             filter = obj.parameters.filter;
             hiddenUnits = obj.parameters.hiddenUnits;
             
-            layers = [sequenceInputLayer(numFeatures)
+            layers = [inputLayer([numFeatures, obj.parameters.minibatchSize, obj.parameters.windowSize], "CBT", Name="Input")
                       convolution1dLayer(5, filter, Padding="same", DilationFactor=1)
                       batchNormalizationLayer()
                       reluLayer()
@@ -62,10 +62,9 @@ classdef TSAD_CNN_LSTM_R < TSADModel
                       lstmLayer(hiddenUnits)
                       dropoutLayer(0.25)
                       lstmLayer(hiddenUnits)
-                      fullyConnectedLayer(numResponses)
-                      regressionLayer()];
+                      fullyConnectedLayer(numResponses)];
             
-            layers = layerGraph(layers);
+            network = dlnetwork(layers);
         end
     end
 

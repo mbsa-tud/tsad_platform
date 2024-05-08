@@ -296,11 +296,11 @@ classdef TSADModel < handle
                 % TODO: move this outside        
                 padding = dynamicThresholdSettings.anomalyPadding;
                 windowSize = max(1, floor(length(anomalyScores) * (dynamicThresholdSettings.windowSize / 100)));
-                min_percent = dynamicThresholdSettings.minPercent;
-                z_range = 1:dynamicThresholdSettings.zRange;
+                minPercent = dynamicThresholdSettings.minPercent;
+                zRange = 1:dynamicThresholdSettings.zRange;
                 
                 [anom_times, threshold] = applyDynamicThreshold(anomalyScores, "anomaly_padding", padding, ...
-                    "window_size", windowSize, "min_percent", min_percent, "z_range", z_range);
+                    "window_size", windowSize, "min_percent", minPercent, "z_range", zRange);
                 
                 predictedLabels = false(length(labels), 1);
                 for i = 1:size(anom_times, 1)
@@ -363,17 +363,16 @@ classdef TSADModel < handle
         end
 
         function analyzeNeuralNetwork(obj, dataTrain, labelsTrain)
-            %GETNEURALNETWORKLAYERS If the model is a neural network, it
-            %will return the layers (if getLayers function is implemented
-            %in subclass)
+            %ANALYZENEURALNETWORK If the model is a neural network, it will
+            %call analyteNetwork
             
             [XTrain, YTrain, ~, ~] = obj.dataTrainPreparationWrapper(dataTrain, labelsTrain);
             
             try
-                layers = obj.getLayers(XTrain, YTrain);
-                analyzeNetwork(layers);
+                network = obj.getNetwork(XTrain, YTrain);
+                analyzeNetwork(network);
             catch
-                warning("Can't analyze Network. Your model doesn't implement the getLayers() function");
+                warning("Can't analyze Network. Your model doesn't implement the getNetwork() function");
             end
         end
     end
@@ -642,8 +641,8 @@ classdef TSADModel < handle
             windowComputationTime = NaN;
         end
 
-        function layers = getLayers(obj, XTrain, YTrain)
-            layers = [];
+        function network = getNetwork(obj, XTrain, YTrain)
+            network = [];
         end
     end
 end

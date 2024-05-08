@@ -1,6 +1,11 @@
 function errors = getReconstructionErrors(prediction, XTest, timeSeriesTest, errorType, windowSize, dataType)
 %GETRECONSTRUCTIONERRORS Computes reconstruction errors according to
 %selected errorType
+% data
+
+if (~ismember(dataType, ["CBT", "BC"]))
+    error("invalid dataType, must be either CBT or BC");
+end
 
 switch errorType
     case "median_pointwise_values"
@@ -9,9 +14,9 @@ switch errorType
         errors = abs(prediction - timeSeriesTest);
     case "median_pointwise_errors"
         % calulate the point-wise errors for each subsequence and then calculate the median error for each time step
-        if dataType == 1
+        if strcmp(dataType, "BC")
             errors = abs(prediction - XTest);
-        elseif dataType == 2
+        elseif strcmp(dataType, "CBT")
             errors = cell(numel(prediction), 1);
             for i = 1:numel(prediction)
                 errors{i} = abs(prediction{i} - XTest{i});
@@ -22,7 +27,7 @@ switch errorType
     case "mean_subsequence_rmse"
         % calulate the RMSE for each subsequence and channel and
         % then calculate the mean error for each time step
-        if dataType == 1
+        if strcmp(dataType, "BC")
             errors = abs(prediction - XTest);
             numChannels = round(size(errors, 2) / windowSize);                        
             for channel_idx = 1:numChannels
@@ -32,7 +37,7 @@ switch errorType
                         sqrt(mean((errors(i, ((channel_idx - 1) * windowSize + 1):((channel_idx - 1) * windowSize + windowSize))).^2));
                 end
             end
-        elseif dataType == 2
+        elseif strcmp(dataType, "CBT")
             errors = cell(size(prediction, 1), 1);
             numChannels = size(prediction{1}, 1);
             for i = 1:numel(prediction)
