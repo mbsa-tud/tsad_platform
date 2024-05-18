@@ -35,7 +35,7 @@ classdef TSAD_CNN < TSADModel
             %PREDICT Makes prediction on test data using the Mdl
             
             [prediction, windowComputationTime] = predictWithDNN(Mdl, XTest, getWindowComputationTime);
-            anomalyScores = getForecastingErrors(prediction, timeSeriesTest, "CBT");
+            anomalyScores = getForecastingErrors(prediction, timeSeriesTest);
         end
 
         function network = getNetwork(obj, XTrain, YTrain)
