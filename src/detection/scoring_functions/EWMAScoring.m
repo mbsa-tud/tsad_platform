@@ -10,10 +10,12 @@ end
 
 if channelwise
     for i = 1:size(anomalyScores, 2)
-        anomalyScores(:, i) = EWMA(anomalyScores(:, i));
+        anomalyScores(:, i) = EWMA(anomalyScores(:, i), alpha);
     end
 else
-    anomalyScores = rms(anomalyScores, 2);    
+    if (size(anomalyScores, 2) > 1)
+        anomalyScores = rms(anomalyScores, 2);
+    end
     anomalyScores = EWMA(anomalyScores, alpha);
 end
 end

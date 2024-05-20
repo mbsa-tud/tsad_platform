@@ -1,4 +1,4 @@
-function anomalyScores = univariateGaussianScoring(anomalyScores, mu, covar)
+function anomalyScores = univariateGaussianScoring(anomalyScores, mu, covar, channelwise)
 %UNIVARIATEGAUSSIANSCORING Applies -log(1 - cdf) to each channel of raw anomaly
 %scores separately. Then channelwise scores are summed.
 %mu and covar is the raw training anomaly scores distribution.

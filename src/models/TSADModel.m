@@ -486,7 +486,7 @@ classdef TSADModel < handle
             switch obj.parameters.scoringFunction
                 case "none"
                 case "rms"
-                    anomalyScores = rms(anomalyScores, 2);
+                    anomalyScores = rmsScoring(anomalyScores);
                 case "normalized_errors"
                     anomalyScores = normalizedErrorsScoring(anomalyScores, obj.trainingAnomalyScoreFeatures.mu, false);
                 case "normalized_errors_channelwise"
