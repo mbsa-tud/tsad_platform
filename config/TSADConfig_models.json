@@ -53,7 +53,7 @@
                 "reconstructionErrorType": {
                     "type": "categorical",
                     "value": ["pointwise", "subsequencewise"],
-                    "initialValue": "subsequencewise"
+                    "initialValue": "pointwise"
                 },
                 "scoringFunction": {
                     "type": "categorical",
@@ -117,7 +117,7 @@
                 "reconstructionErrorType": {
                     "type": "categorical",
                     "value": ["pointwise", "subsequencewise"],
-                    "initialValue": "subsequencewise"
+                    "initialValue": "pointwise"
                 },
                 "scoringFunction": {
                     "type": "categorical",
@@ -186,7 +186,7 @@
                 "reconstructionErrorType": {
                     "type": "categorical",
                     "value": ["pointwise", "subsequencewise"],
-                    "initialValue": "subsequencewise"
+                    "initialValue": "pointwise"
                 },
                 "scoringFunction": {
                     "type": "categorical",
@@ -250,7 +250,7 @@
                 "reconstructionErrorType": {
                     "type": "categorical",
                     "value": ["pointwise", "subsequencewise"],
-                    "initialValue": "subsequencewise"
+                    "initialValue": "pointwise"
                 },
                 "scoringFunction": {
                     "type": "categorical",
@@ -697,8 +697,8 @@
                 },
                 "scoringFunction": {
                     "type": "categorical",
-                    "value": ["none", "rms", "ewma", "ewma_channelwise"],
-                    "initialValue": "rms"
+                    "value": ["none", "ewma_channelwise"],
+                    "initialValue": "none"
                 }
             }
         }

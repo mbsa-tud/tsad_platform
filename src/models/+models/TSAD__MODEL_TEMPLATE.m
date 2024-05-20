@@ -46,14 +46,14 @@ classdef TSAD__MODEL_TEMPLATE < TSADModel
             % "labels"
         end
 
-        function layers = getLayers(obj, XTrain, YTrain)
+        function network = getNetwork(obj, XTrain, YTrain)
             %GETLAYERS Returns the layers of the neural network
 
-            layers = []; % neural network layers object
+            network = dlnetwork;
 
             % If your model is a neural network you can implement this
-            % function to create layers. This will make the layer preview
-            % available for your model within the platform.
+            % function to create a dlnetwork. This will make the
+            % analyzeNetwork() function available for your model
         end
     end
 end

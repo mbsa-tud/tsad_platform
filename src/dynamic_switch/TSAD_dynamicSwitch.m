@@ -44,7 +44,7 @@ classdef TSAD_dynamicSwitch
             selectedModels = strings(numTestFiles, 1);
             
             for i = 1:numTestFiles
-                fullScores_Switch{i} = obj.detectAndScore(dataTest(i), labelsTest(i), threshold, dynamicThresholdSettings);
+                [fullScores_Switch{i}, selectedModels(i)] = obj.detectAndScore(dataTest(i), labelsTest(i), threshold, dynamicThresholdSettings);
                 fullScores{i} = obj.detectAndScoreAll(dataTest(i), labelsTest(i), threshold, dynamicThresholdSettings);
             end        
             
@@ -71,10 +71,10 @@ classdef TSAD_dynamicSwitch
                         
             [anomalyScores, ~, labels, ~] = obj.models.(pred).detect(dataTest, labelsTest);
             
-            [predictedLabels, ~] = obj.models.(pred).applyThreshold(anomalyScores, labels, threshold, dynamicThresholdSettings, []);        
+            [predictedLabels, ~] = obj.models.(pred).applyThreshold(anomalyScores, labels, threshold, dynamicThresholdSettings, []);
         end
 
-        function scores = detectAndScore(obj, dataTest, labelsTest, threshold, dynamicThresholdSettings)
+        function [scores, predictedModelLabel] = detectAndScore(obj, dataTest, labelsTest, threshold, dynamicThresholdSettings)
             %DETECTANDSCORE Detect anomalies using model selection mechanism and
             %return scores
             
@@ -89,6 +89,8 @@ classdef TSAD_dynamicSwitch
             [predictedLabels, ~] = obj.models.(pred).applyThreshold(anomalyScores, labels, threshold, dynamicThresholdSettings, []);
 
             scores = computeMetrics(anomalyScores, predictedLabels, labels);
+
+            predictedModelLabel = obj.models.(pred).instanceInfo.label;
         end
 
         function scores = detectAndScoreAll(obj, dataTest, labelsTest, threshold, dynamicThresholdSettings)
