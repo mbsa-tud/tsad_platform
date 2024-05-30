@@ -6,34 +6,32 @@ function thr = computeBestF1ScoreThreshold(anomalyScores, labels, type)
 thresholdCandidates = uniquetol(anomalyScores, 0.0001);
 numThresholdCandidates = numel(thresholdCandidates);
 
-predictedLabels = zeros(size(anomalyScores, 1), numThresholdCandidates);
-
-for cand_idx = 1:numThresholdCandidates
-    predictedLabels(:, cand_idx) = any(anomalyScores > thresholdCandidates(cand_idx), 2);
-end
-
 F1Scores = zeros(numThresholdCandidates, 1);
 
 % Calculate F1-Scores for all candidate thresholds
 switch type
     case "point-wise"
         for cand_idx = 1:numThresholdCandidates
-            [~, ~, f1, ~] = computePointwiseMetrics(predictedLabels(:, cand_idx), labels);
+            predictedLabels = any(anomalyScores > thresholdCandidates(cand_idx), 2);
+            [~, ~, f1, ~] = computePointwiseMetrics(predictedLabels, labels);
             F1Scores(cand_idx) = f1;
         end
     case "event-wise"   
         for cand_idx = 1:numThresholdCandidates
-            [~, ~, f1, ~] = computeEventwiseMetrics(predictedLabels(:, cand_idx), labels);
+            predictedLabels = any(anomalyScores > thresholdCandidates(cand_idx), 2);
+            [~, ~, f1, ~] = computeEventwiseMetrics(predictedLabels, labels);
             F1Scores(cand_idx) = f1;
         end
     case "point-adjusted"
         for cand_idx = 1:numThresholdCandidates
-            [~, ~, f1, ~] = computePointAdjustedMetrics(predictedLabels(:, cand_idx), labels);
+            predictedLabels = any(anomalyScores > thresholdCandidates(cand_idx), 2);
+            [~, ~, f1, ~] = computePointAdjustedMetrics(predictedLabels, labels);
             F1Scores(cand_idx) = f1;
         end
     case "composite"
         for cand_idx = 1:numThresholdCandidates
-            [f1, ~] = computeCompositeMetrics(predictedLabels(:, cand_idx), labels);
+            predictedLabels = any(anomalyScores > thresholdCandidates(cand_idx), 2);
+            [f1, ~] = computeCompositeMetrics(predictedLabels, labels);
             F1Scores(cand_idx) = f1;
         end
 end
