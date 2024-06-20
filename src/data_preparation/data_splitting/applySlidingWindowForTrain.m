@@ -59,12 +59,12 @@ switch dataType
             
             if (strcmp(modelType, "reconstruction"))
                 for i = 1:numWindows
-                    XTrain(i, :) = reshape(data{file_idx}((i * stepSize):(i * stepSize + windowSize - 1), :), [1, flattenedWindowSize]);
+                    XTrain(index + i, :) = reshape(data{file_idx}((i * stepSize):(i * stepSize + windowSize - 1), :), [1, flattenedWindowSize]);
                 end
             else
                 for i = 1:numWindows
-                    XTrain(i, :) = reshape(data{file_idx}((i * stepSize):(i * stepSize + windowSize - 1), :), [1, flattenedWindowSize]);
-                    YTrain(i, :) = data{file_idx}((((i - 1) * stepSize) + windowSize + 1), :);
+                    XTrain(index + i, :) = reshape(data{file_idx}((i * stepSize):(i * stepSize + windowSize - 1), :), [1, flattenedWindowSize]);
+                    YTrain(index + i, :) = data{file_idx}((((i - 1) * stepSize) + windowSize + 1), :);
                 end
             end
 
