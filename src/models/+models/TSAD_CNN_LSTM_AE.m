@@ -1,5 +1,5 @@
-classdef TSAD_CNN_LSTM_R < TSADModel
-    %TSAD_CNN_LSTM_R CNN-LSTM for reconstruction
+classdef TSAD_CNN_LSTM_AE < TSADModel
+    %TSAD_CNN_LSTM_AE CNN-LSTM Autoencoder
 
     methods (Access = protected)
         function [XTrain, YTrain, XVal, YVal] = prepareDataTrain(obj, data, labels)
@@ -54,15 +54,28 @@ classdef TSAD_CNN_LSTM_R < TSADModel
             hiddenUnits = obj.parameters.hiddenUnits;
             
             layers = [inputLayer([numFeatures, obj.parameters.minibatchSize, obj.parameters.windowSize], "CBT", Name="Input")
-                      convolution1dLayer(5, filter, Padding="same", DilationFactor=1)
-                      batchNormalizationLayer()
-                      reluLayer()
-                      convolution1dLayer(5, filter, Padding="same", DilationFactor=1)
-                      reluLayer()
-                      lstmLayer(hiddenUnits)
-                      dropoutLayer(0.25)
-                      lstmLayer(hiddenUnits)
-                      fullyConnectedLayer(numResponses)];
+
+                        % CNN
+                        convolution1dLayer(5, filter, Padding="same", DilationFactor=1)
+                        %batchNormalizationLayer()
+                        reluLayer()
+                        convolution1dLayer(5, filter, Padding="same", DilationFactor=1)
+                        reluLayer()
+
+                        % Encoder
+                        lstmLayer(hiddenUnits, "Name", "EncoderLSTM1", 'OutputMode', 'sequence')
+                        dropoutLayer(0.3, "Name", "EncoderDropout")
+                        lstmLayer(hiddenUnits, "Name", "EncoderLSTM2", 'OutputMode', 'last')
+                        
+                        % Latent Space
+                        fullyConnectedLayer(hiddenUnits / 4, "Name", "LatentSpace")
+                        repetitionLayer(obj.parameters.windowSize, "RepetitionLayer")
+                        
+                        % Decoder
+                        lstmLayer(hiddenUnits, "Name", "DecoderLSTM1", 'OutputMode', 'sequence')
+                        dropoutLayer(0.3, "Name", "DecoderDropout")
+                        lstmLayer(hiddenUnits, "Name", "DecoderLSTM2", 'OutputMode', 'sequence')
+                        fullyConnectedLayer(numResponses, "Name", "OutputLayer")];
             
             network = dlnetwork(layers);
         end

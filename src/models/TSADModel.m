@@ -371,12 +371,8 @@ classdef TSADModel < handle
             
             [XTrain, YTrain, ~, ~] = obj.dataTrainPreparationWrapper(dataTrain, labelsTrain);
             
-            try
-                network = obj.getNetwork(XTrain{1}, YTrain{1});
-                analyzeNetwork(network);
-            catch
-                warning("Can't analyze Network. Your model doesn't implement the getNetwork() function");
-            end
+            network = obj.getNetwork(XTrain{1}, YTrain{1});
+            analyzeNetwork(network);
         end
     end
 

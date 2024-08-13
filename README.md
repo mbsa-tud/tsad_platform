@@ -129,7 +129,7 @@ To start the `Auto Run`, proceed as follows:
 
 1. Select a dataset and configure the dataset preparation/preprocessing.
 2. Select/load models.
-3. Press `Auto Run All` -> A popup window is shown
+3. Press `Train & Test All` -> A popup window is shown
 4. Select a folder to store the results (stored in `CSV` files).
 5. If you previously checked the `optimize` checkbox, you can configure the optimization.
 6. Pres `Start Auto Run`.

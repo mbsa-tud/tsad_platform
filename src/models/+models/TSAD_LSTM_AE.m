@@ -1,5 +1,5 @@
-classdef TSAD_LSTM_R < TSADModel
-    %TSAD_LSTM_R LSTM for reconstruction
+classdef TSAD_LSTM_AE < TSADModel
+    %TSAD_LSTM_AE LSTM Autoencoder
 
     methods (Access = protected)
         function [XTrain, YTrain, XVal, YVal] = prepareDataTrain(obj, data, labels)
@@ -52,11 +52,22 @@ classdef TSAD_LSTM_R < TSADModel
 
             hiddenUnits = obj.parameters.hiddenUnits;
             
-            layers = [inputLayer([numFeatures, obj.parameters.minibatchSize, obj.parameters.windowSize], "CBT")
-                      lstmLayer(hiddenUnits)
-                      dropoutLayer(0.3)
-                      lstmLayer(hiddenUnits)
-                      fullyConnectedLayer(numResponses)];
+            layers = [% Encoder
+                        inputLayer([numFeatures, obj.parameters.minibatchSize, obj.parameters.windowSize], "CBT")
+                        lstmLayer(hiddenUnits, "Name", "EncoderLSTM1", 'OutputMode', 'sequence')
+                        dropoutLayer(0.3, "Name", "EncoderDropout")
+                        lstmLayer(hiddenUnits, "Name", "EncoderLSTM2", 'OutputMode', 'last')
+                    
+                        % Latent Space
+                        fullyConnectedLayer(hiddenUnits / 4, "Name", "LatentSpace")
+                        repetitionLayer(obj.parameters.windowSize, "RepetitionLayer")
+                        
+                        % Decoder
+                        lstmLayer(hiddenUnits, "Name", "DecoderLSTM1", 'OutputMode', 'sequence')
+                        dropoutLayer(0.3, "Name", "DecoderDropout")
+                        lstmLayer(hiddenUnits, "Name", "DecoderLSTM2", 'OutputMode', 'sequence')
+                        fullyConnectedLayer(numResponses, "Name", "OutputLayer")];
+
             
             network = dlnetwork(layers);
         end

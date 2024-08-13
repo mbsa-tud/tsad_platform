@@ -63,15 +63,15 @@
             }
         }
     },
-    "TSAD_LSTM_R": {
+    "TSAD_LSTM_AE": {
         "parameters": {
             "static": {
-                "name": "LSTM (reconstruction)",
+                "name": "LSTM-AE",
                 "type": "deep_learning",
                 "modelType": "reconstruction",
                 "learningType": "semi_supervised",
                 "outputType": "anomaly_scores",
-                "className": "TSAD_LSTM_R"
+                "className": "TSAD_LSTM_AE"
             },
             "configurable": {
                 "separateModelForEachChannel": {
@@ -127,15 +127,15 @@
             }
         }
     },
-    "TSAD_CNN_LSTM_R": {
+    "TSAD_CNN_LSTM_AE": {
         "parameters": {
             "static": {
-                "name": "CNN-LSTM (reconstruction)",
+                "name": "CNN-LSTM-AE",
                 "type": "deep_learning",
                 "modelType": "reconstruction",
                 "learningType": "semi_supervised",
                 "outputType": "anomaly_scores",
-                "className": "TSAD_CNN_LSTM_R"
+                "className": "TSAD_CNN_LSTM_AE"
             },
             "configurable": {
                 "separateModelForEachChannel": {
