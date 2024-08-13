@@ -35,17 +35,17 @@
       <item>19</item>
     </param.products.id>
     <param.products.version>
-      <item>9.14</item>
-      <item>10.7</item>
-      <item>14.6</item>
-      <item>6.2</item>
-      <item>11.7</item>
-      <item>2.7</item>
-      <item>9.2</item>
-      <item>12.5</item>
+      <item>24.1</item>
+      <item>24.1</item>
+      <item>24.1</item>
+      <item>24.1</item>
+      <item>24.1</item>
+      <item>24.1</item>
+      <item>24.1</item>
+      <item>24.1</item>
     </param.products.version>
     <param.platforms />
-    <param.output>C:\Ich\Studium\tsad_platform</param.output>
+    <param.output>${PROJECT_ROOT}</param.output>
     <param.guid>86075e5f-a220-4db0-a66d-9388fb758f1e</param.guid>
     <unset>
       <param.email />
@@ -53,115 +53,54 @@
       <param.description />
       <param.screenshot />
       <param.platforms />
+      <param.output />
     </unset>
     <fileset.main>
       <file>${PROJECT_ROOT}\TSADPlatform.mlapp</file>
     </fileset.main>
     <fileset.depfun>
-      <file>${PROJECT_ROOT}\config\tsad_platform_config_all.json</file>
-      <file>${PROJECT_ROOT}\config\tsad_platform_config_optimization.json</file>
+      <file>${PROJECT_ROOT}\config\TSADConfig_optimization.json</file>
       <file>${PROJECT_ROOT}\media\TSADPlatform_Icon.png</file>
-      <file>${PROJECT_ROOT}\src\auto_run\calcAverageScores.m</file>
-      <file>${PROJECT_ROOT}\src\auto_run\evaluateAllForDataset.m</file>
-      <file>${PROJECT_ROOT}\src\auto_run\evaluateAllModels.m</file>
-      <file>${PROJECT_ROOT}\src\auto_run\trainAllModels.m</file>
-      <file>${PROJECT_ROOT}\src\auto_run\trainAndEvaluateAllModels.m</file>
-      <file>${PROJECT_ROOT}\src\data_preparation\loadCustomDataset.m</file>
-      <file>${PROJECT_ROOT}\src\data_preparation\prepareDataTest.m</file>
-      <file>${PROJECT_ROOT}\src\data_preparation\prepareDataTest_DL.m</file>
-      <file>${PROJECT_ROOT}\src\data_preparation\prepareDataTest_Other.m</file>
-      <file>${PROJECT_ROOT}\src\data_preparation\prepareDataTrain.m</file>
-      <file>${PROJECT_ROOT}\src\data_preparation\prepareDataTrain_DL.m</file>
-      <file>${PROJECT_ROOT}\src\data_preparation\prepareDataTrain_Other.m</file>
-      <file>${PROJECT_ROOT}\src\data_preparation\preprocessData.m</file>
-      <file>${PROJECT_ROOT}\src\data_preparation\rescaleData.m</file>
-      <file>${PROJECT_ROOT}\src\data_preparation\splitDatasetForDynamicSwitch.m</file>
-      <file>${PROJECT_ROOT}\src\data_preparation\splitDataTest.m</file>
-      <file>${PROJECT_ROOT}\src\data_preparation\splitDataTrain.m</file>
-      <file>${PROJECT_ROOT}\src\data_preparation\splitTestVal.m</file>
-      <file>${PROJECT_ROOT}\src\data_preparation\standardizeData.m</file>
-      <file>${PROJECT_ROOT}\src\detection\applyScoringFunction.m</file>
-      <file>${PROJECT_ROOT}\src\detection\applyThresholdToAnomalyScores.m</file>
-      <file>${PROJECT_ROOT}\src\detection\calcScores.m</file>
-      <file>${PROJECT_ROOT}\src\detection\detectAndEvaluateWith.m</file>
-      <file>${PROJECT_ROOT}\src\detection\detectionWrapper.m</file>
-      <file>${PROJECT_ROOT}\src\detection\detectWith_DL.m</file>
-      <file>${PROJECT_ROOT}\src\detection\detectWith_Other.m</file>
-      <file>${PROJECT_ROOT}\src\detection\detectWithModel.m</file>
-      <file>${PROJECT_ROOT}\src\detection\find_cons_sequences.m</file>
-      <file>${PROJECT_ROOT}\src\detection\getIndexes.m</file>
-      <file>${PROJECT_ROOT}\src\detection\mergeOverlappingAnomalyScores.m</file>
-      <file>${PROJECT_ROOT}\src\detection\mergeOverlappingSubsequences.m</file>
-      <file>${PROJECT_ROOT}\src\detection\mergeSequences.m</file>
-      <file>${PROJECT_ROOT}\src\detection\overlap_seg.m</file>
-      <file>${PROJECT_ROOT}\src\dynamic_switch\diagnosticFeatures.m</file>
-      <file>${PROJECT_ROOT}\src\dynamic_switch\evaluateDynamicSwitch.m</file>
-      <file>${PROJECT_ROOT}\src\dynamic_switch\findBestModels.m</file>
-      <file>${PROJECT_ROOT}\src\dynamic_switch\fitSwitchClassifier.m</file>
-      <file>${PROJECT_ROOT}\src\dynamic_switch\getDataTrain_Switch.m</file>
-      <file>${PROJECT_ROOT}\src\dynamic_switch\trainDynamicSwitchClassifier.m</file>
-      <file>${PROJECT_ROOT}\src\global_definitions\METRIC_NAMES.m</file>
-      <file>${PROJECT_ROOT}\src\global_transformation\addRandomWalk.m</file>
-      <file>${PROJECT_ROOT}\src\global_transformation\addWhiteNoise.m</file>
-      <file>${PROJECT_ROOT}\src\global_transformation\attenuateExtremum.m</file>
-      <file>${PROJECT_ROOT}\src\global_transformation\augmentationData.m</file>
-      <file>${PROJECT_ROOT}\src\global_transformation\GT_evaluateAllForDataset.m</file>
-      <file>${PROJECT_ROOT}\src\global_transformation\GT_trainAndEvaluateAllModels.m</file>
-      <file>${PROJECT_ROOT}\src\global_transformation\shiftData.m</file>
-      <file>${PROJECT_ROOT}\src\models_and_training\deep_learning\getLayers.m</file>
-      <file>${PROJECT_ROOT}\src\models_and_training\deep_learning\getNumFeaturesAndResponses.m</file>
-      <file>${PROJECT_ROOT}\src\models_and_training\deep_learning\getTrainOptions.m</file>
-      <file>${PROJECT_ROOT}\src\models_and_training\deep_learning\train_DL.m</file>
-      <file>${PROJECT_ROOT}\src\models_and_training\deep_learning\trainWrapper_DL.m</file>
-      <file>${PROJECT_ROOT}\src\models_and_training\getTrainingAnomalyScoreFeatures.m</file>
-      <file>${PROJECT_ROOT}\src\models_and_training\THIRD_PARTY_LIBS\AnomalyDetectionToolbox\Algorithms\angleBased\ABOD\ABOD.m</file>
-      <file>${PROJECT_ROOT}\src\models_and_training\THIRD_PARTY_LIBS\AnomalyDetectionToolbox\Algorithms\distanceBased\LDOF\LDOF.m</file>
-      <file>${PROJECT_ROOT}\src\models_and_training\THIRD_PARTY_LIBS\AnomalyDetectionToolbox\Algorithms\distributionBased\LOF\LOF.m</file>
-      <file>${PROJECT_ROOT}\src\models_and_training\THIRD_PARTY_LIBS\AnomalyDetectionToolbox\Algorithms\distributionBased\LOF\LOF_old.m</file>
-      <file>${PROJECT_ROOT}\src\models_and_training\THIRD_PARTY_LIBS\AnomalyDetectionToolbox\Algorithms\PCA_based\osPCA\OD_wpca.m</file>
-      <file>${PROJECT_ROOT}\src\models_and_training\THIRD_PARTY_LIBS\AnomalyDetectionToolbox\Algorithms\statisticBased\grubbs_test.m</file>
-      <file>${PROJECT_ROOT}\src\models_and_training\THIRD_PARTY_LIBS\Merlin\run_MERLIN.m</file>
-      <file>${PROJECT_ROOT}\src\models_and_training\trainingWrapper.m</file>
-      <file>${PROJECT_ROOT}\src\models_and_training\trainModel.m</file>
-      <file>${PROJECT_ROOT}\src\optimization\adaptModelOptions.m</file>
-      <file>${PROJECT_ROOT}\src\optimization\autoOptimization.m</file>
-      <file>${PROJECT_ROOT}\src\optimization\getOptimizationVariables.m</file>
-      <file>${PROJECT_ROOT}\src\optimization\opt_fun.m</file>
-      <file>${PROJECT_ROOT}\src\optimization\optimizeModel.m</file>
-      <file>${PROJECT_ROOT}\src\optimization\trainAndEvaluateModel.m</file>
-      <file>${PROJECT_ROOT}\src\popup_apps\CompTimeMetricSelection.mlapp</file>
-      <file>${PROJECT_ROOT}\src\popup_apps\DatasetVisualization.mlapp</file>
-      <file>${PROJECT_ROOT}\src\popup_apps\DynamicThresholdSettings.mlapp</file>
+      <file>${PROJECT_ROOT}\src\auto_run\autoRun.m</file>
+      <file>${PROJECT_ROOT}\src\data_preparation\data_import\loadCustomDataset.m</file>
+      <file>${PROJECT_ROOT}\src\data_preparation\data_import\readJSONToStruct.m</file>
+      <file>${PROJECT_ROOT}\src\data_preparation\data_splitting\splitDatasetForDynamicSwitch.m</file>
+      <file>${PROJECT_ROOT}\src\data_preparation\data_splitting\splitTestVal.m</file>
+      <file>${PROJECT_ROOT}\src\data_preparation\global_transformation\addRandomWalk.m</file>
+      <file>${PROJECT_ROOT}\src\data_preparation\global_transformation\addWhiteNoise.m</file>
+      <file>${PROJECT_ROOT}\src\data_preparation\global_transformation\attenuateExtremum.m</file>
+      <file>${PROJECT_ROOT}\src\data_preparation\global_transformation\augmentData.m</file>
+      <file>${PROJECT_ROOT}\src\data_preparation\global_transformation\shiftData.m</file>
+      <file>${PROJECT_ROOT}\src\data_preparation\plotting\getAnomalyIndices.m</file>
+      <file>${PROJECT_ROOT}\src\data_preparation\preprocessing\preprocessData.m</file>
+      <file>${PROJECT_ROOT}\src\data_preparation\preprocessing\rescaleData.m</file>
+      <file>${PROJECT_ROOT}\src\data_preparation\preprocessing\standardizeData.m</file>
+      <file>${PROJECT_ROOT}\src\detection\thresholds\THRESHOLD_NAMES.m</file>
+      <file>${PROJECT_ROOT}\src\dynamic_switch\TSAD_dynamicSwitch.m</file>
+      <file>${PROJECT_ROOT}\src\metrics\calcAverageScores.m</file>
+      <file>${PROJECT_ROOT}\src\metrics\computeCompositeMetrics.m</file>
+      <file>${PROJECT_ROOT}\src\metrics\computeEventwiseMetrics.m</file>
+      <file>${PROJECT_ROOT}\src\metrics\computeMetrics.m</file>
+      <file>${PROJECT_ROOT}\src\metrics\computePointAdjustedMetrics.m</file>
+      <file>${PROJECT_ROOT}\src\metrics\computePointwiseMetrics.m</file>
+      <file>${PROJECT_ROOT}\src\metrics\findConsecutiveAnomalySequences.m</file>
+      <file>${PROJECT_ROOT}\src\metrics\METRIC_NAMES.m</file>
+      <file>${PROJECT_ROOT}\src\metrics\METRIC_NAMES_WITH_COMP_TIME.m</file>
+      <file>${PROJECT_ROOT}\src\popup_apps\AutoRunConfigurator.mlapp</file>
       <file>${PROJECT_ROOT}\src\popup_apps\media\TSADPlatform_Icon.png</file>
+      <file>${PROJECT_ROOT}\src\popup_apps\ModelParametersViewAndUpdate.mlapp</file>
       <file>${PROJECT_ROOT}\src\popup_apps\ModelSelection.mlapp</file>
-      <file>${PROJECT_ROOT}\src\popup_apps\OptimizationWindow.mlapp</file>
-      <file>${PROJECT_ROOT}\src\popup_apps\ScoringFunctionSelection.mlapp</file>
-      <file>${PROJECT_ROOT}\src\popup_apps\ThresholdSelection.mlapp</file>
-      <file>${PROJECT_ROOT}\src\thresholds\calcStaticThreshold.m</file>
-      <file>${PROJECT_ROOT}\src\thresholds\computeBestFscoreThreshold.m</file>
-      <file>${PROJECT_ROOT}\src\thresholds\dynamic_threshold\compute_scores.m</file>
-      <file>${PROJECT_ROOT}\src\thresholds\dynamic_threshold\count_above.m</file>
-      <file>${PROJECT_ROOT}\src\thresholds\dynamic_threshold\deltas.m</file>
-      <file>${PROJECT_ROOT}\src\thresholds\dynamic_threshold\find_anomalies.m</file>
-      <file>${PROJECT_ROOT}\src\thresholds\dynamic_threshold\find_sequences.m</file>
-      <file>${PROJECT_ROOT}\src\thresholds\dynamic_threshold\find_threshold.m</file>
-      <file>${PROJECT_ROOT}\src\thresholds\dynamic_threshold\find_window_sequences.m</file>
-      <file>${PROJECT_ROOT}\src\thresholds\dynamic_threshold\get_max_errors.m</file>
-      <file>${PROJECT_ROOT}\src\thresholds\dynamic_threshold\merge_sequences.m</file>
-      <file>${PROJECT_ROOT}\src\thresholds\dynamic_threshold\prune_anomalies.m</file>
-      <file>${PROJECT_ROOT}\src\thresholds\dynamic_threshold\z_cost.m</file>
-      <file>${PROJECT_ROOT}\src\thresholds\getStaticThresholds.m</file>
-      <file>${PROJECT_ROOT}\src\thresholds\getThresholdId.m</file>
-      <file>${PROJECT_ROOT}\src\thresholds\getThresholdLabels.m</file>
+      <file>${PROJECT_ROOT}\src\popup_apps\OptimizationConfigurator.mlapp</file>
+      <file>${PROJECT_ROOT}\src\util\loadJsonFromFile.m</file>
     </fileset.depfun>
     <fileset.resources />
     <fileset.package />
     <build-deliverables>
-      <file location="C:\Users\adria\Documents" name="MATLAB" optional="false">C:\Users\adria\Documents\MATLAB</file>
+      <file location="C:\Ich\Studium" name="tsad_platform" optional="false">C:\Ich\Studium\tsad_platform</file>
     </build-deliverables>
     <workflow />
     <matlab>
-      <root>C:\Program Files\MATLAB\R2023a</root>
+      <root>C:\Program Files\MATLAB\R2024a</root>
       <toolboxes>
         <toolbox name="neuralnetwork" />
       </toolboxes>
