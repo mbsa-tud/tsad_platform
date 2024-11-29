@@ -1,0 +1,64 @@
+[
+  {
+    "anomaly_length": {
+      "max": 244,
+      "median": 147,
+      "min": 51
+    },
+    "contamination": 0.03464881371858116,
+    "dataset_id": [
+      "NASA-SMAP",
+      "E-11"
+    ],
+    "dimensions": 1,
+    "is_train": false,
+    "length": 8514,
+    "means": {
+      "value": -0.5598415707175772
+    },
+    "num_anomalies": 2,
+    "periods": {
+      "value": 48
+    },
+    "stationarities": {
+      "value": "difference_stationary"
+    },
+    "stddevs": {
+      "value": 0.8237998022971592
+    },
+    "trends": {
+      "value": []
+    }
+  },
+  {
+    "anomaly_length": {
+      "max": 0,
+      "median": 0,
+      "min": 0
+    },
+    "contamination": 0.0,
+    "dataset_id": [
+      "NASA-SMAP",
+      "E-11"
+    ],
+    "dimensions": 1,
+    "is_train": true,
+    "length": 2880,
+    "means": {
+      "value": -0.5873111307910931
+    },
+    "num_anomalies": 0,
+    "periods": {
+      "value": 53
+    },
+    "stationarities": {
+      "value": "difference_stationary"
+    },
+    "stddevs": {
+      "value": 0.8088828865840046
+    },
+    "trends": {
+      "value": []
+    }
+  }
+]

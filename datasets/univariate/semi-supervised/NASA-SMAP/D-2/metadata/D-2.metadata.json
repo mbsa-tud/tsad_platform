@@ -1,0 +1,108 @@
+[
+  {
+    "anomaly_length": {
+      "max": 4218,
+      "median": 4218,
+      "min": 4218
+    },
+    "contamination": 0.4907504363001745,
+    "dataset_id": [
+      "NASA-SMAP",
+      "D-2"
+    ],
+    "dimensions": 1,
+    "is_train": false,
+    "length": 8595,
+    "means": {
+      "value": -0.11460151250727167
+    },
+    "num_anomalies": 1,
+    "periods": {
+      "value": 1
+    },
+    "stationarities": {
+      "value": "trend_stationary"
+    },
+    "stddevs": {
+      "value": 0.9934693379084465
+    },
+    "trends": {
+      "value": [
+        {
+          "coef": [
+            0.0003300737258545674
+          ],
+          "confidence_r2": 0.6796323101448244,
+          "tpe": "linear"
+        },
+        {
+          "coef": [
+            3.658583695899143e-08
+          ],
+          "confidence_r2": 0.6578150927467141,
+          "tpe": "quadratic"
+        },
+        {
+          "coef": [
+            4.145042971033124e-12
+          ],
+          "confidence_r2": 0.5638222672536202,
+          "tpe": "kubic"
+        }
+      ]
+    }
+  },
+  {
+    "anomaly_length": {
+      "max": 0,
+      "median": 0,
+      "min": 0
+    },
+    "contamination": 0.0,
+    "dataset_id": [
+      "NASA-SMAP",
+      "D-2"
+    ],
+    "dimensions": 1,
+    "is_train": true,
+    "length": 2880,
+    "means": {
+      "value": -1.0
+    },
+    "num_anomalies": 0,
+    "periods": {
+      "value": 1
+    },
+    "stationarities": {
+      "value": "not_stationary"
+    },
+    "stddevs": {
+      "value": 0.0
+    },
+    "trends": {
+      "value": [
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "linear"
+        },
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "quadratic"
+        },
+        {
+          "coef": [
+            0.0
+          ],
+          "confidence_r2": 1.0,
+          "tpe": "kubic"
+        }
+      ]
+    }
+  }
+]

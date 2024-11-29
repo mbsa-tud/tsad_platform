@@ -1,0 +1,33 @@
+[
+  {
+    "anomaly_length": {
+      "max": 125,
+      "median": 125,
+      "min": 125
+    },
+    "contamination": 0.10020040080160321,
+    "dataset_id": [
+      "NAB",
+      "speed_t4013"
+    ],
+    "dimensions": 1,
+    "is_train": false,
+    "length": 2495,
+    "means": {
+      "value": 62.934268537074146
+    },
+    "num_anomalies": 2,
+    "periods": {
+      "value": 6
+    },
+    "stationarities": {
+      "value": "stationary"
+    },
+    "stddevs": {
+      "value": 5.192648713095306
+    },
+    "trends": {
+      "value": []
+    }
+  }
+]

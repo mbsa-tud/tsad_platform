@@ -1,0 +1,33 @@
+[
+  {
+    "anomaly_length": {
+      "max": 51,
+      "median": 51,
+      "min": 51
+    },
+    "contamination": 0.09947984395318596,
+    "dataset_id": [
+      "NAB",
+      "exchange-3_cpc_results"
+    ],
+    "dimensions": 1,
+    "is_train": false,
+    "length": 1538,
+    "means": {
+      "value": 0.1372592718990712
+    },
+    "num_anomalies": 3,
+    "periods": {
+      "value": 1
+    },
+    "stationarities": {
+      "value": "stationary"
+    },
+    "stddevs": {
+      "value": 0.07567099651288671
+    },
+    "trends": {
+      "value": []
+    }
+  }
+]

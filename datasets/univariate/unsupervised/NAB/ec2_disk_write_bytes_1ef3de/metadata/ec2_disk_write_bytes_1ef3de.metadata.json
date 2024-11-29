@@ -1,0 +1,33 @@
+[
+  {
+    "anomaly_length": {
+      "max": 473,
+      "median": 473,
+      "min": 473
+    },
+    "contamination": 0.1,
+    "dataset_id": [
+      "NAB",
+      "ec2_disk_write_bytes_1ef3de"
+    ],
+    "dimensions": 1,
+    "is_train": false,
+    "length": 4730,
+    "means": {
+      "value": 6581560.767484143
+    },
+    "num_anomalies": 1,
+    "periods": {
+      "value": 10
+    },
+    "stationarities": {
+      "value": "stationary"
+    },
+    "stddevs": {
+      "value": 40385680.17971379
+    },
+    "trends": {
+      "value": []
+    }
+  }
+]

@@ -1,0 +1,64 @@
+[
+  {
+    "anomaly_length": {
+      "max": 1180,
+      "median": 1180,
+      "min": 1180
+    },
+    "contamination": 0.006051282051282051,
+    "dataset_id": [
+      "KDD-TSAD",
+      "076_UCR_Anomaly_DISTORTEDresperation10"
+    ],
+    "dimensions": 1,
+    "is_train": false,
+    "length": 195000,
+    "means": {
+      "value": -421.4235016350795
+    },
+    "num_anomalies": 1,
+    "periods": {
+      "value": 38
+    },
+    "stationarities": {
+      "value": "difference_stationary"
+    },
+    "stddevs": {
+      "value": 922.7621589998705
+    },
+    "trends": {
+      "value": []
+    }
+  },
+  {
+    "anomaly_length": {
+      "max": 0,
+      "median": 0,
+      "min": 0
+    },
+    "contamination": 0.0,
+    "dataset_id": [
+      "KDD-TSAD",
+      "076_UCR_Anomaly_DISTORTEDresperation10"
+    ],
+    "dimensions": 1,
+    "is_train": true,
+    "length": 48000,
+    "means": {
+      "value": -386.8653342209981
+    },
+    "num_anomalies": 0,
+    "periods": {
+      "value": 333
+    },
+    "stationarities": {
+      "value": "difference_stationary"
+    },
+    "stddevs": {
+      "value": 990.7615343830576
+    },
+    "trends": {
+      "value": []
+    }
+  }
+]
